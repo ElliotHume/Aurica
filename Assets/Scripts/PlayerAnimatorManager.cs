@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Photon.Pun;
 
-public class PlayerAnimatorManager : MonoBehaviour
+public class PlayerAnimatorManager : MonoBehaviourPun
 {
     private Animator animator;
     // Use this for initialization
@@ -17,7 +18,7 @@ public class PlayerAnimatorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!animator) {
+        if (!animator || (photonView.IsMine == false && PhotonNetwork.IsConnected == true)) {
             return;
         }
 
