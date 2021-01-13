@@ -11,6 +11,8 @@ public class BasicProjectileSpell : Spell
     public float RandomMoveRadius = 0f;
     public float RandomMoveSpeedScale = 0f;
     public GameObject Target;
+    public bool HomingProjectile = false;
+    public float HomingDetectionSphereRadius = 1f;
     public float CollisionOffset = 0;
     public float CollisionDestroyTimeDelay = 5;
     public GameObject[] EffectsOnCollision;
@@ -21,8 +23,9 @@ public class BasicProjectileSpell : Spell
     private bool isCollided = false;
     private Transform targetT;
     private Vector3 randomTimeOffset;
+    private float homingLockoutTime = 1.5f;
+    private int homingLayerMask = 1 << 3;
 
-    private const byte PlayerProjectileCollideEventCode = 1;
 
     void Awake() {
         startPosition = transform.position;
@@ -49,14 +52,17 @@ public class BasicProjectileSpell : Spell
             Destroy(instance, CollisionDestroyTimeDelay);
         }
 
+        GetComponent<Collider>().enabled = false;
+
         if (photonView.IsMine) {
+            Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
-                PhotonView pv = PhotonView.Get(pm);
-                pv.RPC("OnSpellCollide", RpcTarget.All, Damage, ManaDamageType, SpellEffectType);
+                if (pm != null) {
+                    PhotonView pv = PhotonView.Get(pm);
+                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage, ManaDamageType, SpellEffectType, Duration);
+                }
             }
-
-            Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
         }
     }
 
@@ -73,6 +79,20 @@ public class BasicProjectileSpell : Spell
             if (Target != null) {
                 var fade = Vector3.Distance(transform.position, targetT.position) / Vector3.Distance(startPosition, targetT.position);
                 randomOffset *= fade;
+            }
+        }
+
+        // If a homing projectile, check for a player in the radius and set it as target
+        // Only check after a set time, so that it doesnt immediately target the caster
+        if (HomingProjectile) {
+            if (homingLockoutTime > 0f) {
+                homingLockoutTime -= Time.deltaTime;
+            } else if (Target == null){
+                Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
+                if (hits.Length > 0) {
+                    Target = hits[0].gameObject;
+                    targetT = Target.transform;
+                }
             }
         }
 
@@ -101,7 +121,12 @@ public class BasicProjectileSpell : Spell
         x = Time.time * RandomMoveSpeedScale + randomTimeOffset.z;
         var vecZ = Mathf.Cos(x * 0.7f + Mathf.Cos(x * 0.5f)) * Mathf.Cos(Mathf.Sin(x * 0.8f) + x * 0.3f);
 
-
         return new Vector3(vecX, vecY, vecZ);
+    }
+
+
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, HomingDetectionSphereRadius);
     }
 }

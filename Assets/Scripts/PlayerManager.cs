@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Photon.Pun;
-using Photon.Pun.Demo.PunBasics;
 
 using System.Collections;
 
@@ -84,20 +83,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    void OnSpellCollide(float Damage, string ManaDamageType, string SpellEffectType) {
+    void OnSpellCollide(float Damage, string ManaDamageType, string SpellEffectType, float Duration) {
         if (!photonView.IsMine) return;
         Debug.Log("Collision with spell of type: "+ManaDamageType);
         // Spell spell = spellGO.GetComponent<Spell>();
-        if (Damage != null) {
-            switch (SpellEffectType) {
-                case "projectile":
-                    Health -= Damage;
-                    break;
-                default:
-                    Debug.Log("Default Spell effect --> Take direct damage");
-                    Health -= Damage;
-                    break;
-            }
+        switch (SpellEffectType) {
+            case "dotprojectile":
+                StartCoroutine(TakeDirectDoTDamage(Damage, ManaDamageType, Duration));
+                break;
+            default:
+                Debug.Log("Default Spell effect --> Take direct damage");
+                Health -= Damage;
+                break;
         }
 
         healthBar.SetHealth(Health);
@@ -105,8 +102,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     void ProcessInputs() {
-        if (Input.GetKeyDown("v")) {
+        if (Input.GetKeyDown("1")) {
             StartCastFireball();
+        } else if (Input.GetKeyDown("2")) {
+            StartCastShadeSmoke();
+        }
+    }
+
+    IEnumerator TakeDirectDoTDamage(float damage, string damageType, float duration){
+        float damagePerSecond = damage / duration;
+        while (duration > 0f) {
+            Health -= damagePerSecond * Time.deltaTime;
+            duration -= Time.deltaTime;
+            healthBar.SetHealth(Health);
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -116,8 +125,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     void StartCastFireball() {
         currentSpellCast = "Spell_Fireball";
         currentCastingTransform = frontCastingAnchor;
-        animator.SetTrigger("Cast");
-        animator.SetInteger("CastType", 1);
+        movementManager.PlayCastingAnimation(1);
+        // animator.SetTrigger("Cast");
+        // animator.SetInteger("CastType", 1);
+    }
+
+    void StartCastShadeSmoke() {
+        currentSpellCast = "Spell_ShadeSmoke";
+        currentCastingTransform = frontCastingAnchor;
+        movementManager.PlayCastingAnimation(1);
+        // animator.SetTrigger("Cast");
+        // animator.SetInteger("CastType", 1);
     }
 
     void CastSpell() {
