@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 using Random = UnityEngine.Random;
 
 public class BasicProjectileSpell : Spell
@@ -20,6 +22,8 @@ public class BasicProjectileSpell : Spell
     private Transform targetT;
     private Vector3 randomTimeOffset;
 
+    private const byte PlayerProjectileCollideEventCode = 1;
+
     void Awake() {
         startPosition = transform.position;
         startRotation = transform.rotation;
@@ -33,6 +37,7 @@ public class BasicProjectileSpell : Spell
 
     void OnCollisionEnter(Collision collision) {
         Debug.Log("Collision with: "+collision.gameObject);
+        isCollided = true;
         ContactPoint hit = collision.GetContact(0);
 
         foreach (var effect in DeactivateObjectsOnCollision) {
@@ -43,6 +48,20 @@ public class BasicProjectileSpell : Spell
             instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
             Destroy(instance, CollisionDestroyTimeDelay);
         }
+
+        if (photonView.IsMine) {
+            if (collision.gameObject.tag == "Player") {
+                PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
+                PhotonView pv = PhotonView.Get(pm);
+                pv.RPC("OnSpellCollide", RpcTarget.All, Damage, ManaDamageType, SpellEffectType);
+            }
+
+            Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
+        }
+    }
+
+    void DestroySelf() {
+        PhotonNetwork.Destroy(gameObject);
     }
 
     void UpdateWorldPosition() {

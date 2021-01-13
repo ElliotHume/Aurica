@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
+    public HealthBar healthBar;
 
     [Tooltip("Where spells witll spawn from when being cast forwards")]
     public Transform frontCastingAnchor;
@@ -25,6 +26,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     private Animator animator;
     private string currentSpellCast = "";
     private Transform currentCastingTransform;
+    private PlayerMovementManager movementManager;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -52,6 +54,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (!animator) {
             Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
         }
+
+        // Get movement manager
+        movementManager = GetComponent<PlayerMovementManager>();
+
+        if (healthBar == null) {
+            healthBar = Object.FindObjectOfType(typeof(HealthBar)) as HealthBar;
+        }
     }
 
     void Awake() {
@@ -74,17 +83,26 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    // void OnTriggerEnter(Collider other) {
-    //     if (!photonView.IsMine) {
-    //         return;
-    //     }
-    // }
+    [PunRPC]
+    void OnSpellCollide(float Damage, string ManaDamageType, string SpellEffectType) {
+        if (!photonView.IsMine) return;
+        Debug.Log("Collision with spell of type: "+ManaDamageType);
+        // Spell spell = spellGO.GetComponent<Spell>();
+        if (Damage != null) {
+            switch (SpellEffectType) {
+                case "projectile":
+                    Health -= Damage;
+                    break;
+                default:
+                    Debug.Log("Default Spell effect --> Take direct damage");
+                    Health -= Damage;
+                    break;
+            }
+        }
 
-    // void OnTriggerStay(Collider other) {
-    //     if (!photonView.IsMine) {
-    //         return;
-    //     }
-    // }
+        healthBar.SetHealth(Health);
+        Debug.Log("Current Health: "+Health);
+    }
 
     void ProcessInputs() {
         if (Input.GetKeyDown("v")) {
@@ -103,6 +121,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     void CastSpell() {
-        PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, transform.rotation);
+        if (photonView.IsMine) PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, transform.rotation);
     }
 }

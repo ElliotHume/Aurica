@@ -3919,7 +3919,7 @@ GameObject:
   - component: {fileID: 613314493112857879}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4007,7 +4007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 5
   height: 2.5
-  centerOffset: {x: 0, y: 2, z: 0}
+  centerOffset: {x: 0, y: 2.3, z: 0}
   followOnStart: 0
   smoothSpeed: 3
 --- !u!114 &1753741204447942
@@ -4036,6 +4036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
+  healthBar: {fileID: 0}
   frontCastingAnchor: {fileID: 719205761}
 --- !u!114 &1753741204447944
 MonoBehaviour:
@@ -4120,6 +4121,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: Right-Left
+  - Type: 4
+    SynchronizeType: 0
+    Name: Running
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

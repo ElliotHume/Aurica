@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Spell : MonoBehaviour
+public class Spell : MonoBehaviourPun
 {
+  // How much damage the spell does
   public float Damage = 10f;
-  public string DamageType;
-  public string SpellType;
 
+  // What mana type of damage it does (ex. Fire, Water, Air, Earth, Order, Chaos, Life, Death, Divine, Demonic)
+  public string ManaDamageType;
 
+  // What type of spell cast it creates (ex. Projectile, AoE, Fog, Trap, Ground)
+  public string SpellEffectType;
+
+  
 }
