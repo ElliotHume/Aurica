@@ -14,9 +14,10 @@ public class Crosshair : MonoBehaviour
     void Update() {
         if (Input.GetButton("Fire2")) {
             transform.position = Input.mousePosition;
-        } else {
-            GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         }
+        // else {
+        //     GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        // }
     }
 
     public Vector3 GetWorldPoint() {

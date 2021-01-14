@@ -12,6 +12,10 @@ public class DebugPlayer : MonoBehaviourPun
             CastSpell("Spell_Fireball");
         } else if (Input.GetKeyDown("m")) {
             CastSpell("Spell_ShadeSmoke");
+        } else if (Input.GetKeyDown("b")) {
+            CastSpell("Spell_ArcaneThrow");
+        } else if (Input.GetKeyDown("v")) {
+            CastSpell("Spell_Condense");
         }
     }
 

@@ -24,6 +24,7 @@ public class BasicProjectileSpell : Spell
     private Quaternion startRotation;
     private bool isCollided = false;
     private Transform targetT;
+    private bool targetIsPlayer;
     private Vector3 randomTimeOffset;
     private Crosshair crosshair;
     private float homingLockoutTime = 1.5f;
@@ -95,8 +96,7 @@ public class BasicProjectileSpell : Spell
             } else if (Target == null){
                 Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
                 if (hits.Length > 0) {
-                    Target = hits[0].gameObject;
-                    targetT = Target.transform;
+                    SetTarget(hits[0].gameObject, true);
                 }
             }
         }
@@ -108,7 +108,8 @@ public class BasicProjectileSpell : Spell
                 var currentForwardVector = (Vector3.forward + randomOffset) * Speed * Time.deltaTime;
                 frameMoveOffsetWorld = startRotation * currentForwardVector;
             } else {
-                var forwardVec = (targetT.position - transform.position).normalized;
+                Vector3 targetOffset = targetIsPlayer ? new Vector3(0,1,0) : Vector3.zero;
+                var forwardVec = ((targetT.position + targetOffset) - transform.position).normalized;
                 var currentForwardVector = (forwardVec + randomOffset) * Speed * Time.deltaTime;
                 frameMoveOffsetWorld = currentForwardVector;
             }
@@ -130,6 +131,12 @@ public class BasicProjectileSpell : Spell
         var vecZ = Mathf.Cos(x * 0.7f + Mathf.Cos(x * 0.5f)) * Mathf.Cos(Mathf.Sin(x * 0.8f) + x * 0.3f);
 
         return new Vector3(vecX, vecY, vecZ);
+    }
+
+    public void SetTarget(GameObject go, bool isPlayerCharacter=false) {
+        Target = go;
+        targetT = go.transform;
+        targetIsPlayer = isPlayerCharacter;
     }
 
 
