@@ -13,7 +13,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
-    public HealthBar healthBar;
 
     [Tooltip("Where spells witll spawn from when being cast forwards")]
     public Transform frontCastingAnchor;
@@ -26,6 +25,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     private string currentSpellCast = "";
     private Transform currentCastingTransform;
     private PlayerMovementManager movementManager;
+    private HealthBar healthBar;
+    private Crosshair crosshair;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -39,7 +40,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Start() {
         // Follow the player character with the camera
-        CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+        CustomCameraWork _cameraWork = this.gameObject.GetComponent<CustomCameraWork>();
         if (_cameraWork != null) {
             if (photonView.IsMine){
                 _cameraWork.OnStartFollowing();
@@ -57,9 +58,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         // Get movement manager
         movementManager = GetComponent<PlayerMovementManager>();
 
-        if (healthBar == null) {
-            healthBar = Object.FindObjectOfType(typeof(HealthBar)) as HealthBar;
-        }
+        healthBar = Object.FindObjectOfType(typeof(HealthBar)) as HealthBar;
+
+        crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
     }
 
     void Awake() {
@@ -139,6 +140,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     void CastSpell() {
-        if (photonView.IsMine) PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, transform.rotation);
+        if (photonView.IsMine) {
+            Vector3 aimPoint = crosshair.GetWorldPoint();
+            Quaternion aimDirection = Quaternion.LookRotation(aimPoint);
+            PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, aimDirection);
+        }
     }
 }

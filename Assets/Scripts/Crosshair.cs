@@ -17,4 +17,15 @@ public class Crosshair : MonoBehaviour
             GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         }
     }
+
+    public Vector3 GetWorldPoint() {
+        Ray ray = Camera.main.ScreenPointToRay( transform.position );
+        RaycastHit hit;
+        if( Physics.Raycast( ray, out hit, 100 ) ) {
+            Debug.Log("Point hit: "+hit.point);
+            return hit.point;
+        }
+
+        return Vector3.zero;
+    }
 }
