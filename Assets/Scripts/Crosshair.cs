@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Crosshair : MonoBehaviour
 {
+    public static Crosshair Instance;
     // private Vector3 startPos;
-    // void Start() {
-    //     startPos = transform.position;
-    // }
+    void Start() {
+        Instance = this;
+    }
 
     // Update is called once per frame
     void Update() {

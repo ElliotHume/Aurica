@@ -120,30 +120,35 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    void TurnCastingAnchorDirectionToAimPoint() {
+        Vector3 aimPoint = crosshair.GetWorldPoint();
+        currentCastingTransform.LookAt(aimPoint);
+    }
+
+    Vector3 GetCrosshairAimPoint() {
+        return crosshair.GetWorldPoint();
+    }
+
 
     //  --------------------  SPELLS ------------------------
 
     void StartCastFireball() {
         currentSpellCast = "Spell_Fireball";
         currentCastingTransform = frontCastingAnchor;
+        TurnCastingAnchorDirectionToAimPoint();
         movementManager.PlayCastingAnimation(1);
-        // animator.SetTrigger("Cast");
-        // animator.SetInteger("CastType", 1);
     }
 
     void StartCastShadeSmoke() {
         currentSpellCast = "Spell_ShadeSmoke";
         currentCastingTransform = frontCastingAnchor;
+        TurnCastingAnchorDirectionToAimPoint();
         movementManager.PlayCastingAnimation(1);
-        // animator.SetTrigger("Cast");
-        // animator.SetInteger("CastType", 1);
     }
 
     void CastSpell() {
         if (photonView.IsMine) {
-            Vector3 aimPoint = crosshair.GetWorldPoint();
-            Quaternion aimDirection = Quaternion.LookRotation(aimPoint);
-            PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, aimDirection);
+            PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
         }
     }
 }

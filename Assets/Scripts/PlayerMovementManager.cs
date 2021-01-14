@@ -16,6 +16,7 @@ public class PlayerMovementManager : MonoBehaviourPun
         if (!animator) {
             Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
         }
+        animator.speed *= GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
 
         // Init dictionary with cast types
         castAnimationTypes = new Dictionary<int, string>();

@@ -13,6 +13,8 @@ public class BasicProjectileSpell : Spell
     public GameObject Target;
     public bool HomingProjectile = false;
     public float HomingDetectionSphereRadius = 1f;
+    public bool TrackingProjectile = false;
+    public float TrackingTurnSpeed = 0.1f;
     public float CollisionOffset = 0;
     public float CollisionDestroyTimeDelay = 5;
     public GameObject[] EffectsOnCollision;
@@ -23,6 +25,7 @@ public class BasicProjectileSpell : Spell
     private bool isCollided = false;
     private Transform targetT;
     private Vector3 randomTimeOffset;
+    private Crosshair crosshair;
     private float homingLockoutTime = 1.5f;
     private int homingLayerMask = 1 << 3;
 
@@ -31,6 +34,8 @@ public class BasicProjectileSpell : Spell
         startPosition = transform.position;
         startRotation = transform.rotation;
         randomTimeOffset = Random.insideUnitSphere * 10;
+        Speed *= GameManager.GLOBAL_SPELL_SPEED_MULTIPLIER;
+        if (TrackingProjectile) crosshair = Crosshair.Instance;
     }
 
     // Update is called once per frame
@@ -52,9 +57,8 @@ public class BasicProjectileSpell : Spell
             Destroy(instance, CollisionDestroyTimeDelay);
         }
 
-        GetComponent<Collider>().enabled = false;
-
         if (photonView.IsMine) {
+            GetComponent<Collider>().enabled = false;
             Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
@@ -71,6 +75,7 @@ public class BasicProjectileSpell : Spell
     }
 
     void UpdateWorldPosition() {
+        if (!photonView.IsMine) return;
         if (Target != null && targetT == null) targetT = Target.transform;
 
         Vector3 randomOffset = Vector3.zero;
@@ -99,6 +104,7 @@ public class BasicProjectileSpell : Spell
         var frameMoveOffsetWorld = Vector3.zero;
         if (!isCollided) {
             if (Target == null) {
+                if (TrackingProjectile) startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation(crosshair.GetWorldPoint() - transform.position), TrackingTurnSpeed * Time.deltaTime);
                 var currentForwardVector = (Vector3.forward + randomOffset) * Speed * Time.deltaTime;
                 frameMoveOffsetWorld = startRotation * currentForwardVector;
             } else {
@@ -108,7 +114,9 @@ public class BasicProjectileSpell : Spell
             }
         }
 
+        if (TrackingProjectile) transform.rotation = startRotation;
         transform.position += frameMoveOffsetWorld;
+        
     }
 
     Vector3 GetRadiusRandomVector() {

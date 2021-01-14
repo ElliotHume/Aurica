@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
 
+    public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 1f;
+    public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.5f;
+
     void Start() {
         Instance = this;
         if (playerPrefab == null){
