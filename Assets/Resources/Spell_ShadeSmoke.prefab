@@ -9147,7 +9147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 20
   ManaDamageType: death
   SpellEffectType: dotprojectile
   Duration: 5
@@ -9200,6 +9200,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
+  - {fileID: 4085581394677322628}
   - {fileID: 4085581394677322631}
   viewIdField: 0
   InstantiationId: 0
@@ -9251,21 +9252,15 @@ MonoBehaviour:
   slow: 0
   slowDuration: 0
   slowPercentage: 0
-  hasten: 1
-  hastenDuration: 10
-  hastenPercentage: 0.7
+  hasten: 0
+  hastenDuration: 0
+  hastenPercentage: 0
   root: 0
   rootDuration: 0
-  silence: 0
-  silenceDuration: 0
+  silence: 1
+  silenceDuration: 1
   stun: 0
   stunDuration: 0
-  weaken: 0
-  weakenDuration: 0
-  weakenPercentage: 0
-  strengthen: 0
-  strengthenDuration: 0
-  strengthenPercentage: 0
   fragile: 0
   fragileDuration: 0
   fragilePercentage: 0

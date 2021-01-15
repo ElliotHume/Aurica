@@ -48,11 +48,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     private bool stunned;
     private float stunnedDuration;
 
-    // Lower or Raise Damage/Health of spells
-    private bool weakened;
-    private float weakenedDuration, weakenedPercentage = 0f;
-    private bool strengthened;
-    private float strengthenedDuration, strengthenedPercentage = 0f;
+    // TODO: Lower or Raise Damage/Health of spells
+    // private bool weakened;
+    // private float weakenedDuration, weakenedPercentage = 0f;
+    // private bool strengthened;
+    // private float strengthenedDuration, strengthenedPercentage = 0f;
 
     // Increase or decrease the amount of damage taken
     private bool fragile;
@@ -173,6 +173,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCastArcaneThrow();
         } else if (Input.GetKeyDown("4")) {
             StartCastCondense();
+        } else if (Input.GetKeyDown("5")) {
+            StartCastAngelWisp();
+        } else if (Input.GetKeyDown("6")) {
+            StartCastSoulStrike();
         }
     }
 
@@ -221,10 +225,25 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         movementManager.PlayCastingAnimation(1);
     }
 
+    void StartCastAngelWisp() {
+        currentSpellCast = "Spell_AngelWisp";
+        currentCastingTransform = frontCastingAnchor;
+        TurnCastingAnchorDirectionToAimPoint();
+        movementManager.PlayCastingAnimation(10);
+    }
+
+    void StartCastSoulStrike() {
+        currentSpellCast = "Spell_SoulStrike";
+        currentCastingTransform = frontCastingAnchor;
+        TurnCastingAnchorDirectionToAimPoint();
+        movementManager.PlayCastingAnimation(1);
+    }
+
     void CastSpell() {
-        if (photonView.IsMine && !silenced) {
+        if (photonView.IsMine && currentSpellCast != null && !silenced && !stunned) {
             PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
         }
+        currentSpellCast = null;
     }
 
 
@@ -234,7 +253,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     /*  --------------------  STATUS EFFECTS ------------------------ */
 
-    // Slow + Hasten
+    // Slow - Decrease animation speed
     [PunRPC]
     void Slow(float duration, float percentage) {
         if (photonView.IsMine && !slowed) {
@@ -246,11 +265,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         float startSpeed = animator.speed;
         animator.speed *= 1f - percentage;
         yield return new WaitForSeconds(duration);
-        animator.speed = startSpeed;
+        animator.speed = 1f * GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         slowed = false;
     }
 
-
+    // Hasten - Increase animation speed
     [PunRPC]
     void Hasten(float duration, float percentage) {
         if (photonView.IsMine && !hastened) {
@@ -262,7 +281,80 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         float startSpeed = animator.speed;
         animator.speed *= 1f + percentage;
         yield return new WaitForSeconds(duration);
-        animator.speed = startSpeed;
+        animator.speed = 1f * GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         hastened = false;
+    }
+
+    // Rooted - Prevent movement, including movement spells
+    [PunRPC]
+    void Root(float duration) {
+        if (photonView.IsMine && !rooted) {
+            rooted = true;
+            StartCoroutine(RootRoutine(duration));
+        }
+    }
+    IEnumerator RootRoutine(float duration) {
+        movementManager.Root(true);
+        yield return new WaitForSeconds(duration);
+        movementManager.Root(false);
+        rooted = false;
+    }
+
+    // Stunned - Prevent all movement and spellcasting
+    [PunRPC]
+    void Stun(float duration) {
+        if (photonView.IsMine && !stunned) {
+            stunned = true;
+            StartCoroutine(StunRoutine(duration));
+        }
+    }
+    IEnumerator StunRoutine(float duration) {
+        movementManager.Stun(true);
+        yield return new WaitForSeconds(duration);
+        movementManager.Stun(false);
+        stunned = false;
+    }
+
+    // Silence - Prevent spellcasting
+    [PunRPC]
+    void Silence(float duration) {
+        if (photonView.IsMine && !silenced) {
+            silenced = true;
+            StartCoroutine(SilenceRoutine(duration));
+        }
+    }
+    IEnumerator SilenceRoutine(float duration) {
+        yield return new WaitForSeconds(duration);
+        silenced = false;
+    }
+
+    // Fragile - Take increased damage from all sources
+    [PunRPC]
+    void Fragile(float duration, float percentage) {
+        if (photonView.IsMine && !fragile) {
+            fragile = true;
+            fragilePercentage = percentage;
+            StartCoroutine(FragileRoutine(duration));
+        }
+    }
+    IEnumerator FragileRoutine(float duration) {
+        yield return new WaitForSeconds(duration);
+        fragile = false;
+        fragilePercentage = 0f;
+    }
+
+    // Toughen - Take decreased damage from all sources
+    [PunRPC]
+    void Tough(float duration, float percentage) {
+        if (photonView.IsMine && !tough) {
+            tough = true;
+            toughPercentage = percentage;
+            StartCoroutine(ToughRoutine(duration));
+        }
+    }
+    IEnumerator ToughRoutine(float duration) {
+        yield return new WaitForSeconds(duration);
+        tough = false;
+        toughPercentage = 0f;
     }
 }

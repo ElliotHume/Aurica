@@ -9,11 +9,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using UnityEngine;
+using Photon.Pun;
 
 /// <summary>
 /// Camera work. Follow a target
 /// </summary>
-public class CustomCameraWork : MonoBehaviour
+public class CustomCameraWork : MonoBehaviourPun
 {
   #region Private Fields
 
@@ -71,28 +72,24 @@ public class CustomCameraWork : MonoBehaviour
   }
 
 
-  void LateUpdate()
-  {
+  void LateUpdate() {
+    if (!photonView.IsMine) return;
+    
     // The transform target may not destroy on level load, 
     // so we need to cover corner cases where the Main Camera is different everytime we load a new scene, and reconnect when that happens
-    if (cameraTransform == null && isFollowing)
-    {
+    if (cameraTransform == null && isFollowing) {
       OnStartFollowing();
     }
 
     // only follow is explicitly declared
-    if (isFollowing)
-    {
+    if (isFollowing) {
       Follow();
     }
 
-    if (Input.GetButton("Fire2"))
-    {
+    if (Input.GetButton("Fire2")) {
       Cursor.lockState = CursorLockMode.Confined;
       Rotate();
-    }
-    else
-    {
+    } else {
       Cursor.lockState = CursorLockMode.None;
     }
   }
@@ -131,6 +128,7 @@ public class CustomCameraWork : MonoBehaviour
 
   void Rotate()
   {
+    if (cameraTransform == null) cameraTransform = Camera.main.transform;
     //cameraTransform.LookAt(this.transform.position + centerOffset);
     float x = Input.GetAxis("Mouse X");
     //float y = Input.GetAxis("Mouse Y");

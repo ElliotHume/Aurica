@@ -14523,7 +14523,7 @@ GameObject:
   - component: {fileID: 3155204484959390160}
   m_Layer: 0
   m_Name: Spell_Condense
-  m_TagString: Untagged
+  m_TagString: Spell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14626,6 +14626,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
+  - {fileID: 4151492393079109419}
   - {fileID: 4151492393079109416}
   viewIdField: 0
   InstantiationId: 0
@@ -14659,8 +14660,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slow: 1
-  slowDuration: 5
-  slowPercentage: 0.7
+  slowDuration: 3
+  slowPercentage: 0.2
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0
@@ -14670,12 +14671,6 @@ MonoBehaviour:
   silenceDuration: 0
   stun: 0
   stunDuration: 0
-  weaken: 0
-  weakenDuration: 0
-  weakenPercentage: 0
-  strengthen: 0
-  strengthenDuration: 0
-  strengthenPercentage: 0
   fragile: 0
   fragileDuration: 0
   fragilePercentage: 0

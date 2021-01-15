@@ -9,6 +9,7 @@ public class PlayerMovementManager : MonoBehaviourPun
 
     private Animator animator;
     private Dictionary<int, string> castAnimationTypes;
+    private bool isRooted, isStunned;
 
     // Use this for initialization
     void Start() {
@@ -44,8 +45,8 @@ public class PlayerMovementManager : MonoBehaviourPun
         float v = Input.GetAxis("Vertical");
         bool running = Input.GetKey(KeyCode.LeftShift);
 
-        animator.SetBool("Moving", (h != 0f || v != 0f));
-        animator.SetBool("Running", running);
+        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted);
+        animator.SetBool("Running", running && !isRooted);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
 
@@ -54,6 +55,20 @@ public class PlayerMovementManager : MonoBehaviourPun
     }
 
     public void PlayCastingAnimation(int animationType) {
-        animator.Play(castAnimationTypes[animationType]);
+        if (!isStunned) animator.Play(castAnimationTypes[animationType]);
+    }
+
+    public void Root(bool rooted) {
+        isRooted = rooted;
+    }
+
+    public void Stun(bool stunned) {
+        if (stunned) {
+            isStunned = true;
+            animator.speed = 0;
+        } else {
+            isStunned = false;
+            animator.speed = 1f * GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+        }
     }
 }

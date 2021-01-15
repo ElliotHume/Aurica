@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Random = UnityEngine.Random;
 
-public class BasicProjectileSpell : Spell
+public class BasicProjectileSpell : Spell, IPunObservable
 {
     public float Speed = 1f;
     public float RandomMoveRadius = 0f;
@@ -30,6 +30,22 @@ public class BasicProjectileSpell : Spell
     private float homingLockoutTime = 1.5f;
     private int homingLayerMask = 1 << 3;
 
+    private Vector3 networkPosition, oldPosition, velocity;
+    private Quaternion networkRotation;
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){
+        if (stream.IsWriting) {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        } else {
+            networkPosition = (Vector3) stream.ReceiveNext();
+            networkRotation = (Quaternion) stream.ReceiveNext();
+
+            float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
+            networkPosition += (velocity * lag);
+        }
+    }
+
 
     void Awake() {
         startPosition = transform.position;
@@ -39,9 +55,15 @@ public class BasicProjectileSpell : Spell
         if (TrackingProjectile) crosshair = Crosshair.Instance;
     }
 
-    // Update is called once per frame
-    void Update() {
+
+    public void FixedUpdate() {
+        oldPosition = transform.position;
         UpdateWorldPosition();
+        velocity = transform.position - oldPosition;
+        if (!photonView.IsMine) {
+            transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 100);
+        }
     }
 
     void OnCollisionEnter(Collision collision) {
@@ -57,9 +79,9 @@ public class BasicProjectileSpell : Spell
             instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
             Destroy(instance, CollisionDestroyTimeDelay);
         }
+        GetComponent<Collider>().enabled = false;
 
         if (photonView.IsMine) {
-            GetComponent<Collider>().enabled = false;
             Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
@@ -95,7 +117,7 @@ public class BasicProjectileSpell : Spell
                 homingLockoutTime -= Time.deltaTime;
             } else if (Target == null){
                 Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
-                if (hits.Length > 0) {
+                if (hits.Length > 0 && hits[0].gameObject != PlayerManager.LocalPlayerInstance) {
                     SetTarget(hits[0].gameObject, true);
                 }
             }

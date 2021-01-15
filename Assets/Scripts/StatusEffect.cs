@@ -23,11 +23,11 @@ public class StatusEffect : MonoBehaviourPun {
     public bool stun;
     public float stunDuration;
 
-    // Lower or Raise Damage/Health of spells
-    public bool weaken;
-    public float weakenDuration, weakenPercentage = 0f;
-    public bool strengthen;
-    public float strengthenDuration, strengthenPercentage = 0f;
+    // TODO: Lower or Raise Damage/Health of spells
+    // public bool weaken;
+    // public float weakenDuration, weakenPercentage = 0f;
+    // public bool strengthen;
+    // public float strengthenDuration, strengthenPercentage = 0f;
 
     // Increase or decrease the amount of damage taken
     public bool fragile;
@@ -51,8 +51,8 @@ public class StatusEffect : MonoBehaviourPun {
                         if (root) pv.RPC("Root", RpcTarget.All, rootDuration);
                         if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration);
                         if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration);
-                        if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration, weakenPercentage);
-                        if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration, strengthenPercentage);
+                        // if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration, weakenPercentage);
+                        // if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration, strengthenPercentage);
                         if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration, fragilePercentage);
                         if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration, toughPercentage);
                     }

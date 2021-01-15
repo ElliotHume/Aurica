@@ -16,6 +16,10 @@ public class DebugPlayer : MonoBehaviourPun
             CastSpell("Spell_ArcaneThrow");
         } else if (Input.GetKeyDown("v")) {
             CastSpell("Spell_Condense");
+        } else if (Input.GetKeyDown("c")) {
+            CastSpell("Spell_AngelWisp");
+        } else if (Input.GetKeyDown("x")) {
+            CastSpell("Spell_SoulStrike");
         }
     }
 

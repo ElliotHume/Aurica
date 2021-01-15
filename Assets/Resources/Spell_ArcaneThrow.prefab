@@ -4738,7 +4738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 6
   ManaDamageType: chaos
   SpellEffectType: projectile
   Duration: 1
@@ -4804,9 +4804,10 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   observableSearch: 2
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 0
   ObservedComponents:
+  - {fileID: 7870400193651394105}
   - {fileID: 7870400193651394117}
   viewIdField: 0
   InstantiationId: 0
