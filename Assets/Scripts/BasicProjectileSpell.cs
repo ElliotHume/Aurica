@@ -22,7 +22,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     private Vector3 startPosition;
     private Quaternion startRotation;
-    private bool isCollided = false;
+    private bool isCollided = false, networkCollided = false;
     private Transform targetT;
     private bool targetIsPlayer;
     private Vector3 randomTimeOffset;
@@ -41,7 +41,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         } else {
             networkPosition = (Vector3) stream.ReceiveNext();
             networkRotation = (Quaternion) stream.ReceiveNext();
-            isCollided = (bool) stream.ReceiveNext();
+            networkCollided = (bool) stream.ReceiveNext();
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
             networkPosition += (velocity * lag);
@@ -59,6 +59,12 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
 
     public void FixedUpdate() {
+        // If no collision has happened locally, but the network shows a collision, spawn the collision at current location
+        if (!isCollided && networkCollided) {
+            LocalCollisionBehaviour(transform.position, -transform.forward);
+            isCollided = true;
+        }
+
         oldPosition = transform.position;
         UpdateWorldPosition();
         velocity = transform.position - oldPosition;
@@ -71,18 +77,12 @@ public class BasicProjectileSpell : Spell, IPunObservable
     void OnCollisionEnter(Collision collision) {
         Debug.Log("Collision with: "+collision.gameObject);
         ContactPoint hit = collision.GetContact(0);
+        isCollided = true;
 
-        foreach (var effect in DeactivateObjectsOnCollision) {
-            if (effect != null) effect.SetActive(false);
-        }
-        foreach (var effect in EffectsOnCollision) {
-            GameObject instance = Instantiate(effect, hit.point + hit.normal * CollisionOffset, new Quaternion());
-            instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
-            Destroy(instance, CollisionDestroyTimeDelay);
-        }
-        GetComponent<Collider>().enabled = false;
+        // Call local collision response to generate collision VFX
+        LocalCollisionBehaviour(hit.point, hit.normal);
 
-        if (photonView.IsMine && !isCollided) {
+        if (photonView.IsMine) {
             Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
@@ -92,7 +92,18 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 }
             }
         }
-        isCollided = true;
+    }
+
+    void LocalCollisionBehaviour(Vector3 hitpoint, Vector3 hitNormal) {
+        foreach (var effect in DeactivateObjectsOnCollision) {
+            if (effect != null) effect.SetActive(false);
+        }
+        foreach (var effect in EffectsOnCollision) {
+            GameObject instance = Instantiate(effect, hitpoint + hitNormal * CollisionOffset, new Quaternion());
+            instance.transform.LookAt(hitpoint + hitNormal + hitNormal * CollisionOffset);
+            Destroy(instance, CollisionDestroyTimeDelay);
+        }
+        GetComponent<Collider>().enabled = false;
     }
 
     void DestroySelf() {
@@ -100,7 +111,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void UpdateWorldPosition() {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || isCollided) return;
         if (Target != null && targetT == null) targetT = Target.transform;
 
         Vector3 randomOffset = Vector3.zero;
@@ -126,17 +137,15 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
 
         var frameMoveOffsetWorld = Vector3.zero;
-        if (!isCollided) {
-            if (Target == null) {
-                if (TrackingProjectile) startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation(crosshair.GetWorldPoint() - transform.position), TrackingTurnSpeed * Time.deltaTime);
-                var currentForwardVector = (Vector3.forward + randomOffset) * Speed * Time.deltaTime;
-                frameMoveOffsetWorld = startRotation * currentForwardVector;
-            } else {
-                Vector3 targetOffset = targetIsPlayer ? new Vector3(0,1,0) : Vector3.zero;
-                var forwardVec = ((targetT.position + targetOffset) - transform.position).normalized;
-                var currentForwardVector = (forwardVec + randomOffset) * Speed * Time.deltaTime;
-                frameMoveOffsetWorld = currentForwardVector;
-            }
+        if (Target == null) {
+            if (TrackingProjectile) startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation(crosshair.GetWorldPoint() - transform.position), TrackingTurnSpeed * Time.deltaTime);
+            var currentForwardVector = (Vector3.forward + randomOffset) * Speed * Time.deltaTime;
+            frameMoveOffsetWorld = startRotation * currentForwardVector;
+        } else {
+            Vector3 targetOffset = targetIsPlayer ? new Vector3(0,1,0) : Vector3.zero;
+            var forwardVec = ((targetT.position + targetOffset) - transform.position).normalized;
+            var currentForwardVector = (forwardVec + randomOffset) * Speed * Time.deltaTime;
+            frameMoveOffsetWorld = currentForwardVector;
         }
 
         if (TrackingProjectile) transform.rotation = startRotation;
