@@ -104,6 +104,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
             Destroy(instance, CollisionDestroyTimeDelay);
         }
         GetComponent<Collider>().enabled = false;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 
     void DestroySelf() {
