@@ -37,9 +37,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
         if (stream.IsWriting) {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(isCollided);
         } else {
             networkPosition = (Vector3) stream.ReceiveNext();
             networkRotation = (Quaternion) stream.ReceiveNext();
+            isCollided = (bool) stream.ReceiveNext();
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
             networkPosition += (velocity * lag);
@@ -68,7 +70,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     void OnCollisionEnter(Collision collision) {
         Debug.Log("Collision with: "+collision.gameObject);
-        isCollided = true;
         ContactPoint hit = collision.GetContact(0);
 
         foreach (var effect in DeactivateObjectsOnCollision) {
@@ -81,7 +82,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
         GetComponent<Collider>().enabled = false;
 
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isCollided) {
             Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
@@ -91,6 +92,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 }
             }
         }
+        isCollided = true;
     }
 
     void DestroySelf() {
