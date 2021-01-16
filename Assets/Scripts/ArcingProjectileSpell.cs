@@ -11,7 +11,8 @@ public class ArcingProjectileSpell : Spell, IPunObservable
     public bool CrosshairTargeted = true;
     public float CollisionOffset = 0;
     public float CollisionDestroyTimeDelay = 5;
-    public GameObject[] EffectsOnCollision;
+    public GameObject[] LocalEffectsOnCollision;
+    public string[] NetworkedEffectsOnCollision;
     public GameObject[] DeactivateObjectsOnCollision;
     
 
@@ -109,6 +110,10 @@ public class ArcingProjectileSpell : Spell, IPunObservable
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage, ManaDamageType, SpellEffectType, Duration);
                 }
             }
+            foreach(string effect in NetworkedEffectsOnCollision) {
+                GameObject instance = PhotonNetwork.Instantiate(effect, hit.point + hit.normal * CollisionOffset, new Quaternion());
+                instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
+            }
         }
     }
 
@@ -116,7 +121,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable
         foreach (var effect in DeactivateObjectsOnCollision) {
             if (effect != null) effect.SetActive(false);
         }
-        foreach (var effect in EffectsOnCollision) {
+        foreach (var effect in LocalEffectsOnCollision) {
             GameObject instance = Instantiate(effect, hitpoint + hitNormal * CollisionOffset, new Quaternion());
             instance.transform.LookAt(hitpoint + hitNormal + hitNormal * CollisionOffset);
             Destroy(instance, CollisionDestroyTimeDelay);

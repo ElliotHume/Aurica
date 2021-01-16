@@ -140,7 +140,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         healthBar.SetHealth(Health);
-        Debug.Log("Current Health: "+Health);
+        // Debug.Log("Current Health: "+Health);
     }
 
     void TakeDamage(float damage) {
@@ -183,6 +183,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCastAuricBolt();
         } else if (Input.GetKeyDown("8")) {
             StartCastEmberSphere();
+        } else if (Input.GetKeyDown("9")) {
+            StartCastEarthBound();
         }
     }
 
@@ -257,6 +259,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         currentCastingTransform = frontCastingAnchor;
         TurnCastingAnchorDirectionToAimPoint();
         movementManager.PlayCastingAnimation(2);
+    }
+
+    void StartCastEarthBound() {
+        currentSpellCast = "Spell_EarthBound";
+        currentCastingTransform = frontCastingAnchor;
+        TurnCastingAnchorDirectionToAimPoint();
+        movementManager.PlayCastingAnimation(10);
     }
 
     void CastSpell() {

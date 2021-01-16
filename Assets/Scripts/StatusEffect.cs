@@ -41,7 +41,7 @@ public class StatusEffect : MonoBehaviourPun {
 
     void OnCollisionEnter(Collision collision) {
         if (photonView.IsMine && !isCollided) {
-            if (collision.gameObject.tag == "Player") {
+            if (collision.gameObject.tag == "Player" && collision.gameObject != PlayerManager.LocalPlayerInstance) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);

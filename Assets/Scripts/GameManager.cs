@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         SceneManager.LoadScene(0);
+        Cursor.lockState = CursorLockMode.None;
     }
 
 
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+        Cursor.lockState = CursorLockMode.None;
     }
 
 
