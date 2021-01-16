@@ -8,6 +8,9 @@ public class Spell : MonoBehaviourPun
     // How much damage the spell does
     public float Damage = 10f;
 
+    // How much Mana is costs to cast
+    public float ManaCost = 30f;
+
     // What mana type of damage it does (ex. Fire, Water, Air, Earth, Order, Chaos, Life, Death, Divine, Demonic)
     public string ManaDamageType;
 

@@ -4052,6 +4052,7 @@ MonoBehaviour:
   Health: 100
   frontCastingAnchor: {fileID: 719205761}
   topCastingAnchor: {fileID: 2366181545966283103}
+  PlayerUiPrefab: {fileID: 4047682461476091337, guid: 4fd60b50476473b4ca1cb832d7579d48, type: 3}
 --- !u!114 &7920007557602750286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4154,7 +4155,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Right-Left
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Running
   m_SynchronizeLayers:
   - SynchronizeType: 0

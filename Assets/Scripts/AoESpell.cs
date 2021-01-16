@@ -50,7 +50,7 @@ public class AoESpell : Spell
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.02f, ManaDamageType, SpellEffectType, Duration);
+                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f, ManaDamageType, SpellEffectType, Duration);
                 }
             }
         }

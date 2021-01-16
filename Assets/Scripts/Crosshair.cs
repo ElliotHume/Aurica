@@ -24,7 +24,7 @@ public class Crosshair : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit hit;
         if( Physics.Raycast( ray, out hit, 100 ) ) {
-            Debug.Log("Point hit: "+hit.point);
+            // Debug.Log("Point hit: "+hit.point);
             return hit.point;
         }
 

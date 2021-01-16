@@ -9,7 +9,7 @@ public class PlayerMovementManager : MonoBehaviourPun
 
     private Animator animator;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned;
+    private bool isRooted, isStunned, isBlocking;
 
     // Use this for initialization
     void Start() {
@@ -45,8 +45,8 @@ public class PlayerMovementManager : MonoBehaviourPun
         float v = Input.GetAxis("Vertical");
         bool running = Input.GetKey(KeyCode.LeftShift);
 
-        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted);
-        animator.SetBool("Running", running && !isRooted);
+        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isBlocking);
+        animator.SetBool("Running", running && !isRooted && !isBlocking);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
 
@@ -55,7 +55,17 @@ public class PlayerMovementManager : MonoBehaviourPun
     }
 
     public void PlayCastingAnimation(int animationType) {
-        if (!isStunned) animator.Play(castAnimationTypes[animationType]);
+        if (!isStunned && !isBlocking) animator.Play(castAnimationTypes[animationType]);
+    }
+
+    public void StartBlock() {
+        isBlocking = true;
+        animator.SetBool("Blocking", isBlocking);
+    }
+
+    public void StopBlock() {
+        isBlocking = false;
+        animator.SetBool("Blocking", isBlocking);
     }
 
     public void Root(bool rooted) {

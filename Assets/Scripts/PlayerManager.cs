@@ -14,6 +14,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
 
+    [Tooltip("The current Mana pool of our player")]
+    public float Mana = 100f;
+
+    [Tooltip("The rate at which Mana will regenerate (Mana/second)")]
+    public float ManaRegen = 10;
+
     [Tooltip("Where spells witll spawn from when being cast forwards")]
     public Transform frontCastingAnchor;
     [Tooltip("Where spells witll spawn from when being cast upwards")]
@@ -22,12 +28,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
 
+    [Tooltip("The Player's UI GameObject Prefab")]
+    [SerializeField]
+    public GameObject PlayerUiPrefab;
+
     private Animator animator;
-    private string currentSpellCast = "";
+    private string currentSpellCast = "", currentChannelledSpell= "";
     private Transform currentCastingTransform;
+    private bool isChannelling = false;
+    private GameObject channelledSpell;
     private PlayerMovementManager movementManager;
-    private HealthBar healthBar;
+    private HealthBar healthBar, manaBar;
     private Crosshair crosshair;
+    private float maxMana;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -69,13 +82,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting) {
             // We own this player: send the others our data
             stream.SendNext(Health);
+            stream.SendNext(Mana);
         } else {
             // Network player, receive data
             this.Health = (float)stream.ReceiveNext();
+            this.Mana = (float)stream.ReceiveNext();
         }
     }
 
     void Start() {
+        maxMana = Mana;
+
         // Follow the player character with the camera
         CustomCameraWork _cameraWork = this.gameObject.GetComponent<CustomCameraWork>();
         if (_cameraWork != null) {
@@ -84,6 +101,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         } else {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
+        }
+
+        if (PlayerUiPrefab != null) {
+            GameObject _uiGo =  Instantiate(PlayerUiPrefab, transform.position+new Vector3(0f, 2f, 0f), transform.rotation);
+            _uiGo.SendMessage ("SetTarget", this, SendMessageOptions.RequireReceiver);
+            _uiGo.transform.SetParent(transform);
+        } else {
+            Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
         }
 
         // Get animator for casting
@@ -95,8 +120,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         // Get movement manager
         movementManager = GetComponent<PlayerMovementManager>();
 
-        healthBar = Object.FindObjectOfType(typeof(HealthBar)) as HealthBar;
-
+        healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
+        manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
     }
 
@@ -117,10 +142,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             if (Health <= 0f) {
                 GameManager.Instance.LeaveRoom();
             }
+            if (Mana < maxMana) {
+                Mana += ManaRegen * Time.deltaTime;
+                if (Mana > maxMana) Mana = maxMana;
+            }
+            manaBar.SetHealth(Mana);
         }
     }
-
-
 
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
 
@@ -185,6 +213,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCastEmberSphere();
         } else if (Input.GetKeyDown("9")) {
             StartCastEarthBound();
+        } 
+        
+        if (Input.GetKey("e")) {
+            if (!isChannelling) StartChannelAuricBarrier();
+        } else {
+            if (isChannelling && currentChannelledSpell == "Spell_AuricBarrier") StopBlocking();
+        }
+
+        if (Input.GetKey("q")) {
+            if (!isChannelling) StartChannelForceShield();
+        } else {
+            if (isChannelling && currentChannelledSpell == "Spell_ForceShield") StopBlocking();
         }
     }
 
@@ -193,8 +233,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         currentCastingTransform.LookAt(aimPoint);
     }
 
+    void ResetCastingAnchorDirection() {
+        currentCastingTransform.rotation = transform.rotation;
+    }
+
     Vector3 GetCrosshairAimPoint() {
         return crosshair.GetWorldPoint();
+    }
+
+    void StopBlocking() {
+        movementManager.StopBlock();
+        ChannelSpell(false);
     }
 
 
@@ -268,11 +317,42 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         movementManager.PlayCastingAnimation(10);
     }
 
+    void StartChannelAuricBarrier() {
+        currentChannelledSpell = "Spell_AuricBarrier";
+        currentCastingTransform = frontCastingAnchor;
+        ResetCastingAnchorDirection();
+        ChannelSpell();
+        movementManager.StartBlock();
+    }
+
+    void StartChannelForceShield() {
+        currentChannelledSpell = "Spell_ForceShield";
+        currentCastingTransform = transform;
+        ResetCastingAnchorDirection();
+        ChannelSpell();
+        movementManager.StartBlock();
+    }
+
     void CastSpell() {
         if (photonView.IsMine && currentSpellCast != null && !silenced && !stunned) {
+            GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
+            Debug.Log("Spell object grabbed: "+dataObject);
             GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
         }
         currentSpellCast = null;
+    }
+
+    void ChannelSpell(bool start = true) {
+        if (photonView.IsMine) {
+            if (start && !isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
+                isChannelling = true;
+                channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, currentCastingTransform.position, currentCastingTransform.rotation);
+                channelledSpell.transform.SetParent(gameObject.transform);
+            } else if ((!start && isChannelling) || silenced || stunned) {
+                isChannelling = false;
+                PhotonNetwork.Destroy(channelledSpell);
+            }
+        }
     }
 
 
