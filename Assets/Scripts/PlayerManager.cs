@@ -16,6 +16,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     [Tooltip("Where spells witll spawn from when being cast forwards")]
     public Transform frontCastingAnchor;
+    [Tooltip("Where spells witll spawn from when being cast upwards")]
+    public Transform topCastingAnchor;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -177,6 +179,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCastAngelWisp();
         } else if (Input.GetKeyDown("6")) {
             StartCastSoulStrike();
+        } else if (Input.GetKeyDown("7")) {
+            StartCastAuricBolt();
+        } else if (Input.GetKeyDown("8")) {
+            StartCastEmberSphere();
         }
     }
 
@@ -239,9 +245,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         movementManager.PlayCastingAnimation(1);
     }
 
+    void StartCastAuricBolt() {
+        currentSpellCast = "Spell_AuricBolt";
+        currentCastingTransform = frontCastingAnchor;
+        TurnCastingAnchorDirectionToAimPoint();
+        movementManager.PlayCastingAnimation(1);
+    }
+
+    void StartCastEmberSphere() {
+        currentSpellCast = "Spell_EmberSphere";
+        currentCastingTransform = frontCastingAnchor;
+        TurnCastingAnchorDirectionToAimPoint();
+        movementManager.PlayCastingAnimation(2);
+    }
+
     void CastSpell() {
         if (photonView.IsMine && currentSpellCast != null && !silenced && !stunned) {
-            PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
+            GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
         }
         currentSpellCast = null;
     }

@@ -76,6 +76,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     void OnCollisionEnter(Collision collision) {
         Debug.Log("Collision with: "+collision.gameObject);
+        if (collision.gameObject == PlayerManager.LocalPlayerInstance) return;
+
         ContactPoint hit = collision.GetContact(0);
         isCollided = true;
 
