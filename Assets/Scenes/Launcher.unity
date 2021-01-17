@@ -902,7 +902,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 3.5
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -1542,10 +1542,6 @@ PrefabInstance:
     - target: {fileID: 1347737552281444916, guid: 21288b84123c4be479c4e4f40b3279bb, type: 3}
       propertyPath: viewIdField
       value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1347737552281444917, guid: 21288b84123c4be479c4e4f40b3279bb, type: 3}
-      propertyPath: m_Radius
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3008578721552982480, guid: 21288b84123c4be479c4e4f40b3279bb, type: 3}
       propertyPath: m_RootOrder

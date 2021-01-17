@@ -5048,7 +5048,7 @@ Transform:
   m_GameObject: {fileID: 6054169607109061093}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 6057282522170123281}
   m_Father: {fileID: 0}
@@ -5084,6 +5084,7 @@ MonoBehaviour:
   CollisionDestroyTimeDelay: 5
   EffectsOnCollision:
   - {fileID: 6922559000026074695, guid: 4c618817bccdfa447a7506581412017d, type: 3}
+  NetworkedEffectsOnCollision: []
   DeactivateObjectsOnCollision:
   - {fileID: 6053982216892273477}
   - {fileID: 6055069336257261593}
@@ -5189,6 +5190,7 @@ MonoBehaviour:
   tough: 1
   toughDuration: 5
   toughPercentage: 0.25
+  isContinuous: 0
 --- !u!1 &6054319627831631825
 GameObject:
   m_ObjectHideFlags: 0

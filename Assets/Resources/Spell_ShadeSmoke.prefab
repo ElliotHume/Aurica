@@ -9155,16 +9155,17 @@ MonoBehaviour:
   Duration: 5
   Speed: 7
   RandomMoveRadius: 0.2
-  RandomMoveSpeedScale: 2
+  RandomMoveSpeedScale: 10
   Target: {fileID: 0}
   HomingProjectile: 1
-  HomingDetectionSphereRadius: 2
+  HomingDetectionSphereRadius: 4
   TrackingProjectile: 0
   TrackingTurnSpeed: 0.1
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   EffectsOnCollision:
   - {fileID: 3540434359764236655, guid: 731689bafa9154355b6302833d880502, type: 3}
+  NetworkedEffectsOnCollision: []
   DeactivateObjectsOnCollision:
   - {fileID: 4086772069301187733}
   - {fileID: 4086460706064050869}
@@ -9269,6 +9270,7 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
+  isContinuous: 0
 --- !u!1 &4086460706064050869
 GameObject:
   m_ObjectHideFlags: 0

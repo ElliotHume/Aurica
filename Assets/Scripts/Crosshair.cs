@@ -23,11 +23,11 @@ public class Crosshair : MonoBehaviour
     public Vector3 GetWorldPoint() {
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit hit;
-        if( Physics.Raycast( ray, out hit, 100 ) ) {
+        if( Physics.Raycast( ray, out hit, 1000f ) ) {
             // Debug.Log("Point hit: "+hit.point);
             return hit.point;
         }
 
-        return Vector3.zero;
+        return transform.forward * 100f;
     }
 }

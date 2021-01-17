@@ -9526,7 +9526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 5
-  ManaCost: 35
+  ManaCost: 50
   ManaChannelCost: 40
   ManaDamageType: earth
   SpellEffectType: effectprojectile
@@ -9536,13 +9536,14 @@ MonoBehaviour:
   RandomMoveSpeedScale: 0
   Target: {fileID: 0}
   HomingProjectile: 1
-  HomingDetectionSphereRadius: 5
+  HomingDetectionSphereRadius: 10
   TrackingProjectile: 0
   TrackingTurnSpeed: 0.1
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   EffectsOnCollision:
   - {fileID: 5634195982306634895, guid: e518ac03fa58b0345869cb7cda054f40, type: 3}
+  NetworkedEffectsOnCollision: []
   DeactivateObjectsOnCollision:
   - {fileID: 6777123043743406246}
   - {fileID: 6776553953166184636}
@@ -9647,6 +9648,7 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
+  isContinuous: 0
 --- !u!1 &6777071893119756992
 GameObject:
   m_ObjectHideFlags: 0

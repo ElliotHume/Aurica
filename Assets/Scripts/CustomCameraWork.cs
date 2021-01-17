@@ -26,6 +26,7 @@ public class CustomCameraWork : MonoBehaviourPun
   [SerializeField]
   private float height = 3.0f;
   private float initialHeight;
+  private Quaternion initialDirection;
 
   [Tooltip("The amount right to left offcenter the camera is")]
   [SerializeField]
@@ -69,6 +70,7 @@ public class CustomCameraWork : MonoBehaviourPun
     }
 
     initialHeight = height;
+    initialDirection = transform.rotation;
   }
 
 
@@ -90,6 +92,7 @@ public class CustomCameraWork : MonoBehaviourPun
       Cursor.lockState = CursorLockMode.Confined;
       Rotate();
     } else {
+      ResetVerticalRotation();
       Cursor.lockState = CursorLockMode.None;
     }
   }
@@ -129,17 +132,24 @@ public class CustomCameraWork : MonoBehaviourPun
   void Rotate()
   {
     if (cameraTransform == null) cameraTransform = Camera.main.transform;
-    //cameraTransform.LookAt(this.transform.position + centerOffset);
+
     float x = Input.GetAxis("Mouse X");
-    //float y = Input.GetAxis("Mouse Y");
-    cameraTransform.RotateAround(transform.position, Vector3.up, x * 80 * Time.deltaTime);
-    //cameraTransform.RotateAround(transform.position, Vector3.right, -y * 40 * Time.deltaTime);
-    //height = Mathf.Clamp(height - (y * Time.deltaTime), initialHeight, 10f);
+    float y = Input.GetAxis("Mouse Y");
+    height = Mathf.Clamp(height - (y * 5f * Time.deltaTime), initialHeight, 20f);
+
+    cameraTransform.RotateAround(transform.position, Vector3.up, x * 80f * Time.deltaTime);
+    cameraTransform.RotateAround(transform.position, transform.right, -y * 20f * Time.deltaTime);
+    
     //cameraTransform.Rotate(new Vector3(-y, x, 0));
 
     // Lock Z rotation
     float z = cameraTransform.rotation.eulerAngles.z;
     cameraTransform.Rotate(0, 0, -z);
+  }
+
+  void ResetVerticalRotation() {
+    height = Mathf.Lerp(height, initialHeight, 0.65f * Time.deltaTime);
+    cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, transform.rotation, 0.65f * Time.deltaTime);
   }
 
 
