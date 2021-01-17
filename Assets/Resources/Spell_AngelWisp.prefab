@@ -19162,12 +19162,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 15
+  ManaCost: 10
+  ManaChannelCost: 40
   ManaDamageType: divine
   SpellEffectType: projectile
   Duration: 1
   Speed: 4
-  RandomMoveRadius: 0.5
-  RandomMoveSpeedScale: 1
+  RandomMoveRadius: 0.1
+  RandomMoveSpeedScale: 0.5
   Target: {fileID: 0}
   HomingProjectile: 1
   HomingDetectionSphereRadius: 10

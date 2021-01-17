@@ -18,7 +18,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public float Mana = 100f;
 
     [Tooltip("The rate at which Mana will regenerate (Mana/second)")]
-    public float ManaRegen = 10;
+    public float ManaRegen = 2.5f;
+
+    [Tooltip("The rate at which Mana regen will increase if a spell hasnt been cast recently")]
+    public float ManaRegenGrowthRate = 0.005f;
 
     [Tooltip("Where spells witll spawn from when being cast forwards")]
     public Transform frontCastingAnchor;
@@ -41,6 +44,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     private HealthBar healthBar, manaBar;
     private Crosshair crosshair;
     private float maxMana;
+    private Spell cachedSpellComponent;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -142,8 +146,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             if (Health <= 0f) {
                 GameManager.Instance.LeaveRoom();
             }
+            // If you are channelling a spell, reduce mana and reset mana regrowth
+            if (isChannelling && channelledSpell != null) {
+                if (Mana > 0f) {
+                    if (cachedSpellComponent == null) cachedSpellComponent = channelledSpell.GetComponent<Spell>();
+                    Mana -= cachedSpellComponent.ManaChannelCost * Time.deltaTime;
+                } else {
+                    StopBlocking();
+                }
+            }
+
+            // Regen mana if below maxMana
             if (Mana < maxMana) {
-                Mana += ManaRegen * Time.deltaTime;
+                Mana += ManaRegen * Time.deltaTime * ((1f - Mana/maxMana)/ManaRegenGrowthRate);
                 if (Mana > maxMana) Mana = maxMana;
             }
             manaBar.SetHealth(Mana);
@@ -246,6 +261,39 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         ChannelSpell(false);
     }
 
+    void CastSpell() {
+        if (photonView.IsMine && currentSpellCast != null && !silenced && !stunned) {
+            GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
+            Debug.Log("Spell object grabbed: "+dataObject);
+            Spell foundSpell = dataObject.GetComponent<Spell>();
+            if (Mana - foundSpell.ManaCost > 0f) {
+                GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
+                Mana -= foundSpell.ManaCost;
+            } 
+        }
+        currentSpellCast = null;
+    }
+
+    void ChannelSpell(bool start = true) {
+        if (photonView.IsMine) {
+            if (start && !isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
+                isChannelling = true;
+                GameObject dataObject = Resources.Load<GameObject>(currentChannelledSpell);
+                Debug.Log("Spell object grabbed: "+dataObject);
+                Spell foundSpell = dataObject.GetComponent<Spell>();
+                if (Mana - foundSpell.ManaCost > 0f) {
+                    channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, currentCastingTransform.position, currentCastingTransform.rotation);
+                    channelledSpell.transform.SetParent(gameObject.transform);
+                    Mana -= foundSpell.ManaCost;
+                } 
+            } else if ((!start && isChannelling) || silenced || stunned) {
+                isChannelling = false;
+                PhotonNetwork.Destroy(channelledSpell);
+                channelledSpell = null;
+            }
+        }
+    }
+
 
 
 
@@ -332,31 +380,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         ChannelSpell();
         movementManager.StartBlock();
     }
-
-    void CastSpell() {
-        if (photonView.IsMine && currentSpellCast != null && !silenced && !stunned) {
-            GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
-            Debug.Log("Spell object grabbed: "+dataObject);
-            GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
-        }
-        currentSpellCast = null;
-    }
-
-    void ChannelSpell(bool start = true) {
-        if (photonView.IsMine) {
-            if (start && !isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
-                isChannelling = true;
-                channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, currentCastingTransform.position, currentCastingTransform.rotation);
-                channelledSpell.transform.SetParent(gameObject.transform);
-            } else if ((!start && isChannelling) || silenced || stunned) {
-                isChannelling = false;
-                PhotonNetwork.Destroy(channelledSpell);
-            }
-        }
-    }
-
-
-
 
 
 

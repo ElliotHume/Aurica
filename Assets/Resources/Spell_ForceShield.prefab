@@ -10173,6 +10173,7 @@ GameObject:
   - component: {fileID: 6134187140620608743}
   - component: {fileID: 6138793448872243386}
   - component: {fileID: 6138793448872243385}
+  - component: {fileID: 4148364437050564083}
   m_Layer: 0
   m_Name: Spell_ForceShield
   m_TagString: Spell
@@ -10240,6 +10241,24 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &4148364437050564083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140522103110057231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8514f34a33c814e9d9dd8ff17771d3ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
+  ManaCost: 5
+  ManaChannelCost: 15
+  ManaDamageType: 
+  SpellEffectType: 
+  Duration: 1
 --- !u!1 &6140533994092971691
 GameObject:
   m_ObjectHideFlags: 0

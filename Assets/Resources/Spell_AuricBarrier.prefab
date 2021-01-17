@@ -24119,6 +24119,7 @@ GameObject:
   - component: {fileID: 2137440410770482577}
   - component: {fileID: 2141612269510941532}
   - component: {fileID: 2141612269510941535}
+  - component: {fileID: 8347512080964258658}
   m_Layer: 0
   m_Name: Spell_AuricBarrier
   m_TagString: Spell
@@ -24186,6 +24187,24 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &8347512080964258658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143192619510114141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8514f34a33c814e9d9dd8ff17771d3ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
+  ManaCost: 15
+  ManaChannelCost: 5
+  ManaDamageType: 
+  SpellEffectType: 
+  Duration: 1
 --- !u!1 &2143223253879503189
 GameObject:
   m_ObjectHideFlags: 0
