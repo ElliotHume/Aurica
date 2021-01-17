@@ -18,6 +18,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float CollisionOffset = 0;
     public float CollisionDestroyTimeDelay = 5;
     public GameObject[] EffectsOnCollision;
+    public string[] NetworkedEffectsOnCollision;
     public GameObject[] DeactivateObjectsOnCollision;
 
     private Vector3 startPosition;
@@ -92,6 +93,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage, ManaDamageType, SpellEffectType, Duration);
                 }
+            }
+            foreach(string effect in NetworkedEffectsOnCollision) {
+                GameObject instance = PhotonNetwork.Instantiate(effect, hit.point + hit.normal * CollisionOffset, new Quaternion());
+                instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
             }
         }
     }

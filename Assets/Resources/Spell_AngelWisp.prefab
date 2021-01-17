@@ -19162,7 +19162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 15
-  ManaCost: 10
+  ManaCost: 50
   ManaChannelCost: 40
   ManaDamageType: divine
   SpellEffectType: projectile
@@ -19179,6 +19179,8 @@ MonoBehaviour:
   CollisionDestroyTimeDelay: 5
   EffectsOnCollision:
   - {fileID: 7480270526002496783, guid: b9db69e84b01a22409dd022d3f558101, type: 3}
+  NetworkedEffectsOnCollision:
+  - XCollision_AngelWisp
   DeactivateObjectsOnCollision:
   - {fileID: 2089789810491678801}
   - {fileID: 2090356949759038811}
@@ -19286,6 +19288,7 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
+  isContinuous: 0
 --- !u!1 &2090620828721680723
 GameObject:
   m_ObjectHideFlags: 0

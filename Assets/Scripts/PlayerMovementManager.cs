@@ -6,10 +6,15 @@ using Photon.Pun;
 public class PlayerMovementManager : MonoBehaviourPun
 {
     public float AimSensitivity = 1.5f;
+    public float JumpHeight = 1f, JumpSpeed = 3f;
 
     private Animator animator;
+    private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
     private bool isRooted, isStunned, isBlocking;
+    private float gravityValue = -9.81f;
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
 
     // Use this for initialization
     void Start() {
@@ -18,6 +23,8 @@ public class PlayerMovementManager : MonoBehaviourPun
             Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
         }
         animator.speed *= GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+
+        characterController = GetComponent<CharacterController>();
 
         // Init dictionary with cast types
         castAnimationTypes = new Dictionary<int, string>();
@@ -45,6 +52,8 @@ public class PlayerMovementManager : MonoBehaviourPun
         float v = Input.GetAxis("Vertical");
         bool running = Input.GetKey(KeyCode.LeftShift);
 
+        if (Input.GetButtonDown("Jump")) animator.SetTrigger("Jump");
+
         animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isBlocking);
         animator.SetBool("Running", running && !isRooted && !isBlocking);
         animator.SetFloat("Forwards-Backwards", h);
@@ -56,6 +65,26 @@ public class PlayerMovementManager : MonoBehaviourPun
 
     public void PlayCastingAnimation(int animationType) {
         if (!isStunned && !isBlocking) animator.Play(castAnimationTypes[animationType]);
+    }
+
+    public void JumpLift() {
+        if (!photonView.IsMine) return;
+        Debug.Log("JUMP");
+        StartCoroutine(JumpRoutine());
+    }
+
+    IEnumerator JumpRoutine() {
+        float timer = 0.75f;
+        while (timer > 0f) {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+            Vector3 movement = transform.forward * v + transform.right * h;
+            movement.y += JumpHeight;
+            characterController.Move(movement * Time.deltaTime * JumpSpeed);
+
+            timer -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     public void StartBlock() {

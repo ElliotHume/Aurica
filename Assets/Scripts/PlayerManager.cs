@@ -45,38 +45,48 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     private Crosshair crosshair;
     private float maxMana;
     private Spell cachedSpellComponent;
+    private CharacterUI characterUI;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
 
     // Increase or decrease movement speed
-    private bool slowed;
+    [HideInInspector]
+    public bool slowed;
     private float slowedDuration, slowedPercentage = 0f;
-    private bool hastened;
+    [HideInInspector]
+    public bool hastened;
     private float hastenedDuration, hastenedPercentage = 0f;
 
     // Prevent all movement, including movement spells
-    private bool rooted;
+    [HideInInspector]
+    public bool rooted;
     private float rootedDuration;
 
     // Prevent all spellcasts
-    private bool silenced;
+    [HideInInspector]
+    public bool silenced;
     private float silencedDuration;
 
     // Prevent all actions
-    private bool stunned;
+    [HideInInspector]
+    public bool stunned;
     private float stunnedDuration;
 
     // TODO: Lower or Raise Damage/Health of spells
-    // private bool weakened;
+    // [HideInInspector]
+    // public bool weakened;
     // private float weakenedDuration, weakenedPercentage = 0f;
+    // [HideInInspector]
     // private bool strengthened;
     // private float strengthenedDuration, strengthenedPercentage = 0f;
 
     // Increase or decrease the amount of damage taken
-    private bool fragile;
+    [HideInInspector]
+    public bool fragile;
     private float fragileDuration, fragilePercentage = 0f;
-    private bool tough;
+    [HideInInspector]
+    public bool tough;
     private float toughDuration, toughPercentage = 0f;
 
 
@@ -85,12 +95,32 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
             // We own this player: send the others our data
+            // CRITICAL DATA
             stream.SendNext(Health);
             stream.SendNext(Mana);
+
+            // Auxiliary data
+            stream.SendNext(slowed);
+            stream.SendNext(hastened);
+            stream.SendNext(rooted);
+            stream.SendNext(silenced);
+            stream.SendNext(stunned);
+            stream.SendNext(fragile);
+            stream.SendNext(tough);
         } else {
             // Network player, receive data
+            // CRITICAL DATA
             this.Health = (float)stream.ReceiveNext();
             this.Mana = (float)stream.ReceiveNext();
+
+            // Auxiliary data
+            this.slowed = (bool)stream.ReceiveNext();
+            this.hastened = (bool)stream.ReceiveNext();
+            this.rooted = (bool)stream.ReceiveNext();
+            this.silenced = (bool)stream.ReceiveNext();
+            this.stunned = (bool)stream.ReceiveNext();
+            this.fragile = (bool)stream.ReceiveNext();
+            this.tough = (bool)stream.ReceiveNext();
         }
     }
 
@@ -111,6 +141,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             GameObject _uiGo =  Instantiate(PlayerUiPrefab, transform.position+new Vector3(0f, 2f, 0f), transform.rotation);
             _uiGo.SendMessage ("SetTarget", this, SendMessageOptions.RequireReceiver);
             _uiGo.transform.SetParent(transform);
+            characterUI = _uiGo.GetComponent<CharacterUI>();
         } else {
             Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
         }
@@ -158,7 +189,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
             // Regen mana if below maxMana
             if (Mana < maxMana) {
-                Mana += ManaRegen * Time.deltaTime * ((1f - Mana/maxMana)/ManaRegenGrowthRate);
+                Mana += ManaRegen * Time.deltaTime * ((1.1f - Mana/maxMana)*ManaRegenGrowthRate);
                 if (Mana > maxMana) Mana = maxMana;
             }
             manaBar.SetHealth(Mana);
@@ -210,6 +241,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     /*  --------------------  SPELLCASTING ------------------------ */
 
     void ProcessInputs() {
+        if (silenced || stunned) return;
+        
         if (Input.GetKeyDown("1")) {
             StartCastFireball();
         } else if (Input.GetKeyDown("2")) {

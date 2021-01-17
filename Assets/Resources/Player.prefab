@@ -3940,9 +3940,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8656817884985772173}
   - component: {fileID: 8754626770723514773}
+  - component: {fileID: 1753741204447943}
   - component: {fileID: 1753741204447941}
   - component: {fileID: 1753741204447942}
-  - component: {fileID: 1753741204447943}
   - component: {fileID: 7920007557602750286}
   - component: {fileID: 1753741204447944}
   - component: {fileID: 2054025925}
@@ -4006,6 +4006,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1753741204447943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658946800256013057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd3020f0e569c9449c5b3d582643164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  Mana: 100
+  ManaRegen: 3
+  ManaRegenGrowthRate: 2.5
+  frontCastingAnchor: {fileID: 719205761}
+  topCastingAnchor: {fileID: 2366181545966283103}
+  PlayerUiPrefab: {fileID: 4047682461476091337, guid: 4fd60b50476473b4ca1cb832d7579d48, type: 3}
+  slowed: 0
+  hastened: 0
+  rooted: 0
+  silenced: 0
+  stunned: 0
+  fragile: 0
+  tough: 0
 --- !u!143 &1753741204447941
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4037,25 +4063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AimSensitivity: 1.5
---- !u!114 &1753741204447943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8658946800256013057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcd3020f0e569c9449c5b3d582643164, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 100
-  Mana: 100
-  ManaRegen: 3
-  ManaRegenGrowthRate: 0.005
-  frontCastingAnchor: {fileID: 719205761}
-  topCastingAnchor: {fileID: 2366181545966283103}
-  PlayerUiPrefab: {fileID: 4047682461476091337, guid: 4fd60b50476473b4ca1cb832d7579d48, type: 3}
+  JumpHeight: 1
+  JumpSpeed: 5
 --- !u!114 &7920007557602750286
 MonoBehaviour:
   m_ObjectHideFlags: 0

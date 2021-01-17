@@ -14609,7 +14609,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_UseLocal: 0
 --- !u!114 &1347737552281444916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14646,6 +14646,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
+  ManaCost: 30
+  ManaChannelCost: 40
   ManaDamageType: fire
   SpellEffectType: DoTAoE
   Duration: 10

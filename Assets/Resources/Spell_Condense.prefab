@@ -14574,6 +14574,7 @@ MonoBehaviour:
   CollisionDestroyTimeDelay: 5
   EffectsOnCollision:
   - {fileID: 7392420765674112789, guid: 515c61add91694b83806e8ae939516be, type: 3}
+  NetworkedEffectsOnCollision: []
   DeactivateObjectsOnCollision:
   - {fileID: 4150390177402858474}
   - {fileID: 4151153290034563424}
@@ -14679,6 +14680,7 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
+  isContinuous: 0
 --- !u!1 &4151153290034563424
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,6 +36,24 @@ public class CharacterUI : MonoBehaviour
         if (playerHealthSlider != null) {
             playerHealthSlider.value = target.Health;
         }
+
+        if (target.slowed) {
+            SetStatusEffect("SLOWED...");
+        } else if (target.hastened) {
+            SetStatusEffect("HASTE...");
+        } else if (target.rooted) {
+            SetStatusEffect("ROOTED...");
+        } else if (target.silenced) {
+            SetStatusEffect("SILENCED...");
+        } else if (target.stunned) {
+            SetStatusEffect("STUNNED...");
+        } else if (target.fragile) {
+            SetStatusEffect("FRAGILE...");
+        } else if (target.tough) {
+            SetStatusEffect("TOUGH...");
+        } else {
+            ResetStatusEffects();
+        }
     }
 
     void LateUpdate()
@@ -51,8 +69,20 @@ public class CharacterUI : MonoBehaviour
 
         // Cache references for efficiency
         target = _target;
+        if (playerNameText != null) playerNameText.text = target.photonView.Owner.NickName;
+    }
+
+    public void SetStatusEffect(string status) {
         if (playerNameText != null) {
+            playerNameText.text = status;
+            playerNameText.color = Color.white;
+        }
+    }
+
+    public void ResetStatusEffects() {
+        if (playerNameText != null)  {
             playerNameText.text = target.photonView.Owner.NickName;
+            playerNameText.color = Color.black;
         }
     }
 }
