@@ -3997,7 +3997,7 @@ Animator:
   m_GameObject: {fileID: 8658946800256013057}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b6ef2f4d0154b2747860a3332fa05f97, type: 3}
-  m_Controller: {fileID: 9100000, guid: d8d04557c83392b4297f6280da570b32, type: 2}
+  m_Controller: {fileID: 9100000, guid: 532dde0c15ad0b34aad50618e70bc202, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -4021,6 +4021,8 @@ MonoBehaviour:
   Health: 100
   Mana: 100
   ManaRegen: 3
+  HealthRegen: 0.025
+  HealingRate: 1
   ManaRegenGrowthRate: 2.5
   frontCastingAnchor: {fileID: 719205761}
   topCastingAnchor: {fileID: 2366181545966283103}

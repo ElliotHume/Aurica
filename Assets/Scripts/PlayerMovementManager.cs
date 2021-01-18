@@ -64,7 +64,14 @@ public class PlayerMovementManager : MonoBehaviourPun
     }
 
     public void PlayCastingAnimation(int animationType) {
-        if (!isStunned && !isBlocking) animator.Play(castAnimationTypes[animationType]);
+        if (!isStunned && !isBlocking) {
+            // Local method
+            //animator.Play(castAnimationTypes[animationType]);
+
+            // animator method
+            animator.SetTrigger("Cast");
+            animator.SetInteger("CastType", animationType);
+        }
     }
 
     public void JumpLift() {

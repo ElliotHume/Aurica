@@ -13,12 +13,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
+    private float healing = 0f;
 
     [Tooltip("The current Mana pool of our player")]
     public float Mana = 100f;
 
     [Tooltip("The rate at which Mana will regenerate (Mana/second)")]
     public float ManaRegen = 2.5f;
+
+    [Tooltip("The rate at which Mana will regenerate (Health/second)")]
+    public float HealthRegen = 0.025f;
+
+    [Tooltip("The multiplying rate at which Healing will be applied")]
+    public float HealingRate = 1f;
 
     [Tooltip("The rate at which Mana regen will increase if a spell hasnt been cast recently")]
     public float ManaRegenGrowthRate = 0.005f;
@@ -38,12 +45,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell= "";
     private Transform currentCastingTransform;
-    private bool isChannelling = false;
+    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false;
     private GameObject channelledSpell;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
     private Crosshair crosshair;
-    private float maxMana;
+    private float maxMana, maxHealth;
     private Spell cachedSpellComponent;
     private CharacterUI characterUI;
 
@@ -126,6 +133,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Start() {
         maxMana = Mana;
+        maxHealth = Health;
 
         // Follow the player character with the camera
         CustomCameraWork _cameraWork = this.gameObject.GetComponent<CustomCameraWork>();
@@ -177,6 +185,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             if (Health <= 0f) {
                 GameManager.Instance.LeaveRoom();
             }
+
+            // If there is healing to be done, do it
+            if (healing > 0f && Health < maxHealth) {
+                float healingDone = healing * Time.deltaTime * HealingRate;
+                Health += healingDone;
+                healing -= healingDone;
+            } else {
+                healing = 0f;
+            }
+
+            // If health should regen, do it
+            if (HealthRegen > 0f && Health < maxHealth) Health += HealthRegen * Time.deltaTime;
+
             // If you are channelling a spell, reduce mana and reset mana regrowth
             if (isChannelling && channelledSpell != null) {
                 if (Mana > 0f) {
@@ -192,6 +213,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
                 Mana += ManaRegen * Time.deltaTime * ((1.1f - Mana/maxMana)*ManaRegenGrowthRate);
                 if (Mana > maxMana) Mana = maxMana;
             }
+
+            // Display health and mana values
+            healthBar.SetHealth(Health);
             manaBar.SetHealth(Mana);
         }
     }
@@ -212,8 +236,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
                 TakeDamage(Damage);
                 break;
         }
-
-        healthBar.SetHealth(Health);
         // Debug.Log("Current Health: "+Health);
     }
 
@@ -228,7 +250,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         while (duration > 0f) {
             TakeDamage(damagePerSecond * Time.deltaTime);
             duration -= Time.deltaTime;
-            healthBar.SetHealth(Health);
             yield return new WaitForFixedUpdate();
         }
     }
@@ -242,7 +263,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void ProcessInputs() {
         if (silenced || stunned) return;
-        
+
         if (Input.GetKeyDown("1")) {
             StartCastFireball();
         } else if (Input.GetKeyDown("2")) {
@@ -261,6 +282,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCastEmberSphere();
         } else if (Input.GetKeyDown("9")) {
             StartCastEarthBound();
+        } else if (Input.GetKeyDown("0")) {
+            StartCastMinorHeal();
         } 
         
         if (Input.GetKey("e")) {
@@ -289,6 +312,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         return crosshair.GetWorldPoint();
     }
 
+    GameObject GetPlayerWithinAimTolerance(float tolerance) {
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position, tolerance, (transform.position - GetCrosshairAimPoint()), out hit, 1000, 1 << 3)) {
+            Debug.Log("HIT PLAYER!");
+            return hit.collider.gameObject;
+        }
+        return null;
+    }
+
     void StopBlocking() {
         movementManager.StopBlock();
         ChannelSpell(false);
@@ -302,6 +334,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             if (Mana - foundSpell.ManaCost > 0f) {
                 GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
                 Mana -= foundSpell.ManaCost;
+
+                if (currentSpellIsSelfTargeted) {
+                    currentSpellIsSelfTargeted = false;
+                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                    if (ts != null) ts.SetTarget(gameObject);
+                } else if (currentSpellIsOpponentTargeted) {
+                    currentSpellIsOpponentTargeted = false;
+                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                    GameObject target = GetPlayerWithinAimTolerance(3f);
+                    if (ts != null && target != null) {
+                        ts.SetTarget(target);
+                    }
+                }
             } 
         }
         currentSpellCast = null;
@@ -414,9 +459,24 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         movementManager.StartBlock();
     }
 
+    void StartCastMinorHeal() {
+        currentSpellCast = "Spell_MinorHeal";
+        currentCastingTransform = transform;
+        currentSpellIsSelfTargeted = true;
+        movementManager.PlayCastingAnimation(0);
+    }
+
 
 
     /*  --------------------  STATUS EFFECTS ------------------------ */
+
+    // Heal - restore health by a flat value and/or a percentage of missing health
+    [PunRPC]
+    void Heal(float flat, float percentage) {
+        if (photonView.IsMine) {
+            healing += flat + ((maxHealth-Health) * percentage);
+        }
+    }
 
     // Slow - Decrease animation speed
     [PunRPC]
