@@ -27,7 +27,7 @@ public class Aura : MonoBehaviourPun {
         // GetDamage(200f, new ManaDistribution("1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0"));
     }
 
-    public void GetDamage(float damage, ManaDistribution damageDist) {
+    public float GetDamage(float damage, ManaDistribution damageDist) {
         List<float> percents = damageDist.GetAsPercentages();
         List<float> auraList = AuraDistribution.ToList();
         float structureDiff = damageDist.structure - AuraDistribution.structure;
@@ -43,6 +43,13 @@ public class Aura : MonoBehaviourPun {
 
         // Log Damages
         // foreach (var x in percents) Debug.Log(x.ToString());
+
+        float sum = 0;
+        foreach (var element in percents) {
+            sum += element;
+        }
+
+        return sum;
     }
 
     public ManaDistribution GetAura() {

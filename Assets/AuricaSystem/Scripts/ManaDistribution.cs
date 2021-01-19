@@ -19,6 +19,10 @@ public struct ManaDistribution {
         nature = float.Parse(splitDist[6]);
     }
 
+    public string GetJson() {
+        return JsonUtility.ToJson(this);
+    }
+
     public override string ToString() {
         return "[" + structure + ", " + essence + ", " + fire + ", " + water + ", " + earth + ", " + air + ", " + nature + "]";
     }

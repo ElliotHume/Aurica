@@ -11,6 +11,9 @@ public class Spell : MonoBehaviourPun
     // How much Mana it costs to cast this spell
     public float ManaCost = 30f;
 
+    // Aurica Spell ScriptableObject
+    public AuricaSpell auricaSpell;
+
     // How much Mana it costs to channel this spell (Mana/second)
     public float ManaChannelCost = 40f;
 

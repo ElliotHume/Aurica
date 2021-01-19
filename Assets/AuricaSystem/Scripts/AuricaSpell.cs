@@ -12,7 +12,6 @@ public class AuricaSpell : ScriptableObject {
     public List<AuricaSpellComponent> keyComponents;
     public float errorThreshold = 3.0f;
 
-    public GameObject spawnPrefab;
 
     public bool CheckComponents(List<AuricaSpellComponent> components) {
         List<int> indexList = new List<int>();
@@ -25,14 +24,5 @@ public class AuricaSpell : ScriptableObject {
         List<int> sortedList = indexList;
         sortedList.Sort();
         return sortedList.SequenceEqual(indexList) && indexList.Count == keyComponents.Count;
-        /*
-        indexList = []
-        for keyComp in self.keyComponents:
-            try:
-                indexList.append(components.index(keyComp))
-            except:
-                None ## do nothing
-        return indexList == sorted(indexList) and len(indexList) == len(self.keyComponents)
-        */
     }
 }

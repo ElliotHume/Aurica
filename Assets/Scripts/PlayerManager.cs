@@ -52,6 +52,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private float maxMana, maxHealth;
     private Spell cachedSpellComponent;
     private CharacterUI characterUI;
+    private Aura aura;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -154,6 +155,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
         }
 
+        aura = GetComponent<Aura>();
+
         // Get movement manager
         movementManager = GetComponent<PlayerMovementManager>();
 
@@ -217,32 +220,34 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
 
     [PunRPC]
-    void OnSpellCollide(float Damage, string ManaDamageType, string SpellEffectType, float Duration) {
+    void OnSpellCollide(float Damage, string ManaDamageType, string SpellEffectType, float Duration, string spellDistributionJson) {
         if (!photonView.IsMine) return;
         Debug.Log("Collision with spell of type: " + ManaDamageType);
+        ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
         // Spell spell = spellGO.GetComponent<Spell>();
         switch (SpellEffectType) {
             case "dotprojectile":
-                StartCoroutine(TakeDirectDoTDamage(Damage, ManaDamageType, Duration));
+                StartCoroutine(TakeDirectDoTDamage(Damage, ManaDamageType, Duration, spellDistribution));
                 break;
             default:
                 Debug.Log("Default Spell effect --> Take direct damage");
-                TakeDamage(Damage);
+                TakeDamage(Damage, spellDistribution);
                 break;
         }
         // Debug.Log("Current Health: "+Health);
     }
 
-    void TakeDamage(float damage) {
+    void TakeDamage(float damage, ManaDistribution spellDistribution) {
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
-        Health -= damage;
+        Health -= aura.GetDamage(damage, spellDistribution);
+        Debug.Log("Take Damage --  pre-resistance: "+damage+"    post-resistance: "+aura.GetDamage(damage, spellDistribution));
     }
 
-    IEnumerator TakeDirectDoTDamage(float damage, string damageType, float duration) {
+    IEnumerator TakeDirectDoTDamage(float damage, string damageType, float duration, ManaDistribution spellDistribution) {
         float damagePerSecond = damage / duration;
         while (duration > 0f) {
-            TakeDamage(damagePerSecond * Time.deltaTime);
+            TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
             duration -= Time.deltaTime;
             yield return new WaitForFixedUpdate();
         }

@@ -91,7 +91,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage, ManaDamageType, SpellEffectType, Duration);
+                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage, ManaDamageType, SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                 }
             }
             foreach(string effect in NetworkedEffectsOnCollision) {
