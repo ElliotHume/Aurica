@@ -9,8 +9,7 @@ using System.Collections;
 /// Player manager.
 /// Handles fire Input and Beams.
 /// </summary>
-public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
-{
+public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
     private float healing = 0f;
@@ -43,7 +42,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject PlayerUiPrefab;
 
     private Animator animator;
-    private string currentSpellCast = "", currentChannelledSpell= "";
+    private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
     private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false;
     private GameObject channelledSpell;
@@ -138,7 +137,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         // Follow the player character with the camera
         CustomCameraWork _cameraWork = this.gameObject.GetComponent<CustomCameraWork>();
         if (_cameraWork != null) {
-            if (photonView.IsMine){
+            if (photonView.IsMine) {
                 _cameraWork.OnStartFollowing();
             }
         } else {
@@ -146,8 +145,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if (PlayerUiPrefab != null) {
-            GameObject _uiGo =  Instantiate(PlayerUiPrefab, transform.position+new Vector3(0f, 2f, 0f), transform.rotation);
-            _uiGo.SendMessage ("SetTarget", this, SendMessageOptions.RequireReceiver);
+            GameObject _uiGo = Instantiate(PlayerUiPrefab, transform.position + new Vector3(0f, 2f, 0f), transform.rotation);
+            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
             _uiGo.transform.SetParent(transform);
             characterUI = _uiGo.GetComponent<CharacterUI>();
         } else {
@@ -210,7 +209,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
             // Regen mana if below maxMana
             if (Mana < maxMana) {
-                Mana += ManaRegen * Time.deltaTime * ((1.1f - Mana/maxMana)*ManaRegenGrowthRate);
+                Mana += ManaRegen * Time.deltaTime * ((1.1f - Mana / maxMana) * ManaRegenGrowthRate);
                 if (Mana > maxMana) Mana = maxMana;
             }
 
@@ -225,7 +224,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void OnSpellCollide(float Damage, string ManaDamageType, string SpellEffectType, float Duration) {
         if (!photonView.IsMine) return;
-        Debug.Log("Collision with spell of type: "+ManaDamageType);
+        Debug.Log("Collision with spell of type: " + ManaDamageType);
         // Spell spell = spellGO.GetComponent<Spell>();
         switch (SpellEffectType) {
             case "dotprojectile":
@@ -240,12 +239,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     void TakeDamage(float damage) {
-        if (fragile) damage *= (1+fragilePercentage);
-        if (tough) damage *= (1-toughPercentage);
+        if (fragile) damage *= (1 + fragilePercentage);
+        if (tough) damage *= (1 - toughPercentage);
         Health -= damage;
     }
 
-    IEnumerator TakeDirectDoTDamage(float damage, string damageType, float duration){
+    IEnumerator TakeDirectDoTDamage(float damage, string damageType, float duration) {
         float damagePerSecond = damage / duration;
         while (duration > 0f) {
             TakeDamage(damagePerSecond * Time.deltaTime);
@@ -284,8 +283,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCastEarthBound();
         } else if (Input.GetKeyDown("0")) {
             StartCastMinorHeal();
-        } 
-        
+        }
+
         if (Input.GetKey("e")) {
             if (!isChannelling) StartChannelAuricBarrier();
         } else {
@@ -329,7 +328,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     void CastSpell() {
         if (photonView.IsMine && currentSpellCast != null && !silenced && !stunned) {
             GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
-            Debug.Log("Spell object grabbed: "+dataObject);
+            Debug.Log("Spell object grabbed: " + dataObject);
             Spell foundSpell = dataObject.GetComponent<Spell>();
             if (Mana - foundSpell.ManaCost > 0f) {
                 GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
@@ -347,7 +346,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
                         ts.SetTarget(target);
                     }
                 }
-            } 
+            }
         }
         currentSpellCast = null;
     }
@@ -357,13 +356,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             if (start && !isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
                 isChannelling = true;
                 GameObject dataObject = Resources.Load<GameObject>(currentChannelledSpell);
-                Debug.Log("Spell object grabbed: "+dataObject);
+                Debug.Log("Spell object grabbed: " + dataObject);
                 Spell foundSpell = dataObject.GetComponent<Spell>();
                 if (Mana - foundSpell.ManaCost > 0f) {
                     channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, currentCastingTransform.position, currentCastingTransform.rotation);
                     channelledSpell.transform.SetParent(gameObject.transform);
                     Mana -= foundSpell.ManaCost;
-                } 
+                }
             } else if ((!start && isChannelling) || silenced || stunned) {
                 isChannelling = false;
                 PhotonNetwork.Destroy(channelledSpell);
@@ -474,7 +473,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void Heal(float flat, float percentage) {
         if (photonView.IsMine) {
-            healing += flat + ((maxHealth-Health) * percentage);
+            healing += flat + ((maxHealth - Health) * percentage);
+        }
+    }
+
+    // Displace - move the player along a local direction vector
+    [PunRPC]
+    void Displace(Vector3 direction, float distance, float speed) {
+        if (photonView.IsMine) {
+            movementManager.Displace(direction, distance, speed);
         }
     }
 

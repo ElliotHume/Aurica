@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 
-public class PlayerMovementManager : MonoBehaviourPun
-{
+public class PlayerMovementManager : MonoBehaviourPun {
     public float AimSensitivity = 1.5f;
     public float JumpHeight = 1f, JumpSpeed = 3f;
 
@@ -14,7 +13,6 @@ public class PlayerMovementManager : MonoBehaviourPun
     private bool isRooted, isStunned, isBlocking;
     private float gravityValue = -9.81f;
     private Vector3 playerVelocity;
-    private bool groundedPlayer;
 
     // Use this for initialization
     void Start() {
@@ -42,8 +40,7 @@ public class PlayerMovementManager : MonoBehaviourPun
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (!animator || (photonView.IsMine == false && PhotonNetwork.IsConnected == true)) {
             return;
         }
@@ -88,6 +85,26 @@ public class PlayerMovementManager : MonoBehaviourPun
             Vector3 movement = transform.forward * v + transform.right * h;
             movement.y += JumpHeight;
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
+
+            timer -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public void Displace(Vector3 direction, float distance, float speed) {
+        // TODO: Better animation system
+        if (isRooted) return;
+        animator.SetTrigger("Cast");
+        animator.SetInteger("CastType", 11);
+
+        StartCoroutine(DisplacementRoutine(direction, distance, speed));
+    }
+
+    IEnumerator DisplacementRoutine(Vector3 direction, float distance, float speed) {
+        float timer = distance / speed;
+        while (timer > 0f) {
+            Vector3 movement = transform.forward * direction.x + transform.right * direction.z + Vector3.up * direction.y;
+            characterController.Move(movement * Time.deltaTime * speed);
 
             timer -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
