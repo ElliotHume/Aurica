@@ -10,6 +10,7 @@ public class MovementEffect : MonoBehaviourPun {
     public Vector3 displacementDirection = Vector3.zero;
 
     public bool canHitSelf = false;
+    public bool isKnockback = false;
     public bool isContinuous = false;
 
 
@@ -20,30 +21,30 @@ public class MovementEffect : MonoBehaviourPun {
 
         PlayerManager pm = playerGO.GetComponent<PlayerManager>();
         if (pm != null) {
-            PhotonView pv = PhotonView.Get(pm);
-            Activate(pv);
+            if (isKnockback) displacementDirection = transform.forward;
+            Activate(pm);
         }
     }
 
     void OnCollisionEnter(Collision collision) {
         if (photonView.IsMine && !isCollided) {
-            if (collision.gameObject.tag == "Player" && collision.gameObject != PlayerManager.LocalPlayerInstance) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
-                    PhotonView pv = PhotonView.Get(pm);
-                    Activate(pv);
+                    if (isKnockback) displacementDirection = transform.forward;
+                    Activate(pm);
                 }
             }
         }
     }
 
     void OnTriggerEnter(Collider collision) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && isKnockback) {
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
-                    PhotonView pv = PhotonView.Get(pm);
-                    Activate(pv);
+                    if (isKnockback) displacementDirection = transform.forward;
+                    Activate(pm);
                 }
             }
         }
@@ -54,16 +55,17 @@ public class MovementEffect : MonoBehaviourPun {
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
-                    PhotonView pv = PhotonView.Get(pm);
-                    Activate(pv);
+                    if (isKnockback) displacementDirection = transform.forward;
+                    Activate(pm);
                 }
             }
         }
     }
 
-    void Activate(PhotonView pv) {
+    void Activate(PlayerManager pm) {
+        PhotonView pv = PhotonView.Get(pm);
         if (pv != null) {
-            pv.RPC("Displace", RpcTarget.All, displacementDirection, displacementDistance, displacementSpeed);
+            pv.RPC("Displace", RpcTarget.All, displacementDirection, displacementDistance, displacementSpeed, isKnockback);
         }
     }
 }

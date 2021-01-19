@@ -902,7 +902,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 3.5
+  near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -1365,7 +1365,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2080817510
 PrefabInstance:
@@ -1814,7 +1814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047682461476091340, guid: 4fd60b50476473b4ca1cb832d7579d48, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4047682461476091340, guid: 4fd60b50476473b4ca1cb832d7579d48, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2027,6 +2027,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2360278210837887441, guid: f682f505cd82a274b8920d1d1ec6fc01, type: 3}
+      propertyPath: toughDuration
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6053203369044158422, guid: f682f505cd82a274b8920d1d1ec6fc01, type: 3}
       propertyPath: viewIdField
       value: 7

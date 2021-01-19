@@ -59,25 +59,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Increase or decrease movement speed
     [HideInInspector]
     public bool slowed;
-    private float slowedDuration, slowedPercentage = 0f;
     [HideInInspector]
     public bool hastened;
-    private float hastenedDuration, hastenedPercentage = 0f;
 
     // Prevent all movement, including movement spells
     [HideInInspector]
     public bool rooted;
-    private float rootedDuration;
 
     // Prevent all spellcasts
     [HideInInspector]
     public bool silenced;
-    private float silencedDuration;
 
     // Prevent all actions
     [HideInInspector]
     public bool stunned;
-    private float stunnedDuration;
 
     // TODO: Lower or Raise Damage/Health of spells
     // [HideInInspector]
@@ -477,11 +472,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
-    // Displace - move the player along a local direction vector
+    // Displace - move the player along a local or worldspace direction vector
     [PunRPC]
-    void Displace(Vector3 direction, float distance, float speed) {
+    void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
         if (photonView.IsMine) {
-            movementManager.Displace(direction, distance, speed);
+            movementManager.Displace(direction, distance, speed, isWorldSpaceDirection);
         }
     }
 

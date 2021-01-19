@@ -10,8 +10,7 @@ public class PlayerMovementManager : MonoBehaviourPun {
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned, isBlocking;
-    private float gravityValue = -9.81f;
+    private bool isRooted, isStunned, isBlocking, isBeingDisplaced;
     private Vector3 playerVelocity;
 
     // Use this for initialization
@@ -49,10 +48,10 @@ public class PlayerMovementManager : MonoBehaviourPun {
         float v = Input.GetAxis("Vertical");
         bool running = Input.GetKey(KeyCode.LeftShift);
 
-        if (Input.GetButtonDown("Jump")) animator.SetTrigger("Jump");
+        if (Input.GetButtonDown("Jump") && !isRooted && !isBlocking && !isBeingDisplaced) animator.SetTrigger("Jump");
 
-        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isBlocking);
-        animator.SetBool("Running", running && !isRooted && !isBlocking);
+        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isBlocking && !isBeingDisplaced);
+        animator.SetBool("Running", running && !isRooted && !isBlocking && !isBeingDisplaced);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
 
@@ -91,24 +90,25 @@ public class PlayerMovementManager : MonoBehaviourPun {
         }
     }
 
-    public void Displace(Vector3 direction, float distance, float speed) {
-        // TODO: Better animation system
-        if (isRooted) return;
-        animator.SetTrigger("Cast");
-        animator.SetInteger("CastType", 11);
-
-        StartCoroutine(DisplacementRoutine(direction, distance, speed));
+    public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
+        // TODO: Animation system
+        if (isRooted || isBeingDisplaced) return;
+        StartCoroutine(DisplacementRoutine(direction, distance, speed, isWorldSpaceDirection));
     }
 
-    IEnumerator DisplacementRoutine(Vector3 direction, float distance, float speed) {
+    IEnumerator DisplacementRoutine(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
+        isBeingDisplaced = true;
         float timer = distance / speed;
         while (timer > 0f) {
-            Vector3 movement = transform.forward * direction.x + transform.right * direction.z + Vector3.up * direction.y;
+            Vector3 movement = !isWorldSpaceDirection
+                ? transform.forward * direction.x + transform.right * direction.z + Vector3.up * direction.y
+                : direction;
             characterController.Move(movement * Time.deltaTime * speed);
 
             timer -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+        isBeingDisplaced = false;
     }
 
     public void StartBlock() {

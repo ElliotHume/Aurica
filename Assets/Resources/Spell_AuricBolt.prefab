@@ -9658,14 +9658,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 8
+  Damage: 5
   ManaCost: 8
   ManaChannelCost: 40
   ManaDamageType: auric
   SpellEffectType: projectile
   Duration: 1
-  Speed: 20
-  RandomMoveRadius: 0.1
+  Speed: 25
+  RandomMoveRadius: 0.05
   RandomMoveSpeedScale: 10
   Target: {fileID: 0}
   HomingProjectile: 0
@@ -9709,7 +9709,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
 --- !u!114 &6829760452918032945
 MonoBehaviour:
   m_ObjectHideFlags: 0
