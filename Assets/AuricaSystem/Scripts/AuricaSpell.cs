@@ -11,6 +11,7 @@ public class AuricaSpell : ScriptableObject {
     public ManaDistribution targetDistribution;
     public List<AuricaSpellComponent> keyComponents;
     public float errorThreshold = 3.0f;
+    public bool isAuric = false;
 
 
     public bool CheckComponents(List<AuricaSpellComponent> components) {

@@ -349,12 +349,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7291542546626434425}
+  - component: {fileID: -6836792861171331488}
   - component: {fileID: 7294094434082692721}
   - component: {fileID: 7294094434082692720}
   - component: {fileID: 7294094434082692735}
   - component: {fileID: 7294094434082692734}
   - component: {fileID: 7294094434082692723}
-  - component: {fileID: -6836792861171331488}
   m_Layer: 0
   m_Name: XCollision_AngelWisp
   m_TagString: Spell
@@ -382,6 +382,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
+--- !u!114 &-6836792861171331488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7294094434082692733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
+  ManaCost: 30
+  auricaSpell: {fileID: 11400000, guid: 450c18c9bf5426f469145c2bf96f39a7, type: 2}
+  ManaChannelCost: 40
+  ManaDamageType: divine
+  SpellEffectType: debuff
+  Duration: 20
+  LastingDamage: 0
+  OneShotEffect: 0
+  LastingEffect: 1
+  DestroyTimeDelay: 20
+  DeactivateObjectsAfterDuration:
+  - {fileID: 7293937369645754519}
+  - {fileID: 7294760023881962751}
+  - {fileID: 7294702876037740003}
 --- !u!135 &7294094434082692721
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -484,32 +511,6 @@ MonoBehaviour:
   healFlatAmount: 0
   healPercentAmount: 0
   isContinuous: 1
---- !u!114 &-6836792861171331488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7294094434082692733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: 0
-  ManaCost: 30
-  ManaChannelCost: 40
-  ManaDamageType: divine
-  SpellEffectType: debuff
-  Duration: 20
-  LastingDamage: 0
-  OneShotEffect: 0
-  LastingEffect: 1
-  DestroyTimeDelay: 20
-  DeactivateObjectsAfterDuration:
-  - {fileID: 7293937369645754519}
-  - {fileID: 7294760023881962751}
-  - {fileID: 7294702876037740003}
 --- !u!1 &7294145936449440123
 GameObject:
   m_ObjectHideFlags: 0
