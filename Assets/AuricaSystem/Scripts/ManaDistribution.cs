@@ -19,6 +19,16 @@ public struct ManaDistribution {
         nature = float.Parse(splitDist[6]);
     }
 
+    public ManaDistribution(float _structure, float _essence, float _fire, float _water, float _earth, float _air, float _nature) {
+        structure = _structure;
+        essence = _essence;
+        fire = _fire;
+        water = _water;
+        earth = _earth;
+        air = _air;
+        nature = _nature;
+    }
+
     public string GetJson() {
         return JsonUtility.ToJson(this);
     }
@@ -42,6 +52,12 @@ public struct ManaDistribution {
     public float GetAggregate() {
         return Mathf.Abs(structure) + Mathf.Abs(essence) + fire + water + earth + air + Mathf.Abs(nature);
     }
+
+    public static ManaDistribution operator +(ManaDistribution a, ManaDistribution b)
+        => new ManaDistribution(a.structure + b.structure, a.essence + b.essence, a.fire + b.fire, a.water + b.water, a.earth + b.earth, a.air + b.air, a.nature + b.nature);
+
+    public static ManaDistribution operator *(ManaDistribution a, ManaDistribution b)
+        => new ManaDistribution(a.structure * b.structure, a.essence * b.essence, a.fire * b.fire, a.water * b.water, a.earth * b.earth, a.air * b.air, a.nature * b.nature);
 
     public List<float> GetAsPercentages() {
         List<float> percents = new List<float>();
@@ -135,6 +151,13 @@ public struct ManaDistribution {
         } else if (air < midpoint) {
             air += (midpoint - air) * fluxDist.air;
         }
+    }
+
+    public void ClampElementalValues() {
+        if (fire < 0f) fire = 0f;
+        if (water < 0f) water = 0f;
+        if (earth < 0f) earth = 0f;
+        if (air < 0f) air = 0f;
     }
 
     public float GetElementalAverage() {

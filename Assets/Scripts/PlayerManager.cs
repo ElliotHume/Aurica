@@ -241,7 +241,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
         Health -= aura.GetDamage(damage, spellDistribution);
-        Debug.Log("Take Damage --  pre-resistance: "+damage+"    post-resistance: "+aura.GetDamage(damage, spellDistribution));
+        Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution));
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, string damageType, float duration, ManaDistribution spellDistribution) {
@@ -295,6 +295,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (!isChannelling) StartChannelForceShield();
         } else {
             if (isChannelling && currentChannelledSpell == "Spell_ForceShield") StopBlocking();
+        }
+    }
+
+    public void SetMaxMana(float newMax) {
+        if (photonView.IsMine) {
+            maxMana = newMax;
+            Mana = newMax;
+            manaBar.SetMaxHealth(maxMana);
+
+            Debug.Log("New Max mana: " + maxMana + " " + Mana);
         }
     }
 

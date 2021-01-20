@@ -12,6 +12,7 @@ public class AuricaSpell : ScriptableObject {
     public List<AuricaSpellComponent> keyComponents;
     public float errorThreshold = 3.0f;
     public bool isAuric = false;
+    public string linkedSpellResource = null;
 
 
     public bool CheckComponents(List<AuricaSpellComponent> components) {
@@ -25,5 +26,9 @@ public class AuricaSpell : ScriptableObject {
         List<int> sortedList = indexList;
         sortedList.Sort();
         return sortedList.SequenceEqual(indexList) && indexList.Count == keyComponents.Count;
+    }
+
+    public float GetError(ManaDistribution targetDist) {
+        return targetDistribution.CheckDistError(targetDist);
     }
 }
