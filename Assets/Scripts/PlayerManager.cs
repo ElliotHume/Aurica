@@ -289,6 +289,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown("t")) {
             auricaCaster.AddComponent("basis");
+        } else if (Input.GetKeyDown("y")) {
+            auricaCaster.AddComponent("infernum");
+        } else if (Input.GetKeyDown("u")) {
+            auricaCaster.AddComponent("throw");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            CastAuricaSpell(auricaCaster.Cast());
         }
 
         if (Input.GetKey("e")) {
@@ -339,6 +347,48 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void StopBlocking() {
         movementManager.StopBlock();
         ChannelSpell(false);
+    }
+
+    void CastAuricaSpell(AuricaSpell spell) {
+        if (!photonView.IsMine) return;
+        Debug.Log("Spell Match: " + spell.c_name);
+        // Load spell resource
+        GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
+        Spell foundSpell = dataObject.GetComponent<Spell>();
+
+        // Change the casting anchor (where the spell spawns from)
+        switch (foundSpell.CastingAnchor) {
+            case "transform":
+                currentCastingTransform = transform;
+                break;
+            case "top":
+                currentCastingTransform = topCastingAnchor;
+                break;
+            default:
+                currentCastingTransform = frontCastingAnchor;
+                break;
+        }
+
+        // Turn the casting anchor in the direction we want the spell to face
+        if (foundSpell.TurnToAimPoint) {
+            TurnCastingAnchorDirectionToAimPoint();
+        } else {
+            ResetCastingAnchorDirection();
+        }
+
+        if (foundSpell.IsSelfTargeted) currentSpellIsSelfTargeted = true;
+        if (foundSpell.IsOpponentTargeted) currentSpellIsOpponentTargeted = true;
+
+        // Set the spell to cast, and start the animation
+        if (!foundSpell.IsChannel) {
+            currentSpellCast = spell.linkedSpellResource;
+            movementManager.PlayCastingAnimation(foundSpell.CastAnimationType);
+        } else {
+            // If the spell is channelled, channel it immediately
+            currentChannelledSpell = spell.linkedSpellResource;
+            ChannelSpell();
+            movementManager.StartBlock();
+        }
     }
 
     void CastSpell() {

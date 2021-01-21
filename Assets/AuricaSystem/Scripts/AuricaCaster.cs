@@ -61,7 +61,9 @@ public class AuricaCaster : MonoBehaviour {
     public AuricaSpell Cast() {
         float bestMatchError = 999f;
         foreach (AuricaSpell s in allSpells) {
+            Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(currentComponents) + "     Error:  " + s.GetError(currentDistribution));
             if (s.CheckComponents(currentComponents) && s.GetError(currentDistribution) <= s.errorThreshold && s.GetError(currentDistribution) < bestMatchError) {
+                Debug.Log("SPELL MATCH: " + s.c_name);
                 spellMatch = s;
             }
         }

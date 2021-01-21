@@ -40,7 +40,7 @@ public class AuricaSpellComponentEditor : Editor {
 
         component.hasBasicDistribution = EditorGUILayout.Toggle("Basic distribution", component.hasBasicDistribution);
         if (component.hasBasicDistribution) {
-            Rect r = EditorGUILayout.BeginVertical("Basic Distribution");
+            Rect r = EditorGUILayout.BeginVertical();
             component.basicDistribution.structure = EditorGUILayout.DelayedFloatField("Structure", component.basicDistribution.structure);
             component.basicDistribution.essence = EditorGUILayout.DelayedFloatField("Essence", component.basicDistribution.essence);
             component.basicDistribution.fire = EditorGUILayout.DelayedFloatField("Fire", component.basicDistribution.fire);
@@ -56,7 +56,7 @@ public class AuricaSpellComponentEditor : Editor {
 
         component.hasAuricDistribution = EditorGUILayout.Toggle("Auric distribution", component.hasAuricDistribution);
         if (component.hasAuricDistribution) {
-            Rect r = EditorGUILayout.BeginVertical("Auric Distribution");
+            Rect r = EditorGUILayout.BeginVertical();
             component.auricDistribution.structure = EditorGUILayout.DelayedFloatField("Structure", component.auricDistribution.structure);
             component.auricDistribution.essence = EditorGUILayout.DelayedFloatField("Essence", component.auricDistribution.essence);
             component.auricDistribution.fire = EditorGUILayout.DelayedFloatField("Fire", component.auricDistribution.fire);
@@ -72,7 +72,7 @@ public class AuricaSpellComponentEditor : Editor {
 
         component.hasFluxDistribution = EditorGUILayout.Toggle("Flux distribution", component.hasFluxDistribution);
         if (component.hasFluxDistribution) {
-            Rect r = EditorGUILayout.BeginVertical("Flux Distribution");
+            Rect r = EditorGUILayout.BeginVertical();
             component.fluxDistribution.structure = EditorGUILayout.DelayedFloatField("Structure", component.fluxDistribution.structure);
             component.fluxDistribution.essence = EditorGUILayout.DelayedFloatField("Essence", component.fluxDistribution.essence);
             component.fluxDistribution.fire = EditorGUILayout.DelayedFloatField("Fire", component.fluxDistribution.fire);
@@ -116,14 +116,17 @@ public class AuricaSpellComponentEditor : Editor {
                         component.hasBasicDistribution = true;
                         component.basicDistribution = new ManaDistribution(item);
                         Debug.Log("Basic dist: " + component.basicDistribution.ToString());
+                        if (component.basicDistribution.IsEmpty()) component.hasBasicDistribution = false;
                     } else if (iter == 1) {
                         component.hasAuricDistribution = true;
                         component.auricDistribution = new ManaDistribution(item);
                         Debug.Log("Auric dist: " + component.auricDistribution.ToString());
+                        if (component.auricDistribution.IsEmpty()) component.hasAuricDistribution = false;
                     } else if (iter == 2) {
                         component.hasFluxDistribution = true;
                         component.fluxDistribution = new ManaDistribution(item);
                         Debug.Log("Flux dist: " + component.fluxDistribution.ToString());
+                        if (component.fluxDistribution.IsEmpty()) component.hasFluxDistribution = false;
                     }
                     iter += 1;
                 }

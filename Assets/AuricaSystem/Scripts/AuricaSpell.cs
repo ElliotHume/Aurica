@@ -12,13 +12,22 @@ public class AuricaSpell : ScriptableObject {
     public List<AuricaSpellComponent> keyComponents;
     public float errorThreshold = 3.0f;
     public bool isAuric = false;
-    public string linkedSpellResource = null;
+    public string linkedSpellResource = "";
 
 
     public bool CheckComponents(List<AuricaSpellComponent> components) {
         List<int> indexList = new List<int>();
-        foreach (AuricaSpellComponent keyComp in keyComponents) {
-            int ind = components.IndexOf(keyComp);
+        List<string> componentNames = new List<string>();
+        List<string> keyComponentNames = new List<string>();
+        foreach (var item in components) {
+            componentNames.Add(item.c_name);
+        }
+        foreach (var item in keyComponents) {
+            keyComponentNames.Add(item.c_name);
+        }
+
+        foreach (string keyComp in keyComponentNames) {
+            int ind = componentNames.IndexOf(keyComp);
             if (ind == -1) return false;
             indexList.Add(ind);
         }
@@ -30,5 +39,12 @@ public class AuricaSpell : ScriptableObject {
 
     public float GetError(ManaDistribution targetDist) {
         return targetDistribution.CheckDistError(targetDist);
+    }
+
+    public static bool operator ==(AuricaSpell a, AuricaSpell b) {
+        return a.c_name == b.c_name;
+    }
+    public static bool operator !=(AuricaSpell a, AuricaSpell b) {
+        return a.c_name != b.c_name;
     }
 }

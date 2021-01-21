@@ -34,7 +34,7 @@ public struct ManaDistribution {
     }
 
     public override string ToString() {
-        return ""+structure + ", " + essence + ", " + fire + ", " + water + ", " + earth + ", " + air + ", " + nature;
+        return "" + structure + ", " + essence + ", " + fire + ", " + water + ", " + earth + ", " + air + ", " + nature;
     }
 
     public List<float> ToList() {
@@ -51,6 +51,10 @@ public struct ManaDistribution {
 
     public float GetAggregate() {
         return Mathf.Abs(structure) + Mathf.Abs(essence) + fire + water + earth + air + Mathf.Abs(nature);
+    }
+
+    public bool IsEmpty() {
+        return structure == 0f && essence == 0f && fire == 0f && water == 0f && earth == 0f && air == 0f && nature == 0f;
     }
 
     public static ManaDistribution operator +(ManaDistribution a, ManaDistribution b)

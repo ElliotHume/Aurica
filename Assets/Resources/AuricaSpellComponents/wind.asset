@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2b308b79762475c9d6cbdbcea392df, type: 3}
+  m_Name: wind
+  m_EditorClassIdentifier: 
+  c_name: wind
+  description: Minor glyph of air, increase the air mana in the spell using a small
+    amount of mana gathered from your surroundings
+  hasBasicDistribution: 1
+  hasAuricDistribution: 0
+  hasFluxDistribution: 0
+  basicDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0.1
+    nature: 0
+  auricDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0.5
+  fluxDistribution:
+    structure: -0.2
+    essence: -0.2
+    fire: -0.1
+    water: -0.1
+    earth: -0.1
+    air: -0.1
+    nature: -0.2

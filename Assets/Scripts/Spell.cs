@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Spell : MonoBehaviourPun
-{
+public class Spell : MonoBehaviourPun {
     // How much damage the spell does
     public float Damage = 10f;
 
@@ -25,4 +24,14 @@ public class Spell : MonoBehaviourPun
 
     // Duration of the spell, used for DoT, AoE, etc..
     public float Duration = 1f;
+
+    // What animation to play for the spell (if any)
+    public int CastAnimationType = 1;
+
+    // Which casting anchor to spawn the spell from
+    public string CastingAnchor = "front";
+
+    public bool TurnToAimPoint = true;
+
+    public bool IsChannel = false, IsSelfTargeted = false, IsOpponentTargeted = false;
 }
