@@ -53,6 +53,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Spell cachedSpellComponent;
     private CharacterUI characterUI;
     private Aura aura;
+    private AuricaCaster auricaCaster;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -156,6 +157,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
 
         aura = GetComponent<Aura>();
+        auricaCaster = GetComponent<AuricaCaster>();
 
         // Get movement manager
         movementManager = GetComponent<PlayerMovementManager>();
@@ -283,6 +285,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             StartCastEarthBound();
         } else if (Input.GetKeyDown("0")) {
             StartCastMinorHeal();
+        }
+
+        if (Input.GetKeyDown("t")) {
+            auricaCaster.AddComponent("basis");
         }
 
         if (Input.GetKey("e")) {

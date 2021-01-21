@@ -17,12 +17,17 @@ public class AuricaCaster : MonoBehaviour {
     private ManaDistribution currentDistribution;
     private AuricaSpell spellMatch;
     private float currentManaCost;
+    private ComponentUIPanel cpUI;
+    private DistributionUIDisplay distDisplay;
 
     // Start is called before the first frame update
     void Start() {
         allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
+        currentComponents = new List<AuricaSpellComponent>();
 
+        cpUI = GameObject.Find("ComponentPanel").GetComponent<ComponentUIPanel>();
+        distDisplay = GameObject.Find("LocalDistributionDisplay").GetComponent<DistributionUIDisplay>();
         if (aura == null) aura = GetComponent<Aura>();
     }
 
@@ -47,7 +52,10 @@ public class AuricaCaster : MonoBehaviour {
         currentDistribution = newComponent.CalculateDistributionChange(currentDistribution, aura.GetAura());
 
         Debug.Log("Added component: " + newComponent.c_name + "    Current Mana Cost: " + currentManaCost);
-        Debug.Log("Old Distribution: " + oldMd.ToList() + "    New Distribution: " + currentDistribution.ToString());
+        Debug.Log("Old Distribution: " + oldMd.ToString() + "    New Distribution: " + currentDistribution.ToString());
+
+        if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
+        if (cpUI != null) cpUI.AddComponent(newComponent);
     }
 
     public AuricaSpell Cast() {

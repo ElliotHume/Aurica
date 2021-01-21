@@ -34,7 +34,7 @@ public struct ManaDistribution {
     }
 
     public override string ToString() {
-        return "[" + structure + ", " + essence + ", " + fire + ", " + water + ", " + earth + ", " + air + ", " + nature + "]";
+        return ""+structure + ", " + essence + ", " + fire + ", " + water + ", " + earth + ", " + air + ", " + nature;
     }
 
     public List<float> ToList() {
