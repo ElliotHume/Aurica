@@ -162,22 +162,21 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Get movement manager
         movementManager = GetComponent<PlayerMovementManager>();
 
-        spellCraftingDisplay = GameObject.Find("SpellCraftingPanel");
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
     }
 
     void Awake() {
+        // #Critical
+        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
+        DontDestroyOnLoad(this.gameObject);
+
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerManager.LocalPlayerInstance = this.gameObject;
-            spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>().SendAura(aura.GetAura());
         }
-        // #Critical
-        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-        DontDestroyOnLoad(this.gameObject);
     }
 
     void Update() {
@@ -326,6 +325,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             Debug.Log("New Max mana: " + maxMana + " " + Mana);
         }
+    }
+
+    public void ConfirmAura() {
+        spellCraftingDisplay = GameObject.Find("SpellCraftingPanel");
+        var gc = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
+        if (gc != null) gc.SendAura(aura.GetAura());
     }
 
     void TurnCastingAnchorDirectionToAimPoint() {

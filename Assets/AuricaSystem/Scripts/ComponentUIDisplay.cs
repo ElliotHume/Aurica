@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ComponentUIDisplay : MonoBehaviour
-{
+public class ComponentUIDisplay : MonoBehaviour {
     public Text Title, Description;
     public GameObject BasicDistDisplayGO, AuricDistDisplayGO, FluxDistDisplayGO;
-    public DistributionUIDisplay BasicDistDisplay, AuricDistDisplay, FluxDistDisplay;
-
+    public DistributionUIDisplay BasicDistDisplay, AuricDistDisplay;
+    public DistributionUIDisplayValues FluxDistDisplay;
+    public AuricaSpellComponent component;
+    
     private ManaDistribution aura;
 
     public void SendAura(ManaDistribution a) {
         aura = a;
+        Debug.Log("AURA recieved: " + a.ToString());
     }
 
-    public void UpdateComponent(AuricaSpellComponent component) {
+    public void UpdateComponent(AuricaSpellComponent c) {
+        component = c;
         Title.text = component.c_name;
         Description.text = component.description;
 
@@ -32,7 +35,7 @@ public class ComponentUIDisplay : MonoBehaviour
         } else {
             AuricDistDisplayGO.SetActive(false);
         }
-        
+
         if (component.hasFluxDistribution) {
             FluxDistDisplayGO.SetActive(true);
             FluxDistDisplay.SetDistribution(component.fluxDistribution);

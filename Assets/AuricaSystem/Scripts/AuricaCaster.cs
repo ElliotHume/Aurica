@@ -4,9 +4,10 @@ using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 
-public class AuricaCaster : MonoBehaviour {
+public class AuricaCaster : MonoBehaviourPun {
 
     public Aura aura;
+    public static AuricaCaster LocalCaster;
 
     // Lists of all components and spells
     private AuricaSpellComponent[] allComponents;
@@ -29,6 +30,10 @@ public class AuricaCaster : MonoBehaviour {
         cpUI = GameObject.Find("ComponentPanel").GetComponent<ComponentUIPanel>();
         distDisplay = GameObject.Find("LocalDistributionDisplay").GetComponent<DistributionUIDisplay>();
         if (aura == null) aura = GetComponent<Aura>();
+    }
+
+    void Awake() {
+        if (photonView.IsMine) AuricaCaster.LocalCaster = this;
     }
 
     public void AddComponent(string componentName) {
@@ -59,11 +64,14 @@ public class AuricaCaster : MonoBehaviour {
     }
 
     public AuricaSpell Cast() {
+        return GetSpellMatch(currentComponents, currentDistribution);
+    }
+
+    public AuricaSpell GetSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
         float bestMatchError = 999f;
         foreach (AuricaSpell s in allSpells) {
-            Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(currentComponents) + "     Error:  " + s.GetError(currentDistribution));
-            if (s.CheckComponents(currentComponents) && s.GetError(currentDistribution) <= s.errorThreshold && s.GetError(currentDistribution) < bestMatchError) {
-                Debug.Log("SPELL MATCH: " + s.c_name);
+            Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(distribution));
+            if (s.CheckComponents(components) && s.GetError(distribution) <= s.errorThreshold && s.GetError(distribution) < bestMatchError) {
                 spellMatch = s;
             }
         }

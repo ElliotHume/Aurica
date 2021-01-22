@@ -24,6 +24,7 @@ public class Aura : MonoBehaviourPun {
 
         Debug.Log("AURA:  " + AuraDistribution.ToString());
         player.SetMaxMana(AuraDistribution.GetAggregate() * 100f);
+        player.ConfirmAura();
 
         // GetDamage(200f, new ManaDistribution("1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0"));
     }
