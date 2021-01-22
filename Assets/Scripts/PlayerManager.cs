@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
     private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false;
-    private GameObject channelledSpell;
+    private GameObject channelledSpell, spellCraftingDisplay;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
     private Crosshair crosshair;
@@ -162,6 +162,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Get movement manager
         movementManager = GetComponent<PlayerMovementManager>();
 
+        spellCraftingDisplay = GameObject.Find("SpellCraftingPanel");
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
@@ -172,6 +173,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerManager.LocalPlayerInstance = this.gameObject;
+            spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>().SendAura(aura.GetAura());
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
@@ -297,6 +299,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             CastAuricaSpell(auricaCaster.Cast());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
         }
 
         if (Input.GetKey("e")) {

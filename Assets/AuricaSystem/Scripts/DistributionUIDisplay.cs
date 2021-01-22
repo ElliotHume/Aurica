@@ -32,14 +32,14 @@ public class DistributionUIDisplay : MonoBehaviour
 
     public void SetDistribution(ManaDistribution mana) {
         order.SetHealth(mana.structure > 0f ? mana.structure : 0f);
-        chaos.SetHealth(mana.structure < 0f ? mana.structure : 0f);
+        chaos.SetHealth(mana.structure < 0f ? -mana.structure : 0f);
         life.SetHealth(mana.essence > 0f ? mana.essence : 0f);
-        death.SetHealth(mana.essence < 0f ? mana.essence : 0f);
+        death.SetHealth(mana.essence < 0f ? -mana.essence : 0f);
         fire.SetHealth(mana.fire);
         water.SetHealth(mana.water);
         earth.SetHealth(mana.earth);
         air.SetHealth(mana.air);
         divine.SetHealth(mana.nature > 0f ? mana.nature : 0f);
-        demonic.SetHealth(mana.nature < 0f ? mana.nature : 0f);
+        demonic.SetHealth(mana.nature < 0f ? -mana.nature : 0f);
     }
 }
