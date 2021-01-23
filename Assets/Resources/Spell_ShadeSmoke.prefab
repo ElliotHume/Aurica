@@ -9135,11 +9135,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 20
   ManaCost: 20
-  auricaSpell: {fileID: 11400000, guid: 4b710971ac0e32246a673f080fd48f75, type: 2}
+  auricaSpell: {fileID: 0}
   ManaChannelCost: 40
   ManaDamageType: death
   SpellEffectType: dotprojectile
   Duration: 5
+  CastAnimationType: 1
+  CastingAnchor: front
+  TurnToAimPoint: 1
+  IsChannel: 0
+  IsSelfTargeted: 0
+  IsOpponentTargeted: 0
   Speed: 7
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 10

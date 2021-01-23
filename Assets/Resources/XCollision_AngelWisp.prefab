@@ -396,11 +396,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 0
   ManaCost: 30
-  auricaSpell: {fileID: 11400000, guid: 450c18c9bf5426f469145c2bf96f39a7, type: 2}
+  auricaSpell: {fileID: 0}
   ManaChannelCost: 40
   ManaDamageType: divine
   SpellEffectType: debuff
   Duration: 20
+  CastAnimationType: 1
+  CastingAnchor: front
+  TurnToAimPoint: 1
+  IsChannel: 0
+  IsSelfTargeted: 0
+  IsOpponentTargeted: 0
   LastingDamage: 0
   OneShotEffect: 0
   LastingEffect: 1

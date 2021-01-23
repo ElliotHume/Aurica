@@ -69,6 +69,12 @@ public class SpellUIDisplay : MonoBehaviour {
 
     public void Discard(){
         AuricaCaster.LocalCaster.ResetCast();
+        ClearSpell();
+    }
+
+    public void ClearSpell() {
+        componentUIList.ResetList();
+        componentUIList.WipeList();
         HideSpell();
     }
 }

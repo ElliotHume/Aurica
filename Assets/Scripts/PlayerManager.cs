@@ -267,49 +267,54 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void ProcessInputs() {
         if (silenced || stunned) return;
 
-        if (Input.GetKeyDown("1")) {
-            StartCastFireball();
-        } else if (Input.GetKeyDown("2")) {
-            StartCastShadeSmoke();
-        } else if (Input.GetKeyDown("3")) {
-            StartCastArcaneThrow();
-        } else if (Input.GetKeyDown("4")) {
-            StartCastCondense();
-        } else if (Input.GetKeyDown("5")) {
-            StartCastAngelWisp();
-        } else if (Input.GetKeyDown("6")) {
-            StartCastSoulStrike();
-        } else if (Input.GetKeyDown("7")) {
-            StartCastAuricBolt();
-        } else if (Input.GetKeyDown("8")) {
-            StartCastEmberSphere();
-        } else if (Input.GetKeyDown("9")) {
-            StartCastEarthBound();
-        } else if (Input.GetKeyDown("0")) {
-            StartCastMinorHeal();
-        }
-
         if (Input.GetKeyDown("t")) {
             auricaCaster.AddComponent("basis");
         } else if (Input.GetKeyDown("y")) {
             auricaCaster.AddComponent("infernum");
         } else if (Input.GetKeyDown("u")) {
-            auricaCaster.AddComponent("throw");
+            auricaCaster.AddComponent("bolt");
+        } else if (Input.GetKeyDown("0")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("0"));
+        } else if (Input.GetKeyDown("1")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("1"));
+        } else if (Input.GetKeyDown("2")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("2"));
+        } else if (Input.GetKeyDown("3")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("3"));
+        } else if (Input.GetKeyDown("4")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("4"));
+        } else if (Input.GetKeyDown("5")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("5"));
+        } else if (Input.GetKeyDown("6")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("6"));
+        } else if (Input.GetKeyDown("7")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("7"));
+        } else if (Input.GetKeyDown("8")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("8"));
+        } else if (Input.GetKeyDown("9")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("9"));
+        } else if (Input.GetKeyDown("e")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("e"));
         }
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
-            CastAuricaSpell(auricaCaster.Cast());
+            if (!isChannelling) {
+                CastAuricaSpell(auricaCaster.Cast());
+            } else {
+                StopBlocking();
+                auricaCaster.ResetCast();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
         }
 
-        if (Input.GetKey("e")) {
-            if (!isChannelling) StartChannelAuricBarrier();
-        } else {
-            if (isChannelling && currentChannelledSpell == "Spell_AuricBarrier") StopBlocking();
-        }
+        // if (Input.GetKey("e")) {
+        //     if (!isChannelling) StartChannelAuricBarrier();
+        // } else {
+        //     if (isChannelling && currentChannelledSpell == "Spell_AuricBarrier") StopBlocking();
+        // }
 
         if (Input.GetKey("q")) {
             if (!isChannelling) StartChannelForceShield();
@@ -402,6 +407,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ChannelSpell();
             movementManager.StartBlock();
         }
+
+        if(spellCraftingDisplay != null) {
+            SpellCraftingUIDisplay sp = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
+            if (sp != null) sp.ClearSpell();
+        }
     }
 
     void CastSpell() {
@@ -425,13 +435,28 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     }
                 }
                 isAuricaSpell = false;
+                currentAuricaSpell = null;
                 auricaCaster.ResetCast();
             } else {
                 GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
                 Debug.Log("Spell object grabbed: " + dataObject);
                 Spell foundSpell = dataObject.GetComponent<Spell>();
                 if (Mana - foundSpell.ManaCost > 0f) {
-                    
+                    GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
+                    Mana -= foundSpell.ManaCost;
+
+                    if (currentSpellIsSelfTargeted) {
+                        currentSpellIsSelfTargeted = false;
+                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                        if (ts != null) ts.SetTarget(gameObject);
+                    } else if (currentSpellIsOpponentTargeted) {
+                        currentSpellIsOpponentTargeted = false;
+                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                        GameObject target = GetPlayerWithinAimTolerance(3f);
+                        if (ts != null && target != null) {
+                            ts.SetTarget(target);
+                        }
+                    }
                 }
             }
             

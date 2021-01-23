@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed2b308b79762475c9d6cbdbcea392df, type: 3}
-  m_Name: throw
+  m_Name: protect
   m_EditorClassIdentifier: 
-  c_name: throw
-  description: Holds the spell together as it is held and thrown
+  c_name: protect
+  description: The spell will defend a mana source from incoming mana influence
   hasBasicDistribution: 1
   hasAuricDistribution: 1
-  hasFluxDistribution: 1
+  hasFluxDistribution: 0
   basicDistribution:
-    structure: 0.1
-    essence: 0
+    structure: 0
+    essence: 0.1
     fire: 0
     water: 0
-    earth: 0.1
-    air: 0.1
+    earth: 0
+    air: 0
     nature: 0
   auricDistribution:
-    structure: 0.2
-    essence: 0
+    structure: 0
+    essence: 0.3
     fire: 0
     water: 0
-    earth: 0.2
-    air: 0.1
+    earth: 0
+    air: 0.05
     nature: 0
   fluxDistribution:
     structure: 0

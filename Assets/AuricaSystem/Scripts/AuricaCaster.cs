@@ -8,6 +8,7 @@ public class AuricaCaster : MonoBehaviourPun {
 
     public Aura aura;
     public static AuricaCaster LocalCaster;
+    public Dictionary<string, CachedSpell> cachedSpells;
 
     // Lists of all components and spells
     private AuricaSpellComponent[] allComponents;
@@ -16,7 +17,6 @@ public class AuricaCaster : MonoBehaviourPun {
     // Runtime variables
     private List<AuricaSpellComponent> currentComponents;
     private ManaDistribution currentDistribution;
-    private AuricaSpell spellMatch;
     private float currentManaCost, spellStrength;
     private ComponentUIPanel cpUI;
     private DistributionUIDisplay distDisplay;
@@ -30,6 +30,20 @@ public class AuricaCaster : MonoBehaviourPun {
         cpUI = GameObject.Find("ComponentPanel").GetComponent<ComponentUIPanel>();
         distDisplay = GameObject.Find("LocalDistributionDisplay").GetComponent<DistributionUIDisplay>();
         if (aura == null) aura = GetComponent<Aura>();
+
+        currentDistribution = new ManaDistribution();
+        cachedSpells = new Dictionary<string, CachedSpell>();
+        cachedSpells.Add("1", new CachedSpell("infernum, bolt"));
+        cachedSpells.Add("2", new CachedSpell("mortuus, bolt"));
+        cachedSpells.Add("3", new CachedSpell("mana, bolt"));
+        cachedSpells.Add("4", new CachedSpell("ordo, bolt"));
+        cachedSpells.Add("5", new CachedSpell("demuus, bolt"));
+        cachedSpells.Add("6", new CachedSpell("terrak, contain, curse"));
+        cachedSpells.Add("7", new CachedSpell("travel, control, terrak, other"));
+        cachedSpells.Add("8", new CachedSpell("throw, infernum, expel"));
+        cachedSpells.Add("9", new CachedSpell("collect, divinus, expel, curse"));
+        cachedSpells.Add("0", new CachedSpell("collect, vivus, self"));
+        cachedSpells.Add("e", new CachedSpell("protect, self"));
     }
 
     void Awake() {
@@ -69,6 +83,7 @@ public class AuricaCaster : MonoBehaviourPun {
 
     public AuricaSpell GetSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
         float bestMatchError = 999f;
+        AuricaSpell spellMatch = null;
         foreach (AuricaSpell s in allSpells) {
             //Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(distribution));
             if (s.CheckComponents(components) && s.GetError(distribution) <= s.errorThreshold && s.GetError(distribution) < bestMatchError) {
@@ -84,6 +99,19 @@ public class AuricaCaster : MonoBehaviourPun {
         currentComponents.Clear();
         currentManaCost = 0f;
         currentDistribution = new ManaDistribution();
+        if (cpUI != null) cpUI.HideAllComponents();
+        if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
+    }
+
+    public AuricaSpell CastBindSlot(string slot) {
+        if(cachedSpells.ContainsKey(slot)) {
+            ResetCast();
+            CachedSpell cachedSpell = cachedSpells[slot];
+            cachedSpell.AddComponents(this);
+            return Cast();
+        }
+
+        return GetSpellMatch(new List<AuricaSpellComponent>(), new ManaDistribution());
     }
 
     public float GetManaCost() {

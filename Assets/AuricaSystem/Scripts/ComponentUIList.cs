@@ -43,6 +43,10 @@ public class ComponentUIList : MonoBehaviour
         }
     }
 
+    public void ResetList() {
+        if (!isListOfAll) componentList.Clear();
+    }
+
     public void AddComponent(AuricaSpellComponent newComponent) {
         componentList.Add(newComponent);
         WipeList();

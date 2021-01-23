@@ -6,6 +6,7 @@ public class SpellCraftingUIDisplay : MonoBehaviour
 {
     public ManaDistribution aura;
     public ComponentUIDisplay componentUIDisplay;
+    public SpellUIDisplay spellUIDisplay;
 
     public void SendAura(ManaDistribution a) {
         aura = a;
@@ -14,5 +15,10 @@ public class SpellCraftingUIDisplay : MonoBehaviour
 
     public ManaDistribution GetAura() {
         return aura;
+    }
+
+    public void ClearSpell() {
+        componentUIDisplay.Hide();
+        spellUIDisplay.ClearSpell();
     }
 }

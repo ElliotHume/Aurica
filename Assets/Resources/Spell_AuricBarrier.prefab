@@ -24201,7 +24201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   ManaCost: 15
-  auricaSpell: {fileID: 11400000, guid: 70bafa7007ce19b4b955eaba688395da, type: 2}
+  auricaSpell: {fileID: 0}
   ManaChannelCost: 8
   ManaDamageType: 
   SpellEffectType: barrier
@@ -24210,6 +24210,8 @@ MonoBehaviour:
   CastingAnchor: front
   TurnToAimPoint: 0
   IsChannel: 1
+  IsSelfTargeted: 0
+  IsOpponentTargeted: 0
 --- !u!1 &2143223253879503189
 GameObject:
   m_ObjectHideFlags: 0
