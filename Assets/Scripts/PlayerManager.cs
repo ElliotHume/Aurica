@@ -295,6 +295,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             CastAuricaSpell(auricaCaster.CastBindSlot("9"));
         } else if (Input.GetKeyDown("e")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("e"));
+        } else if (Input.GetKeyDown("q")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("q"));
         }
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
@@ -308,18 +310,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
-        }
-
-        // if (Input.GetKey("e")) {
-        //     if (!isChannelling) StartChannelAuricBarrier();
-        // } else {
-        //     if (isChannelling && currentChannelledSpell == "Spell_AuricBarrier") StopBlocking();
-        // }
-
-        if (Input.GetKey("q")) {
-            if (!isChannelling) StartChannelForceShield();
-        } else {
-            if (isChannelling && currentChannelledSpell == "Spell_ForceShield") StopBlocking();
         }
     }
 

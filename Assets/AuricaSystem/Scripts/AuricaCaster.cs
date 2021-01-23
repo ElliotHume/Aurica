@@ -44,6 +44,7 @@ public class AuricaCaster : MonoBehaviourPun {
         cachedSpells.Add("9", new CachedSpell("collect, divinus, expel, curse"));
         cachedSpells.Add("0", new CachedSpell("collect, vivus, self"));
         cachedSpells.Add("e", new CachedSpell("protect, self"));
+        cachedSpells.Add("q", new CachedSpell("self, protect, form"));
     }
 
     void Awake() {
@@ -112,6 +113,29 @@ public class AuricaCaster : MonoBehaviourPun {
         }
 
         return GetSpellMatch(new List<AuricaSpellComponent>(), new ManaDistribution());
+    }
+
+    public void CacheCurrentSpell(string key) {
+        string componentString = "";
+        foreach(AuricaSpellComponent c in currentComponents) {
+            componentString += c.c_name+", ";
+        }
+        componentString = componentString.Substring(0, componentString.Length-2);
+        Debug.Log("Caching spell: "+componentString);
+
+        if (cachedSpells.ContainsKey(key)) {
+            cachedSpells[key] = new CachedSpell(componentString);
+        } else {
+            cachedSpells.Add(key, new CachedSpell(componentString));
+        }
+
+        AuricaSpell match = Cast();
+        try {
+            BindingUIPanel.LocalInstance.SetBindText(key, match.c_name);
+        } catch {
+            Debug.Log("No spell found for binding...");
+            BindingUIPanel.LocalInstance.SetBindText(key, "NONE");
+        }
     }
 
     public float GetManaCost() {

@@ -77,4 +77,8 @@ public class SpellUIDisplay : MonoBehaviour {
         componentUIList.WipeList();
         HideSpell();
     }
+
+    public void CacheSpell(string key) {
+        AuricaCaster.LocalCaster.CacheCurrentSpell(key);
+    }
 }

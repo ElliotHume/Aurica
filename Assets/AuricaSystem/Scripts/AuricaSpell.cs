@@ -38,7 +38,7 @@ public class AuricaSpell : ScriptableObject {
     }
 
     public float GetError(ManaDistribution targetDist) {
-        return targetDistribution.CheckDistError(targetDist);
+        return !isAuric ? targetDistribution.CheckDistError(targetDist) : 0f;
     }
 
     public static bool operator ==(AuricaSpell a, AuricaSpell b) {
