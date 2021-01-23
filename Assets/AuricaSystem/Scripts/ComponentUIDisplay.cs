@@ -11,6 +11,11 @@ public class ComponentUIDisplay : MonoBehaviour {
     public AuricaSpellComponent component;
     
     private ManaDistribution aura;
+    private bool isHidden = true;
+
+    void Start() {
+        Hide();
+    }
 
     public void SendAura(ManaDistribution a) {
         aura = a;
@@ -42,5 +47,25 @@ public class ComponentUIDisplay : MonoBehaviour {
         } else {
             FluxDistDisplayGO.SetActive(false);
         }
+
+        if (isHidden) Show();
+    }
+
+    public void Hide() {
+        Title.gameObject.SetActive(false);
+        Description.gameObject.SetActive(false);
+        BasicDistDisplayGO.SetActive(false);
+        AuricDistDisplayGO.SetActive(false);
+        FluxDistDisplayGO.SetActive(false);
+        isHidden = true;
+    }
+
+    public void Show() {
+        Title.gameObject.SetActive(true);
+        Description.gameObject.SetActive(true);
+        BasicDistDisplayGO.SetActive(true);
+        AuricDistDisplayGO.SetActive(true);
+        FluxDistDisplayGO.SetActive(true);
+        isHidden = false;
     }
 }

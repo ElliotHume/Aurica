@@ -24,7 +24,7 @@ public class ComponentUIList : MonoBehaviour
         PopulateList();
     }
 
-    void PopulateList() {
+    public void PopulateList() {
         currentYPos = startYPos;
         rect.sizeDelta = new Vector2(150, 60 * componentList.Count);
         foreach (AuricaSpellComponent component in componentList) {
@@ -36,7 +36,7 @@ public class ComponentUIList : MonoBehaviour
         }
     }
 
-    void WipeList() {
+    public void WipeList() {
         currentYPos = startYPos;
         foreach (var item in instances){
             Destroy(item);

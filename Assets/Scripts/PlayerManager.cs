@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
-    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false;
+    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isAuricaSpell;
     private GameObject channelledSpell, spellCraftingDisplay;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
@@ -54,6 +54,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private CharacterUI characterUI;
     private Aura aura;
     private AuricaCaster auricaCaster;
+    private AuricaSpell currentAuricaSpell;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -363,6 +364,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void CastAuricaSpell(AuricaSpell spell) {
         if (!photonView.IsMine) return;
         Debug.Log("Spell Match: " + spell.c_name);
+        isAuricaSpell = true;
         // Load spell resource
         GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
         Spell foundSpell = dataObject.GetComponent<Spell>();
@@ -403,27 +405,36 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void CastSpell() {
-        if (photonView.IsMine && currentSpellCast != null && !silenced && !stunned) {
-            GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
-            Debug.Log("Spell object grabbed: " + dataObject);
-            Spell foundSpell = dataObject.GetComponent<Spell>();
-            if (Mana - foundSpell.ManaCost > 0f) {
-                GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
-                Mana -= foundSpell.ManaCost;
+        if (photonView.IsMine && !silenced && !stunned) {
+            if (isAuricaSpell) {
+                if (Mana - auricaCaster.GetManaCost() > 0f) {
+                    GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
+                    Mana -= auricaCaster.GetManaCost();
 
-                if (currentSpellIsSelfTargeted) {
-                    currentSpellIsSelfTargeted = false;
-                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                    if (ts != null) ts.SetTarget(gameObject);
-                } else if (currentSpellIsOpponentTargeted) {
-                    currentSpellIsOpponentTargeted = false;
-                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                    GameObject target = GetPlayerWithinAimTolerance(3f);
-                    if (ts != null && target != null) {
-                        ts.SetTarget(target);
+                    if (currentSpellIsSelfTargeted) {
+                        currentSpellIsSelfTargeted = false;
+                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                        if (ts != null) ts.SetTarget(gameObject);
+                    } else if (currentSpellIsOpponentTargeted) {
+                        currentSpellIsOpponentTargeted = false;
+                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                        GameObject target = GetPlayerWithinAimTolerance(3f);
+                        if (ts != null && target != null) {
+                            ts.SetTarget(target);
+                        }
                     }
                 }
+                isAuricaSpell = false;
+                auricaCaster.ResetCast();
+            } else {
+                GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
+                Debug.Log("Spell object grabbed: " + dataObject);
+                Spell foundSpell = dataObject.GetComponent<Spell>();
+                if (Mana - foundSpell.ManaCost > 0f) {
+                    
+                }
             }
+            
         }
         currentSpellCast = null;
     }

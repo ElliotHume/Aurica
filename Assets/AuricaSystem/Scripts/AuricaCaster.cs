@@ -17,7 +17,7 @@ public class AuricaCaster : MonoBehaviourPun {
     private List<AuricaSpellComponent> currentComponents;
     private ManaDistribution currentDistribution;
     private AuricaSpell spellMatch;
-    private float currentManaCost;
+    private float currentManaCost, spellStrength;
     private ComponentUIPanel cpUI;
     private DistributionUIDisplay distDisplay;
 
@@ -70,13 +70,36 @@ public class AuricaCaster : MonoBehaviourPun {
     public AuricaSpell GetSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
         float bestMatchError = 999f;
         foreach (AuricaSpell s in allSpells) {
-            Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(distribution));
+            //Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(distribution));
             if (s.CheckComponents(components) && s.GetError(distribution) <= s.errorThreshold && s.GetError(distribution) < bestMatchError) {
                 spellMatch = s;
+                spellStrength = (spellMatch.errorThreshold - s.GetError(distribution)) / spellMatch.errorThreshold + 0.3f;
             }
         }
 
         return spellMatch;
+    }
+
+    public void ResetCast() {
+        currentComponents.Clear();
+        currentManaCost = 0f;
+        currentDistribution = new ManaDistribution();
+    }
+
+    public float GetManaCost() {
+        return currentManaCost;
+    }
+
+    public float GetSpellStrength() {
+        return spellStrength;
+    }
+
+    public ManaDistribution GetCurrentDistribution() {
+        return currentDistribution;
+    }
+
+    public List<AuricaSpellComponent> GetCurrentComponents() {
+        return currentComponents;
     }
 
 }

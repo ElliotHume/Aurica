@@ -22,6 +22,6 @@ public class AuricaSpellComponent : ScriptableObject {
 
     public float GetManaCost(ManaDistribution aura) {
         if (!hasAuricDistribution) return 0;
-        return (auricDistribution * aura).GetAggregate();
+        return (auricDistribution * aura).GetAggregate() * 100f;
     }
 }

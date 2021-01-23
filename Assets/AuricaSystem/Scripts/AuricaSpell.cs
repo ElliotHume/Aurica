@@ -32,7 +32,7 @@ public class AuricaSpell : ScriptableObject {
             indexList.Add(ind);
         }
 
-        List<int> sortedList = indexList;
+        List<int> sortedList = new List<int>(indexList);
         sortedList.Sort();
         return sortedList.SequenceEqual(indexList) && indexList.Count == keyComponents.Count;
     }
