@@ -411,6 +411,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
                     Mana -= auricaCaster.GetManaCost();
 
+                    Spell spell = newSpell.GetComponent<Spell>();
+                    if (spell != null) spell.SetSpellStrength(auricaCaster.GetSpellStrength());
+
                     if (currentSpellIsSelfTargeted) {
                         currentSpellIsSelfTargeted = false;
                         TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();

@@ -66,6 +66,7 @@ public struct ManaDistribution {
     public List<float> GetAsPercentages() {
         List<float> percents = new List<float>();
         float aggregate = GetAggregate();
+        if (aggregate == 0f) return percents;
         percents.Add(Mathf.Abs(structure) / aggregate);
         percents.Add(Mathf.Abs(essence) / aggregate);
         percents.Add(fire / aggregate);

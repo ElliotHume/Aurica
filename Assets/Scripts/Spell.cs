@@ -34,4 +34,14 @@ public class Spell : MonoBehaviourPun {
     public bool TurnToAimPoint = true;
 
     public bool IsChannel = false, IsSelfTargeted = false, IsOpponentTargeted = false;
+
+    private float spellStrength = 1f;
+
+    public void SetSpellStrength(float newStrength) {
+        spellStrength = newStrength;
+    }
+
+    public float GetSpellStrength() {
+        return spellStrength;
+    }
 }
