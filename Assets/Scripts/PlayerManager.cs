@@ -297,7 +297,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             CastAuricaSpell(auricaCaster.CastBindSlot("e"));
         } else if (Input.GetKeyDown("q")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("q"));
+        } else if (Input.GetKeyDown("r")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("r"));
+        } else if (Input.GetKeyDown("z")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("z"));
+        } else if (Input.GetKeyDown("x")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("x"));
+        } else if (Input.GetKeyDown("c")) {
+            CastAuricaSpell(auricaCaster.CastBindSlot("c"));
         }
+
+
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             if (!isChannelling) {
@@ -464,10 +474,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 GameObject dataObject = Resources.Load<GameObject>(currentChannelledSpell);
                 Debug.Log("Spell object grabbed: " + dataObject);
                 Spell foundSpell = dataObject.GetComponent<Spell>();
-                if (Mana - foundSpell.ManaCost > 0f) {
+                if (Mana - auricaCaster.GetManaCost() > 0f) {
                     channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, currentCastingTransform.position, currentCastingTransform.rotation);
                     channelledSpell.transform.SetParent(gameObject.transform);
-                    Mana -= foundSpell.ManaCost;
+                    Mana -= auricaCaster.GetManaCost();
                 }
             } else if ((!start && isChannelling) || silenced || stunned) {
                 isChannelling = false;

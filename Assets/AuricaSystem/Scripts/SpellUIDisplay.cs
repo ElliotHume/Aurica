@@ -26,9 +26,13 @@ public class SpellUIDisplay : MonoBehaviour {
 
     public void CheckComponents() {
         spell = AuricaCaster.LocalCaster.Cast();
-        if (spell.c_name != null) {
-            PopulateFromSpell(spell);
-            if (isHidden) ShowSpell();
+        try {
+            if (spell.c_name != null) {
+                PopulateFromSpell(spell);
+                if (isHidden) ShowSpell();
+            }
+        } catch {
+            // do nothing, no spell match
         }
     }
 

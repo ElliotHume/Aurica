@@ -33,18 +33,20 @@ public class AuricaCaster : MonoBehaviourPun {
 
         currentDistribution = new ManaDistribution();
         cachedSpells = new Dictionary<string, CachedSpell>();
+        cachedSpells.Add("e", new CachedSpell("protect, self"));
+        cachedSpells.Add("q", new CachedSpell("self, protect, form"));
         cachedSpells.Add("1", new CachedSpell("infernum, bolt"));
         cachedSpells.Add("2", new CachedSpell("mortuus, bolt"));
         cachedSpells.Add("3", new CachedSpell("mana, bolt"));
+        cachedSpells.Add("r", new CachedSpell("throw, infernum, expel"));
+
+        // Extra binds for testing and stuff
         cachedSpells.Add("4", new CachedSpell("ordo, bolt"));
         cachedSpells.Add("5", new CachedSpell("demuus, bolt"));
-        cachedSpells.Add("6", new CachedSpell("terrak, contain, curse"));
-        cachedSpells.Add("7", new CachedSpell("travel, control, terrak, other"));
-        cachedSpells.Add("8", new CachedSpell("throw, infernum, expel"));
-        cachedSpells.Add("9", new CachedSpell("collect, divinus, expel, curse"));
-        cachedSpells.Add("0", new CachedSpell("collect, vivus, self"));
-        cachedSpells.Add("e", new CachedSpell("protect, self"));
-        cachedSpells.Add("q", new CachedSpell("self, protect, form"));
+        cachedSpells.Add("6", new CachedSpell("travel, control, terrak, other"));
+        cachedSpells.Add("z", new CachedSpell("collect, divinus, expel, curse"));
+        cachedSpells.Add("x", new CachedSpell("terrak, contain, curse"));
+        cachedSpells.Add("c", new CachedSpell("collect, vivus, self"));
     }
 
     void Awake() {
