@@ -41,7 +41,7 @@ public class AuricaCaster : MonoBehaviourPun {
         cachedSpells.Add("r", new CachedSpell("throw, infernum, expel"));
 
         // Extra binds for testing and stuff
-        cachedSpells.Add("4", new CachedSpell("ordo, bolt"));
+        cachedSpells.Add("4", new CachedSpell("aerai, travel, other"));
         cachedSpells.Add("5", new CachedSpell("demuus, bolt"));
         cachedSpells.Add("6", new CachedSpell("travel, control, terrak, other"));
         cachedSpells.Add("z", new CachedSpell("collect, divinus, expel, curse"));

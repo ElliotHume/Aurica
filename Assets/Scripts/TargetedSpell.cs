@@ -48,7 +48,7 @@ public class TargetedSpell : Spell {
         TargetPM = targetGO.GetComponent<PlayerManager>();
 
         transform.position = targetGO.transform.position + PositionOffset;
-        // transform.rotation = targetGO.transform.rotation;
+        transform.rotation = targetGO.transform.rotation;
 
         if (!hasActivated && OneShotEffect) {
             OneShot();

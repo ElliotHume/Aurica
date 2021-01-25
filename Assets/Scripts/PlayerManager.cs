@@ -334,6 +334,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void ConfirmAura() {
+        if (!photonView.IsMine) return;
         spellCraftingDisplay = GameObject.Find("SpellCraftingPanel");
         var gc = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
         if (gc != null) gc.SendAura(aura.GetAura());
@@ -353,12 +354,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     GameObject GetPlayerWithinAimTolerance(float tolerance) {
-        RaycastHit hit;
-        if (Physics.SphereCast(transform.position, tolerance, (transform.position - GetCrosshairAimPoint()), out hit, 1000, 1 << 3)) {
-            Debug.Log("HIT PLAYER!");
-            return hit.collider.gameObject;
-        }
-        return null;
+        return crosshair.GetPlayerHit(tolerance);
     }
 
     void StopBlocking() {
@@ -431,8 +427,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     } else if (currentSpellIsOpponentTargeted) {
                         currentSpellIsOpponentTargeted = false;
                         TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                        GameObject target = GetPlayerWithinAimTolerance(3f);
+                        GameObject target = GetPlayerWithinAimTolerance(10f);
                         if (ts != null && target != null) {
+                            Debug.Log("Target found: "+target);
                             ts.SetTarget(target);
                         }
                     }
@@ -455,7 +452,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     } else if (currentSpellIsOpponentTargeted) {
                         currentSpellIsOpponentTargeted = false;
                         TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                        GameObject target = GetPlayerWithinAimTolerance(3f);
+                        GameObject target = GetPlayerWithinAimTolerance(10f);
                         if (ts != null && target != null) {
                             ts.SetTarget(target);
                         }
