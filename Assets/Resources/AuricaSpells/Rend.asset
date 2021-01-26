@@ -10,23 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: SoulStrike
+  m_Name: Rend
   m_EditorClassIdentifier: 
-  c_name: Soul Strike
-  description: An easily directable spell that does high damage but will apply a
-    tough effect to the target for a short time
+  c_name: Rend
+  description: A projectile that will rend the defenses of what it hits, inflicting
+    a moderately-strong fragile effect
   targetDistribution:
-    structure: 0.1
-    essence: -0.2
+    structure: -0.3
+    essence: -0.15
     fire: 0
-    water: 0.1
+    water: 1
     earth: 0
     air: 0
-    nature: -1
+    nature: 0
   keyComponents:
-  - {fileID: 11400000, guid: 751db08e913374239a7d5ff6b0ba730e, type: 2}
-  - {fileID: 11400000, guid: 3b94403fe60b4433f8914e88089b077a, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
   - {fileID: 11400000, guid: d4e98e168819744fd8980d3b105e8577, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: b6bee5d7afca44e46a8def7f53f0441e, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
   errorThreshold: 3
   isAuric: 0
-  linkedSpellResource: Spell_SoulStrike
+  linkedSpellResource: Spell_Rend
