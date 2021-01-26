@@ -158,6 +158,25 @@ public struct ManaDistribution {
         }
     }
 
+    public void ApplySiphon(ManaDistribution siphonDist) {
+        // Find the minimum of the siphon and current distribution, so that you arent reducing mana by more than what exists
+        ManaDistribution siphon = new ManaDistribution(
+            siphonDist.structure >= 0f ? Mathf.Min(Mathf.Max(0f, structure), siphonDist.structure) : Mathf.Max(Mathf.Min(0f, structure), siphonDist.structure),
+            siphonDist.essence >= 0f ? Mathf.Min(Mathf.Max(0f, essence), siphonDist.essence) : Mathf.Max(Mathf.Min(0f, essence), siphonDist.essence),
+            Mathf.Min(fire, siphonDist.fire),
+            Mathf.Min(water, siphonDist.water),
+            Mathf.Min(earth, siphonDist.earth),
+            Mathf.Min(air, siphonDist.air),
+            siphonDist.nature >= 0f ? Mathf.Min(Mathf.Max(0f, nature), siphonDist.nature) : Mathf.Max(Mathf.Min(0f, nature), siphonDist.nature)
+        );
+        // Water, Earth and Divine add structure, Fire, Earth and Demonic reduce it
+        structure += (0.1f * siphon.water) + (0.1f * siphon.earth) - (0.1f * siphon.fire) - (0.1f * siphon.air) + (0.15f * siphon.nature) - siphon.structure;
+        // Water and Air add essence, Earth and Fire reduce it
+        essence += (0.05f * siphon.water) - (0.05f * siphon.earth) - (0.05f * siphon.fire) + (0.05f * siphon.air) - siphon.essence;
+        // Demonic 
+        fire += (0.1f * Mathf.Max(0f, -siphon.nature));
+    }
+
     public void ClampElementalValues() {
         if (fire < 0f) fire = 0f;
         if (water < 0f) water = 0f;

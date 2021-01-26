@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Douse
+  m_EditorClassIdentifier: 
+  c_name: Douse
+  description: Throw a large ball of water that will knockback those it hits
+  targetDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 1
+    earth: 0
+    air: 0
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
+  - {fileID: 11400000, guid: 3ac906ae1eff3405f84ba9a716ee2556, type: 2}
+  errorThreshold: 3
+  isAuric: 0
+  linkedSpellResource: Spell_Douse
