@@ -33,12 +33,19 @@ public class AuricaCaster : MonoBehaviourPun {
 
         currentDistribution = new ManaDistribution();
         cachedSpells = new Dictionary<string, CachedSpell>();
+        
+        if (PlayerPrefs.HasKey("CachedSpell_r")) {
+            cachedSpells.Add("r", new CachedSpell(PlayerPrefs.GetString("CachedSpell_r")));;
+        } else {
+            cachedSpells.Add("r", new CachedSpell("throw, infernum, expel"));
+        }
+
         cachedSpells.Add("e", new CachedSpell("protect, self"));
         cachedSpells.Add("q", new CachedSpell("self, protect, form"));
         cachedSpells.Add("1", new CachedSpell("infernum, bolt"));
         cachedSpells.Add("2", new CachedSpell("mortuus, bolt"));
         cachedSpells.Add("3", new CachedSpell("mana, bolt"));
-        cachedSpells.Add("r", new CachedSpell("throw, infernum, expel"));
+        
 
         // Extra binds for testing and stuff
         cachedSpells.Add("4", new CachedSpell("aerai, travel, other"));
