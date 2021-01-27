@@ -12,9 +12,11 @@ public class ComponentUIDisplay : MonoBehaviour {
     
     private ManaDistribution aura;
     private bool isHidden = true;
+    private AuricaSpellComponent[] allComponents;
 
     void Start() {
         Hide();
+        allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
     }
 
     public void SendAura(ManaDistribution a) {
@@ -23,6 +25,8 @@ public class ComponentUIDisplay : MonoBehaviour {
     }
 
     public void UpdateComponent(AuricaSpellComponent c) {
+        if (isHidden) Show();
+
         component = c;
         Title.text = component.c_name;
         Description.text = component.description;
@@ -47,8 +51,15 @@ public class ComponentUIDisplay : MonoBehaviour {
         } else {
             FluxDistDisplayGO.SetActive(false);
         }
+    }
 
-        if (isHidden) Show();
+    public void UpdateComponentByName(string componentName) {
+        foreach (AuricaSpellComponent c in allComponents) {
+            if (c.c_name == componentName) {
+                UpdateComponent(c);
+                break;
+            }
+        }
     }
 
     public void Hide() {

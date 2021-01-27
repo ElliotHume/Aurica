@@ -28,8 +28,8 @@ public class SpellUIDisplay : MonoBehaviour {
         spell = AuricaCaster.LocalCaster.Cast();
         try {
             if (spell.c_name != null) {
-                PopulateFromSpell(spell);
                 if (isHidden) ShowSpell();
+                PopulateFromSpell(spell);
             }
         } catch {
             // do nothing, no spell match
