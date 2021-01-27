@@ -9696,7 +9696,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0
@@ -24122,7 +24122,7 @@ GameObject:
   - component: {fileID: 8347512080964258658}
   m_Layer: 0
   m_Name: Spell_AuricBarrier
-  m_TagString: Spell
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24200,10 +24200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
-  ManaCost: 15
   auricaSpell: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   ManaChannelCost: 20
-  ManaDamageType: 
   SpellEffectType: barrier
   Duration: 1
   CastAnimationType: 1

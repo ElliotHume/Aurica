@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
-    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isAuricaSpell;
+    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false;
     private GameObject channelledSpell, spellCraftingDisplay;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
@@ -54,7 +54,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private CharacterUI characterUI;
     private Aura aura;
     private AuricaCaster auricaCaster;
-    private AuricaSpell currentAuricaSpell;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -228,14 +227,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
 
     [PunRPC]
-    void OnSpellCollide(float Damage, string ManaDamageType, string SpellEffectType, float Duration, string spellDistributionJson) {
+    void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson) {
         if (!photonView.IsMine) return;
-        Debug.Log("Collision with spell of type: " + ManaDamageType);
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
         // Spell spell = spellGO.GetComponent<Spell>();
         switch (SpellEffectType) {
             case "dotprojectile":
-                StartCoroutine(TakeDirectDoTDamage(Damage, ManaDamageType, Duration, spellDistribution));
+                StartCoroutine(TakeDirectDoTDamage(Damage, Duration, spellDistribution));
                 break;
             default:
                 Debug.Log("Default Spell effect --> Take direct damage");
@@ -252,7 +250,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution));
     }
 
-    IEnumerator TakeDirectDoTDamage(float damage, string damageType, float duration, ManaDistribution spellDistribution) {
+    IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
         float damagePerSecond = damage / duration;
         while (duration > 0f) {
             TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
@@ -363,10 +361,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         ChannelSpell(false);
     }
 
+    [PunRPC]
+    public void BreakShield() {
+        StopBlocking();
+    }
+
     void CastAuricaSpell(AuricaSpell spell) {
         if (!photonView.IsMine) return;
         Debug.Log("Spell Match: " + spell.c_name);
-        isAuricaSpell = true;
         // Load spell resource
         GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
         Spell foundSpell = dataObject.GetComponent<Spell>();
@@ -413,54 +415,31 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     void CastSpell() {
         if (photonView.IsMine && !silenced && !stunned) {
-            if (isAuricaSpell) {
-                if (Mana - auricaCaster.GetManaCost() > 0f) {
-                    GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
-                    Mana -= auricaCaster.GetManaCost();
+            if (Mana - auricaCaster.GetManaCost() > 0f) {
+                GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
+                Mana -= auricaCaster.GetManaCost();
 
-                    Spell spell = newSpell.GetComponent<Spell>();
-                    if (spell != null) spell.SetSpellStrength(auricaCaster.GetSpellStrength());
-
-                    if (currentSpellIsSelfTargeted) {
-                        currentSpellIsSelfTargeted = false;
-                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                        if (ts != null) ts.SetTarget(gameObject);
-                    } else if (currentSpellIsOpponentTargeted) {
-                        currentSpellIsOpponentTargeted = false;
-                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                        GameObject target = GetPlayerWithinAimTolerance(10f);
-                        if (ts != null && target != null) {
-                            Debug.Log("Target found: "+target);
-                            ts.SetTarget(target);
-                        }
-                    }
+                Spell spell = newSpell.GetComponent<Spell>();
+                if (spell != null) {
+                    spell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                    spell.SetOwner(gameObject);
                 }
-                isAuricaSpell = false;
-                currentAuricaSpell = null;
-                auricaCaster.ResetCast();
-            } else {
-                GameObject dataObject = Resources.Load<GameObject>(currentSpellCast);
-                Debug.Log("Spell object grabbed: " + dataObject);
-                Spell foundSpell = dataObject.GetComponent<Spell>();
-                if (Mana - foundSpell.ManaCost > 0f) {
-                    GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
-                    Mana -= foundSpell.ManaCost;
 
-                    if (currentSpellIsSelfTargeted) {
-                        currentSpellIsSelfTargeted = false;
-                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                        if (ts != null) ts.SetTarget(gameObject);
-                    } else if (currentSpellIsOpponentTargeted) {
-                        currentSpellIsOpponentTargeted = false;
-                        TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                        GameObject target = GetPlayerWithinAimTolerance(10f);
-                        if (ts != null && target != null) {
-                            ts.SetTarget(target);
-                        }
+                if (currentSpellIsSelfTargeted) {
+                    currentSpellIsSelfTargeted = false;
+                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                    if (ts != null) ts.SetTarget(gameObject);
+                } else if (currentSpellIsOpponentTargeted) {
+                    currentSpellIsOpponentTargeted = false;
+                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                    GameObject target = GetPlayerWithinAimTolerance(10f);
+                    if (ts != null && target != null) {
+                        Debug.Log("Target found: "+target);
+                        ts.SetTarget(target);
                     }
                 }
             }
-            
+            auricaCaster.ResetCast();
         }
         currentSpellCast = null;
     }

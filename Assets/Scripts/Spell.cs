@@ -7,17 +7,11 @@ public class Spell : MonoBehaviourPun {
     // How much damage the spell does
     public float Damage = 10f;
 
-    // How much Mana it costs to cast this spell
-    public float ManaCost = 30f;
-
     // Aurica Spell ScriptableObject
     public AuricaSpell auricaSpell;
 
     // How much Mana it costs to channel this spell (Mana/second)
     public float ManaChannelCost = 40f;
-
-    // What mana type of damage it does (ex. Fire, Water, Air, Earth, Order, Chaos, Life, Death, Divine, Demonic)
-    public string ManaDamageType;
 
     // What type of spell cast it creates (ex. Projectile, AoE, Fog, Trap, Ground)
     public string SpellEffectType;
@@ -36,6 +30,7 @@ public class Spell : MonoBehaviourPun {
     public bool IsChannel = false, IsSelfTargeted = false, IsOpponentTargeted = false;
 
     private float spellStrength = 1f;
+    private GameObject owner;
 
     public void SetSpellStrength(float newStrength) {
         spellStrength = newStrength;
@@ -43,5 +38,13 @@ public class Spell : MonoBehaviourPun {
 
     public float GetSpellStrength() {
         return spellStrength;
+    }
+
+    public void SetOwner(GameObject ownerGO) {
+        owner = ownerGO;
+    }
+
+    public GameObject GetOwner() {
+        return owner;
     }
 }

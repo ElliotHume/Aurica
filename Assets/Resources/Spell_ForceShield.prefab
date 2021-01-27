@@ -5042,7 +5042,7 @@ GameObject:
   - component: {fileID: 6184963413982725909}
   m_Layer: 0
   m_Name: TriggerEnter
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10173,10 +10173,11 @@ GameObject:
   - component: {fileID: 6134187140620608743}
   - component: {fileID: 6138793448872243386}
   - component: {fileID: 6138793448872243385}
-  - component: {fileID: 4148364437050564083}
+  - component: {fileID: 7926339922499305212}
+  - component: {fileID: 7788009760916021179}
   m_Layer: 0
   m_Name: Spell_ForceShield
-  m_TagString: Spell
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10222,6 +10223,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 6138793448872243385}
+  - {fileID: 7926339922499305212}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -10241,7 +10243,7 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
---- !u!114 &4148364437050564083
+--- !u!114 &7926339922499305212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10250,15 +10252,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6140522103110057231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8514f34a33c814e9d9dd8ff17771d3ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 131d8e682624740ab9c7f95c335c766d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
-  ManaCost: 5
   auricaSpell: {fileID: 11400000, guid: a8f1e08ea3be74d20a589680ec6ff0b6, type: 2}
   ManaChannelCost: 10
-  ManaDamageType: 
-  SpellEffectType: 
+  SpellEffectType: shield
   Duration: 1
   CastAnimationType: 1
   CastingAnchor: transform
@@ -10266,6 +10266,31 @@ MonoBehaviour:
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
+  Health: 100
+  ShieldDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  spawnEffectsOnBreak: []
+  networkedEffectsOnBreak: []
+--- !u!64 &7788009760916021179
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140522103110057231}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 4faa2359d909194448519ab0cdf22f83, type: 3}
 --- !u!1 &6140533994092971691
 GameObject:
   m_ObjectHideFlags: 0

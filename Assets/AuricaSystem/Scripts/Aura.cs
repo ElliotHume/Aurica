@@ -32,7 +32,6 @@ public class Aura : MonoBehaviourPun {
     public float GetDamage(float damage, ManaDistribution damageDist) {
         List<float> percents = damageDist.GetAsPercentages();
         if (percents.Count == 0) return damage;
-        List<float> auraList = AuraDistribution.ToList();
         float structureDiff = damageDist.structure - AuraDistribution.structure;
         float essenceDiff = damageDist.essence - AuraDistribution.essence;
         float natureDiff = damageDist.nature - AuraDistribution.nature;

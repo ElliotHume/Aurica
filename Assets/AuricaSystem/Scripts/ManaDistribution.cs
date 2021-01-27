@@ -204,4 +204,26 @@ public struct ManaDistribution {
         air = ls[5];
         nature = ls[6];
     }
+
+    public float GetDamage(float damage, ManaDistribution damageDist) {
+        List<float> percents = damageDist.GetAsPercentages();
+        if (percents.Count == 0) return damage;
+        float structureDiff = damageDist.structure - structure;
+        float essenceDiff = damageDist.essence - essence;
+        float natureDiff = damageDist.nature - nature;
+        percents[0] = percents[0] * damage * (1f - (structureDiff < 0 ? structureDiff : Mathf.Abs(structure * 0.75f)));
+        percents[1] = percents[1] * damage * (1f - (essenceDiff < 0 ? essenceDiff : Mathf.Abs(essence * 0.75f)));
+        percents[2] = percents[2] * damage * (1f - (fire * 0.75f));
+        percents[3] = percents[3] * damage * (1f - (water * 0.75f));
+        percents[4] = percents[4] * damage * (1f - (earth * 0.75f));
+        percents[5] = percents[5] * damage * (1f - (air * 0.75f));
+        percents[6] = percents[6] * damage * (1f - (natureDiff < 0 ? natureDiff : Mathf.Abs(damageDist.nature * 0.75f)));
+
+        float sum = 0;
+        foreach (var element in percents) {
+            sum += element;
+        }
+
+        return sum;
+    }
 }

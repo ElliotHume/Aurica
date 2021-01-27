@@ -91,7 +91,16 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength(), ManaDamageType, SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength(), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                }
+            } else if (collision.gameObject.tag == "Shield") {
+                Debug.Log("SPELL HIT SHIELD");
+                ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
+                if (ss != null) {
+                    PhotonView pv = PhotonView.Get(ss);
+                    if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength(), auricaSpell.targetDistribution.GetJson());
+                } else {
+                    Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                 }
             }
             foreach(string effect in NetworkedEffectsOnCollision) {
