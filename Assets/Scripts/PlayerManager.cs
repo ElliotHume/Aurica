@@ -182,7 +182,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     void Update() {
         if (photonView.IsMine) {
-            this.ProcessInputs();
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
+            }
+            if (!spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
+
             if (Health <= 0f) {
                 GameManager.Instance.LeaveRoom();
             }
@@ -318,9 +322,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
-        }
     }
 
     public void SetMaxMana(float newMax) {
