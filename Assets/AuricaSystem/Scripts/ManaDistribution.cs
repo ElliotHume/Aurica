@@ -173,8 +173,15 @@ public struct ManaDistribution {
         structure += (0.1f * siphon.water) + (0.1f * siphon.earth) - (0.1f * siphon.fire) - (0.1f * siphon.air) + (0.15f * siphon.nature) - siphon.structure;
         // Water and Air add essence, Earth and Fire reduce it
         essence += (0.05f * siphon.water) - (0.05f * siphon.earth) - (0.05f * siphon.fire) + (0.05f * siphon.air) - siphon.essence;
-        // Demonic 
-        fire += (0.1f * Mathf.Max(0f, -siphon.nature));
+        // Demonic increases fire
+        fire += (0.1f * Mathf.Max(0f, -siphon.nature)) - siphon.fire;
+        // Divine increases air
+        air += (0.1f * Mathf.Max(0f, siphon.nature)) - siphon.air;
+
+        // No siphon interactions
+        water -= siphon.water;
+        earth -= siphon.earth;
+        nature -= siphon.nature;
     }
 
     public void ClampElementalValues() {

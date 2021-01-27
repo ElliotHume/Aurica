@@ -86,6 +86,22 @@ public class AuricaSpellComponentEditor : Editor {
             EditorGUILayout.Space();
         }
 
+        component.hasSiphonDistribution = EditorGUILayout.Toggle("Siphon distribution", component.hasSiphonDistribution);
+        if (component.hasSiphonDistribution) {
+            Rect r = EditorGUILayout.BeginVertical();
+            component.siphonDistribution.structure = EditorGUILayout.DelayedFloatField("Structure", component.siphonDistribution.structure);
+            component.siphonDistribution.essence = EditorGUILayout.DelayedFloatField("Essence", component.siphonDistribution.essence);
+            component.siphonDistribution.fire = EditorGUILayout.DelayedFloatField("Fire", component.siphonDistribution.fire);
+            component.siphonDistribution.water = EditorGUILayout.DelayedFloatField("Water", component.siphonDistribution.water);
+            component.siphonDistribution.earth = EditorGUILayout.DelayedFloatField("Earth", component.siphonDistribution.earth);
+            component.siphonDistribution.air = EditorGUILayout.DelayedFloatField("Air", component.siphonDistribution.air);
+            component.siphonDistribution.nature = EditorGUILayout.DelayedFloatField("Nature", component.siphonDistribution.nature);
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+        }
+
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();

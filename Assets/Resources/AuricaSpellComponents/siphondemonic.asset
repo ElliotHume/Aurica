@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed2b308b79762475c9d6cbdbcea392df, type: 3}
-  m_Name: aerai
+  m_Name: siphondemonic
   m_EditorClassIdentifier: 
-  c_name: aerai
-  description: Glyph of air, use the mana in your aura to increase the air mana in
-    the spell proportionally
+  c_name: siphondemonic
+  description: Mana siphon for demonic, break down demonic mana in the spell into
+    a fractional amount of chaos and fire mana
   hasBasicDistribution: 0
-  hasAuricDistribution: 1
+  hasAuricDistribution: 0
   hasFluxDistribution: 0
-  hasSiphonDistribution: 0
+  hasSiphonDistribution: 1
   basicDistribution:
     structure: 0
     essence: 0
@@ -33,16 +33,16 @@ MonoBehaviour:
     fire: 0
     water: 0
     earth: 0
-    air: 1
-    nature: 0
-  fluxDistribution:
-    structure: 0
-    essence: 0
-    fire: 0
-    water: 0
-    earth: 0
     air: 0
     nature: 0
+  fluxDistribution:
+    structure: 0.05
+    essence: 0.05
+    fire: 0.025
+    water: 0.025
+    earth: 0.025
+    air: 0.025
+    nature: 0.05
   siphonDistribution:
     structure: 0
     essence: 0
@@ -50,4 +50,4 @@ MonoBehaviour:
     water: 0
     earth: 0
     air: 0
-    nature: 0
+    nature: -0.2
