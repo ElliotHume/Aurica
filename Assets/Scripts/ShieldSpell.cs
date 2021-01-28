@@ -6,10 +6,10 @@ using Photon.Pun;
 public class ShieldSpell : Spell, IPunObservable {
 
     public float Health;
-    public ManaDistribution ShieldDistribution;
     public List<GameObject> spawnEffectsOnBreak;
     public List<string> networkedEffectsOnBreak;
 
+    private ManaDistribution ShieldDistribution;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -30,6 +30,7 @@ public class ShieldSpell : Spell, IPunObservable {
         if (!photonView.IsMine) return;
         ManaDistribution damageDistribution = JsonUtility.FromJson<ManaDistribution>(damageDistributionJson);
         Health -= ShieldDistribution.GetDamage(damage, damageDistribution);
+        Debug.Log("Health: "+Health);
     }
 
     public void Break() {
@@ -50,7 +51,14 @@ public class ShieldSpell : Spell, IPunObservable {
         }
     }
 
+    public void SetShieldStrength(float strength) {
+        Debug.Log("Setting shield strength from: "+Health+" x"+strength);
+        Health *= strength;
+        Debug.Log("to: " + Health);
+    }
+
     public void SetDistribution(ManaDistribution newDist) {
+        Debug.Log("Set shield dist to: "+newDist.ToString());
         ShieldDistribution = newDist;
     }
 

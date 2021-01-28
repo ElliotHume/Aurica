@@ -10257,7 +10257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   auricaSpell: {fileID: 11400000, guid: a8f1e08ea3be74d20a589680ec6ff0b6, type: 2}
-  ManaChannelCost: 10
+  ManaChannelCost: 20
   SpellEffectType: shield
   Duration: 1
   CastAnimationType: 1
@@ -10266,15 +10266,7 @@ MonoBehaviour:
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Health: 100
-  ShieldDistribution:
-    structure: 0
-    essence: 0
-    fire: 0
-    water: 0
-    earth: 0
-    air: 0
-    nature: 0
+  Health: 50
   spawnEffectsOnBreak: []
   networkedEffectsOnBreak: []
 --- !u!64 &7788009760916021179

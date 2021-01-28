@@ -13,7 +13,7 @@ public class DebugPlayer : MonoBehaviourPun
         } else if (Input.GetKeyDown("m")) {
             CastSpell("Spell_ShadeSmoke");
         } else if (Input.GetKeyDown("b")) {
-            CastSpell("Spell_ArcaneThrow");
+            CastSpell("Spell_AuricBolt");
         } else if (Input.GetKeyDown("v")) {
             CastSpell("Spell_Condense");
         } else if (Input.GetKeyDown("l")) {

@@ -34,6 +34,14 @@ public class AoESpell : Spell
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength(), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                 }
+            } else if (other.gameObject.tag == "Shield") {
+                ShieldSpell ss = other.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
+                if (ss != null) {
+                    PhotonView pv = PhotonView.Get(ss);
+                    if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength(), auricaSpell.targetDistribution.GetJson());
+                } else {
+                    Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
+                }
             }
         }
     }
@@ -51,6 +59,14 @@ public class AoESpell : Spell
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength(), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                }
+            } else if (other.gameObject.tag == "Shield") {
+                ShieldSpell ss = other.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
+                if (ss != null) {
+                    PhotonView pv = PhotonView.Get(ss);
+                    if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength(), auricaSpell.targetDistribution.GetJson());
+                } else {
+                    Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                 }
             }
         }

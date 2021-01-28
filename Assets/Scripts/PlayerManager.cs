@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
-    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false;
+    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false;
     private GameObject channelledSpell, spellCraftingDisplay;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
@@ -244,6 +244,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void TakeDamage(float damage, ManaDistribution spellDistribution) {
+        if (isShielded) return;
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
         Health -= aura.GetDamage(damage, spellDistribution);
@@ -269,13 +270,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void ProcessInputs() {
         if (silenced || stunned) return;
 
-        if (Input.GetKeyDown("t")) {
-            auricaCaster.AddComponent("basis");
-        } else if (Input.GetKeyDown("y")) {
-            auricaCaster.AddComponent("infernum");
-        } else if (Input.GetKeyDown("u")) {
-            auricaCaster.AddComponent("bolt");
-        } else if (Input.GetKeyDown("0")) {
+        if (Input.GetKeyDown("0")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("0"));
         } else if (Input.GetKeyDown("1")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("1"));
@@ -447,18 +442,34 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void ChannelSpell(bool start = true) {
         if (photonView.IsMine) {
             if (start && !isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
-                isChannelling = true;
-                GameObject dataObject = Resources.Load<GameObject>(currentChannelledSpell);
-                Debug.Log("Spell object grabbed: " + dataObject);
-                Spell foundSpell = dataObject.GetComponent<Spell>();
                 if (Mana - auricaCaster.GetManaCost() > 0f) {
+                    isChannelling = true;
                     channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, currentCastingTransform.position, currentCastingTransform.rotation);
                     channelledSpell.transform.SetParent(gameObject.transform);
                     Mana -= auricaCaster.GetManaCost();
+
+                    Spell foundSpell = channelledSpell.GetComponent<Spell>();
+                    if (foundSpell != null) {
+                        foundSpell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                        foundSpell.SetOwner(gameObject);
+                    }
+
+                    ShieldSpell foundShield = channelledSpell.GetComponent<ShieldSpell>();
+                    if (foundShield != null) {
+                        foundShield.SetShieldStrength(auricaCaster.GetSpellStrength());
+                        foundShield.SetDistribution(foundSpell.auricaSpell.targetDistribution);
+                        
+                        if (foundShield.SpellEffectType == "shield") isShielded = true;
+                    }
                 }
             } else if ((!start && isChannelling) || silenced || stunned) {
                 isChannelling = false;
-                PhotonNetwork.Destroy(channelledSpell);
+                isShielded = false;
+                try {
+                    PhotonNetwork.Destroy(channelledSpell);
+                } catch {
+                    // Do nothing, likely has already been cleaned up
+                }
                 channelledSpell = null;
             }
         }

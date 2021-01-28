@@ -32,7 +32,7 @@ public class Spell : MonoBehaviourPun {
     private float spellStrength = 1f;
     private GameObject owner;
 
-    public void SetSpellStrength(float newStrength) {
+    public virtual void SetSpellStrength(float newStrength) {
         spellStrength = newStrength;
     }
 
@@ -40,7 +40,7 @@ public class Spell : MonoBehaviourPun {
         return spellStrength;
     }
 
-    public void SetOwner(GameObject ownerGO) {
+    public virtual void SetOwner(GameObject ownerGO) {
         owner = ownerGO;
     }
 
