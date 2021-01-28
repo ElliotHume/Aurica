@@ -8,8 +8,7 @@ public class ShieldSpell : Spell, IPunObservable {
     public float Health;
     public List<GameObject> spawnEffectsOnBreak;
     public List<string> networkedEffectsOnBreak;
-
-    private ManaDistribution ShieldDistribution;
+    public ManaDistribution ShieldDistribution;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {

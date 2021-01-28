@@ -457,8 +457,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     ShieldSpell foundShield = channelledSpell.GetComponent<ShieldSpell>();
                     if (foundShield != null) {
                         foundShield.SetShieldStrength(auricaCaster.GetSpellStrength());
-                        foundShield.SetDistribution(foundSpell.auricaSpell.targetDistribution);
-                        
                         if (foundShield.SpellEffectType == "shield") isShielded = true;
                     }
                 }

@@ -37,6 +37,24 @@ public class AuricaSpell : ScriptableObject {
         return sortedList.SequenceEqual(indexList) && indexList.Count == keyComponents.Count;
     }
 
+    public int GetNumberOfMatchingComponents(List<AuricaSpellComponent> components) {
+        List<string> componentNames = new List<string>();
+        List<string> keyComponentNames = new List<string>();
+        foreach (var item in components) {
+            componentNames.Add(item.c_name);}
+        foreach (var item in keyComponents) {
+            keyComponentNames.Add(item.c_name);
+        }
+
+        int matchingComponents = 0;
+        foreach (string keyComp in keyComponentNames) {
+            int ind = componentNames.IndexOf(keyComp);
+            if (ind != -1) matchingComponents += 1;
+        }
+
+        return matchingComponents;
+    }
+
     public float GetError(ManaDistribution targetDist) {
         return !isAuric ? targetDistribution.CheckDistError(targetDist) : 0f;
     }
