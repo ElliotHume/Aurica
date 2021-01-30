@@ -6,10 +6,12 @@ using Photon.Pun;
 public class AoESpell : Spell
 {
     public float LastingDamage = 0f;
-    public bool OneShotEffect = true, LastingEffect = false;
+    public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false;
     public float DestroyTimeDelay = 15f;
+    public float ScalingFactor = 0f, ScalingLimit = 0f;
     public GameObject[] DeactivateObjectsAfterDuration;
 
+    private float amountOfScalingApplied = 0f;
 
     void Awake() {
         if (photonView.IsMine) {
@@ -19,16 +21,22 @@ public class AoESpell : Spell
         Invoke("DisableParticlesAfterDuration", Duration);
     }
 
+    void FixedUpdate() {
+        if (ScalingFactor != 0f && ( ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
+            transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
+            if (ScalingLimit != 0f) amountOfScalingApplied += Mathf.Abs(ScalingFactor * Time.deltaTime);
+        }   
+    }
+
     void OnTriggerEnter(Collider other) {
         if (!OneShotEffect) return;
-        if (!LastingEffect) GetComponent<Collider>().enabled = false;
 
         // TODO: Call local collision response to generate collision VFX
         // ContactPoint hit = collision.GetContact(0);
         // LocalCollisionBehaviour(hit.point, hit.normal);
 
         if (photonView.IsMine) {
-            if (other.gameObject.tag == "Player") {
+            if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -54,7 +62,7 @@ public class AoESpell : Spell
         // LocalCollisionBehaviour(hit.point, hit.normal);
 
         if (photonView.IsMine) {
-            if (other.gameObject.tag == "Player") {
+            if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);

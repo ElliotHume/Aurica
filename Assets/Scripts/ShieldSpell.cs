@@ -38,7 +38,7 @@ public class ShieldSpell : Spell, IPunObservable {
         }
         if (photonView.IsMine) {
             foreach (string effect in networkedEffectsOnBreak) {
-                PhotonNetwork.Instantiate(effect, transform.position, transform.rotation);
+                PhotonNetwork.Instantiate(effect, transform.position+transform.up, transform.rotation);
             }
             PlayerManager owner = PlayerManager.LocalPlayerInstance.GetComponent<PlayerManager>();
             if (owner != null) {

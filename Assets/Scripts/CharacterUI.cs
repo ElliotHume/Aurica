@@ -37,20 +37,20 @@ public class CharacterUI : MonoBehaviour
             playerHealthSlider.value = target.Health;
         }
 
-        if (target.slowed) {
-            SetStatusEffect("SLOWED...");
-        } else if (target.hastened) {
-            SetStatusEffect("HASTE...");
-        } else if (target.rooted) {
-            SetStatusEffect("ROOTED...");
+        if (target.stunned) {
+            SetStatusEffect("STUNNED...");
         } else if (target.silenced) {
             SetStatusEffect("SILENCED...");
-        } else if (target.stunned) {
-            SetStatusEffect("STUNNED...");
+        } else if (target.rooted) {
+            SetStatusEffect("ROOTED...");
         } else if (target.fragile) {
             SetStatusEffect("FRAGILE...");
         } else if (target.tough) {
             SetStatusEffect("TOUGH...");
+        } else if (target.slowed) {
+            SetStatusEffect("SLOWED...");
+        } else if (target.hastened) {
+            SetStatusEffect("HASTE...");
         } else {
             ResetStatusEffects();
         }

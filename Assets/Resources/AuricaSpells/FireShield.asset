@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: FireShield
+  m_EditorClassIdentifier: 
+  c_name: Fire Shield
+  description: Create a shield of fire that explodes outwards when it is broken
+  targetDistribution:
+    structure: -0.2
+    essence: 0
+    fire: 1
+    water: 0
+    earth: 0
+    air: 0.2
+    nature: -0.1
+  keyComponents:
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
+  - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
+  - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_FireShield

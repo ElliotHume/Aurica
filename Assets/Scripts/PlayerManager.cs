@@ -54,6 +54,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private CharacterUI characterUI;
     private Aura aura;
     private AuricaCaster auricaCaster;
+    private ShieldSpell currentShield;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -454,17 +455,21 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                         foundSpell.SetOwner(gameObject);
                     }
 
-                    ShieldSpell foundShield = channelledSpell.GetComponent<ShieldSpell>();
-                    if (foundShield != null) {
-                        foundShield.SetShieldStrength(auricaCaster.GetSpellStrength());
-                        if (foundShield.SpellEffectType == "shield") isShielded = true;
+                    currentShield = channelledSpell.GetComponent<ShieldSpell>();
+                    if (currentShield != null) {
+                        currentShield.SetShieldStrength(auricaCaster.GetSpellStrength());
+                        if (currentShield.SpellEffectType == "shield") isShielded = true;
                     }
                 }
             } else if ((!start && isChannelling) || silenced || stunned) {
                 isChannelling = false;
                 isShielded = false;
                 try {
-                    PhotonNetwork.Destroy(channelledSpell);
+                    if (currentShield != null)  {
+                        currentShield.Break();
+                    } else {
+                        PhotonNetwork.Destroy(channelledSpell);
+                    }
                 } catch {
                     // Do nothing, likely has already been cleaned up
                 }

@@ -23753,8 +23753,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
-  auricaSpell: {fileID: 0}
-  ManaChannelCost: 40
+  auricaSpell: {fileID: 11400000, guid: 60cc99053b031f24d982ff223a659df0, type: 2}
+  ManaChannelCost: 5
   SpellEffectType: shield
   Duration: 1
   CastAnimationType: 1
@@ -23763,9 +23763,11 @@ MonoBehaviour:
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Health: 70
-  spawnEffectsOnBreak: []
-  networkedEffectsOnBreak: []
+  Health: 1
+  spawnEffectsOnBreak:
+  - {fileID: 3082983960423044651, guid: 922ad57e29bfcc54a97021436e14dbc0, type: 3}
+  networkedEffectsOnBreak:
+  - XCollision_FireShield
   ShieldDistribution:
     structure: 0
     essence: -0.33
