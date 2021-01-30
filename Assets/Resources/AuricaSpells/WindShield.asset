@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: FireShield
+  m_Name: WindShield
   m_EditorClassIdentifier: 
-  c_name: Fire Shield
-  description: Create a shield of fire that will break quickly, but sends out a wave
-    of fire when it breaks
+  c_name: Wind Shield
+  description: Create a shield of wind that will propel the caster forward when it
+    breaks
   targetDistribution:
-    structure: -0.2
-    essence: 0
-    fire: 1
+    structure: 0.2
+    essence: 0.1
+    fire: 0
     water: 0
     earth: 0
-    air: 0.2
-    nature: -0.1
+    air: 1
+    nature: 0.25
   keyComponents:
-  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
   - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
   - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
-  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: b681523d843b54d9d9b7481fc00f587d, type: 2}
+  - {fileID: 11400000, guid: 3ac906ae1eff3405f84ba9a716ee2556, type: 2}
   errorThreshold: 1.5
   isAuric: 0
-  linkedSpellResource: Spell_FireShield
+  linkedSpellResource: Spell_WindShield

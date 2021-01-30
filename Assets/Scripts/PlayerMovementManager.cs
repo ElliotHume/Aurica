@@ -5,13 +5,13 @@ using Photon.Pun;
 
 public class PlayerMovementManager : MonoBehaviourPun {
     public float AimSensitivity = 1.5f;
-    public float JumpHeight = 1f, JumpSpeed = 3f;
+    public float JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f;
 
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
     private bool isRooted, isStunned, isBlocking, isBeingDisplaced;
-    private Vector3 playerVelocity;
+    private Vector3 playerVelocity, impact;
 
     // Use this for initialization
     void Start() {
@@ -57,6 +57,11 @@ public class PlayerMovementManager : MonoBehaviourPun {
 
         // while mouse right-click is being held, dragging the mouse will turn the character
         transform.rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
+
+        // apply the impact force:
+        if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
+        // consumes the impact energy each cycle:
+        impact = Vector3.Lerp(impact, Vector3.zero, 5*Time.deltaTime);
     }
 
     public void PlayCastingAnimation(int animationType) {
@@ -101,7 +106,7 @@ public class PlayerMovementManager : MonoBehaviourPun {
         float timer = distance / speed;
         while (timer > 0f) {
             Vector3 movement = !isWorldSpaceDirection
-                ? transform.forward * direction.x + transform.right * direction.z + Vector3.up * direction.y
+                ? transform.forward * direction.z + transform.right * direction.x + Vector3.up * direction.y
                 : direction;
             characterController.Move(movement * Time.deltaTime * speed);
 
@@ -109,6 +114,14 @@ public class PlayerMovementManager : MonoBehaviourPun {
             yield return new WaitForEndOfFrame();
         }
         isBeingDisplaced = false;
+        AddImpact(direction, distance*speed);
+    }
+
+     // call this function to add an impact force:
+    public void AddImpact(Vector3 direction, float forceValue){
+        direction.Normalize();
+        if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
+        impact += direction.normalized * forceValue / Mass;
     }
 
     public void StartBlock() {

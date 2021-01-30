@@ -400,7 +400,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             // If the spell is channelled, channel it immediately
             currentChannelledSpell = spell.linkedSpellResource;
             ChannelSpell();
-            movementManager.StartBlock();
         }
 
         if(spellCraftingDisplay != null) {
@@ -460,6 +459,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                         currentShield.SetShieldStrength(auricaCaster.GetSpellStrength());
                         if (currentShield.SpellEffectType == "shield") isShielded = true;
                     }
+
+                    movementManager.StartBlock();
                 }
             } else if ((!start && isChannelling) || silenced || stunned) {
                 isChannelling = false;
