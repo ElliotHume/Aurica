@@ -29,20 +29,19 @@ public class Aura : MonoBehaviourPun {
         // GetDamage(200f, new ManaDistribution("1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0"));
     }
 
+    //  Damage to the caster is calculated as follows:
+    //  -    The damage distribution is calculated as percentages of the aggregate, so if the distribution is 60% fire mana, 60% of the damage is dealt as fire damage
+    //  -    The aura distribution is calculated as percentages as well, and used to reduce the damage dealt
+    //          This means that if the casters aura is 70% fire mana, they will take 70% reduced fire damage
+    //              Aligned mana percentages are absolute, so if the casters aura is 20% structured mana of either order or chaos,
+    //              they will take 20% reduced structured damage instead of taking more damage if the alignments are opposing
     public float GetDamage(float damage, ManaDistribution damageDist) {
         List<float> percents = damageDist.GetAsPercentages();
+        List<float> auraPercents = AuraDistribution.GetAsPercentages();
         if (percents.Count == 0) return damage;
-        float structureDiff = damageDist.structure - AuraDistribution.structure;
-        float essenceDiff = damageDist.essence - AuraDistribution.essence;
-        float natureDiff = damageDist.nature - AuraDistribution.nature;
-        percents[0] = percents[0] * damage * (1f - (structureDiff < 0 ? structureDiff : Mathf.Abs(AuraDistribution.structure * 0.75f)));
-        percents[1] = percents[1] * damage * (1f - (essenceDiff < 0 ? essenceDiff : Mathf.Abs(AuraDistribution.essence * 0.75f)));
-        percents[2] = percents[2] * damage * (1f - (AuraDistribution.fire * 0.75f));
-        percents[3] = percents[3] * damage * (1f - (AuraDistribution.water * 0.75f));
-        percents[4] = percents[4] * damage * (1f - (AuraDistribution.earth * 0.75f));
-        percents[5] = percents[5] * damage * (1f - (AuraDistribution.air * 0.75f));
-        percents[6] = percents[6] * damage * (1f - (natureDiff < 0 ? natureDiff : Mathf.Abs(AuraDistribution.nature * 0.75f)));
-
+        for (var i = 0; i < 7; i++) {
+            percents[i] = percents[i] * damage * (1f - auraPercents[i]);
+        }
         // Log Damages
         // foreach (var x in percents) Debug.Log(x.ToString());
 
