@@ -29,7 +29,7 @@ public class ShieldSpell : Spell, IPunObservable {
         if (!photonView.IsMine) return;
         ManaDistribution damageDistribution = JsonUtility.FromJson<ManaDistribution>(damageDistributionJson);
         Health -= ShieldDistribution.GetDamage(damage, damageDistribution);
-        Debug.Log("Health: "+Health);
+        Debug.Log("Health: " + Health);
     }
 
     public void Break() {
@@ -38,7 +38,7 @@ public class ShieldSpell : Spell, IPunObservable {
         }
         if (photonView.IsMine) {
             foreach (string effect in networkedEffectsOnBreak) {
-                PhotonNetwork.Instantiate(effect, transform.position+transform.up, transform.rotation);
+                PhotonNetwork.Instantiate(effect, transform.position + transform.up, transform.rotation);
             }
             PlayerManager owner = PlayerManager.LocalPlayerInstance.GetComponent<PlayerManager>();
             if (owner != null) {
@@ -51,13 +51,13 @@ public class ShieldSpell : Spell, IPunObservable {
     }
 
     public void SetShieldStrength(float strength) {
-        Debug.Log("Setting shield strength from: "+Health+" x"+strength);
+        Debug.Log("Setting shield strength from: " + Health + " x" + strength);
         Health *= strength;
         Debug.Log("to: " + Health);
     }
 
     public void SetDistribution(ManaDistribution newDist) {
-        Debug.Log("Set shield dist to: "+newDist.ToString());
+        Debug.Log("Set shield dist to: " + newDist.ToString());
         ShieldDistribution = newDist;
     }
 

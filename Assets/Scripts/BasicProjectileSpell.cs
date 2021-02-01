@@ -94,7 +94,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength(), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                 }
             } else if (collision.gameObject.tag == "Shield") {
-                Debug.Log("SPELL HIT SHIELD");
                 ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
                 if (ss != null) {
                     PhotonView pv = PhotonView.Get(ss);

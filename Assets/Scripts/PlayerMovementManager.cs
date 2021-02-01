@@ -61,7 +61,7 @@ public class PlayerMovementManager : MonoBehaviourPun {
         // apply the impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
         // consumes the impact energy each cycle:
-        impact = Vector3.Lerp(impact, Vector3.zero, 5*Time.deltaTime);
+        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
     public void PlayCastingAnimation(int animationType) {
@@ -98,9 +98,11 @@ public class PlayerMovementManager : MonoBehaviourPun {
     public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
         // TODO: Animation system
         if (isRooted || isBeingDisplaced) return;
-        StartCoroutine(DisplacementRoutine(direction, distance, speed, isWorldSpaceDirection));
+        AddImpact(direction, distance * speed, isWorldSpaceDirection);
+        // StartCoroutine(DisplacementRoutine(direction, distance, speed, isWorldSpaceDirection));
     }
 
+    // DEPRECATED
     IEnumerator DisplacementRoutine(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
         isBeingDisplaced = true;
         float timer = distance / speed;
@@ -114,14 +116,16 @@ public class PlayerMovementManager : MonoBehaviourPun {
             yield return new WaitForEndOfFrame();
         }
         isBeingDisplaced = false;
-        AddImpact(direction, distance*speed);
     }
 
-     // call this function to add an impact force:
-    public void AddImpact(Vector3 direction, float forceValue){
+    // call this function to add an impact force:
+    public void AddImpact(Vector3 direction, float forceValue, bool isWorldSpaceDirection) {
         direction.Normalize();
         if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
-        impact += direction.normalized * forceValue / Mass;
+        Vector3 movement = !isWorldSpaceDirection
+                ? transform.forward * direction.z + transform.right * direction.x + Vector3.up * direction.y
+                : direction;
+        impact += movement.normalized * forceValue / Mass;
     }
 
     public void StartBlock() {

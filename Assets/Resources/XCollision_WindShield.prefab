@@ -1,5 +1,132 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &495937830209669903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3240995849699231175}
+  - component: {fileID: 3931744666730032954}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3240995849699231175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495937830209669903}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4980110810516212363}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &3931744666730032954
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495937830209669903}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 94855e4d72f6e4049b9419ae05998ac1, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4980110808562731133
 GameObject:
   m_ObjectHideFlags: 0
@@ -9411,7 +9538,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4980110809742998622}
   serializedVersion: 7
-  lengthInSec: 5
+  lengthInSec: 2
   simulationSpeed: 1.1
   stopAction: 0
   cullingMode: 3
@@ -15765,7 +15892,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 9
+      scalar: 15
       minScalar: 0.5
       maxCurve:
         serializedVersion: 2
@@ -18871,11 +18998,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4980110810516212363}
   - component: {fileID: 4980110810516212360}
+  - component: {fileID: 1862229720}
   - component: {fileID: 4980110810516212366}
   - component: {fileID: 4980110810516212361}
   - component: {fileID: -6660383427772046469}
   - component: {fileID: -6329471899117519112}
-  - component: {fileID: 1862229720}
   m_Layer: 0
   m_Name: XCollision_WindShield
   m_TagString: Spell
@@ -18897,6 +19024,7 @@ Transform:
   - {fileID: 4980110809742998623}
   - {fileID: 4980110808866152642}
   - {fileID: 4980110810088002477}
+  - {fileID: 3240995849699231175}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18912,12 +19040,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacementDistance: 10
+  displacementDistance: 5
   displacementSpeed: 25
-  displacementDirection: {x: 0, y: 0.25, z: 1}
+  displacementDirection: {x: 0, y: 0.33, z: 1}
   canHitSelf: 1
   isKnockback: 0
   isContinuous: 0
+--- !u!114 &1862229720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4980110810516212357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
+  auricaSpell: {fileID: 11400000, guid: 05bfe659fddf1a1439d1b0a5714a1865, type: 2}
+  ManaChannelCost: 40
+  SpellEffectType: 
+  Duration: 1
+  CastAnimationType: 1
+  CastingAnchor: front
+  TurnToAimPoint: 1
+  IsChannel: 0
+  IsSelfTargeted: 1
+  IsOpponentTargeted: 0
+  LastingDamage: 0
+  OneShotEffect: 1
+  LastingEffect: 0
+  canHitSelf: 0
+  DestroyTimeDelay: 15
+  ScalingFactor: 0
+  ScalingLimit: 0
+  DeactivateObjectsAfterDuration: []
 --- !u!114 &4980110810516212366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18986,34 +19145,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1862229720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4980110810516212357}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: 0
-  auricaSpell: {fileID: 11400000, guid: 05bfe659fddf1a1439d1b0a5714a1865, type: 2}
-  ManaChannelCost: 40
-  SpellEffectType: 
-  Duration: 1
-  CastAnimationType: 1
-  CastingAnchor: front
-  TurnToAimPoint: 1
-  IsChannel: 0
-  IsSelfTargeted: 1
-  IsOpponentTargeted: 0
-  LastingDamage: 0
-  OneShotEffect: 1
-  LastingEffect: 0
-  canHitSelf: 0
-  DestroyTimeDelay: 15
-  ScalingFactor: 0
-  ScalingLimit: 0
-  DeactivateObjectsAfterDuration: []
