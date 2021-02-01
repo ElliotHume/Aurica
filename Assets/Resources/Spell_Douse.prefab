@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 9064220549118733517}
   - component: {fileID: 9064220549118733518}
   - component: {fileID: 1023447519534720}
+  - component: {fileID: 7283058024794623903}
   m_Layer: 0
   m_Name: Spell_Douse
   m_TagString: Untagged
@@ -190,6 +191,61 @@ MonoBehaviour:
   canHitSelf: 1
   isKnockback: 1
   isContinuous: 0
+--- !u!114 &7283058024794623903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9063835379757973784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slow: 0
+  slowDuration: 0
+  slowPercentage: 0
+  hasten: 0
+  hastenDuration: 0
+  hastenPercentage: 0
+  root: 0
+  rootDuration: 0
+  silence: 0
+  silenceDuration: 0
+  stun: 0
+  stunDuration: 0
+  weaken: 1
+  weakenDuration: 5
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0.5
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 0
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  fragile: 0
+  fragileDuration: 0
+  fragilePercentage: 0
+  tough: 0
+  toughDuration: 0
+  toughPercentage: 0
+  healing: 0
+  healFlatAmount: 0
+  healPercentAmount: 0
+  isContinuous: 0
+  canHitSelf: 0
 --- !u!1 &9063836969315772106
 GameObject:
   m_ObjectHideFlags: 0
