@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class CharacterUI : MonoBehaviour
-{
+public class CharacterUI : MonoBehaviour {
 
     [Tooltip("UI Text to display Player's Name")]
     [SerializeField]
@@ -20,8 +19,7 @@ public class CharacterUI : MonoBehaviour
     private PlayerManager target;
 
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake() {
         cam = Camera.main.transform;
     }
 
@@ -47,6 +45,10 @@ public class CharacterUI : MonoBehaviour
             SetStatusEffect("FRAGILE...");
         } else if (target.tough) {
             SetStatusEffect("TOUGH...");
+        } else if (target.weakened) {
+            SetStatusEffect("WEAK...");
+        } else if (target.strengthened) {
+            SetStatusEffect("STRONG...");
         } else if (target.slowed) {
             SetStatusEffect("SLOWED...");
         } else if (target.hastened) {
@@ -56,8 +58,7 @@ public class CharacterUI : MonoBehaviour
         }
     }
 
-    void LateUpdate()
-    {
+    void LateUpdate() {
         transform.LookAt(transform.position + cam.forward);
     }
 
@@ -80,7 +81,7 @@ public class CharacterUI : MonoBehaviour
     }
 
     public void ResetStatusEffects() {
-        if (playerNameText != null)  {
+        if (playerNameText != null) {
             playerNameText.text = target.photonView.Owner.NickName;
             playerNameText.color = Color.black;
         }

@@ -4034,6 +4034,8 @@ MonoBehaviour:
   rooted: 0
   silenced: 0
   stunned: 0
+  weakened: 0
+  strengthened: 0
   fragile: 0
   tough: 0
 --- !u!114 &5644661780950305532
@@ -4202,6 +4204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137eb69df361b4a2ca872a0bee309e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usePercentStrength: 1
 --- !u!1 &8658950273216869799
 GameObject:
   m_ObjectHideFlags: 0

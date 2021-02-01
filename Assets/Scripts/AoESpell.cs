@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class AoESpell : Spell
-{
+public class AoESpell : Spell {
     public float LastingDamage = 0f;
     public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false;
     public float DestroyTimeDelay = 15f;
@@ -22,10 +21,10 @@ public class AoESpell : Spell
     }
 
     void FixedUpdate() {
-        if (ScalingFactor != 0f && ( ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
+        if (ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
             transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
             if (ScalingLimit != 0f) amountOfScalingApplied += Mathf.Abs(ScalingFactor * Time.deltaTime);
-        }   
+        }
     }
 
     void OnTriggerEnter(Collider other) {
@@ -56,7 +55,6 @@ public class AoESpell : Spell
 
     void OnTriggerStay(Collider other) {
         if (!LastingEffect) return;
-        
         // TODO: Call local collision response to generate collision VFX
         // ContactPoint hit = collision.GetContact(0);
         // LocalCollisionBehaviour(hit.point, hit.normal);
@@ -69,6 +67,7 @@ public class AoESpell : Spell
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength(), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                 }
             } else if (other.gameObject.tag == "Shield") {
+                // Same as HitShield but with LastingDamage instead
                 ShieldSpell ss = other.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
                 if (ss != null) {
                     PhotonView pv = PhotonView.Get(ss);

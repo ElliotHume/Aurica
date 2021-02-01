@@ -23,11 +23,13 @@ public class StatusEffect : MonoBehaviourPun {
     public bool stun;
     public float stunDuration;
 
-    // TODO: Lower or Raise Damage/Health of spells
-    // public bool weaken;
-    // public float weakenDuration, weakenPercentage = 0f;
-    // public bool strengthen;
-    // public float strengthenDuration, strengthenPercentage = 0f;
+    // Increase or decrease the amount of damage dealt by given mana types
+    public bool weaken;
+    public float weakenDuration;
+    public ManaDistribution weakenDistribution;
+    public bool strengthen;
+    public float strengthenDuration;
+    public ManaDistribution strengthenDistribution;
 
     // Increase or decrease the amount of damage taken
     public bool fragile;
@@ -39,6 +41,7 @@ public class StatusEffect : MonoBehaviourPun {
     public float healFlatAmount = 0f, healPercentAmount = 0f;
 
     public bool isContinuous = false;
+    public bool canHitSelf = false;
 
     private bool isCollided = false;
 
@@ -55,7 +58,7 @@ public class StatusEffect : MonoBehaviourPun {
 
     void OnCollisionEnter(Collision collision) {
         if (photonView.IsMine && !isCollided) {
-            if (collision.gameObject.tag == "Player" && collision.gameObject != PlayerManager.LocalPlayerInstance) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -96,8 +99,8 @@ public class StatusEffect : MonoBehaviourPun {
             if (root) pv.RPC("Root", RpcTarget.All, rootDuration);
             if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration);
             if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration);
-            // if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration, weakenPercentage);
-            // if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration, strengthenPercentage);
+            if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration, weakenDistribution.ToString());
+            if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration, strengthenDistribution.ToString());
             if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration, fragilePercentage/100f);
             if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration, toughPercentage/100f);
             if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount, healPercentAmount/100f);

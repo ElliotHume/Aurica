@@ -5067,10 +5067,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 20
-  ManaCost: 25
   auricaSpell: {fileID: 11400000, guid: c3ac7c81c9d964c0d8d098f5305997e7, type: 2}
   ManaChannelCost: 40
-  ManaDamageType: demonic
   SpellEffectType: projectile
   Duration: 1
   CastAnimationType: 1
@@ -5191,16 +5189,37 @@ MonoBehaviour:
   silenceDuration: 0
   stun: 0
   stunDuration: 0
+  weaken: 1
+  weakenDuration: 10
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 1
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 10
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 1
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
   fragile: 0
   fragileDuration: 0
   fragilePercentage: 0
-  tough: 1
+  tough: 0
   toughDuration: 5
   toughPercentage: 25
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
   isContinuous: 0
+  canHitSelf: 1
 --- !u!1 &6054319627831631825
 GameObject:
   m_ObjectHideFlags: 0

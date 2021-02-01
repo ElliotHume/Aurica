@@ -5,7 +5,9 @@ using Photon.Pun;
 
 public class Aura : MonoBehaviourPun {
 
-    private ManaDistribution AuraDistribution;
+    public bool usePercentStrength = true;
+
+    private ManaDistribution AuraDistribution, InnateStrength;
     private PlayerManager player;
     private string playerName;
 
@@ -26,7 +28,26 @@ public class Aura : MonoBehaviourPun {
         player.SetMaxMana(AuraDistribution.GetAggregate() * 100f);
         player.ConfirmAura();
 
-        // GetDamage(200f, new ManaDistribution("1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0"));
+        InnateStrength = CalculateInnateStrengths();
+    }
+
+    ManaDistribution CalculateInnateStrengths() {
+        if (usePercentStrength) {
+            // Making sure that the sign (+/-) of the aligned mana is preserved
+            ManaDistribution strengths = new ManaDistribution();
+            List<float> percents = AuraDistribution.GetAsPercentages();
+            strengths.structure = percents[0] * (AuraDistribution.structure / Mathf.Abs(AuraDistribution.structure));
+            strengths.essence = percents[1] * (AuraDistribution.essence / Mathf.Abs(AuraDistribution.essence));
+            strengths.fire = percents[2];
+            strengths.water = percents[3];
+            strengths.earth = percents[4];
+            strengths.air = percents[5];
+            strengths.nature = percents[6] * (AuraDistribution.nature / Mathf.Abs(AuraDistribution.nature));
+            return strengths;
+        } else {
+            return new ManaDistribution(AuraDistribution.ToString());
+        }
+
     }
 
     //  Damage to the caster is calculated as follows:
@@ -53,7 +74,30 @@ public class Aura : MonoBehaviourPun {
         return sum;
     }
 
+    public float GetDamage(float damage, ManaDistribution damageDist, ManaDistribution damageModifiers) {
+        List<float> percents = damageDist.GetAsPercentages();
+        List<float> auraPercents = AuraDistribution.GetAsPercentages();
+        List<float> damageModifiersList = damageModifiers.ToList();
+        if (percents.Count == 0) return damage;
+        for (var i = 0; i < 7; i++) {
+            percents[i] = percents[i] * damage * (1f - auraPercents[i]) * (1 - damageModifiersList[i]);
+        }
+        // Log Damages
+        // foreach (var x in percents) Debug.Log(x.ToString());
+
+        float sum = 0;
+        foreach (var element in percents) {
+            sum += element;
+        }
+
+        return sum;
+    }
+
     public ManaDistribution GetAura() {
         return AuraDistribution;
+    }
+
+    public ManaDistribution GetInnateStrength() {
+        return InnateStrength;
     }
 }

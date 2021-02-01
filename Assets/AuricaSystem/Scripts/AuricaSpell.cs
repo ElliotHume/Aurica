@@ -59,10 +59,17 @@ public class AuricaSpell : ScriptableObject {
         return !isAuric ? targetDistribution.CheckDistError(targetDist) : 0f;
     }
 
-    public static bool operator ==(AuricaSpell a, AuricaSpell b) {
-        return a.c_name == b.c_name;
-    }
-    public static bool operator !=(AuricaSpell a, AuricaSpell b) {
-        return a.c_name != b.c_name;
+    public float GetSpellDamageModifier(ManaDistribution damageMod) {
+        float sum = 0f;
+        List<float> percents = targetDistribution.GetAsPercentages();
+        List<float> modPercents = damageMod.ToList();
+        if (percents.Count == 0 || modPercents.Count == 0) return 1f;
+
+        for (int i = 0; i < 7; i++) {
+            sum += percents[i] * (1+modPercents[i]);
+        }
+
+        Debug.Log("Spell damage modifier by: x"+sum);
+        return sum;
     }
 }

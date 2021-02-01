@@ -77,13 +77,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public bool stunned;
 
-    // TODO: Lower or Raise Damage/Health of spells
-    // [HideInInspector]
-    // public bool weakened;
-    // private float weakenedDuration, weakenedPercentage = 0f;
-    // [HideInInspector]
-    // private bool strengthened;
-    // private float strengthenedDuration, strengthenedPercentage = 0f;
+    // Do less damage of given mana types
+    [HideInInspector]
+    public bool weakened;
+    private ManaDistribution weaknesses;
+
+    // Do more damage of given mana types
+    [HideInInspector]
+    public bool strengthened;
+    private ManaDistribution strengths;
 
     // Increase or decrease the amount of damage taken
     [HideInInspector]
@@ -402,7 +404,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ChannelSpell();
         }
 
-        if(spellCraftingDisplay != null) {
+        if (spellCraftingDisplay != null) {
             SpellCraftingUIDisplay sp = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
             if (sp != null) sp.ClearSpell();
         }
@@ -417,6 +419,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 Spell spell = newSpell.GetComponent<Spell>();
                 if (spell != null) {
                     spell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                    spell.SetSpellDamageModifier(strengths - weaknesses);
                     spell.SetOwner(gameObject);
                 }
 
@@ -429,7 +432,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
                     GameObject target = GetPlayerWithinAimTolerance(10f);
                     if (ts != null && target != null) {
-                        Debug.Log("Target found: "+target);
+                        Debug.Log("Target found: " + target);
                         ts.SetTarget(target);
                     }
                 }
@@ -451,6 +454,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     Spell foundSpell = channelledSpell.GetComponent<Spell>();
                     if (foundSpell != null) {
                         foundSpell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                        foundSpell.SetSpellDamageModifier(strengths - weaknesses);
                         foundSpell.SetOwner(gameObject);
                     }
 
@@ -466,7 +470,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 isChannelling = false;
                 isShielded = false;
                 try {
-                    if (currentShield != null)  {
+                    if (currentShield != null) {
                         currentShield.Break();
                     } else {
                         PhotonNetwork.Destroy(channelledSpell);
@@ -478,101 +482,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
         }
     }
-
-
-
-
-
-
-
-    /*  --------------------  SPELLS ------------------------ */
-
-    void StartCastFireball() {
-        currentSpellCast = "Spell_Fireball";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(1);
-    }
-
-    void StartCastShadeSmoke() {
-        currentSpellCast = "Spell_ShadeSmoke";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(1);
-    }
-
-    void StartCastArcaneThrow() {
-        currentSpellCast = "Spell_ArcaneThrow";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(1);
-    }
-
-    void StartCastCondense() {
-        currentSpellCast = "Spell_Condense";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(1);
-    }
-
-    void StartCastAngelWisp() {
-        currentSpellCast = "Spell_AngelWisp";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(10);
-    }
-
-    void StartCastSoulStrike() {
-        currentSpellCast = "Spell_SoulStrike";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(1);
-    }
-
-    void StartCastAuricBolt() {
-        currentSpellCast = "Spell_AuricBolt";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(1);
-    }
-
-    void StartCastEmberSphere() {
-        currentSpellCast = "Spell_EmberSphere";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(2);
-    }
-
-    void StartCastEarthBound() {
-        currentSpellCast = "Spell_EarthBound";
-        currentCastingTransform = frontCastingAnchor;
-        TurnCastingAnchorDirectionToAimPoint();
-        movementManager.PlayCastingAnimation(10);
-    }
-
-    void StartChannelAuricBarrier() {
-        currentChannelledSpell = "Spell_AuricBarrier";
-        currentCastingTransform = frontCastingAnchor;
-        ResetCastingAnchorDirection();
-        ChannelSpell();
-        movementManager.StartBlock();
-    }
-
-    void StartChannelForceShield() {
-        currentChannelledSpell = "Spell_ForceShield";
-        currentCastingTransform = transform;
-        ResetCastingAnchorDirection();
-        ChannelSpell();
-        movementManager.StartBlock();
-    }
-
-    void StartCastMinorHeal() {
-        currentSpellCast = "Spell_MinorHeal";
-        currentCastingTransform = transform;
-        currentSpellIsSelfTargeted = true;
-        movementManager.PlayCastingAnimation(0);
-    }
-
 
 
     /*  --------------------  STATUS EFFECTS ------------------------ */
@@ -666,6 +575,39 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     IEnumerator SilenceRoutine(float duration) {
         yield return new WaitForSeconds(duration);
         silenced = false;
+    }
+
+    // Weaken - Deal reduced damage of given mana types
+    [PunRPC]
+    void Weaken(float duration, string weaknessString) {
+        if (photonView.IsMine) {
+            ManaDistribution weaknessDist = new ManaDistribution(weaknessString);
+            StartCoroutine(WeakenRoutine(duration, weaknessDist));
+        }
+    }
+    IEnumerator WeakenRoutine(float duration, ManaDistribution weaknessDist) {
+        weakened = true;
+        weaknesses += weaknessDist;
+        yield return new WaitForSeconds(duration);
+        weaknesses -= weaknessDist;
+        if (weaknesses.GetAggregate() == 0f) weakened = false;
+    }
+
+    // Strengthen - Deal increased damage of given mana types
+    [PunRPC]
+    void Strengthen(float duration, string strengthString) {
+        if (photonView.IsMine) {
+            ManaDistribution strengthDist = new ManaDistribution(strengthString);
+            StartCoroutine(StrengthenRoutine(duration, strengthDist));
+        }
+    }
+    IEnumerator StrengthenRoutine(float duration, ManaDistribution strengthDist) {
+        strengthened = true;
+        strengths += strengthDist;
+        Debug.Log("New Strength: " + strengths.ToString());
+        yield return new WaitForSeconds(duration);
+        strengths -= strengthDist;
+        if (strengths.GetAggregate() == 0f) strengthened = false;
     }
 
     // Fragile - Take increased damage from all sources

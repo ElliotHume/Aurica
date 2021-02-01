@@ -60,6 +60,9 @@ public struct ManaDistribution {
     public static ManaDistribution operator +(ManaDistribution a, ManaDistribution b)
         => new ManaDistribution(a.structure + b.structure, a.essence + b.essence, a.fire + b.fire, a.water + b.water, a.earth + b.earth, a.air + b.air, a.nature + b.nature);
 
+    public static ManaDistribution operator -(ManaDistribution a, ManaDistribution b)
+        => new ManaDistribution(a.structure - b.structure, a.essence - b.essence, a.fire - b.fire, a.water - b.water, a.earth - b.earth, a.air - b.air, a.nature - b.nature);
+
     public static ManaDistribution operator *(ManaDistribution a, ManaDistribution b)
         => new ManaDistribution(a.structure * b.structure, a.essence * b.essence, a.fire * b.fire, a.water * b.water, a.earth * b.earth, a.air * b.air, a.nature * b.nature);
 

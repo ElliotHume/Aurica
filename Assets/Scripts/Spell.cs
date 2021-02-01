@@ -31,13 +31,23 @@ public class Spell : MonoBehaviourPun {
 
     private float spellStrength = 1f;
     private GameObject owner;
+    private ManaDistribution damageModifier;
 
     public virtual void SetSpellStrength(float newStrength) {
         spellStrength = newStrength;
     }
 
+    public virtual void SetSpellDamageModifier(ManaDistribution newMod) {
+        Debug.Log("New modifier set: "+newMod.ToString());
+        damageModifier = newMod;
+    }
+
     public float GetSpellStrength() {
         return spellStrength;
+    }
+
+    public ManaDistribution GetSpellDamageModifier() {
+        return damageModifier;
     }
 
     public virtual void SetOwner(GameObject ownerGO) {
