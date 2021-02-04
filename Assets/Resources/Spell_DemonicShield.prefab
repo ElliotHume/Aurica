@@ -15401,8 +15401,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.03
-      minScalar: 0.02
+      scalar: 0.06
+      minScalar: 0.04
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -15874,7 +15874,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1000
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -20021,8 +20021,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
-  auricaSpell: {fileID: 0}
-  ManaChannelCost: 40
+  auricaSpell: {fileID: 11400000, guid: 14efdf6722cb9704789a81bc47af15a1, type: 2}
+  ManaChannelCost: 20
   SpellEffectType: shield
   Duration: 1
   CastAnimationType: 1
@@ -20033,7 +20033,9 @@ MonoBehaviour:
   IsOpponentTargeted: 0
   Health: 60
   spawnEffectsOnBreak: []
-  networkedEffectsOnBreak: []
+  networkedEffectsOnBreak:
+  - XCollision_DemonicShield
+  networkedEffectsOnHit: []
   ShieldDistribution:
     structure: -0.33
     essence: -0.33

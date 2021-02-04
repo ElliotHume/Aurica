@@ -18570,10 +18570,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 0
-  ManaCost: 30
   auricaSpell: {fileID: 11400000, guid: 07e04655c48bc4418960820182da7cb3, type: 2}
   ManaChannelCost: 40
-  ManaDamageType: 
   SpellEffectType: healing
   Duration: 5
   CastAnimationType: 0
@@ -18615,6 +18613,26 @@ MonoBehaviour:
   silenceDuration: 0
   stun: 0
   stunDuration: 0
+  weaken: 0
+  weakenDuration: 0
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 0
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
   fragile: 0
   fragileDuration: 0
   fragilePercentage: 0
@@ -18625,6 +18643,7 @@ MonoBehaviour:
   healFlatAmount: 5
   healPercentAmount: 5
   isContinuous: 0
+  canHitSelf: 0
 --- !u!114 &1358278128738505426
 MonoBehaviour:
   m_ObjectHideFlags: 0
