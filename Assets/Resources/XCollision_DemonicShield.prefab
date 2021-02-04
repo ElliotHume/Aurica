@@ -19070,6 +19070,7 @@ MonoBehaviour:
   LastingEffect: 0
   canHitSelf: 1
   DestroyTimeDelay: 15
+  StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
   DeactivateObjectsAfterDuration: []
@@ -19085,9 +19086,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slow: 0
-  slowDuration: 0
-  slowPercentage: 0
+  slow: 1
+  slowDuration: 2
+  slowPercentage: 20
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0

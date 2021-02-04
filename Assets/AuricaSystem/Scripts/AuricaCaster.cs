@@ -109,6 +109,16 @@ public class AuricaCaster : MonoBehaviourPun {
         if (cpUI != null) cpUI.AddComponent(newComponent);
     }
 
+    public AuricaSpell CastSpell(string componentsByName) {
+        ResetCast();
+        string[] componentSeperator = new string[] { ", " };
+        string[] splitComponents = componentsByName.Split(componentSeperator, System.StringSplitOptions.None);
+        foreach (string item in splitComponents) {
+            AddComponent(item);
+        }
+        return Cast();
+    }
+
     public AuricaSpell Cast() {
         return GetSpellMatch(currentComponents, currentDistribution);
     }
