@@ -6,7 +6,7 @@ using Photon.Pun;
 public class AoESpell : Spell {
     public float LastingDamage = 0f;
     public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false;
-    public float DestroyTimeDelay = 15f;
+    public float DestroyTimeDelay = 15f, CollisionTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     public GameObject[] DeactivateObjectsAfterDuration;
 
@@ -16,6 +16,10 @@ public class AoESpell : Spell {
         if (photonView.IsMine) {
             Invoke("DestroySelf", DestroyTimeDelay);
             Invoke("DisableCollisions", Duration);
+        }
+        if (CollisionTimeDelay > 0f) {
+            DisableCollisions();
+            Invoke("EnableCollisions", CollisionTimeDelay);
         }
         Invoke("DisableParticlesAfterDuration", Duration);
     }
@@ -85,6 +89,10 @@ public class AoESpell : Spell {
 
     void DisableCollisions() {
         GetComponent<Collider>().enabled = false;
+    }
+
+    void EnableCollisions() {
+        GetComponent<Collider>().enabled = true;
     }
 
     void DisableParticlesAfterDuration() {
