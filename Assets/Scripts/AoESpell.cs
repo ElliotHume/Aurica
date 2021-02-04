@@ -6,26 +6,28 @@ using Photon.Pun;
 public class AoESpell : Spell {
     public float LastingDamage = 0f;
     public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false;
-    public float DestroyTimeDelay = 15f, CollisionTimeDelay = 0f;
+    public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     public GameObject[] DeactivateObjectsAfterDuration;
 
     private float amountOfScalingApplied = 0f;
+    private bool active = true;
 
     void Awake() {
         if (photonView.IsMine) {
             Invoke("DestroySelf", DestroyTimeDelay);
             Invoke("DisableCollisions", Duration);
         }
-        if (CollisionTimeDelay > 0f) {
+        if (StartTimeDelay > 0f) {
+            active = false;
             DisableCollisions();
-            Invoke("EnableCollisions", CollisionTimeDelay);
+            Invoke("Enable", StartTimeDelay);
         }
         Invoke("DisableParticlesAfterDuration", Duration);
     }
 
     void FixedUpdate() {
-        if (ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
+        if (active && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
             transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
             if (ScalingLimit != 0f) amountOfScalingApplied += Mathf.Abs(ScalingFactor * Time.deltaTime);
         }
@@ -88,10 +90,12 @@ public class AoESpell : Spell {
     }
 
     void DisableCollisions() {
+        active = false;
         GetComponent<Collider>().enabled = false;
     }
 
-    void EnableCollisions() {
+    void Enable() {
+        active = true;
         GetComponent<Collider>().enabled = true;
     }
 

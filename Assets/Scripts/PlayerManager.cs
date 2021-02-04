@@ -247,7 +247,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void TakeDamage(float damage, ManaDistribution spellDistribution) {
-        if (isShielded) return;
+        if (isShielded || damage == 0f) return;
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
         Health -= aura.GetDamage(damage, spellDistribution);
@@ -494,6 +494,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+
+
+
+
+
     // Displace - move the player along a local or worldspace direction vector
     [PunRPC]
     void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
@@ -501,6 +506,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             movementManager.Displace(direction, distance, speed, isWorldSpaceDirection);
         }
     }
+
+
+
+
+
 
     // Slow - Decrease animation speed
     [PunRPC]
@@ -518,6 +528,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         slowed = false;
     }
 
+
+
+
+
+
     // Hasten - Increase animation speed
     [PunRPC]
     void Hasten(float duration, float percentage) {
@@ -534,6 +549,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         hastened = false;
     }
 
+
+
+
+
+
     // Rooted - Prevent movement, including movement spells
     [PunRPC]
     void Root(float duration) {
@@ -548,6 +568,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         movementManager.Root(false);
         rooted = false;
     }
+
+
+
+
+
 
     // Stunned - Prevent all movement and spellcasting
     [PunRPC]
@@ -564,6 +589,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         stunned = false;
     }
 
+
+
+
+
+
     // Silence - Prevent spellcasting
     [PunRPC]
     void Silence(float duration) {
@@ -576,6 +606,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         yield return new WaitForSeconds(duration);
         silenced = false;
     }
+
+
+
+
+
 
     // Weaken - Deal reduced damage of given mana types
     [PunRPC]
@@ -592,6 +627,30 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         weaknesses -= weaknessDist;
         if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
     }
+    [PunRPC]
+    public void ContinuousWeaken(string weakString) {
+        if (photonView.IsMine) {
+            ManaDistribution weakDist = new ManaDistribution(weakString);
+            weakened = true;
+            weaknesses += weakDist;
+            Debug.Log("New Strength: " + weaknesses.ToString());
+        }
+    }
+
+    [PunRPC]
+    public void EndContinuousWeaken(string weakString) {
+        if (photonView.IsMine) {
+            ManaDistribution weakDist = new ManaDistribution(weakString);
+            weaknesses -= weakDist;
+            if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
+            Debug.Log("New Strength after end: " + weaknesses.ToString());
+        }
+    }
+
+
+
+
+
 
     // Strengthen - Deal increased damage of given mana types
     [PunRPC]
@@ -610,6 +669,31 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (strengths.GetAggregate() <= 0.1f) strengthened = false;
     }
 
+    [PunRPC]
+    public void ContinuousStrengthen(string strengthString) {
+        if (photonView.IsMine) {
+            ManaDistribution strengthDist = new ManaDistribution(strengthString);
+            strengthened = true;
+            strengths += strengthDist;
+            Debug.Log("New Strength: " + strengths.ToString());
+        }
+    }
+
+    [PunRPC]
+    public void EndContinuousStrengthen(string strengthString) {
+        if (photonView.IsMine) {
+            ManaDistribution strengthDist = new ManaDistribution(strengthString);
+            strengths -= strengthDist;
+            if (strengths.GetAggregate() <= 0.1f) strengthened = false;
+            Debug.Log("New Strength after end: " + strengths.ToString());
+        }
+    }
+
+
+
+
+
+
     // Fragile - Take increased damage from all sources
     [PunRPC]
     void Fragile(float duration, float percentage) {
@@ -624,6 +708,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         fragile = false;
         fragilePercentage = 0f;
     }
+
+
+
+
+
 
     // Toughen - Take decreased damage from all sources
     [PunRPC]

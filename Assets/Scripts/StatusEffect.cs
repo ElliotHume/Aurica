@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class StatusEffect : MonoBehaviourPun {
+public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy {
 
     // Increase or decrease movement speed
     public bool slow;
@@ -44,6 +44,21 @@ public class StatusEffect : MonoBehaviourPun {
     public bool canHitSelf = false;
 
     private bool isCollided = false;
+    private Spell attachedSpell;
+
+    void Start() {
+        attachedSpell = GetComponent<Spell>();
+    }
+
+    public override void OnEnable() {
+        base.OnEnable();
+        photonView.AddCallbackTarget(this);
+    }
+
+    public override void OnDisable() {
+        base.OnDisable();
+        photonView.RemoveCallbackTarget(this);
+    }
 
     public void ManualActivation(GameObject playerGO) {
         if (!photonView.IsMine) return;
@@ -74,44 +89,93 @@ public class StatusEffect : MonoBehaviourPun {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    Activate(pv);
-                }
-            }
-        }
-    }
-
-    void OnTriggerStay(Collider collision) {
-        if (photonView.IsMine && isContinuous) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
-                PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
-                if (pm != null) {
-                    PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) {
-                        if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * 0.004f, slowPercentage/100f);
-                        if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration * 0.004f, hastenPercentage/100f);
-                        if (root) pv.RPC("Root", RpcTarget.All, rootDuration * 0.004f);
-                        if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * 0.004f);
-                        if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * 0.004f);
-                        if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration * 0.004f, weakenDistribution.ToString());
-                        if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration * 0.004f, strengthenDistribution.ToString());
-                        if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration * 0.004f, fragilePercentage/100f);
-                        if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration * 0.004f, toughPercentage/100f);
-                        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.004f, healPercentAmount/100f * 0.002f);
+                    if (!isContinuous) {
+                        Activate(pv);
+                    } else {
+                        ActivateContinuous(pv);
                     }
                 }
             }
         }
     }
 
+    void OnTriggerExit(Collider collision) {
+        if (photonView.IsMine && isContinuous) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+                PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
+                if (pm != null) {
+                    PhotonView pv = PhotonView.Get(pm);
+                    DeactivateContinuous(pv);
+                }
+            }
+        }
+    }
+
+    public void OnPreNetDestroy(PhotonView rootView) {
+        if (photonView.IsMine && isContinuous) {
+            SphereCollider col = GetComponent<SphereCollider>();
+            Vector3 center = transform.position;
+            float radius = 1f;
+            if (col != null) {
+                center += col.center;
+                radius = col.radius;
+            }
+            Collider[] hitColliders = Physics.OverlapSphere(center, radius, 1<<3);
+            if (hitColliders.Length == 0) return;
+
+            foreach (Collider collision in hitColliders) {
+                if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+                    PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
+                    if (pm != null) {
+                        PhotonView pv = PhotonView.Get(pm);
+                        DeactivateContinuous(pv);
+                    }
+                }
+            }
+            
+        }
+    }
+
     void Activate(PhotonView pv) {
+        if (pv != null) {
+            float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
+            if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
+            if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
+            if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
+            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
+            if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
+            if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration * multiplier, weakenDistribution.ToString());
+            if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration * multiplier, strengthenDistribution.ToString());
+            if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration * multiplier, fragilePercentage/100f * multiplier);
+            if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration * multiplier, toughPercentage/100f * multiplier);
+            if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount/100f * multiplier);
+        }
+    }
+
+    void ActivateContinuous(PhotonView pv) {
         if (pv != null) {
             if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration, slowPercentage/100f);
             if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration, hastenPercentage/100f);
             if (root) pv.RPC("Root", RpcTarget.All, rootDuration);
             if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration);
             if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration);
-            if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration, weakenDistribution.ToString());
-            if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration, strengthenDistribution.ToString());
+            if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
+            if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
+            if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration, fragilePercentage/100f);
+            if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration, toughPercentage/100f);
+            if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount, healPercentAmount/100f);
+        }
+    }
+
+    void DeactivateContinuous(PhotonView pv) {
+        if (pv != null) {
+            if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration, slowPercentage/100f);
+            if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration, hastenPercentage/100f);
+            if (root) pv.RPC("Root", RpcTarget.All, rootDuration);
+            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration);
+            if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration);
+            if (weaken) pv.RPC("EndContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
+            if (strengthen) pv.RPC("EndContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
             if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration, fragilePercentage/100f);
             if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration, toughPercentage/100f);
             if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount, healPercentAmount/100f);

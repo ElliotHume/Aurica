@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: SoulStrike
+  m_Name: Hellpower
   m_EditorClassIdentifier: 
-  c_name: Soul Strike
-  description: An easily directable spell that does high damage but will apply a
-    tough effect to the target for a short time
+  c_name: Hellpower
+  description: Summon a ring of refined demonic essence, while standing in the completed
+    ritual circle you will be strengthened considerably
   targetDistribution:
-    structure: 0.1
-    essence: -0.2
-    fire: 0
-    water: 0.1
+    structure: -0.2
+    essence: 0
+    fire: 0.33
+    water: 0
     earth: 0
     air: 0
     nature: -1
   keyComponents:
-  - {fileID: 11400000, guid: 751db08e913374239a7d5ff6b0ba730e, type: 2}
+  - {fileID: 11400000, guid: 3cb6d78aac23a4de3a0d2d431b55ff5b, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
   - {fileID: 11400000, guid: 3b94403fe60b4433f8914e88089b077a, type: 2}
-  - {fileID: 11400000, guid: d4e98e168819744fd8980d3b105e8577, type: 2}
-  errorThreshold: 2
+  - {fileID: 11400000, guid: 310184bc9d5bd47c088cfdc3f5e6cd99, type: 2}
+  errorThreshold: 1.5
   isAuric: 0
-  linkedSpellResource: Spell_SoulStrike
+  linkedSpellResource: Spell_Hellpower
