@@ -9255,6 +9255,26 @@ MonoBehaviour:
   silenceDuration: 2
   stun: 0
   stunDuration: 0
+  weaken: 0
+  weakenDuration: 0
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 0
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
   fragile: 0
   fragileDuration: 0
   fragilePercentage: 0
@@ -9265,6 +9285,7 @@ MonoBehaviour:
   healFlatAmount: 0
   healPercentAmount: 0
   isContinuous: 0
+  canHitSelf: 0
 --- !u!1 &4086460706064050869
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: MinorHeal
+  m_Name: LifeShield
   m_EditorClassIdentifier: 
-  c_name: Minor Heal
-  description: Heal yourself for a small flat amount and a small amount of missing
-    health
+  c_name: Life Shield
+  description: Create a shield of living energy that will heal the caster when the
+    shield is struck. Has a small health pool to compensate
   targetDistribution:
-    structure: 0.15
+    structure: 0
     essence: 1
     fire: 0
-    water: 0.15
+    water: 0.35
     earth: 0
-    air: 0
-    nature: 0
+    air: 0.2
+    nature: 0.1
   keyComponents:
-  - {fileID: 11400000, guid: 3cb6d78aac23a4de3a0d2d431b55ff5b, type: 2}
+  - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
   - {fileID: 11400000, guid: ec341d06fe0184444983a2205987618b, type: 2}
   - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
-  errorThreshold: 3
+  errorThreshold: 1.5
   isAuric: 0
-  linkedSpellResource: Spell_MinorHeal
+  linkedSpellResource: Spell_LifeShield

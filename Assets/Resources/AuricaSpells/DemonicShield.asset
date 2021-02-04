@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: DemonicShield
+  m_EditorClassIdentifier: 
+  c_name: Demonic Shield
+  description: Create a shield of demonic mana. When the shield breaks it will strengthen
+    the caster's demonic and fire spell damage significantly, but will root them
+    in place and apply a minor toughening effect.
+  targetDistribution:
+    structure: -0.1
+    essence: -0.1
+    fire: 0.33
+    water: 0
+    earth: 0
+    air: 0
+    nature: -1
+  keyComponents:
+  - {fileID: 11400000, guid: ddab4c958b760457d8a7b68e3f8cb208, type: 2}
+  - {fileID: 11400000, guid: 3b94403fe60b4433f8914e88089b077a, type: 2}
+  - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
+  - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_DemonicShield

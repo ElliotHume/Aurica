@@ -9586,10 +9586,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 76262933d3f9abe4a8eef3693e3e4ff0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1b8a9b0318efa8946a7c51cf9d4280c9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.1
-  m_Pitch: 0.3
+  m_Pitch: 0.4
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -14615,10 +14615,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4e9fb6d7ec4893d4084908ebe6a7c172, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 02bfc611a666de048930474ca33ddde7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
-  m_Pitch: 1.4
+  m_Volume: 0.2
+  m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -14781,10 +14781,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 70482734d785ed94494489213ddcd1f5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 02bfc611a666de048930474ca33ddde7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.2
-  m_Pitch: 1.4
+  m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -19633,7 +19633,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 30
@@ -24439,7 +24439,7 @@ GameObject:
   - component: {fileID: 3178645386633176150}
   - component: {fileID: 3178645386633176149}
   m_Layer: 0
-  m_Name: Spell_DeathShield
+  m_Name: Spell_LifeShield
   m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24481,7 +24481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   auricaSpell: {fileID: 0}
-  ManaChannelCost: 40
+  ManaChannelCost: 15
   SpellEffectType: shield
   Duration: 1
   CastAnimationType: 1
@@ -24490,17 +24490,19 @@ MonoBehaviour:
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Health: 40
+  Health: 20
   spawnEffectsOnBreak: []
   networkedEffectsOnBreak: []
+  networkedEffectsOnHit:
+  - XCollision_LifeShield
   ShieldDistribution:
     structure: 0
-    essence: -1
+    essence: 1
     fire: 0
     water: 0.33
     earth: 0
     air: 0.33
-    nature: 0
+    nature: 0.1
 --- !u!114 &3178645386633176150
 MonoBehaviour:
   m_ObjectHideFlags: 0
