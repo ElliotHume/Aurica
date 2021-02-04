@@ -70,7 +70,7 @@ public class StatusEffect : MonoBehaviourPun {
 
     void OnTriggerEnter(Collider collision) {
         if (photonView.IsMine) {
-            if (collision.gameObject.tag == "Player") {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -82,11 +82,22 @@ public class StatusEffect : MonoBehaviourPun {
 
     void OnTriggerStay(Collider collision) {
         if (photonView.IsMine && isContinuous) {
-            if (collision.gameObject.tag == "Player") {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    Activate(pv);
+                    if (pv != null) {
+                        if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * 0.004f, slowPercentage/100f);
+                        if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration * 0.004f, hastenPercentage/100f);
+                        if (root) pv.RPC("Root", RpcTarget.All, rootDuration * 0.004f);
+                        if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * 0.004f);
+                        if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * 0.004f);
+                        if (weaken) pv.RPC("Weaken", RpcTarget.All, weakenDuration * 0.004f, weakenDistribution.ToString());
+                        if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration * 0.004f, strengthenDistribution.ToString());
+                        if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration * 0.004f, fragilePercentage/100f);
+                        if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration * 0.004f, toughPercentage/100f);
+                        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.004f, healPercentAmount/100f * 0.002f);
+                    }
                 }
             }
         }

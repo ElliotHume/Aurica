@@ -590,7 +590,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         weaknesses += weaknessDist;
         yield return new WaitForSeconds(duration);
         weaknesses -= weaknessDist;
-        if (weaknesses.GetAggregate() == 0f) weakened = false;
+        if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
     }
 
     // Strengthen - Deal increased damage of given mana types
@@ -607,7 +607,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         Debug.Log("New Strength: " + strengths.ToString());
         yield return new WaitForSeconds(duration);
         strengths -= strengthDist;
-        if (strengths.GetAggregate() == 0f) strengthened = false;
+        if (strengths.GetAggregate() <= 0.1f) strengthened = false;
     }
 
     // Fragile - Take increased damage from all sources
