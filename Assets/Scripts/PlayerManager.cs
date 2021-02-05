@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
     private Crosshair crosshair;
-    private float maxMana, maxHealth;
+    private float maxMana, maxHealth, defaultManaRegen;
     private Spell cachedSpellComponent;
     private CharacterUI characterUI;
     private Aura aura;
@@ -95,6 +95,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public bool tough;
     private float toughDuration, toughPercentage = 0f;
 
+    [HideInInspector]
+    public bool manaRestorationChange;
+    private float manaRestorationDuration, manaRestorationPercentage = 0f;
+
 
 
 
@@ -133,6 +137,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Start() {
         maxMana = Mana;
         maxHealth = Health;
+        defaultManaRegen = ManaRegen;
 
         // Follow the player character with the camera
         CustomCameraWork _cameraWork = this.gameObject.GetComponent<CustomCameraWork>();
@@ -364,6 +369,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         StopBlocking();
     }
 
+    void CastFizzle() {
+        PhotonNetwork.Instantiate("XCollision_Fizzle", transform.position, transform.rotation);
+    }
+
     void CastAuricaSpell(AuricaSpell spell) {
         if (!photonView.IsMine) return;
         Debug.Log("Spell Match: " + spell.c_name);
@@ -419,7 +428,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 Spell spell = newSpell.GetComponent<Spell>();
                 if (spell != null) {
                     spell.SetSpellStrength(auricaCaster.GetSpellStrength());
-                    spell.SetSpellDamageModifier(strengths - weaknesses);
+                    if (strengthened || weakened) spell.SetSpellDamageModifier(strengths - weaknesses);
                     spell.SetOwner(gameObject);
                 }
 
@@ -436,6 +445,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                         ts.SetTarget(target);
                     }
                 }
+            } else {
+                CastFizzle();
             }
             auricaCaster.ResetCast();
         }
@@ -465,6 +476,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     }
 
                     movementManager.StartBlock();
+                } else {
+                    CastFizzle();
                 }
             } else if ((!start && isChannelling) || silenced || stunned) {
                 isChannelling = false;
@@ -506,6 +519,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             movementManager.Displace(direction, distance, speed, isWorldSpaceDirection);
         }
     }
+
+
+
+
+
+
+    // ManaDrain - drain mana by a flat value and/or a percentage of missing health
+    [PunRPC]
+    void ManaDrain(float flat, float percentage) {
+        if (photonView.IsMine) {
+            Mana -= flat + ((maxMana - Mana) * percentage);
+        }
+    }
+
 
 
 
@@ -633,7 +660,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ManaDistribution weakDist = new ManaDistribution(weakString);
             weakened = true;
             weaknesses += weakDist;
-            Debug.Log("New Strength: " + weaknesses.ToString());
+            //Debug.Log("New Strength: " + weaknesses.ToString());
         }
     }
 
@@ -643,7 +670,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ManaDistribution weakDist = new ManaDistribution(weakString);
             weaknesses -= weakDist;
             if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
-            Debug.Log("New Strength after end: " + weaknesses.ToString());
+            //Debug.Log("New Strength after end: " + weaknesses.ToString());
         }
     }
 
@@ -663,7 +690,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     IEnumerator StrengthenRoutine(float duration, ManaDistribution strengthDist) {
         strengthened = true;
         strengths += strengthDist;
-        Debug.Log("New Strength: " + strengths.ToString());
+        //Debug.Log("New Strength: " + strengths.ToString());
         yield return new WaitForSeconds(duration);
         strengths -= strengthDist;
         if (strengths.GetAggregate() <= 0.1f) strengthened = false;
@@ -675,7 +702,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
             strengthened = true;
             strengths += strengthDist;
-            Debug.Log("New Strength: " + strengths.ToString());
+            //Debug.Log("New Strength: " + strengths.ToString());
         }
     }
 
@@ -685,7 +712,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
             strengths -= strengthDist;
             if (strengths.GetAggregate() <= 0.1f) strengthened = false;
-            Debug.Log("New Strength after end: " + strengths.ToString());
+            //Debug.Log("New Strength after end: " + strengths.ToString());
         }
     }
 
@@ -727,5 +754,43 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         yield return new WaitForSeconds(duration);
         tough = false;
         toughPercentage = 0f;
+    }
+
+
+
+
+
+
+    // ManaRestoration - change the mana regen rate by a multiplier value
+    [PunRPC]
+    void ManaRestoration(float duration, float restorationPercentage) {
+        if (photonView.IsMine) {
+            StartCoroutine(ManaRestorationRoutine(duration, restorationPercentage));
+        }
+    }
+    IEnumerator ManaRestorationRoutine(float duration, float restorationPercentage) {
+        manaRestorationChange = true;
+        ManaRegen *= restorationPercentage;
+        yield return new WaitForSeconds(duration);
+        ManaRegen /= restorationPercentage;
+        if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
+    }
+
+    [PunRPC]
+    public void ContinuousManaRestoration(float restorationPercentage) {
+        if (photonView.IsMine) {
+            manaRestorationChange = true;
+            ManaRegen *= restorationPercentage;
+            // Debug.Log("New Mana Regen : " + ManaRegen);
+        }
+    }
+
+    [PunRPC]
+    public void EndContinuousManaRestoration(float restorationPercentage) {
+        if (photonView.IsMine) {
+            ManaRegen /= restorationPercentage;
+            if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
+            //Debug.Log("New Mana Regen after end: " + ManaRegen);
+        }
     }
 }

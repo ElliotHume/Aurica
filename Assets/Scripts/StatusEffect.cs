@@ -37,8 +37,15 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     public bool tough;
     public float toughDuration, toughPercentage = 0f;
 
+    // Change Mana Regen of the target
+    public bool changeManaRegen;
+    public float changeDuration, changePercentage = 0f;
+
     public bool healing = false;
     public float healFlatAmount = 0f, healPercentAmount = 0f;
+
+    public bool manaDrain = false;
+    public float manaDrainFlatAmount = 0f, manaDrainPercentAmount = 0f;
 
     public bool isContinuous = false;
     public bool canHitSelf = false;
@@ -99,6 +106,18 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         }
     }
 
+    void OnTriggerStay(Collider collision) {
+        if (photonView.IsMine && isContinuous) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+                PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
+                if (pm != null) {
+                    PhotonView pv = PhotonView.Get(pm);
+                    ApplyContinuous(pv);
+                }
+            }
+        }
+    }
+
     void OnTriggerExit(Collider collision) {
         if (photonView.IsMine && isContinuous) {
             if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
@@ -148,37 +167,40 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration * multiplier, strengthenDistribution.ToString());
             if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration * multiplier, fragilePercentage/100f * multiplier);
             if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration * multiplier, toughPercentage/100f * multiplier);
+            if (changeManaRegen) pv.RPC("ManaRestoration", RpcTarget.All, changeDuration * multiplier, changePercentage/100f * multiplier);
             if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount/100f * multiplier);
+            if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * multiplier, manaDrainPercentAmount/100f * multiplier);
         }
     }
 
     void ActivateContinuous(PhotonView pv) {
         if (pv != null) {
-            if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration, slowPercentage/100f);
-            if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration, hastenPercentage/100f);
-            if (root) pv.RPC("Root", RpcTarget.All, rootDuration);
-            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration);
-            if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration);
+            float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
             if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
-            if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration, fragilePercentage/100f);
-            if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration, toughPercentage/100f);
-            if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount, healPercentAmount/100f);
+            if (changeManaRegen) pv.RPC("ContinuousManaRestoration", RpcTarget.All, changePercentage/100f * multiplier);
         }
+    }
+
+    void ApplyContinuous(PhotonView pv) {
+        float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
+        if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
+        if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
+        if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
+        if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
+        if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
+        if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration * multiplier, fragilePercentage/100f * multiplier);
+        if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration * multiplier, toughPercentage/100f * multiplier);
+        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.002f * multiplier, healPercentAmount/100f * 0.002f * multiplier);
+        if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * 0.002f * multiplier, manaDrainPercentAmount/100f * 0.002f * multiplier);
     }
 
     void DeactivateContinuous(PhotonView pv) {
         if (pv != null) {
-            if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration, slowPercentage/100f);
-            if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration, hastenPercentage/100f);
-            if (root) pv.RPC("Root", RpcTarget.All, rootDuration);
-            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration);
-            if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration);
+            float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
             if (weaken) pv.RPC("EndContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
             if (strengthen) pv.RPC("EndContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
-            if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration, fragilePercentage/100f);
-            if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration, toughPercentage/100f);
-            if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount, healPercentAmount/100f);
+            if (changeManaRegen) pv.RPC("EndContinuousManaRestoration", RpcTarget.All, changePercentage/100f * multiplier);
         }
     }
 }
