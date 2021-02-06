@@ -13,15 +13,11 @@ public class GlyphDrawer : MonoBehaviour {
 
 	public StrokeGraphic targetGlyphGraphic, castedGlyphGraphic, currentGlyphGraphic, currentStrokeGraphic;
 
-	//public PlayerBehaviour player;
-
 	void Start () {
         glyphInput.OnGlyphCast.AddListener(this.OnGlyphCast);
 
 		if (glyphInput.OnStrokeDraw!=this.OnStrokeDraw) glyphInput.OnStrokeDraw+=this.OnStrokeDraw;
 		if (glyphInput.OnPointDraw!=this.OnPointDraw) glyphInput.OnPointDraw+=this.OnPointDraw;
-
-		//player = GameObject.Find("Player1").GetComponent<PlayerBehaviour>();
 	}
 	
 	void Set(StrokeGraphic strokeGraphic, Glyph glyph)
@@ -53,26 +49,16 @@ public class GlyphDrawer : MonoBehaviour {
 		Clear(currentGlyphGraphic);
 	}
 
-	const float step=0.01f;
+	const float step=0.04f;
 
 	IEnumerator Morph(GlyphMatch match){
 		Clear(castedGlyphGraphic);
 		Stroke[] strokes = null;
-		/*
-		for (float t=0;t<1;t+=0.05f){
+		for (float t=0;t<1;t+=step){
 			match.SetLerpStrokes(t, ref strokes);
 			Set(targetGlyphGraphic,strokes);
 			yield return new WaitForSeconds(step);
 		}
-		*/
-		float t = 0f;
-		while (t < 0.99f) {
-			match.SetLerpStrokes(t, ref strokes);
-			Set(targetGlyphGraphic, strokes);
-			t += (1 - t) * 0.1f;
-			yield return new WaitForSeconds(step);
-		}
-
 		Set(targetGlyphGraphic,match.target);
 		if (IsClear(currentStrokeGraphic) && IsClear(currentGlyphGraphic)){
 			Set(castedGlyphGraphic,match.source);

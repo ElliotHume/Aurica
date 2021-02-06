@@ -44,6 +44,8 @@ public class CustomCameraWork : MonoBehaviourPun
   [SerializeField]
   private float smoothSpeed = 0.125f;
 
+  private float shakeFactor, shakeDecayFactor;
+
   // cached transform of the target
   Transform cameraTransform;
 
@@ -71,6 +73,13 @@ public class CustomCameraWork : MonoBehaviourPun
 
     initialHeight = height;
     initialDirection = transform.rotation;
+  }
+
+  void Update() {
+    if (shakeFactor >= 0.001f) {
+        cameraTransform.position += (Vector3)(Random.insideUnitSphere * shakeFactor);
+    }
+    shakeFactor *= shakeDecayFactor;
   }
 
 
@@ -162,6 +171,11 @@ public class CustomCameraWork : MonoBehaviourPun
 
     cameraTransform.LookAt(this.transform.position + centerOffset);
 
+  }
+
+  public void Shake(float factor, float decay) {
+    shakeFactor += factor;
+    shakeDecayFactor = decay;
   }
   #endregion
 }

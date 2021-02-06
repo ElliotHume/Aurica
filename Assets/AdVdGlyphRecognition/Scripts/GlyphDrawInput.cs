@@ -15,7 +15,7 @@ namespace AdVd.GlyphRecognition
 	public class GlyphDrawInput : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler {
 
 		List<Vector2> stroke;
-		public List<Stroke> strokeList;
+		List<Stroke> strokeList;
 		public Glyph castedGlyph;
 		public GlyphMatch currentMatch;
 		/// <summary>
@@ -103,8 +103,7 @@ namespace AdVd.GlyphRecognition
 				matchingMethod=value;
 			}
 		}
-		// This is bad, fix this
-		public MatchingMethod method;
+		MatchingMethod method;
 
 		public enum Series_Generator{ None=-1, LegendreSeries, LegendreSobolevSeries }
 		[HideInInspector][SerializeField]
@@ -184,18 +183,7 @@ namespace AdVd.GlyphRecognition
 			Method=Method;//Instances method
 		}
 
-		public void CommitStrokes() {
-			if (stroke != null ) {
-				if (strokeList==null) strokeList=new List<Stroke>();
-				Stroke newStroke=new Stroke(stroke.ToArray());
-				strokeList.Add(newStroke);
-				//Debug.Log("StrokeList:   "+ strokeList);
-				stroke=null;
-			}
-		}
-
 		Vector2 prevPos;
-		public Vector2  GetPrevPos() { return prevPos; }
 		bool RectEventPoint(Vector2 position, Camera pressEventCamera, out Vector2 localPoint){
 			RectTransform rt =  transform as RectTransform;
 			Rect r = rt.rect;
@@ -213,12 +201,7 @@ namespace AdVd.GlyphRecognition
 			if (eventData.button!=PointerEventData.InputButton.Left) return;
 			stroke=new List<Vector2>();
 			Vector2 localPoint;
-			Debug.Log("Begin Drag");
-			if (RectEventPoint(eventData.pressPosition, eventData.pressEventCamera, out localPoint)){
-				stroke.Add (prevPos=localPoint);
-				//Debug.Log("stroke added: "+localPoint.ToString());
-			} 
-			//Debug.Log("Stroke: "+stroke[0].ToString());
+			if (RectEventPoint(eventData.pressPosition, eventData.pressEventCamera, out localPoint)) stroke.Add (prevPos=localPoint);
 		}
 
 		#endregion
@@ -251,9 +234,6 @@ namespace AdVd.GlyphRecognition
 						OnPointDraw(points);
 					}
 				}
-				//Debug.Log("stroke length:   "+ stroke.Count);
-			} else {
-				//Debug.Log("Null Stroke  (OnDrag)");
 			}
 		}
 
@@ -265,7 +245,6 @@ namespace AdVd.GlyphRecognition
 		{
 			if (eventData.button!=PointerEventData.InputButton.Left) return;
 			if (stroke!=null){
-				Debug.Log("End Drag");
 				if (stroke.Count<2){
 					stroke=null; 
 					if (OnPointDraw!=null) OnPointDraw(null);
@@ -276,11 +255,8 @@ namespace AdVd.GlyphRecognition
 				if (strokeList==null) strokeList=new List<Stroke>();
 				Stroke newStroke=new Stroke(stroke.ToArray());
 				strokeList.Add(newStroke);
-				Debug.Log("StrokeList:   "+ strokeList);
 				stroke=null;
 				if (OnStrokeDraw!=null) OnStrokeDraw(strokeList.ToArray());
-			} else {
-				Debug.Log("Null Stroke   (OnEndDrag)");
 			}
 		}
 
@@ -290,86 +266,12 @@ namespace AdVd.GlyphRecognition
 
 		public void OnPointerClick (PointerEventData eventData)
 		{
-			//if (eventData.button!=PointerEventData.InputButton.Left) return;
+			if (eventData.button!=PointerEventData.InputButton.Left) return;
 			if (stroke==null && castOnTap){
-				//Debug.Log("TAPCAST");
 				Cast();
 			}
 		}
 		#endregion
-
-		Vector2 ReshapePosition(Vector2 position) {
-			Vector2 localPoint = position;
-			RectTransform rt =  transform as RectTransform;
-			Rect r = rt.rect;
-			localPoint-=r.center;
-			localPoint.x/=r.width*normalizedGlyphSize; localPoint.y/=r.height*normalizedGlyphSize;
-			return localPoint;
-		}
-		
-		public void BeginCustomDrag(Vector2 pressPosition){
-			//if (eventData.button!=PointerEventData.InputButton.Left) return;
-			
-			stroke=new List<Vector2>();
-			Vector2 localPoint = ReshapePosition(pressPosition);
-			//Debug.Log("Begin Drag");
-			stroke.Add (prevPos=localPoint);
-			//Debug.Log("stroke added: "+localPoint.ToString());
-			//Debug.Log("stroke added: "+localPoint.ToString());
-			//Debug.Log("Stroke: "+stroke[0].ToString());
-		}
-
-		public void CustomDrag(Vector2 position) {
-			//if (eventData.button!=PointerEventData.InputButton.Left) return;
-			if (stroke!=null){
-				Vector2 currPos = ReshapePosition(position);
-				if (sampleDistance<Stroke.minSampleDistance){//No resample
-					stroke.Add(currPos);
-				}
-				else{ //Resample
-					Vector2 dir=(currPos-prevPos);
-					float dist=dir.magnitude;
-					if (dist>0) dir/=dist;
-					while(dist>sampleDistance){
-						Vector2 point=prevPos+dir*sampleDistance;
-						stroke.Add (point);
-						prevPos=point;
-						dist-=sampleDistance;
-					}
-				}
-				if (OnPointDraw!=null){
-					Vector2[] points=new Vector2[stroke.Count+1];
-					stroke.CopyTo(points); points[points.Length-1]=currPos;
-					OnPointDraw(points);
-				}
-				//Debug.Log("stroke length:   "+ stroke.Count);
-			} else {
-				//Debug.Log("Null Stroke  (OnDrag)");
-			}
-		}
-
-		public void EndCustomDrag (Vector2 position) {
-			//if (eventData.button!=PointerEventData.InputButton.Left) return;
-			if (stroke!=null){
-				//Debug.Log("End Drag");
-				if (stroke.Count<2){
-					stroke=null; 
-					if (OnPointDraw!=null) OnPointDraw(null);
-					return;
-				}
-				Vector2 currPos = ReshapePosition(position);
-				stroke.Add(currPos);
-				//Debug.Log("Stroke ended: "+currPos);
-				if (strokeList==null) strokeList=new List<Stroke>();
-				Stroke newStroke=new Stroke(stroke.ToArray());
-				strokeList.Add(newStroke);
-				//Debug.Log("StrokeList:   "+ strokeList);
-				stroke=null;
-				if (OnStrokeDraw!=null) OnStrokeDraw(strokeList.ToArray());
-			} else {
-				Debug.Log("Null Stroke   (OnEndDrag)");
-			}
-		}
 		
 		/// <summary>
 		/// Casts the currently drawn glyph. Return false if there is no glyph to cast. 
@@ -377,24 +279,16 @@ namespace AdVd.GlyphRecognition
 		/// </summary>
 		/// 
 		public bool Cast(){
-			//Debug.Log("Cast");
-			try {
-				if (strokeList!=null){
-					if (strokeList.Count>0){
-						Glyph newGlyph=Glyph.CreateGlyph(strokeList.ToArray(), sampleDistance);
-						newGlyph.name="NewGlyph ["+this.name+"]";
-						Cast(newGlyph);
-						strokeList.Clear();
-						return true;
-					}
+			if (strokeList!=null){
+				if (strokeList.Count>0){
+					Glyph newGlyph=Glyph.CreateGlyph(strokeList.ToArray(), sampleDistance);
+					newGlyph.name="NewGlyph ["+this.name+"]";
+					Cast(newGlyph);
+					strokeList.Clear();
+					return true;
 				}
-				return false;
-			} 
-			catch (Exception e) {
-				Debug.LogError("caught Cast() error: " + e.ToString());
-				strokeList.Clear();
-				return false;
 			}
+			return false;
 		}
 
 		/// <summary>
@@ -402,7 +296,6 @@ namespace AdVd.GlyphRecognition
 		/// </summary>
 		/// <param name="glyph">Glyph.</param>
 		public bool Cast(Glyph glyph){
-			//Debug.Log("Cast Glyph:   "+ glyph.ToString());
 			castedGlyph=glyph;
 			if (castedGlyph==null) return false;
 
@@ -430,7 +323,6 @@ namespace AdVd.GlyphRecognition
 		/// Clears the current input.
 		/// </summary>
 		public void ClearInput(){
-			//Debug.Log("Clear Input");
 			stroke=null;
 			if (strokeList!=null) strokeList.Clear();
 		}

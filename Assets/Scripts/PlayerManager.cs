@@ -55,6 +55,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Aura aura;
     private AuricaCaster auricaCaster;
     private ShieldSpell currentShield;
+    private CustomCameraWork cameraWorker;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -140,10 +141,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         defaultManaRegen = ManaRegen;
 
         // Follow the player character with the camera
-        CustomCameraWork _cameraWork = this.gameObject.GetComponent<CustomCameraWork>();
-        if (_cameraWork != null) {
+        cameraWorker = this.gameObject.GetComponent<CustomCameraWork>();
+        if (cameraWorker != null) {
             if (photonView.IsMine) {
-                _cameraWork.OnStartFollowing();
+                cameraWorker.OnStartFollowing();
             }
         } else {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
@@ -252,9 +253,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void TakeDamage(float damage, ManaDistribution spellDistribution) {
-        if (isShielded || damage == 0f) return;
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
+        if (cameraWorker != null) cameraWorker.Shake(damage/100f, 0.198f);
+        if (isShielded || damage == 0f) return;
         Health -= aura.GetDamage(damage, spellDistribution);
         Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution));
     }

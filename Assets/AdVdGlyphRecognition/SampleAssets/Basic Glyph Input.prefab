@@ -44,7 +44,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123468}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!114 &11423468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 9864f14a4e67a914cbf3c754af687c4b, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   relativeWidth: 0.05
   capSize: 0.4
-  fadeSpeed: 0.5
 --- !u!1 &123470
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123470}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!114 &11423470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,9 +123,9 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 9864f14a4e67a914cbf3c754af687c4b, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   relativeWidth: 0.05
   capSize: 0.4
-  fadeSpeed: 0.5
 --- !u!1 &123472
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123472}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!114 &11423472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 7dfaa32192b82e04dab08719d275715a, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   relativeWidth: 0.02
 --- !u!1 &123474
 GameObject:
@@ -231,7 +232,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123474}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!114 &11423474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,9 +248,9 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 9f68dae2dabfb0e4688bf04d7c94fb87, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   relativeWidth: 0.05
   capSize: 0.4
-  fadeSpeed: 0.5
 --- !u!1 &171112
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +301,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171112}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!114 &11471116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +317,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.2509804}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -341,7 +344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 978fc2808d835e74397f5816c6fa3898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strokeList: []
   castedGlyph: {fileID: 0}
   targetGlyphSet: {fileID: 11400000, guid: d2ecfeb48f313a545aa877541d3c512f, type: 2}
   normalizedGlyphSize: 0.8
@@ -373,4 +375,3 @@ MonoBehaviour:
   castedGlyphGraphic: {fileID: 11423472}
   currentGlyphGraphic: {fileID: 11423470}
   currentStrokeGraphic: {fileID: 11423468}
-  player: {fileID: 0}
