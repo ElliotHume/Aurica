@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AdVd.GlyphRecognition;
 
 public class ComponentUIList : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ComponentUIList : MonoBehaviour
     public bool isListOfAll = true;
     public List<AuricaSpellComponent> componentList;
     private AuricaSpellComponent[] allComponents;
+    private Glyph[] allComponentGlyphs;
     private float currentYPos;
     private RectTransform rect;
     private List<GameObject> instances;
@@ -18,6 +20,7 @@ public class ComponentUIList : MonoBehaviour
     void Start()
     {
         allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
+        allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
         rect = GetComponent<RectTransform>();
         if (isListOfAll) componentList = new List<AuricaSpellComponent>(allComponents);
         instances = new List<GameObject>();
@@ -31,6 +34,7 @@ public class ComponentUIList : MonoBehaviour
             GameObject newButton = Instantiate(componentElementPrefab, transform.position + (Vector3.up * currentYPos)+(Vector3.right * xOffset), transform.rotation, transform);
             newButton.GetComponent<ComponentUIButton>().SetComponent(component);
             newButton.GetComponent<ComponentUIButton>().componentDisplay = componentUIDisplay;
+            newButton.GetComponent<ComponentUIButton>().SetGlyph(allComponentGlyphs, component.c_name);
             instances.Add(newButton);
             currentYPos -= spaceBetweenElements;
         }

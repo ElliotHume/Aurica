@@ -9,7 +9,7 @@ namespace AdVd.GlyphRecognition
     /// Component for graphical visualization of glyphs and strokes.
     /// </summary>
     [ExecuteInEditMode]
-    public abstract class StrokeGraphic : Graphic
+    public abstract class StrokeGraphic : MaskableGraphic
     {
         /// <summary>
         /// Relative width of the strokes.

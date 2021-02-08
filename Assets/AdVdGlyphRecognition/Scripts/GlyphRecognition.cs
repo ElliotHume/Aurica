@@ -137,7 +137,8 @@ public class GlyphRecognition : MonoBehaviour {
 		try {
 			StartCoroutine(Morph(match));
 			// glyphColours[match.target.ToString()])
-			// TODO: ADD COMPONENT
+			// TODO: ADD COMPONENT TO PLAYER
+			AuricaCaster.LocalCaster.AddComponent(match.target.name);
 		}
 		catch (System.Exception e) {
 			Debug.LogError("Glyph recognition " + e + " occured. Clearing strokes.");

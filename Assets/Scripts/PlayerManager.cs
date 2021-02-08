@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
     private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false;
-    private GameObject channelledSpell, spellCraftingDisplay;
+    private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
     private Crosshair crosshair;
@@ -192,6 +192,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
+                glyphCastingPanel.SetActive(!glyphCastingPanel.activeInHierarchy);
             }
             if (!spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
 
@@ -340,6 +341,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void ConfirmAura() {
         if (!photonView.IsMine) return;
         spellCraftingDisplay = GameObject.Find("SpellCraftingPanel");
+        glyphCastingPanel = GameObject.Find("ComponentCastingPanel");
+        glyphCastingPanel.SetActive(false);
         var gc = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
         if (gc != null) gc.SendAura(aura.GetAura());
     }
