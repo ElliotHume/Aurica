@@ -49,6 +49,7 @@ public class SpellUIDisplay : MonoBehaviour {
     IEnumerator SetTargetDist(ManaDistribution target) {
         yield return new WaitForSeconds(0.5f);
         targetDistDisplay.SetDistribution(target);
+        targetDistDisplayValues.SetDistribution(target);
     }
 
     public void ShowSpell() {
