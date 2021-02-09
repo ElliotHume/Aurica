@@ -51,6 +51,36 @@ public class ComponentUIDisplay : MonoBehaviour {
         } else {
             FluxDistDisplayGO.SetActive(false);
         }
+
+        StartCoroutine(UpdateComponentAgain(c));
+    }
+
+    IEnumerator UpdateComponentAgain(AuricaSpellComponent c) {
+        yield return new WaitForSeconds(0.2f);
+        component = c;
+        Title.text = component.c_name;
+        Description.text = component.description;
+
+        if (component.hasBasicDistribution) {
+            BasicDistDisplayGO.SetActive(true);
+            BasicDistDisplay.SetDistribution(component.basicDistribution);
+        } else {
+            BasicDistDisplayGO.SetActive(false);
+        }
+
+        if (component.hasAuricDistribution) {
+            AuricDistDisplayGO.SetActive(true);
+            AuricDistDisplay.SetDistribution(component.auricDistribution * aura);
+        } else {
+            AuricDistDisplayGO.SetActive(false);
+        }
+
+        if (component.hasFluxDistribution) {
+            FluxDistDisplayGO.SetActive(true);
+            FluxDistDisplay.SetDistribution(component.fluxDistribution);
+        } else {
+            FluxDistDisplayGO.SetActive(false);
+        }
     }
 
     public void UpdateComponentByName(string componentName) {

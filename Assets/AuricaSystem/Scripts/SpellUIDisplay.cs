@@ -41,13 +41,13 @@ public class SpellUIDisplay : MonoBehaviour {
         description.text = spell.description;
         targetDistDisplay.SetDistribution(spell.targetDistribution);
         targetDistDisplayValues.SetDistribution(spell.targetDistribution);
-        spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f)+"%";
+        spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f) + "%";
         manaCostText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetManaCost());
         StartCoroutine(SetTargetDist(spell.targetDistribution));
     }
 
     IEnumerator SetTargetDist(ManaDistribution target) {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         targetDistDisplay.SetDistribution(target);
         targetDistDisplayValues.SetDistribution(target);
     }
@@ -72,7 +72,7 @@ public class SpellUIDisplay : MonoBehaviour {
         isHidden = true;
     }
 
-    public void Discard(){
+    public void Discard() {
         AuricaCaster.LocalCaster.ResetCast();
         ClearSpell();
     }

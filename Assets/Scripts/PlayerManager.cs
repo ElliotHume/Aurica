@@ -256,7 +256,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void TakeDamage(float damage, ManaDistribution spellDistribution) {
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
-        if (cameraWorker != null) cameraWorker.Shake(damage/100f, 0.198f);
+        if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);
         if (isShielded || damage == 0f) return;
         Health -= aura.GetDamage(damage, spellDistribution);
         Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution));
@@ -380,6 +380,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     void CastAuricaSpell(AuricaSpell spell) {
         if (!photonView.IsMine) return;
+        if (spell == null) {
+            Debug.Log("Invalid cast");
+            CastFizzle();
+            auricaCaster.ResetCast();
+            return;
+        }
         Debug.Log("Spell Match: " + spell.c_name);
         // Load spell resource
         GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
