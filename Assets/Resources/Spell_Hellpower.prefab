@@ -15505,7 +15505,7 @@ MonoBehaviour:
   ManaChannelCost: 40
   SpellEffectType: aoe
   Duration: 1
-  CastAnimationType: 1
+  CastAnimationType: 4
   CastingAnchor: transform
   TurnToAimPoint: 1
   IsChannel: 0
@@ -15570,9 +15570,15 @@ MonoBehaviour:
   tough: 1
   toughDuration: 1
   toughPercentage: 20
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  manaDrain: 0
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 0
   isContinuous: 1
   canHitSelf: 1
 --- !u!114 &9085698444767215686

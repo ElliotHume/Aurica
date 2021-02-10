@@ -155,7 +155,7 @@ MonoBehaviour:
   LastingEffect: 1
   canHitSelf: 1
   DestroyTimeDelay: 20
-  CollisionTimeDelay: 0
+  StartTimeDelay: 0
   ScalingFactor: -0.05
   ScalingLimit: 0.5
   DeactivateObjectsAfterDuration:
@@ -214,9 +214,15 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  manaDrain: 0
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 0
   isContinuous: 1
   canHitSelf: 1
 --- !u!54 &2490384695920795059
