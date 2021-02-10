@@ -14,7 +14,7 @@ public class ComponentUIList : MonoBehaviour
     private Glyph[] allComponentGlyphs;
     private float currentYPos;
     private RectTransform rect;
-    private List<GameObject> instances;
+    private List<GameObject> instances = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,6 @@ public class ComponentUIList : MonoBehaviour
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
         rect = GetComponent<RectTransform>();
         if (isListOfAll) componentList = new List<AuricaSpellComponent>(allComponents);
-        instances = new List<GameObject>();
         PopulateList();
     }
 
@@ -32,18 +31,21 @@ public class ComponentUIList : MonoBehaviour
         rect.sizeDelta = new Vector2(150, 60 * componentList.Count);
         foreach (AuricaSpellComponent component in componentList) {
             GameObject newButton = Instantiate(componentElementPrefab, transform.position + (Vector3.up * currentYPos)+(Vector3.right * xOffset), transform.rotation, transform);
+            instances.Add(newButton);
+            currentYPos -= spaceBetweenElements;
             newButton.GetComponent<ComponentUIButton>().SetComponent(component);
             newButton.GetComponent<ComponentUIButton>().componentDisplay = componentUIDisplay;
             newButton.GetComponent<ComponentUIButton>().SetGlyph(allComponentGlyphs, component.c_name);
-            instances.Add(newButton);
-            currentYPos -= spaceBetweenElements;
+            
         }
     }
 
     public void WipeList() {
         currentYPos = startYPos;
-        foreach (var item in instances){
-            Destroy(item);
+        if (instances.Count > 0) {
+            foreach (var item in instances){
+                Destroy(item);
+            }
         }
     }
 

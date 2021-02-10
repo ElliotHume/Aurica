@@ -24,7 +24,7 @@ public class ComponentUIButton : MonoBehaviour
         if (glyphDisplay == null) return;
         foreach (Glyph item in allGlyphs) {
             if (item.name == glyphName) {
-                Debug.Log("Found glyph: "+item.name +"from: "+glyphName);
+                // Debug.Log("Found glyph: "+item.name +"from: "+glyphName);
                 glyphDisplay.glyph = item;
                 break;
             }
