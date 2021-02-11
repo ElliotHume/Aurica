@@ -192,7 +192,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
-                glyphCastingPanel.SetActive(!glyphCastingPanel.activeInHierarchy);
+                glyphCastingPanel.SetActive(!spellCraftingDisplay.activeInHierarchy);
             }
             if (!spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
 

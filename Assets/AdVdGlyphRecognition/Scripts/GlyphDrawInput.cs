@@ -279,6 +279,7 @@ namespace AdVd.GlyphRecognition
 				//Debug.Log("StrokeList:   "+ strokeList);
 				stroke=null;
 				if (OnStrokeDraw!=null) OnStrokeDraw(strokeList.ToArray());
+				Cast();
 			} else {
 				Debug.Log("Null Stroke   (OnEndDrag)");
 			}

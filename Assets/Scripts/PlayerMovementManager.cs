@@ -78,14 +78,15 @@ public class PlayerMovementManager : MonoBehaviourPun {
     public void JumpLift() {
         if (!photonView.IsMine) return;
         Debug.Log("JUMP");
+        //JumpImpulse();
         StartCoroutine(JumpRoutine());
     }
 
     IEnumerator JumpRoutine() {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
         float timer = 0.75f;
         while (timer > 0f) {
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
             Vector3 movement = transform.forward * v + transform.right * h;
             movement.y += JumpHeight;
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
@@ -93,6 +94,18 @@ public class PlayerMovementManager : MonoBehaviourPun {
             timer -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+        while (!characterController.isGrounded) {
+            Vector3 movement = transform.forward * v + transform.right * h;
+            characterController.Move(movement * Time.deltaTime * JumpSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    void JumpImpulse() {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        Vector3 movement = transform.forward * v + transform.right * h + transform.up;
+        AddImpact(movement * JumpHeight, JumpSpeed, true);
     }
 
     public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
@@ -119,7 +132,7 @@ public class PlayerMovementManager : MonoBehaviourPun {
     }
 
     // call this function to add an impact force:
-    public void AddImpact(Vector3 direction, float forceValue, bool isWorldSpaceDirection) {
+    public void AddImpact(Vector3 direction, float forceValue, bool isWorldSpaceDirection=false) {
         direction.Normalize();
         if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
         Vector3 movement = !isWorldSpaceDirection

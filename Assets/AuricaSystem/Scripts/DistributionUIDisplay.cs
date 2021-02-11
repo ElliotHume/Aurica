@@ -5,6 +5,7 @@ using UnityEngine;
 public class DistributionUIDisplay : MonoBehaviour
 {
     public HealthBar order, chaos, life, death, fire, water, earth, air, divine, demonic;
+    public bool fixedValues = false;
     private List<HealthBar> bars;
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class DistributionUIDisplay : MonoBehaviour
         bars.Add(divine);
         bars.Add(demonic);
 
-        ResetAll();
+        if (!fixedValues) ResetAll();
     }
 
     public void ResetAll() {

@@ -34,7 +34,7 @@ public class AuricaSpell : ScriptableObject {
 
         List<int> sortedList = new List<int>(indexList);
         sortedList.Sort();
-        return sortedList.SequenceEqual(indexList) && indexList.Count == keyComponents.Count;
+        return indexList.Count == keyComponents.Count;
     }
 
     public int GetNumberOfMatchingComponents(List<AuricaSpellComponent> components) {

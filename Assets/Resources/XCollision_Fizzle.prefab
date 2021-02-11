@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2024167241384557994}
   - component: {fileID: 2024167241384558004}
   - component: {fileID: 2024167241384558005}
+  - component: {fileID: 9129569141812372592}
   m_Layer: 0
   m_Name: XCollision_Fizzle
   m_TagString: Untagged
@@ -75,6 +76,19 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &9129569141812372592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024167241384557995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e766b73342fb4406cad3460fde8971ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lifetime: 3
 --- !u!1 &7424943665086781910
 GameObject:
   m_ObjectHideFlags: 0
