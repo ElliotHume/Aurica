@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2047394387}
   - component: {fileID: 2047394388}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4187469577623859128}
   - component: {fileID: 4187469577623859130}
   - component: {fileID: 4187469577623859129}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fog (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4827,7 +4827,7 @@ GameObject:
   - component: {fileID: 4187469579007403404}
   - component: {fileID: 4187469579007403403}
   - component: {fileID: 4187469579007403402}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: XCollision_LifeShield
   m_TagString: Spell
   m_Icon: {fileID: 0}
@@ -4878,6 +4878,7 @@ MonoBehaviour:
   LastingEffect: 0
   canHitSelf: 1
   DestroyTimeDelay: 15
+  StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
   DeactivateObjectsAfterDuration: []
@@ -4931,9 +4932,15 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
   healing: 1
   healFlatAmount: 0
   healPercentAmount: 10
+  manaDrain: 0
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 0
   isContinuous: 0
   canHitSelf: 1
 --- !u!135 &4187469579007403405

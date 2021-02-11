@@ -109,7 +109,7 @@ public class AuricaCaster : MonoBehaviourPun {
         if (cpUI != null) cpUI.AddComponent(newComponent);
     }
 
-    public AuricaSpell CastSpell(string componentsByName) {
+    public AuricaSpell CastSpellByName(string componentsByName) {
         ResetCast();
         string[] componentSeperator = new string[] { ", " };
         string[] splitComponents = componentsByName.Split(componentSeperator, System.StringSplitOptions.None);
@@ -166,6 +166,7 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void ResetCast() {
+        Debug.Log("Resetting Aurica Cast");
         currentComponents.Clear();
         currentManaCost = 0f;
         currentDistribution = new ManaDistribution();

@@ -98,7 +98,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [HideInInspector]
     public bool manaRestorationChange;
-    private float manaRestorationDuration, manaRestorationPercentage = 0f;
+    private float manaRestorationDuration;
 
 
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8098083223458521232}
   - component: {fileID: 8264886404729994976}
   - component: {fileID: 8265884312277735342}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4539,7 +4539,7 @@ GameObject:
   - component: {fileID: 8098097749484964216}
   - component: {fileID: 8264207068829676268}
   - component: {fileID: 8264635947100908422}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DecalFog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9144,7 +9144,7 @@ GameObject:
   - component: {fileID: 8072521813750468002}
   - component: {fileID: 8080316094466243520}
   - component: {fileID: 8207189272748572192}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Decal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9332,7 +9332,7 @@ GameObject:
   - component: {fileID: 8098122002476931772}
   - component: {fileID: 8264141666723284258}
   - component: {fileID: 8264642808398772126}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13860,7 +13860,7 @@ GameObject:
   - component: {fileID: 8098364957530937548}
   - component: {fileID: 8283663269539032834}
   - component: {fileID: 8206880243742621752}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13945,7 +13945,7 @@ GameObject:
   - component: {fileID: 8105750677755064698}
   - component: {fileID: 8265144011218196190}
   - component: {fileID: 8264566757511330504}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundDistortion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18565,7 +18565,7 @@ GameObject:
   - component: {fileID: 8105684200085377682}
   - component: {fileID: 8272384770378413086}
   - component: {fileID: 8265983054887365794}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ParticlesTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23016,7 +23016,7 @@ GameObject:
   - component: {fileID: 8102800293011534647}
   - component: {fileID: 8102800293011534646}
   - component: {fileID: 1187351286549775}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spell_Rend
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23052,10 +23052,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
-  ManaCost: 30
   auricaSpell: {fileID: 11400000, guid: a46b52384ba3e49619f17b0a0c982eff, type: 2}
   ManaChannelCost: 40
-  ManaDamageType: water
   SpellEffectType: effectprojectile
   Duration: 1
   CastAnimationType: 6
@@ -23175,16 +23173,43 @@ MonoBehaviour:
   silenceDuration: 0
   stun: 0
   stunDuration: 0
+  weaken: 0
+  weakenDuration: 0
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 0
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
   fragile: 1
   fragileDuration: 10
   fragilePercentage: 50
   tough: 0
   toughDuration: 0
   toughPercentage: 0
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  manaDrain: 0
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 0
   isContinuous: 0
+  canHitSelf: 0
 --- !u!1 &8103915007479243408
 GameObject:
   m_ObjectHideFlags: 0
@@ -23196,7 +23221,7 @@ GameObject:
   - component: {fileID: 8105462988505135582}
   - component: {fileID: 8265146350378346048}
   - component: {fileID: 8264428303274180272}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Distortion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27680,7 +27705,7 @@ GameObject:
   - component: {fileID: 8098215971887982978}
   - component: {fileID: 8210752546783034910}
   - component: {fileID: 8206704664665548988}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27813,7 +27838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8098588600070996814}
   - component: {fileID: 8207561766366728674}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PerPlatformSettings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27863,7 +27888,7 @@ GameObject:
   - component: {fileID: 8098367125880663004}
   - component: {fileID: 8265062536788800242}
   - component: {fileID: 8266283402975803242}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32399,7 +32424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8105804274878565874}
   - component: {fileID: 8207010586253487010}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32476,7 +32501,7 @@ GameObject:
   - component: {fileID: 8098497034534096266}
   - component: {fileID: 8264184363488520582}
   - component: {fileID: 8264472837860399310}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Distortion2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36957,7 +36982,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8098066785291074748}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36992,7 +37017,7 @@ GameObject:
   - component: {fileID: 8206712702474382830}
   - component: {fileID: 8166953625050569678}
   - component: {fileID: 8207658226183921222}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37224,7 +37249,7 @@ GameObject:
   - component: {fileID: 8105847117631246160}
   - component: {fileID: 8207216762510331062}
   - component: {fileID: 8166927497351254442}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37391,7 +37416,7 @@ GameObject:
   - component: {fileID: 7717312483561204467}
   - component: {fileID: 5998585809288509983}
   - component: {fileID: 8624213602053812372}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spikes (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

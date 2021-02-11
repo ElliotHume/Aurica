@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 107382128}
   - component: {fileID: 107382130}
   - component: {fileID: 107382129}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Distortion (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4697,7 +4697,7 @@ GameObject:
   - component: {fileID: 429215365}
   - component: {fileID: 429215364}
   - component: {fileID: 429215363}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SheetsAdd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9433,7 +9433,7 @@ GameObject:
   - component: {fileID: 903313847}
   - component: {fileID: 903313846}
   - component: {fileID: 903313845}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SheetsBlend (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14169,7 +14169,7 @@ GameObject:
   - component: {fileID: 1051551753}
   - component: {fileID: 1051551755}
   - component: {fileID: 1051551754}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fog (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18853,7 +18853,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1360473338}
   - component: {fileID: 1360473339}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18979,7 +18979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1700380723}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Audio (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19016,7 +19016,7 @@ GameObject:
   - component: {fileID: 7065651618484337317}
   - component: {fileID: 7065651618484338010}
   - component: {fileID: 7065651618484338011}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: XCollision_DemonicShield
   m_TagString: Spell
   m_Icon: {fileID: 0}
@@ -19124,9 +19124,15 @@ MonoBehaviour:
   tough: 1
   toughDuration: 4
   toughPercentage: 25
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  manaDrain: 0
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 0
   isContinuous: 0
   canHitSelf: 1
 --- !u!135 &7065651618484337316
@@ -19208,7 +19214,7 @@ GameObject:
   - component: {fileID: 7065651619392538349}
   - component: {fileID: 7065651619392538351}
   - component: {fileID: 7065651619392538348}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Particles (1)
   m_TagString: Shield
   m_Icon: {fileID: 0}

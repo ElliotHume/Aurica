@@ -62,16 +62,5 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
     #region Private Methods
 
-    void LoadArena()
-    {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
-        }
-        Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-        PhotonNetwork.LoadLevel("Battlegrounds" + (PhotonNetwork.CurrentRoom.PlayerCount-1));
-    }
-
-
     #endregion
 }

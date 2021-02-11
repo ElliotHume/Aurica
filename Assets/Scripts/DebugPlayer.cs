@@ -10,22 +10,22 @@ public class DebugPlayer : MonoBehaviourPun
     void Update() {
         if (Input.GetKey(KeyCode.RightShift)) {
             if (Input.GetKeyDown("n")) {
-                CastSpell("Spell_Fireball");
+                CastDebugSpell("Spell_Fireball");
             } else if (Input.GetKeyDown("m")) {
-                CastSpell("Spell_ShadeSmoke");
+                CastDebugSpell("Spell_ShadeSmoke");
             } else if (Input.GetKeyDown("b")) {
-                CastSpell("Spell_AuricBolt");
+                CastDebugSpell("Spell_AuricBolt");
             } else if (Input.GetKeyDown("v")) {
-                CastSpell("Spell_Condense");
+                CastDebugSpell("Spell_Condense");
             } else if (Input.GetKeyDown("l")) {
-                CastSpell("Spell_EarthBound");
+                CastDebugSpell("Spell_EarthBound");
             } else if (Input.GetKeyDown("j")) {
-                CastSpell("Spell_EmberSphere");
+                CastDebugSpell("Spell_EmberSphere");
             }
         }
     }
 
-    public void CastSpell(string prefabName) {
+    public void CastDebugSpell(string prefabName) {
         PhotonNetwork.Instantiate(prefabName, transform.position+ transform.forward*2f, transform.rotation);
     }
 }

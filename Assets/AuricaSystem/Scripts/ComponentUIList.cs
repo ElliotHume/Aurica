@@ -41,6 +41,7 @@ public class ComponentUIList : MonoBehaviour
     }
 
     public void WipeList() {
+        Debug.Log("Wiping list");
         currentYPos = startYPos;
         if (instances.Count > 0) {
             foreach (var item in instances){
