@@ -41,6 +41,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [SerializeField]
     public GameObject PlayerUiPrefab;
 
+    [Tooltip("The root bone of the character model, used for animations and ragdolling")]
+    public GameObject RootBone;
+
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
@@ -189,16 +192,21 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void Update() {
+        if (Health <= 0f) {
+            if (animator.enabled) {
+                animator.enabled = false;
+                RootBone.transform.parent = null;
+            }
+        }
         if (photonView.IsMine) {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
                 glyphCastingPanel.SetActive(!spellCraftingDisplay.activeInHierarchy);
             }
-            if (!spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
+            // Allowed to look at and craft spells while dead, but nothing else
+            if (Health <= 0f) return;
 
-            if (Health <= 0f) {
-                GameManager.Instance.LeaveRoom();
-            }
+            if (!spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
 
             // If there is healing to be done, do it
             if (healing > 0f && Health < maxHealth) {
@@ -232,6 +240,24 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             healthBar.SetHealth(Health);
             manaBar.SetHealth(Mana);
         }
+    }
+
+    public void HardReset() {
+        // Reset health and mana
+        Health = maxHealth;
+        Mana = maxMana;
+        healthBar.SetHealth(Health);
+        manaBar.SetHealth(Mana);
+
+        // Reset any spell casts
+        auricaCaster.ResetCast();
+        if (spellCraftingDisplay != null) {
+            SpellCraftingUIDisplay sp = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
+            if (sp != null) sp.ClearSpell();
+        }
+        StopBlocking();
+
+        // TODO: Clear any status effects
     }
 
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
@@ -490,6 +516,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 } else {
                     CastFizzle();
                 }
+                auricaCaster.ResetCast();
             } else if ((!start && isChannelling) || silenced || stunned) {
                 isChannelling = false;
                 isShielded = false;

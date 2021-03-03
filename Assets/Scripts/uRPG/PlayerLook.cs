@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Photon.Pun;
 
-public class PlayerLook : MonoBehaviour
+public class PlayerLook : MonoBehaviourPun
 {
     [Header("Components")]
 #pragma warning disable CS0109 // member does not hide accessible member
@@ -113,11 +114,13 @@ public class PlayerLook : MonoBehaviour
 
     void Awake()
     {
+        if (!photonView.IsMine) return;
         camera = Camera.main;
     }
 
     void Start()
     {
+        if (!photonView.IsMine) return;
         // set camera parent to player
         camera.transform.SetParent(transform, false);
 
@@ -134,6 +137,7 @@ public class PlayerLook : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////
     void Update()
     {
+        if (!photonView.IsMine || Input.GetButton("Fire2") || Cursor.lockState != CursorLockMode.Locked) return;
         // calculate horizontal and vertical rotation steps
         float xExtra = Input.GetAxis("Mouse X") * XSensitivity;
         float yExtra = Input.GetAxis("Mouse Y") * YSensitivity;
@@ -151,6 +155,7 @@ public class PlayerLook : MonoBehaviour
     // Update camera position after everything else was updated
     void LateUpdate()
     {
+        if (!photonView.IsMine || Input.GetButton("Fire2") || Cursor.lockState != CursorLockMode.Locked) return;
         // clamp camera rotation automatically. this way we can rotate it to
         // whatever we like in Update, and LateUpdate will correct it.
         camera.transform.localRotation = Utils.ClampRotationAroundXAxis(camera.transform.localRotation, MinimumX, MaximumX);
@@ -197,6 +202,7 @@ public class PlayerLook : MonoBehaviour
 
     public void InitializeForcedLook()
     {
+        if (!photonView.IsMine) return;
         camera.transform.SetParent(transform, false);
     }
 

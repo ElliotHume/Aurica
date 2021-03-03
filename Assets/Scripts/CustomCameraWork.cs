@@ -76,6 +76,7 @@ public class CustomCameraWork : MonoBehaviourPun
   }
 
   void Update() {
+    if (!photonView.IsMine) return;
     if (shakeFactor >= 0.001f) {
         cameraTransform.position += (Vector3)(Random.insideUnitSphere * shakeFactor);
     }
