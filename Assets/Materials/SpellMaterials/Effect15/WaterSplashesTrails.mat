@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterSplashesTrails
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
-  m_ShaderKeywords: USE_ALPHA_CLIPING USE_MAINTEX USE_SOFT_PARTICLES
+  m_ShaderKeywords: USE_ALPHA_CLIPING USE_SOFT_PARTICLES
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaClip: 50
+    - _AlphaClip: 10
     - _AlphaPow: 1
     - _Amount: 0.5
     - _BumpAmt: -1000
@@ -74,7 +74,7 @@ Material:
     - _Cutoff: 1
     - _Cutout: 1
     - _CutoutThreshold: 0.015
-    - _Distortion: -3000
+    - _Distortion: -1000
     - _FPOW: 1.4
     - _FresnelDistort: 1500
     - _FresnelPow: 5
@@ -88,7 +88,7 @@ Material:
     - _Opacity: 0.6785714
     - _R0: -0.1
     - _ReflectionStrength: 20
-    - _RefractiveStrength: -0.249
+    - _RefractiveStrength: -0.526
     - _RefractiveStrength2: 3.79
     - _RimPower: 8
     - _Shininess: 10.000001
@@ -97,7 +97,7 @@ Material:
     - _UseCutout: 0
     - _UseFresnel: 0
     - _UseHeight: 0
-    - _UseMainTex: 1
+    - _UseMainTex: 0
     - _UseRefractive: 0
     - _UseSoft: 1
     - _ZWriteMode: 0
@@ -112,5 +112,5 @@ Material:
     - _SSSColor: {r: 0.98439384, g: 1.0928022, b: 1.4092375, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _Test: {r: 7, g: 8, b: 0, a: 1500}
-    - _TintColor: {r: 1.0901961, g: 1.5607843, b: 1.8980392, a: 1}
+    - _TintColor: {r: 0.5440095, g: 0.7811419, b: 0.9485294, a: 1}
     - _UVScrollFadeDistort: {r: 3, g: 6, b: 0, a: 1500}

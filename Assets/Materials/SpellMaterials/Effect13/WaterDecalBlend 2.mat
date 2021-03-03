@@ -10,7 +10,7 @@ Material:
   m_Name: WaterDecalBlend 2
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
   m_ShaderKeywords: BlendMul Clip_OFF FrameBlend_OFF SoftParticles_OFF USE_ALPHA_CLIPING
-    USE_MAINTEX VertLight_OFF
+    VertLight_OFF
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -67,7 +67,7 @@ Material:
     m_Floats:
     - DstMode: 0
     - SrcMode: 2
-    - _AlphaClip: 30
+    - _AlphaClip: 100
     - _AlphaPow: 1
     - _Amount: 0.5
     - _BumpAmt: -500
@@ -100,7 +100,7 @@ Material:
     - _UseCutout: 0
     - _UseFresnel: 0
     - _UseHeight: 0
-    - _UseMainTex: 1
+    - _UseMainTex: 0
     - _UseRefractive: 0
     - _UseSoft: 0
     - _ZWriteMode: 0
@@ -115,5 +115,5 @@ Material:
     - _SSSColor: {r: 0.98439384, g: 1.0928022, b: 1.4092375, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _Test: {r: 7, g: 8, b: 0, a: 1500}
-    - _TintColor: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 1}
+    - _TintColor: {r: 0.50913715, g: 0.5241894, b: 0.53676474, a: 1}
     - _UVScrollFadeDistort: {r: 3, g: 6, b: 0, a: 1500}

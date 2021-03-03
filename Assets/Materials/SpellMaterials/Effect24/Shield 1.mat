@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Shield 1
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
-  m_ShaderKeywords: USE_BLENDING USE_SOFT_PARTICLES
+  m_ShaderKeywords: USE_ALPHA_CLIPING USE_BLENDING USE_SOFT_PARTICLES
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -75,7 +75,7 @@ Material:
     - _R0: 0.05
     - _RefractiveStrength: 0.773
     - _Shininess: 3.0000007
-    - _UseAlphaCliping: 0
+    - _UseAlphaCliping: 1
     - _UseBlending: 1
     - _UseCutout: 0
     - _UseFresnel: 0
@@ -94,4 +94,3 @@ Material:
     - _RimColor: {r: 0.49264705, g: 0.7690669, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _TintColor: {r: 0.35294116, g: 0.7880325, b: 1.5, a: 1}
-  m_BuildTextureStacks: []

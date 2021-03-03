@@ -9,13 +9,14 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Particles
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 2
+  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_OFF SoftParticles_OFF VertLight_OFF
+    _ALPHATEST_ON _EMISSION
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -95,7 +96,7 @@ Material:
     m_Floats:
     - DstMode: 10
     - SrcMode: 5
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BumpAmt: 0
     - _BumpScale: 1
@@ -146,7 +147,7 @@ Material:
     - _Color: {r: 0.5147059, g: 0, b: 0, a: 1}
     - _CoreColor: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 0.85294116, g: 0.29999995, b: 0, a: 0}
-    - _EmissionColor: {r: 51.366863, g: 2.692425, b: 0.11697067, a: 1}
+    - _EmissionColor: {r: 11.72509, g: 3.0610266, b: 0.7189917, a: 1}
     - _ReflectColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 0}
@@ -155,16 +156,3 @@ Material:
     - _TintColorG: {r: 0, g: 0, b: 0, a: 1}
     - _TintColorR: {r: 1, g: 0.49949285, b: 0.22794116, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &3988790150329963967
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
