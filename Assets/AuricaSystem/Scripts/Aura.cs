@@ -24,11 +24,15 @@ public class Aura : MonoBehaviourPun {
             AuraDistribution = JsonUtility.FromJson<ManaDistribution>(auraFile.text);
         }
 
+        InnateStrength = CalculateInnateStrengths();
+
         Debug.Log("AURA:  " + AuraDistribution.ToString());
         player.SetMaxMana(AuraDistribution.GetAggregate() * 100f);
         player.ConfirmAura();
 
-        InnateStrength = CalculateInnateStrengths();
+        foreach (var item in FindObjectsOfType<AuraUIPanel>()) {
+            item.SetAura(this);
+        }
     }
 
     ManaDistribution CalculateInnateStrengths() {
@@ -99,5 +103,9 @@ public class Aura : MonoBehaviourPun {
 
     public ManaDistribution GetInnateStrength() {
         return InnateStrength;
+    }
+
+    public float GetAggregatePower() {
+        return AuraDistribution.GetAggregate();
     }
 }

@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
     private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false;
-    private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
+    private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel, auraPanel;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
     private Crosshair crosshair;
@@ -202,7 +202,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 spellCraftingDisplay.SetActive(!spellCraftingDisplay.activeInHierarchy);
-                glyphCastingPanel.SetActive(!spellCraftingDisplay.activeInHierarchy);
+                glyphCastingPanel.SetActive(!spellCraftingDisplay.activeInHierarchy && !auraPanel.activeInHierarchy);
+                if (!spellCraftingDisplay.activeInHierarchy) auraPanel.SetActive(false);
+            } else if (Input.GetKeyDown(KeyCode.Return)) {
+                auraPanel.SetActive(!auraPanel.activeInHierarchy);
+                glyphCastingPanel.SetActive(!spellCraftingDisplay.activeInHierarchy && !auraPanel.activeInHierarchy);
             }
             // Allowed to look at and craft spells while dead, but nothing else
             if (Health <= 0f) return;
@@ -396,6 +400,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!photonView.IsMine) return;
         spellCraftingDisplay = GameObject.Find("SpellCraftingPanel");
         glyphCastingPanel = GameObject.Find("ComponentCastingPanel");
+        auraPanel = GameObject.Find("AuraPanel");
         glyphCastingPanel.SetActive(false);
         var gc = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
         if (gc != null) gc.SendAura(aura.GetAura());

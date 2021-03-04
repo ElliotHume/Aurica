@@ -28,12 +28,12 @@ public class DistributionUIDisplayValues : MonoBehaviour {
     }
 
     public void SetDistribution(ManaDistribution mana) {
-        structure.text = mana.structure * multiplier + suffix;
-        essence.text = mana.essence * multiplier + suffix;
-        fire.text = mana.fire * multiplier + suffix;
-        water.text = mana.water * multiplier + suffix;
-        earth.text = mana.earth * multiplier + suffix;
-        air.text = mana.air * multiplier + suffix;
-        nature.text = mana.nature * multiplier + suffix;
+        structure.text = (mana.structure * multiplier).ToString("F2") + suffix;
+        essence.text = (mana.essence * multiplier).ToString("F2") + suffix;
+        fire.text = (mana.fire * multiplier).ToString("F2") + suffix;
+        water.text = (mana.water * multiplier).ToString("F2") + suffix;
+        earth.text = (mana.earth * multiplier).ToString("F2") + suffix;
+        air.text = (mana.air * multiplier).ToString("F2") + suffix;
+        nature.text = (mana.nature * multiplier).ToString("F2") + suffix;
     }
 }
