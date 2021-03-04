@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance;
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
+    public Transform SceneSpawnPoint;
+    public float RespawnTimer = 5.0f;
 
     public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 1f;
     public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.5f;
@@ -26,7 +28,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PlayerManager.LocalPlayerInstance == null) {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                GameObject newPlayer = PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position, transform.rotation, 0);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position, transform.rotation, 0);
             } else {
                 Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
             }
@@ -62,5 +64,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
     #region Private Methods
 
+    public void playerDeath( PlayerManager player ) {
+        Debug.Log("A player has died...");
+        // Only handle respawning if the spawn point is set, otherwise other game type managers will handle respawns
+        if (SceneSpawnPoint != null) StartCoroutine(RespawnPlayer(player));
+    }
+
+    IEnumerator RespawnPlayer(PlayerManager player) {
+        yield return new WaitForSeconds(RespawnTimer);
+        player.Respawn();
+        if (SceneSpawnPoint != null) {
+            player.Teleport(SceneSpawnPoint.position);
+        }
+    }
+    
     #endregion
 }

@@ -4614,6 +4614,7 @@ MonoBehaviour:
   topCastingAnchor: {fileID: 2366181545966283103}
   PlayerUiPrefab: {fileID: 4047682461476091337, guid: 4fd60b50476473b4ca1cb832d7579d48, type: 3}
   RootBone: {fileID: 8658202501466747601}
+  dead: 0
   slowed: 0
   hastened: 0
   rooted: 0
@@ -4702,14 +4703,14 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 1753741204447943}
   - {fileID: 7920007557602750286}
   - {fileID: 613314493112857879}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &2054025925

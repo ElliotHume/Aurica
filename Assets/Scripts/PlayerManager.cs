@@ -44,6 +44,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The root bone of the character model, used for animations and ragdolling")]
     public GameObject RootBone;
 
+    [HideInInspector]
+    public bool dead = false;
+
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
@@ -177,6 +180,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
+
+        // Register the player with any gamemode manager
+        if (photonView.IsMine && DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.AddLocalPlayer();
     }
 
     void Awake() {
@@ -192,11 +198,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void Update() {
-        if (Health <= 0f) {
-            if (animator.enabled) {
-                animator.enabled = false;
-                RootBone.transform.parent = null;
-            }
+        if (Health <= 0f && !dead) {
+            Die();
         }
         if (photonView.IsMine) {
             if (Input.GetKeyDown(KeyCode.Escape)) {
@@ -260,6 +263,32 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // TODO: Clear any status effects
     }
 
+    public void Die() {
+        if (dead) return;
+        dead = true;
+        animator.enabled = false;
+        RootBone.transform.parent = null;
+        healthBar.SetHealth(0);
+        manaBar.SetHealth(0);
+
+        GameManager.Instance.playerDeath(this);
+        if (DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.playerDeath(this);
+    }
+
+    public void Respawn() {
+        dead = false;
+        animator.enabled = true;
+        RootBone.transform.position = transform.position;
+        RootBone.transform.parent = transform;
+
+        HardReset();
+    }
+
+    public void Teleport( Vector3 newPosition ) {
+        Debug.Log("Teleport "+gameObject+"  to "+newPosition);
+        transform.position = newPosition;
+    }
+
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
 
     [PunRPC]
@@ -272,7 +301,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 StartCoroutine(TakeDirectDoTDamage(Damage, Duration, spellDistribution));
                 break;
             default:
-                Debug.Log("Default Spell effect --> Take direct damage");
+                // Debug.Log("Default Spell effect --> Take direct damage");
                 TakeDamage(Damage, spellDistribution);
                 break;
         }
@@ -285,7 +314,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);
         if (isShielded || damage == 0f) return;
         Health -= aura.GetDamage(damage, spellDistribution);
-        Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution));
+        // Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution));
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
