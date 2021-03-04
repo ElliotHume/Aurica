@@ -36,13 +36,13 @@ public class Aura : MonoBehaviourPun {
             // Making sure that the sign (+/-) of the aligned mana is preserved
             ManaDistribution strengths = new ManaDistribution();
             List<float> percents = AuraDistribution.GetAsPercentages();
-            strengths.structure = percents[0] * (AuraDistribution.structure / Mathf.Abs(AuraDistribution.structure));
-            strengths.essence = percents[1] * (AuraDistribution.essence / Mathf.Abs(AuraDistribution.essence));
+            strengths.structure = percents[0];// * (AuraDistribution.structure / Mathf.Abs(AuraDistribution.structure));
+            strengths.essence = percents[1];// * (AuraDistribution.essence / Mathf.Abs(AuraDistribution.essence));
             strengths.fire = percents[2];
             strengths.water = percents[3];
             strengths.earth = percents[4];
             strengths.air = percents[5];
-            strengths.nature = percents[6] * (AuraDistribution.nature / Mathf.Abs(AuraDistribution.nature));
+            strengths.nature = percents[6];// * (AuraDistribution.nature / Mathf.Abs(AuraDistribution.nature));
             return strengths;
         } else {
             return new ManaDistribution(AuraDistribution.ToString());

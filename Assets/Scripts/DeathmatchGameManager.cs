@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     public List<PlayerManager> players;
     public Transform BlueSideSpawnPoint, RedSideSpawnPoint;
     public Text blueLifeCounter, redLifeCounter;
+    public GameObject readyButton, resultsPanel, bluesidewinUI, redsidewinUI;
 
     public int StartingTeamLives = 5;
     public float RespawnTimer;
@@ -36,26 +38,26 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     }
 
     [PunRPC]
-    public void AddPlayer() {
-        PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
-        PlayerManager p = null;
-        foreach( var pr in ps) {
-            if (!players.Contains(pr)) {
-                p = pr;
-                break;
-            }
-        }
-        Debug.Log("ADDING REMOTE PLAYER TO DEATHMATCH "+p);
-        players.Add(p);
+    public void AssignPlayers() {
 
-        if (players.Count % 2 == 1) {
-            // ODD player, add to blue side
-            Debug.Log("Assigned to blue team");
-            blueSide.Add(p);
-        } else {
-            // EVEN player, add to red side
-            Debug.Log("Assigned to red team");
-            redSide.Add(p);
+        // Clear all in case of retry
+        players.Clear();
+        blueSide.Clear();
+        redSide.Clear();
+
+        PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
+        List<PlayerManager> playerManagers = ps.OrderBy(x => x.Mana).ToList();
+        foreach( var p in playerManagers) {
+            players.Add(p);
+            if (players.Count % 2 == 1) {
+                // ODD player, add to blue side
+                Debug.Log("Assigned to blue team");
+                blueSide.Add(p);
+            } else {
+                // EVEN player, add to red side
+                Debug.Log("Assigned to red team");
+                redSide.Add(p);
+            }
         }
 
         if (players.Count >= 2 && !matchStarted) {
@@ -64,31 +66,18 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    public void AddLocalPlayer() {
-        PlayerManager p = PlayerManager.LocalPlayerInstance.GetComponent<PlayerManager>();
-        players.Add(p);
-        Debug.Log("ADDING LOCAL PLAYER TO DEATHMATCH "+p.gameObject);
-
-        if (players.Count % 2 == 1) {
-            // ODD player, add to blue side
-            Debug.Log("Assigned to blue team");
-            blueSide.Add(p);
-        } else {
-            // EVEN player, add to red side
-            Debug.Log("Assigned to red team");
-            redSide.Add(p);
-        }
-
-        if (players.Count >= 2 && !matchStarted) {
-            Debug.Log("Starting the match....");
-            StartMatch();
-        }
-
-        photonView.RPC("AddPlayer", RpcTarget.All);
+    public void SendGameStart() {
+        photonView.RPC("AssignPlayers", RpcTarget.All);
     }
 
 
     public void StartMatch() {
+        if (players.Count >= 4) StartingTeamLives += 2;
+        blueSideLives = StartingTeamLives;
+        redSideLives = StartingTeamLives;
+        blueLifeCounter.text = blueSideLives.ToString();
+        redLifeCounter.text = redSideLives.ToString();
+
         foreach (var player in blueSide) {
             player.Teleport(BlueSideSpawnPoint.position);
             player.HardReset();
@@ -100,6 +89,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
         DisplayBeginMessage();
         matchStarted = true;
+        readyButton.SetActive(false);
     }
 
     public void DisplayBeginMessage() {
@@ -108,6 +98,35 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public void EndMatch(int winningTeam) {
         // TODO
+        resultsPanel.SetActive(true);
+        if (winningTeam == 0) {
+            bluesidewinUI.SetActive(true);
+        } else {
+            redsidewinUI.SetActive(true);
+        }
+
+        blueSideLives = StartingTeamLives;
+        redSideLives = StartingTeamLives;
+        blueLifeCounter.text = blueSideLives.ToString();
+        redLifeCounter.text = redSideLives.ToString();
+
+        readyButton.SetActive(true);
+
+        foreach (var player in blueSide) {
+            player.Teleport(BlueSideSpawnPoint.position);
+            player.HardReset();
+        }
+        foreach (var player in redSide) {
+            player.Teleport(RedSideSpawnPoint.position);
+            player.HardReset();
+        }
+
+        players.Clear();
+        blueSide.Clear();
+        redSide.Clear();
+
+        matchStarted = false;
+
     }
 
     public void playerDeath(PlayerManager player) {
@@ -127,10 +146,10 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         }
 
         if (blueSideLives <= 0) {
-            EndMatch(0);
+            EndMatch(1);
         }
         if (redSideLives <= 0) {
-            EndMatch(1);
+            EndMatch(0);
         }
     }
 

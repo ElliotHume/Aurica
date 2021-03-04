@@ -7,7 +7,7 @@ public class Crosshair : MonoBehaviour
     public static Crosshair Instance;
 
     // Raycast will hit everything but spells
-    int layermask = ~(1<<6);
+    public LayerMask WPLayermask;
 
     // private Vector3 startPos;
     void Start() {
@@ -17,7 +17,7 @@ public class Crosshair : MonoBehaviour
     public Vector3 GetWorldPoint() {
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit hit;
-        if( Physics.Raycast( ray, out hit, 1000f, layermask) ) {
+        if( Physics.Raycast( ray, out hit, 1000f, WPLayermask) ) {
             // Debug.Log("Point hit: "+hit.point);
             return hit.point;
         }

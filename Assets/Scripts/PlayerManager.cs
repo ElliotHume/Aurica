@@ -181,8 +181,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
 
-        // Register the player with any gamemode manager
-        if (photonView.IsMine && DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.AddLocalPlayer();
     }
 
     void Awake() {
@@ -270,6 +268,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         RootBone.transform.parent = null;
         healthBar.SetHealth(0);
         manaBar.SetHealth(0);
+        GetComponent<AudioSource>().Play();
 
         GameManager.Instance.playerDeath(this);
         if (DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.playerDeath(this);
@@ -531,7 +530,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     Spell foundSpell = channelledSpell.GetComponent<Spell>();
                     if (foundSpell != null) {
                         foundSpell.SetSpellStrength(auricaCaster.GetSpellStrength());
-                        foundSpell.SetSpellDamageModifier(strengths - weaknesses);
+                        foundSpell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
                         foundSpell.SetOwner(gameObject);
                     }
 
