@@ -11,6 +11,13 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+
+    /*
+    * WHEN BUILDING ON MAC
+    * - Build normally
+    * - Then run command on the app from terminal when in the corrrect folder:
+    *       codesign --deep -s - -f Aurica.app
+    */
     public static GameManager Instance;
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
