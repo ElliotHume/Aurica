@@ -121,10 +121,6 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
             player.HardReset();
         }
 
-        players.Clear();
-        blueSide.Clear();
-        redSide.Clear();
-
         matchStarted = false;
 
     }
