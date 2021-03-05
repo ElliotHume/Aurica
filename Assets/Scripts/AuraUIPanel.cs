@@ -17,5 +17,7 @@ public class AuraUIPanel : MonoBehaviour {
         resistanceValues.SetDistribution(aura.GetInnateStrength());
         strengthValues.SetDistribution(aura.GetInnateStrength());
         manaText.text = "Maximum Mana: " + (aura.GetAggregatePower() * 100f);
+
+        gameObject.SetActive(false);
     }
 }

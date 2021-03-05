@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform SceneSpawnPoint;
     public float RespawnTimer = 5.0f;
 
+    public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel;
+
     public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 1f;
     public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.5f;
 
@@ -38,6 +40,21 @@ public class GameManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position, transform.rotation, 0);
             } else {
                 Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+            }
+        }
+    }
+
+    void FixedUpdate() {
+        if (Input.GetKeyDown("i")) {
+            auraPanel.SetActive(!auraPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+            if (!spellCraftingPanel.activeInHierarchy) {
+                auraPanel.SetActive(false);
+                if (infoPanel != null) infoPanel.SetActive(false);
             }
         }
     }
@@ -85,5 +102,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     
+    public GameObject GetSpellCraftingPanel() {
+        return spellCraftingPanel;
+    }
+
+    public GameObject GetGlyphCastingPanel() {
+        return glyphCastingPanel;
+    }
     #endregion
 }
