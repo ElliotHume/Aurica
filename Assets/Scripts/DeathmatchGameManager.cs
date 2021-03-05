@@ -73,8 +73,13 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public void StartMatch() {
         if (players.Count >= 4) StartingTeamLives += 2;
+        
         blueSideLives = StartingTeamLives;
         redSideLives = StartingTeamLives;
+
+        if (blueSide.Count < redSide.Count) blueSideLives += 3f;
+        if (redSide.Count < blueSide.Count) redSideLives += 3f;
+
         blueLifeCounter.text = blueSideLives.ToString();
         redLifeCounter.text = redSideLives.ToString();
 
