@@ -96,6 +96,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         // TODO
     }
 
+    [PunRPC]
     public void EndMatch(int winningTeam) {
         // TODO
         resultsPanel.SetActive(true);
@@ -142,10 +143,10 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         }
 
         if (blueSideLives <= 0) {
-            EndMatch(1);
+            photonView.RPC("EndMatch", RpcTarget.All, 1);
         }
         if (redSideLives <= 0) {
-            EndMatch(0);
+            photonView.RPC("EndMatch", RpcTarget.All, 0);
         }
     }
 
