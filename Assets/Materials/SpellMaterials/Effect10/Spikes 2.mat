@@ -10,11 +10,11 @@ Material:
   m_Name: Spikes 2
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
   m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_ON SoftParticles_OFF USE_FRESNEL
-    USE_REFRACTIVE VertLight4_ON _ZWRITEMODE_ON
+    USE_MAINTEX USE_REFRACTIVE VertLight4_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -86,7 +86,7 @@ Material:
     - _Distortion: 200
     - _DstBlend: 0
     - _FPOW: 2
-    - _FresnelDistort: 1000
+    - _FresnelDistort: 10000
     - _FresnelPow: 1
     - _FresnelR0: -0.5
     - _GlossMapScale: 1
@@ -99,7 +99,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _R0: -0.1
-    - _RefractiveStrength: 0.4
+    - _RefractiveStrength: 0.618
     - _RendererQueue: 3000
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -110,18 +110,18 @@ Material:
     - _UseCutout: 0
     - _UseFresnel: 1
     - _UseHeight: 0
-    - _UseMainTex: 0
+    - _UseMainTex: 1
     - _UseRefractive: 1
     - _UseSoft: 0
     - _ZWrite: 1
-    - _ZWriteMode: 1
+    - _ZWriteMode: 0
     m_Colors:
     - _Color: {r: 0.7026384, g: 0.7428498, b: 0.83823526, a: 1}
     - _CutoutColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 0.575638, g: 0.69538975, b: 0.8602941, a: 1}
+    - _FresnelColor: {r: 3.14972, g: 3.8214498, b: 4.7357492, a: 1}
     - _HeightUVScrollDistort: {r: 0, g: 0.2, b: 0, a: 0}
     - _MainColor: {r: 0.9867648, g: 1.0203449, b: 1.1, a: 1}
     - _ReflectColor: {r: 0.618404, g: 0.62600374, b: 0.63235295, a: 1}
     - _TexColor: {r: 0.65787196, g: 0.7204989, b: 0.7647059, a: 1}
-    - _TintColor: {r: 0.32352942, g: 0.32352942, b: 0.32352942, a: 0.123}
+    - _TintColor: {r: 0.7657989, g: 0.8468835, b: 1.1486983, a: 0}

@@ -101,6 +101,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
 
     public void SetRoomName(string name){
-        roomName = name;
+        roomName = name.ToUpper();
     }
 }

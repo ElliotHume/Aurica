@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ShieldDistortion 1
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
-  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_ON SoftParticles_ON USE_ALPHA_CLIPING
-    USE_BLENDING USE_SOFT_PARTICLES VertLight_OFF
+  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_ON SoftParticles_ON USE_BLENDING
+    USE_SOFT_PARTICLES VertLight_OFF
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -60,7 +60,7 @@ Material:
     - _CullMode: 2
     - _Cutout: 0.1
     - _CutoutThreshold: 0
-    - _Distortion: -100
+    - _Distortion: -300
     - _FPOW: 1
     - _FresnelDistort: 200
     - _FresnelPow: 5
@@ -70,7 +70,7 @@ Material:
     - _R0: 0
     - _RefractiveStrength: 0.04
     - _SoftFresnel: 1
-    - _UseAlphaCliping: 1
+    - _UseAlphaCliping: 0
     - _UseBlending: 1
     - _UseCutout: 0
     - _UseFresnel: 0

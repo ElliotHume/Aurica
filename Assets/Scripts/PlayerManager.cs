@@ -47,6 +47,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public bool dead = false;
 
+    public AudioSource DeathSound, HitSound;
+
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
@@ -264,7 +266,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         RootBone.transform.parent = null;
         healthBar.SetHealth(0);
         manaBar.SetHealth(0);
-        GetComponent<AudioSource>().Play();
+
+        if (DeathSound != null) DeathSound.Play();
 
         GameManager.Instance.playerDeath(this);
         if (DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.playerDeath(this);
@@ -300,6 +303,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 TakeDamage(Damage, spellDistribution);
                 break;
         }
+        if (HitSound != null && !SpellEffectType.Contains("dot")) HitSound.Play();
         // Debug.Log("Current Health: "+Health);
     }
 

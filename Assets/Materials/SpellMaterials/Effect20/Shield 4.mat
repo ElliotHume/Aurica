@@ -9,12 +9,12 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Shield 4
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
-  m_ShaderKeywords: USE_CUTOUT USE_FRESNEL USE_HEIGHT USE_SOFT_PARTICLES _EMISSION
-    _ZWRITEMODE_ON
+  m_ShaderKeywords: USE_CUTOUT USE_FRESNEL USE_HEIGHT USE_REFRACTIVE USE_SOFT_PARTICLES
+    _EMISSION _ZWRITEMODE_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2998
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -58,7 +58,7 @@ Material:
     - _CullMode: 0
     - _Cutout: 0.589
     - _CutoutThreshold: 0
-    - _Distortion: 100
+    - _Distortion: -150
     - _FPOW: 2
     - _FresnelDistort: 100
     - _FresnelPow: 2
@@ -66,7 +66,7 @@ Material:
     - _Height: 0.05
     - _InvFade: 2
     - _R0: 0.05
-    - _RefractiveStrength: 0.1
+    - _RefractiveStrength: 0.15
     - _SoftFresnel: 1
     - _UseAlphaCliping: 0
     - _UseBlending: 0
@@ -74,15 +74,15 @@ Material:
     - _UseFresnel: 1
     - _UseHeight: 1
     - _UseMainTex: 0
-    - _UseRefractive: 0
+    - _UseRefractive: 1
     - _UseSoft: 1
     - _ZWriteMode: 1
     m_Colors:
     - _Color: {r: 1.0147059, g: 1.0773226, b: 1.2, a: 1}
     - _CutoutColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 0.8625, g: 1.1108627, b: 1.6999999, a: 1}
+    - _FresnelColor: {r: 1.7267016, g: 2.225131, b: 3.4, a: 1}
     - _FresnelDistort: {r: 8, g: 12, b: 1, a: 1500}
     - _HeightUVScrollDistort: {r: 0, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 1.0147059, g: 1.0773226, b: 1.2, a: 1}
+    - _MainColor: {r: 1.2771412, g: 1.389194, b: 1.6020943, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVScrollDistort: {r: 8, g: 12, b: 1, a: 1500}

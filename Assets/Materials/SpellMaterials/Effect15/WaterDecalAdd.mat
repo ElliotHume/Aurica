@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterDecalAdd
   m_Shader: {fileID: 4800000, guid: 4775e5a8f344d6348adf934e722da85d, type: 3}
-  m_ShaderKeywords: BlendAdd Clip_OFF FrameBlend_OFF FresnelFade_OFF SoftParticles_OFF
+  m_ShaderKeywords: BlendMul Clip_OFF FrameBlend_OFF FresnelFade_OFF SoftParticles_OFF
     VertLight_OFF
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -54,8 +54,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - CullMode: 2
-    - DstMode: 1
-    - SrcMode: 5
+    - DstMode: 0
+    - SrcMode: 2
     - _AlphaPow: 1
     - _Amount: 0.5
     - _BumpAmt: -400
@@ -86,5 +86,5 @@ Material:
     - _SSSColor: {r: 0.98439384, g: 1.0928022, b: 1.4092375, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _Test: {r: 7, g: 8, b: 0, a: 1500}
-    - _TintColor: {r: 610.38434, g: 690.69806, b: 766.9961, a: 0.6}
+    - _TintColor: {r: 0.78676474, g: 0.8941176, b: 1, a: 0.6}
     - _UVScrollFadeDistort: {r: 3, g: 6, b: 0, a: 1500}

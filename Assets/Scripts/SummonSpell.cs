@@ -9,14 +9,14 @@ public class SummonSpell : Spell, IPunObservable {
     public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false;
     public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
-    public Vector3 RotationOffset = Vector3.zero;
+    //public Vector3 RotationOffset = Vector3.zero;
     public bool Rising = false;
     public float TimeToRise = 1f;
-    public Vector3 StartingOffset = Vector3.zero, Destination = Vector3.zero;
-    public GameObject[] RisingParticles, DeactivateObjectsAfterDuration;
+    public float StartingOffset = 0f;
+    public GameObject[] RisingParticles, DestructionParticles, DeactivateObjectsAfterDuration;
 
 
-    private Vector3 startPosition;
+    private Vector3 startPosition = Vector3.zero, Destination = Vector3.zero;
     private float amountOfScalingApplied = 0f;
     private bool active = true, doneMoving = true;
 
@@ -43,15 +43,22 @@ public class SummonSpell : Spell, IPunObservable {
             Invoke("Enable", StartTimeDelay);
         }
         if (Duration > 0f) Invoke("DisableParticlesAfterDuration", Duration);
+        if (DestroyTimeDelay > 0f) Invoke("PlayDestructionParticles", DestroyTimeDelay-0.1f);
         //if (RotationOffset != Vector3.zero) transform.Rotate(RotationOffset);
 
+        foreach( var effect in RisingParticles) {
+            Instantiate(effect, transform.position, transform.rotation);
+        }
+
         if (Rising) {
-            if (Destination == Vector3.zero) Destination = transform.position;
-            transform.position -= StartingOffset;
+            if (Destination == Vector3.zero) Destination = transform.localPosition;
+            transform.position -= transform.forward * StartingOffset;
             startPosition = transform.position;
 
             StartCoroutine(Rise());
         }
+
+        
     }
 
     void FixedUpdate() {
@@ -63,16 +70,14 @@ public class SummonSpell : Spell, IPunObservable {
 
     IEnumerator Rise() {
         doneMoving = false;
-        var currentPos = transform.position;
+        var currentPos = transform.localPosition;
         var t = 0f;
         while (t < 1) {
             t += Time.deltaTime / TimeToRise;
-            transform.position = Vector3.Lerp(currentPos, Destination, t);
+            transform.localPosition = Vector3.Lerp(currentPos, Destination, t);
             yield return new WaitForFixedUpdate();
         }
         doneMoving = true;
-        AudioSource asrce = GetComponent<AudioSource>();
-        if (asrce != null) asrce.Play();
     }
 
     void DestroySelf() {
@@ -81,12 +86,18 @@ public class SummonSpell : Spell, IPunObservable {
 
     void DisableCollisions() {
         active = false;
-        GetComponent<Collider>().enabled = false;
+        if (GetComponent<Collider>() != null) GetComponent<Collider>().enabled = false;
     }
 
     void Enable() {
         active = true;
         GetComponent<Collider>().enabled = true;
+    }
+
+    void PlayDestructionParticles() {
+        foreach (var effect in DestructionParticles) {
+            Instantiate(effect, transform.position, transform.rotation);
+        }
     }
 
     void DisableParticlesAfterDuration() {

@@ -46,7 +46,7 @@ public class PlayerMovementManager : MonoBehaviourPun {
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        bool running = Input.GetKey(KeyCode.LeftShift);
+        bool running = true;
 
         if (Input.GetButtonDown("Jump") && !isRooted && !isBlocking && !isBeingDisplaced) animator.SetTrigger("Jump");
 
@@ -85,7 +85,7 @@ public class PlayerMovementManager : MonoBehaviourPun {
     IEnumerator JumpRoutine() {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        float timer = 0.75f;
+        float timer = 0.5f;
         while (timer > 0f) {
             Vector3 movement = transform.forward * v + transform.right * h;
             movement.y += JumpHeight;

@@ -30,8 +30,10 @@ public class Aura : MonoBehaviourPun {
         player.SetMaxMana(AuraDistribution.GetAggregate() * 100f);
         player.ConfirmAura();
 
-        foreach (var item in FindObjectsOfType<AuraUIPanel>()) {
-            item.SetAura(this);
+        if (photonView.IsMine) {
+            foreach (var item in FindObjectsOfType<AuraUIPanel>()) {
+                item.SetAura(this);
+            }
         }
     }
 

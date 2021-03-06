@@ -7104,11 +7104,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 1
+  sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1001 &161184622
@@ -29365,7 +29365,7 @@ RectTransform:
   m_GameObject: {fileID: 662875515}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: -0.00000035762784}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1353216515}
   m_RootOrder: 1
@@ -29395,7 +29395,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 6403afd719acd2b4dbb0dfae7add33cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -35357,11 +35357,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 2
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1001 &771298606
@@ -35620,7 +35620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 08338c2d8f2308a409a7e5575a723f27, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: -4647.869}
+  m_Color: {r: 1, g: 1, b: 1, a: -4649.7534}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

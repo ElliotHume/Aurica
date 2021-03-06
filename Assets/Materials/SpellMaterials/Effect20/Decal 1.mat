@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Decal 1
   m_Shader: {fileID: 4800000, guid: 32ed75d04da1d2348baeac9738ccd729, type: 3}
-  m_ShaderKeywords: USE_ALPHA_POW USE_CUTOUT USE_CUTOUT_TEX USE_NOISE_DISTORTION
-    _BLENDMODE_BLEND _EMISSION
+  m_ShaderKeywords: USE_ALPHA_POW USE_CUTOUT USE_CUTOUT_TEX USE_NOISE_DISTORTION _BLENDMODE_BLEND
+    _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -122,4 +122,3 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _TintColor: {r: 0.6397059, g: 0.79127824, b: 1, a: 1}
-  m_BuildTextureStacks: []

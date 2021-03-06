@@ -105,6 +105,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
             foreach(string effect in NetworkedEffectsOnCollision) {
                 GameObject instance = PhotonNetwork.Instantiate(effect, hit.point + hit.normal * CollisionOffset, transform.rotation);
                 instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
+                instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
                 Spell instanceSpell = instance.GetComponent<Spell>();
                 if (instanceSpell != null) instanceSpell.SetSpellStrength(GetSpellStrength());
             }

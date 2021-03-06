@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Distort
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
-  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_OFF SoftParticles_OFF USE_ALPHA_CLIPING
-    USE_BLENDING USE_CUTOUT USE_FRESNEL USE_HEIGHT USE_SOFT_PARTICLES VertLight_OFF
+  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_OFF SoftParticles_OFF USE_BLENDING
+    USE_CUTOUT USE_FRESNEL USE_HEIGHT USE_SOFT_PARTICLES VertLight_OFF
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -95,12 +95,12 @@ Material:
     - _AlphaPow: 0
     - _BumpAmt: -20
     - _BumpScale: 1
-    - _CullMode: 2
+    - _CullMode: 0
     - _Cutoff: 0
     - _Cutout: 1
     - _CutoutThreshold: 0.01
     - _DetailNormalMapScale: 1
-    - _Distortion: -150
+    - _Distortion: -250
     - _DstBlend: 0
     - _FPOW: 2.5
     - _FresnelDistort: -3000
@@ -117,14 +117,14 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _R0: -0.05
-    - _RefractiveStrength: 0.011
+    - _RefractiveStrength: -0.419
     - _Scale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _UseAlphaCliping: 1
+    - _UseAlphaCliping: 0
     - _UseBlending: 1
     - _UseCutout: 1
     - _UseFresnel: 1

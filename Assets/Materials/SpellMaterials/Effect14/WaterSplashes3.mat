@@ -10,7 +10,7 @@ Material:
   m_Name: WaterSplashes3
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
   m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_OFF SoftParticles_OFF USE_ALPHA_CLIPING
-    USE_SOFT_PARTICLES VertLight4_ON
+    USE_MAINTEX USE_SOFT_PARTICLES VertLight4_ON
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -67,7 +67,7 @@ Material:
     m_Floats:
     - DstMode: 10
     - SrcMode: 5
-    - _AlphaClip: 10
+    - _AlphaClip: 50
     - _Amount: 0.5
     - _BumpAmt: 400
     - _ColorIntensity: 1
@@ -76,7 +76,7 @@ Material:
     - _Cutoff: 1
     - _Cutout: 0.2
     - _CutoutThreshold: 0.015
-    - _Distortion: 400
+    - _Distortion: 1500
     - _FPOW: 1.4
     - _FresnelDistort: 1500
     - _FresnelPow: 5
@@ -99,7 +99,7 @@ Material:
     - _UseCutout: 0
     - _UseFresnel: 0
     - _UseHeight: 0
-    - _UseMainTex: 0
+    - _UseMainTex: 1
     - _UseRefractive: 0
     - _UseSoft: 1
     - _ZWriteMode: 0
@@ -114,5 +114,5 @@ Material:
     - _SSSColor: {r: 0.98439384, g: 1.0928022, b: 1.4092375, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _Test: {r: 7, g: 8, b: 0, a: 1500}
-    - _TintColor: {r: 0.42322665, g: 0.48027083, b: 0.5588235, a: 0.303}
+    - _TintColor: {r: 0.44921628, g: 0.45373738, b: 0.4600669, a: 1}
     - _UVScrollFadeDistort: {r: 3, g: 6, b: 0, a: 1500}
