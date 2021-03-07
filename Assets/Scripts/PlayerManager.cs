@@ -487,7 +487,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void CastSpell() {
         if (photonView.IsMine && !silenced && !stunned) {
             if (Mana - auricaCaster.GetManaCost() > 0f) {
-                GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, currentCastingTransform.position, currentCastingTransform.rotation);
+                Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(10f).transform;
+                GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, aimTransform.position, aimTransform.rotation);
                 Mana -= auricaCaster.GetManaCost();
 
                 Spell spell = newSpell.GetComponent<Spell>();

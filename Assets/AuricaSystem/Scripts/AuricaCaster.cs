@@ -102,8 +102,8 @@ public class AuricaCaster : MonoBehaviourPun {
         ManaDistribution oldMd = currentDistribution;
         currentDistribution = newComponent.CalculateDistributionChange(currentDistribution, aura.GetAura());
 
-        Debug.Log("Added component: " + newComponent.c_name + "    Current Mana Cost: " + currentManaCost);
-        Debug.Log("Old Distribution: " + oldMd.ToString() + "    New Distribution: " + currentDistribution.ToString());
+        //Debug.Log("Added component: " + newComponent.c_name + "    Current Mana Cost: " + currentManaCost);
+        //Debug.Log("Old Distribution: " + oldMd.ToString() + "    New Distribution: " + currentDistribution.ToString());
 
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
         if (cpUI != null) cpUI.AddComponent(newComponent);
@@ -201,6 +201,23 @@ public class AuricaCaster : MonoBehaviourPun {
         PlayerPrefs.SetString("CachedSpell_"+key, componentString);
         Debug.Log("Spell cached under key: CachedSpell_"+key+" with string -> "+componentString);
         AuricaSpell match = Cast();
+        try {
+            BindingUIPanel.LocalInstance.SetBindText(key, match.c_name);
+        } catch {
+            Debug.Log("No spell found for binding...");
+            BindingUIPanel.LocalInstance.SetBindText(key, "NONE");
+        }
+    }
+
+    public void CacheSpell(string key, string spell) {
+        Debug.Log("Caching spell: "+spell);
+        if (cachedSpells.ContainsKey(key)) {
+            cachedSpells[key] = new CachedSpell(spell);
+        } else {
+            cachedSpells.Add(key, new CachedSpell(spell));
+        }
+        PlayerPrefs.SetString("CachedSpell_"+key, spell);
+        AuricaSpell match = CastSpellByName(spell);
         try {
             BindingUIPanel.LocalInstance.SetBindText(key, match.c_name);
         } catch {

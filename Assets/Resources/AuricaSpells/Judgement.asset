@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Judgement
+  m_EditorClassIdentifier: 
+  c_name: Judgement
+  description: Create a delayed explosion underneath an opponent, if they are within
+    after the time they will be rooted and weakened
+  targetDistribution:
+    structure: 0.11
+    essence: 0
+    fire: 0.15
+    water: 0
+    earth: 0
+    air: 0.2
+    nature: 0.85
+  keyComponents:
+  - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
+  - {fileID: 11400000, guid: 310184bc9d5bd47c088cfdc3f5e6cd99, type: 2}
+  - {fileID: 11400000, guid: f2a312eb39a2f4cbdb6d601a6ae97e52, type: 2}
+  - {fileID: 11400000, guid: 1695c1f276952436ab72f5a2f31e1c4e, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_Judgement

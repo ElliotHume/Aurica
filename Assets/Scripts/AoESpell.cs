@@ -5,10 +5,11 @@ using Photon.Pun;
 
 public class AoESpell : Spell {
     public float LastingDamage = 0f;
-    public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false;
+    public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false, growBeforeStart = false;
     public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     public GameObject[] DeactivateObjectsAfterDuration;
+    public ParticleSystem[] EffectsOnDelayedStartup;
 
     private float amountOfScalingApplied = 0f;
     private bool active = true;
@@ -27,7 +28,7 @@ public class AoESpell : Spell {
     }
 
     void FixedUpdate() {
-        if (active && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
+        if ((active || growBeforeStart) && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
             transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
             if (ScalingLimit != 0f) amountOfScalingApplied += Mathf.Abs(ScalingFactor * Time.deltaTime);
         }
@@ -97,6 +98,12 @@ public class AoESpell : Spell {
     void Enable() {
         active = true;
         GetComponent<Collider>().enabled = true;
+        foreach(var effect in EffectsOnDelayedStartup) {
+            effect.Play();
+        }
+        foreach(var audio in GetComponents<AudioSource>()) {
+            audio.Play();
+        }
     }
 
     void DisableParticlesAfterDuration() {

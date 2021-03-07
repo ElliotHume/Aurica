@@ -19069,11 +19069,13 @@ MonoBehaviour:
   OneShotEffect: 1
   LastingEffect: 0
   canHitSelf: 1
+  growBeforeStart: 0
   DestroyTimeDelay: 15
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
   DeactivateObjectsAfterDuration: []
+  EffectsOnDelayedStartup: []
 --- !u!114 &7065651618484338008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19087,13 +19089,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slow: 1
-  slowDuration: 2
+  slowDuration: 4
   slowPercentage: 20
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0
   root: 1
-  rootDuration: 4
+  rootDuration: 2
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -19109,7 +19111,7 @@ MonoBehaviour:
     air: 0
     nature: 0
   strengthen: 1
-  strengthenDuration: 4
+  strengthenDuration: 8
   strengthenDistribution:
     structure: 0
     essence: 0
@@ -19122,7 +19124,7 @@ MonoBehaviour:
   fragileDuration: 0
   fragilePercentage: 0
   tough: 1
-  toughDuration: 4
+  toughDuration: 8
   toughPercentage: 25
   changeManaRegen: 0
   changeDuration: 0
@@ -19179,12 +19181,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 7065651618484338011}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7065651618484338011

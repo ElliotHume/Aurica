@@ -72,4 +72,13 @@ public class AuricaSpell : ScriptableObject {
         Debug.Log("Spell damage modifier by: x"+sum);
         return sum;
     }
+
+    public override string ToString() {
+        string componentString = "";
+        foreach(AuricaSpellComponent c in keyComponents) {
+            componentString += c.c_name+", ";
+        }
+        componentString = componentString.Substring(0, componentString.Length-2);
+        return componentString;
+    }
 }

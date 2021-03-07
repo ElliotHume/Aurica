@@ -15,13 +15,13 @@ MonoBehaviour:
   c_name: Rock Wall
   description: Summon  a wall of rock at a target location
   targetDistribution:
-    structure: -0.1
-    essence: -0.1
-    fire: 0.33
-    water: 0
-    earth: 0
+    structure: 0.4
+    essence: 0.1
+    fire: 0.2
+    water: 0.05
+    earth: 0.95
     air: 0
-    nature: -1
+    nature: 0
   keyComponents:
   - {fileID: 11400000, guid: 2c16fa44aac434c128740b9c51ca6fb1, type: 2}
   - {fileID: 11400000, guid: 07f8bdef0352d48e6a0e79b2222f3b53, type: 2}

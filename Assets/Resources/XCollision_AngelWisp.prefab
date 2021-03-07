@@ -409,6 +409,7 @@ MonoBehaviour:
   OneShotEffect: 0
   LastingEffect: 1
   canHitSelf: 0
+  growBeforeStart: 0
   DestroyTimeDelay: 20
   StartTimeDelay: 0
   ScalingFactor: 0
@@ -417,6 +418,7 @@ MonoBehaviour:
   - {fileID: 7293937369645754519}
   - {fileID: 7294760023881962751}
   - {fileID: 7294702876037740003}
+  EffectsOnDelayedStartup: []
 --- !u!135 &7294094434082692721
 SphereCollider:
   m_ObjectHideFlags: 0
