@@ -4673,6 +4673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AimSensitivity: 1.5
+  PlayerSpeed: 4.5
   JumpHeight: 1
   JumpSpeed: 5
   Mass: 3
@@ -4690,7 +4691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
+  m_SynchronizeScale: 0
   m_UseLocal: 1
 --- !u!114 &1753741204447944
 MonoBehaviour:
@@ -4712,6 +4713,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1753741204447943}
+  - {fileID: 1753741204447942}
   - {fileID: 7920007557602750286}
   - {fileID: 613314493112857879}
   sceneViewId: 0

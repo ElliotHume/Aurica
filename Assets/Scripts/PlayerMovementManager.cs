@@ -3,15 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 
-public class PlayerMovementManager : MonoBehaviourPun {
+public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public float AimSensitivity = 1.5f;
-    public float JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f;
+    public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f;
 
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned, isBlocking, isBeingDisplaced;
-    private Vector3 playerVelocity, impact;
+    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping;
+    private Vector3 playerVelocity, impact, velocity;
+
+    Vector3 networkPosition;
+    Quaternion networkRotation;
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if (stream.IsWriting) {
+            // We own this player: send the others our data
+            // CRITICAL DATA
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        } else {
+            // Network player, receive data
+            // CRITICAL DATA
+            networkPosition = (Vector3) stream.ReceiveNext();
+            networkRotation = (Quaternion) stream.ReceiveNext();
+
+            float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
+            networkPosition += (velocity * lag);
+        }
+    }
 
     // Use this for initialization
     void Start() {
@@ -46,22 +66,31 @@ public class PlayerMovementManager : MonoBehaviourPun {
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        bool running = true;
 
-        if (Input.GetButtonDown("Jump") && !isRooted && !isBlocking && !isBeingDisplaced) animator.SetTrigger("Jump");
+        if (Input.GetButtonDown("Jump") && !isRooted && !isBlocking && !isBeingDisplaced && !jumping) {
+            animator.SetTrigger("Jump");
+            jumping = true;
+        }
 
         animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isBlocking && !isBeingDisplaced);
-        animator.SetBool("Running", running && !isRooted && !isBlocking && !isBeingDisplaced);
+        animator.SetBool("Running", !isRooted && !isBlocking && !isBeingDisplaced);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
 
-        // while mouse right-click is being held, dragging the mouse will turn the character
         transform.rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
 
-        // apply the impact force:
+        // Apply motion after turning
+        Vector3 oldPosition = transform.position;
+        if (!jumping) characterController.Move((transform.forward * v + transform.right * h).normalized * PlayerSpeed * Time.deltaTime);
+    
+        // Apply impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
-        // consumes the impact energy each cycle:
+
+        // Consume the impact energy each cycle:
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+
+        // Calculate velocity for lag compensation
+        velocity = transform.position - oldPosition;
     }
 
     public void PlayCastingAnimation(int animationType) {
@@ -99,6 +128,7 @@ public class PlayerMovementManager : MonoBehaviourPun {
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
             yield return new WaitForEndOfFrame();
         }
+        jumping = false;
     }
 
     void JumpImpulse() {

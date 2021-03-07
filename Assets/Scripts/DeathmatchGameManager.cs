@@ -16,7 +16,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     public Text blueLifeCounter, redLifeCounter;
     public GameObject readyButton, resultsPanel, bluesidewinUI, redsidewinUI;
 
-    public int StartingTeamLives = 5;
+    public int LivesPerPlayer = 1;
     public float RespawnTimer;
     int blueSideLives, redSideLives;
 
@@ -33,8 +33,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         blueSide = new List<PlayerManager>();
         redSide = new List<PlayerManager>();
 
-        blueSideLives = StartingTeamLives;
-        redSideLives = StartingTeamLives;
+        blueSideLives = LivesPerPlayer;
+        redSideLives = LivesPerPlayer;
     }
 
     [PunRPC]
@@ -72,10 +72,9 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
 
     public void StartMatch() {
-        if (players.Count >= 4) StartingTeamLives += 2;
-        
-        blueSideLives = StartingTeamLives;
-        redSideLives = StartingTeamLives;
+
+        blueSideLives = blueSide.Count * LivesPerPlayer;
+        redSideLives = redSide.Count * LivesPerPlayer;
 
         if (blueSide.Count < redSide.Count) blueSideLives += 3;
         if (redSide.Count < blueSide.Count) redSideLives += 3;
