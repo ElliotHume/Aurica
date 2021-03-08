@@ -10,7 +10,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping;
+    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, casting;
     private Vector3 playerVelocity, impact, velocity;
 
     Vector3 networkPosition;
@@ -81,7 +81,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!jumping) characterController.Move((transform.forward * v + transform.right * h).normalized * PlayerSpeed * Time.deltaTime);
+        if (!jumping && !casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * PlayerSpeed * Time.deltaTime);
     
         // Apply impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
@@ -101,7 +101,12 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             // animator method
             animator.SetTrigger("Cast");
             animator.SetInteger("CastType", animationType);
+            casting = true;
         }
+    }
+
+    public void EndCast() {
+        casting = false;
     }
 
     public void JumpLift() {

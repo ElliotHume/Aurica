@@ -14257,7 +14257,7 @@ MonoBehaviour:
   ManaChannelCost: 40
   SpellEffectType: dotAoE
   Duration: 15
-  CastAnimationType: 5
+  CastAnimationType: 3
   CastingAnchor: transform
   TurnToAimPoint: 1
   IsChannel: 0
@@ -14267,6 +14267,7 @@ MonoBehaviour:
   OneShotEffect: 0
   LastingEffect: 1
   canHitSelf: 0
+  growBeforeStart: 0
   DestroyTimeDelay: 16
   StartTimeDelay: 0
   ScalingFactor: 0.1
@@ -14276,6 +14277,7 @@ MonoBehaviour:
   - {fileID: 1173006846429725914}
   - {fileID: 1173006846461439555}
   - {fileID: 689328668326786317}
+  EffectsOnDelayedStartup: []
 --- !u!114 &1173006846591398229
 MonoBehaviour:
   m_ObjectHideFlags: 0

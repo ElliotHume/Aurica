@@ -4749,14 +4749,14 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 15
+  Speed: 20
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   Target: {fileID: 0}
   HomingProjectile: 1
   HomingDetectionSphereRadius: 3
-  TrackingProjectile: 0
-  TrackingTurnSpeed: 0.1
+  TrackingProjectile: 1
+  TrackingTurnSpeed: 20
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   EffectsOnCollision:
@@ -4811,13 +4811,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 1
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 7870400193651394105}
   - {fileID: 7870400193651394117}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7870400193651394117

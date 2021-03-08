@@ -57,4 +57,9 @@ public class Spell : MonoBehaviourPun {
     public GameObject GetOwner() {
         return owner;
     }
+
+    [PunRPC]
+    public void DestroySpell() {
+        if (photonView.IsMine) PhotonNetwork.Destroy(gameObject);
+    }
 }

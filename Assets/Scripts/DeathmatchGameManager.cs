@@ -110,8 +110,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
             redsidewinUI.SetActive(true);
         }
 
-        blueSideLives = StartingTeamLives;
-        redSideLives = StartingTeamLives;
+        blueSideLives = LivesPerPlayer;
+        redSideLives = LivesPerPlayer;
         blueLifeCounter.text = blueSideLives.ToString();
         redLifeCounter.text = redSideLives.ToString();
 
