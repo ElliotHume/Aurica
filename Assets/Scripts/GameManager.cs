@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     void Update() {
-        if (Input.GetKeyDown("i")) {
+        if (Input.GetKeyDown("`")) {
             auraPanel.SetActive(!auraPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }

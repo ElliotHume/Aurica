@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Distortion
+  m_EditorClassIdentifier: 
+  c_name: Distortion
+  description: Create a field of distortion that will impact visibility and inflict
+    a fragile debuff
+  targetDistribution:
+    structure: -0.9
+    essence: -0.13
+    fire: 0.22
+    water: 0
+    earth: 0
+    air: 0.47
+    nature: -0.08
+  keyComponents:
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: f0352fd38cf3b40c48e0d2b78a70eed0, type: 2}
+  - {fileID: 11400000, guid: 1e6fd499fedae463c8e2e416884ececc, type: 2}
+  - {fileID: 11400000, guid: 24a81935fa8e34990ba28ad05d8af8f5, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_Distortion

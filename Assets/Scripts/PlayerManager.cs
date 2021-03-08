@@ -307,7 +307,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Debug.Log("Current Health: "+Health);
     }
 
-    void TakeDamage(float damage, ManaDistribution spellDistribution) {
+    public void TakeDamage(float damage, ManaDistribution spellDistribution) {
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
         if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);

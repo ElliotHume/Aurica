@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: CreepingDeath
+  m_EditorClassIdentifier: 
+  c_name: Creeping Death
+  description: Create an orb of death that will seek out the closest enemy and deal
+    massive damage
+  targetDistribution:
+    structure: 0.2
+    essence: -1
+    fire: 0
+    water: 0.1
+    earth: 0.22
+    air: 0
+    nature: -0.25
+  keyComponents:
+  - {fileID: 11400000, guid: 5e55728996062467aaee2076ed4c668c, type: 2}
+  - {fileID: 11400000, guid: 9665561dfbacb4175b289685ee628d66, type: 2}
+  - {fileID: 11400000, guid: 2c16fa44aac434c128740b9c51ca6fb1, type: 2}
+  - {fileID: 11400000, guid: 1695c1f276952436ab72f5a2f31e1c4e, type: 2}
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_CreepingDeath

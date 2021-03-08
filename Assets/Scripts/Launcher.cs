@@ -4,8 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Launcher : MonoBehaviourPunCallbacks
-{
+public class Launcher : MonoBehaviourPunCallbacks {
     [Tooltip("The Ui Panel to let the user enter name, connect and play")]
     [SerializeField]
     public GameObject controlPanel;
@@ -57,23 +56,20 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
     }
 
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
+    public override void OnJoinRandomFailed(short returnCode, string message) {
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
         PhotonNetwork.CreateRoom("FreePlay", new RoomOptions());
     }
 
-    public override void OnJoinedRoom()
-    {
+    public override void OnJoinedRoom() {
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
         // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
-        {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             // #Critical
             // Load the Room Level.
-            string level = roomName == "FreePlay" ? "Battlegrounds1" : "Deathmatch";
+            string level = roomName.ToUpper() == "FREEPLAY" ? "Battlegrounds1" : roomName.Contains("FOREST") ? "DeathmatchForest" : "Deathmatch";
             PhotonNetwork.LoadLevel(level);
         }
     }
@@ -83,8 +79,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     /// - If already connected, we attempt joining a random room
     /// - if not yet connected, Connect this application instance to Photon Cloud Network
     /// </summary>
-    public void Connect()
-    {
+    public void Connect() {
         progressLabel.SetActive(true);
         controlPanel.SetActive(false);
         // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
@@ -100,7 +95,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         Connect();
     }
 
-    public void SetRoomName(string name){
+    public void SetRoomName(string name) {
         roomName = name.ToUpper();
     }
 }
