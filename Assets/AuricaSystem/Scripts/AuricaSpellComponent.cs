@@ -7,6 +7,7 @@ public class AuricaSpellComponent : ScriptableObject {
     public string c_name;
     [TextArea(15, 3)]
     public string description;
+    public float manaCostMultiplier = 1f;
     public bool hasBasicDistribution, hasAuricDistribution, hasFluxDistribution, hasSiphonDistribution;
     public ManaDistribution basicDistribution, auricDistribution, fluxDistribution, siphonDistribution;
     //public List<float> basicDistribution = new List<float>(7), auricDistribution = new List<float>(7), fluxDistribution = new List<float>(7);
@@ -23,6 +24,6 @@ public class AuricaSpellComponent : ScriptableObject {
 
     public float GetManaCost(ManaDistribution aura) {
         if (!hasAuricDistribution) return 0;
-        return (auricDistribution * aura).GetAggregate() * 75f;
+        return (auricDistribution * aura).GetAggregate() * 75f * manaCostMultiplier;
     }
 }

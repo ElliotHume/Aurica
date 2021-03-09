@@ -154,6 +154,7 @@ MonoBehaviour:
   OneShotEffect: 1
   LastingEffect: 1
   canHitSelf: 1
+  growBeforeStart: 0
   DestroyTimeDelay: 20
   StartTimeDelay: 0
   ScalingFactor: -0.05
@@ -164,6 +165,7 @@ MonoBehaviour:
   - {fileID: 2489436256068326669}
   - {fileID: 2489311230951476029}
   - {fileID: 2488610970050675055}
+  EffectsOnDelayedStartup: []
 --- !u!114 &2490384695920795057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,8 +219,8 @@ MonoBehaviour:
   changeManaRegen: 0
   changeDuration: 0
   changePercentage: 0
-  healing: 0
-  healFlatAmount: 0
+  healing: 1
+  healFlatAmount: 5
   healPercentAmount: 0
   manaDrain: 0
   manaDrainFlatAmount: 0
@@ -285,12 +287,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 2490384695920795058}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &2488735592724836725

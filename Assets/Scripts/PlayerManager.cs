@@ -205,7 +205,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             // Allowed to look at and craft spells while dead, but nothing else
             if (Health <= 0f) return;
 
-            if (!spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
+            if (spellCraftingDisplay != null && !spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
 
             // If there is healing to be done, do it
             if (healing > 0f && Health < maxHealth) {

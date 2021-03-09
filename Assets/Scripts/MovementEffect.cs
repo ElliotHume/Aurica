@@ -13,6 +13,8 @@ public class MovementEffect : MonoBehaviourPun {
     public bool isKnockback = false;
     public bool isContinuous = false;
 
+    public AudioSource clip;
+
 
     private bool isCollided = false;
 
@@ -66,6 +68,7 @@ public class MovementEffect : MonoBehaviourPun {
         PhotonView pv = PhotonView.Get(pm);
         if (pv != null) {
             pv.RPC("Displace", RpcTarget.All, displacementDirection, displacementDistance, displacementSpeed, isKnockback);
+            if (clip != null) clip.Play();
         }
     }
 }

@@ -9,7 +9,7 @@ public class BindingUIPanel : MonoBehaviour
     public static BindingUIPanel LocalInstance;
     private Dictionary<string, Text> dict = new Dictionary<string, Text>();
 
-    void Start() {
+    public void Startup() {
         dict.Add("q", bindQ);
         dict.Add("e", bindE);
         dict.Add("r", bindR);

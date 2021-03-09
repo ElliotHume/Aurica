@@ -10225,18 +10225,18 @@ MonoBehaviour:
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Health: 50
+  Health: 75
   spawnEffectsOnBreak: []
   networkedEffectsOnBreak: []
   networkedEffectsOnHit: []
   ShieldDistribution:
     structure: 1
-    essence: 0
+    essence: 0.66
     fire: 0
-    water: 0.25
-    earth: 0.25
+    water: 0
+    earth: 0
     air: 0
-    nature: 0.33
+    nature: 0.66
 --- !u!114 &6138793448872243386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10252,13 +10252,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 7926339922499305212}
   - {fileID: 6138793448872243385}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6138793448872243385

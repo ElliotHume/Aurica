@@ -22,6 +22,9 @@ public class AuricaSpellComponentEditor : Editor {
         GUIStyle myCustomStyle = new GUIStyle(GUI.skin.GetStyle("textArea")) { wordWrap = true };
         component.description = EditorGUILayout.TextArea(component.description, myCustomStyle);
 
+        component.manaCostMultiplier = EditorGUILayout.FloatField("Mana Cost Multiplier", component.manaCostMultiplier);
+        EditorGUILayout.Space();
+
         // component.hasBasicDistribution = EditorGUILayout.Toggle("Basic distribution", component.hasBasicDistribution);
         // if (component.hasBasicDistribution) {
         //     Rect r = EditorGUILayout.BeginVertical("Basic Distribution");

@@ -7,10 +7,12 @@ public class SpellCraftingUIDisplay : MonoBehaviour
     public ManaDistribution aura;
     public ComponentUIDisplay componentUIDisplay;
     public SpellUIDisplay spellUIDisplay;
+    public BindingUIPanel bindingPanel;
 
     public void SendAura(ManaDistribution a) {
         aura = a;
         componentUIDisplay.SendAura(a);
+        bindingPanel.Startup();
     }
 
     public ManaDistribution GetAura() {

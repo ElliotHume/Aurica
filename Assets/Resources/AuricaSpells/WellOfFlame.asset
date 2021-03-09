@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: WellOfFlame
+  m_EditorClassIdentifier: 
+  c_name: Well of Flame
+  description: Create a circle of fire that damages those within
+  targetDistribution:
+    structure: -0.15
+    essence: -0.05
+    fire: 0.95
+    water: 0
+    earth: 0
+    air: 0.1
+    nature: -0.25
+  keyComponents:
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
+  - {fileID: 11400000, guid: 78f99510cc76b4a66b9b03860a92c79b, type: 2}
+  - {fileID: 11400000, guid: 310184bc9d5bd47c088cfdc3f5e6cd99, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_WellOfFlame

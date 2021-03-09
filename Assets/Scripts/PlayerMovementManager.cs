@@ -133,6 +133,9 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public void EndJump() {
         jumping = false;
     }
 
