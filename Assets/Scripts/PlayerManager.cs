@@ -282,8 +282,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         HardReset();
     }
 
-    public void Teleport( Vector3 newPosition ) {
-        Debug.Log("Teleport "+gameObject+"  to "+newPosition);
+    public void Teleport(Vector3 newPosition) {
+        Debug.Log("Teleport " + gameObject + "  to " + newPosition);
         transform.position = newPosition;
     }
 
@@ -335,41 +335,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void ProcessInputs() {
         if (silenced || stunned || !photonView.IsMine) return;
 
-        if (Input.GetKeyDown("0")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("0"));
-        } else if (Input.GetKeyDown("1")) {
+        if (Input.GetKeyDown("1")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("1"));
         } else if (Input.GetKeyDown("2")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("2"));
         } else if (Input.GetKeyDown("3")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("3"));
-        } else if (Input.GetKeyDown("4")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("4"));
-        } else if (Input.GetKeyDown("5")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("5"));
-        } else if (Input.GetKeyDown("6")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("6"));
-        } else if (Input.GetKeyDown("7")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("7"));
-        } else if (Input.GetKeyDown("8")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("8"));
-        } else if (Input.GetKeyDown("9")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("9"));
         } else if (Input.GetKeyDown("e")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("e"));
         } else if (Input.GetKeyDown("q")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("q"));
         } else if (Input.GetKeyDown("r")) {
             CastAuricaSpell(auricaCaster.CastBindSlot("r"));
-        } else if (Input.GetKeyDown("z")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("z"));
-        } else if (Input.GetKeyDown("x")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("x"));
-        } else if (Input.GetKeyDown("c")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("c"));
         }
 
-
+        if (Input.GetKeyDown("\\")) {
+            Mana += 50;
+        }
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             if (!isChannelling) {
