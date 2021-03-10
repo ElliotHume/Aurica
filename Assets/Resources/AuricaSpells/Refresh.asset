@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Refresh
+  m_EditorClassIdentifier: 
+  c_name: Refresh
+  description: Use the elements around you to reshresh your body and mind. Gives
+    a small hastening effect, heal, and boosts mana regen.
+  targetDistribution:
+    structure: 0.2
+    essence: 1
+    fire: 0.1
+    water: 0.15
+    earth: 0.1
+    air: 0.1
+    nature: 0.05
+  keyComponents:
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: 24a81935fa8e34990ba28ad05d8af8f5, type: 2}
+  - {fileID: 11400000, guid: d29ce689475c640269f43d631d35ccd4, type: 2}
+  - {fileID: 11400000, guid: e50251c9a58054bc69f05bbe847cd548, type: 2}
+  - {fileID: 11400000, guid: 78f99510cc76b4a66b9b03860a92c79b, type: 2}
+  - {fileID: 11400000, guid: 6ed7ed9fd98654a8bb3f296f070b0292, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 3cb6d78aac23a4de3a0d2d431b55ff5b, type: 2}
+  - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_Refresh
