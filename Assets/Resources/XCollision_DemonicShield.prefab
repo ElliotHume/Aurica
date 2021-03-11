@@ -19056,6 +19056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   auricaSpell: {fileID: 11400000, guid: 14efdf6722cb9704789a81bc47af15a1, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: buff
   Duration: 1
@@ -19070,6 +19071,7 @@ MonoBehaviour:
   LastingEffect: 0
   canHitSelf: 1
   growBeforeStart: 0
+  SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 15
   StartTimeDelay: 0
   ScalingFactor: 0
@@ -19181,12 +19183,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents:
   - {fileID: 7065651618484338011}
-  sceneViewId: 0
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7065651618484338011

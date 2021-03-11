@@ -49,6 +49,7 @@ public class Aura : MonoBehaviourPun {
             strengths.earth = percents[4];
             strengths.air = percents[5];
             strengths.nature = percents[6];// * (AuraDistribution.nature / Mathf.Abs(AuraDistribution.nature));
+            // Debug.Log("Innate Strengths: "+strengths.ToString());
             return strengths;
         } else {
             return new ManaDistribution(AuraDistribution.ToString());

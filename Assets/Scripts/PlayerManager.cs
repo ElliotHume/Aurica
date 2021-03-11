@@ -313,7 +313,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);
         if (isShielded || damage == 0f) return;
         Health -= aura.GetDamage(damage, spellDistribution);
-        // Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution));
+        // Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution) + "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
@@ -469,16 +469,22 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void CastSpell() {
         if (photonView.IsMine && !silenced && !stunned) {
             if (Mana - auricaCaster.GetManaCost() > 0f) {
-                Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(10f).transform;
+                Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(10f) != null ? GetPlayerWithinAimTolerance(10f).transform : null;
+                if (aimTransform == null) {
+                    CastFizzle();
+                    return;
+                }
                 GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, aimTransform.position, aimTransform.rotation);
                 Mana -= auricaCaster.GetManaCost();
 
                 Spell spell = newSpell.GetComponent<Spell>();
                 if (spell != null) {
                     spell.SetSpellStrength(auricaCaster.GetSpellStrength());
-                    if (strengthened || weakened) spell.SetSpellDamageModifier(strengths - weaknesses);
+                    spell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
                     spell.SetOwner(gameObject);
                     Mana += spell.ManaRefund;
+                } else {
+                    Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
                 }
 
                 if (currentSpellIsSelfTargeted) {

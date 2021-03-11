@@ -104,13 +104,13 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength(), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                 }
             } else if (collision.gameObject.tag == "Shield") {
                 ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
                 if (ss != null) {
                     PhotonView pv = PhotonView.Get(ss);
-                    if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength(), auricaSpell.targetDistribution.GetJson());
+                    if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());
                 } else {
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                 }
@@ -119,7 +119,11 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                 GameObject instance = PhotonNetwork.Instantiate(effect, hit.point + hit.normal * CollisionOffset, new Quaternion());
                 instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
                 Spell instanceSpell = instance.GetComponent<Spell>();
-                if (instanceSpell != null) instanceSpell.SetSpellStrength(GetSpellStrength());
+                if (instanceSpell != null) {
+                    instanceSpell.SetSpellStrength(GetSpellStrength());
+                    instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
+                    instanceSpell.SetOwner(GetOwner());
+                }
             }
         }
     }

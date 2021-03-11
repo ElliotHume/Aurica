@@ -37,12 +37,13 @@ public class Spell : MonoBehaviourPun {
     private ManaDistribution damageModifier;
 
     public virtual void SetSpellStrength(float newStrength) {
+        // Debug.Log("New Spell Strength: "+newStrength);
         spellStrength = newStrength;
     }
 
     public virtual void SetSpellDamageModifier(ManaDistribution newMod) {
-        Debug.Log("New modifier set: "+newMod.ToString());
         damageModifier = newMod;
+        // Debug.Log("New modifier set: "+auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()));
     }
 
     public float GetSpellStrength() {

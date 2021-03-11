@@ -108,7 +108,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
                 instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
                 Spell instanceSpell = instance.GetComponent<Spell>();
-                if (instanceSpell != null) instanceSpell.SetSpellStrength(GetSpellStrength());
+                if (instanceSpell != null) {
+                    instanceSpell.SetSpellStrength(GetSpellStrength());
+                    instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
+                    instanceSpell.SetOwner(GetOwner());
+                }
             }
         }
     }

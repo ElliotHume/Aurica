@@ -63,10 +63,14 @@ public class AuricaSpell : ScriptableObject {
         float sum = 0f;
         List<float> percents = targetDistribution.GetAsPercentages();
         List<float> modPercents = damageMod.ToList();
-        if (percents.Count == 0 || modPercents.Count == 0) return 1f;
+        if (percents.Count == 0 || modPercents.Count == 0) {
+            Debug.Log("Could not find percentages, or modifier percentages");
+            return 1f;
+        }
 
         for (int i = 0; i < 7; i++) {
             sum += percents[i] * (1+modPercents[i]);
+            // Debug.Log("Percent "+i+"  "+ percents[i]+" * "+ (1+modPercents[i]));
         }
 
         Debug.Log("Spell damage modifier by: x"+sum);

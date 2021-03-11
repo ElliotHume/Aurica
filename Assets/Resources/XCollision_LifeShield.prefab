@@ -4864,6 +4864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 0
   auricaSpell: {fileID: 11400000, guid: 3f73283f33440e744a69b595838e3681, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: heal
   Duration: 1
@@ -4877,11 +4878,14 @@ MonoBehaviour:
   OneShotEffect: 1
   LastingEffect: 0
   canHitSelf: 1
+  growBeforeStart: 0
+  SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 15
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
   DeactivateObjectsAfterDuration: []
+  EffectsOnDelayedStartup: []
 --- !u!114 &4187469579007403406
 MonoBehaviour:
   m_ObjectHideFlags: 0
