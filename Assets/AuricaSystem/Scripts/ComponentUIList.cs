@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using AdVd.GlyphRecognition;
 
@@ -22,7 +23,10 @@ public class ComponentUIList : MonoBehaviour
         allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
         rect = GetComponent<RectTransform>();
-        if (isListOfAll) componentList = new List<AuricaSpellComponent>(allComponents);
+        if (isListOfAll) {
+            componentList = new List<AuricaSpellComponent>(allComponents);
+            componentList.Sort((a, b) => a.CompareTo(b));;
+        }
         PopulateList();
     }
 

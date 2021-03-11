@@ -123,8 +123,14 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         float timer = 0.5f;
-        while (timer > 0f) {
-            Vector3 movement = transform.forward * v + transform.right * h;
+
+        // Do it once so we are off the ground
+        Vector3 movement = transform.forward * v + transform.right * h;
+        movement.y += JumpHeight;
+        characterController.Move(movement * Time.deltaTime * JumpSpeed);
+
+        while (timer > 0f && !characterController.isGrounded) {
+            movement = transform.forward * v + transform.right * h;
             movement.y += JumpHeight;
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
 
@@ -132,7 +138,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             yield return new WaitForEndOfFrame();
         }
         while (!characterController.isGrounded) {
-            Vector3 movement = transform.forward * v + transform.right * h;
+            movement = transform.forward * v + transform.right * h;
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
             yield return new WaitForEndOfFrame();
         }

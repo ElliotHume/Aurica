@@ -18,6 +18,8 @@ public class AuricaSpellComponentEditor : Editor {
     public override void OnInspectorGUI() {
         component.c_name = EditorGUILayout.TextField("Name", component.c_name);
 
+        component.category = (AuricaSpellComponent.Category)EditorGUILayout.EnumPopup("Category:", component.category);
+
         EditorGUILayout.LabelField("Description");
         GUIStyle myCustomStyle = new GUIStyle(GUI.skin.GetStyle("textArea")) { wordWrap = true };
         component.description = EditorGUILayout.TextArea(component.description, myCustomStyle);
