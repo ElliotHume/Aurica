@@ -478,6 +478,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     spell.SetSpellStrength(auricaCaster.GetSpellStrength());
                     if (strengthened || weakened) spell.SetSpellDamageModifier(strengths - weaknesses);
                     spell.SetOwner(gameObject);
+                    Mana += spell.ManaRefund;
                 }
 
                 if (currentSpellIsSelfTargeted) {

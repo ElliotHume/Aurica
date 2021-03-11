@@ -115,14 +115,12 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public AuricaSpell GetSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
-        float bestMatchError = 999f;
         int bestMatchCorrectComponents = 0;
         AuricaSpell spellMatch = null;
         foreach (AuricaSpell s in allSpells) {
             // Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(distribution)+"  Num matching components: "+s.GetNumberOfMatchingComponents(components));
-            if (s.CheckComponents(components) && (s.GetError(distribution) < bestMatchError || s.GetNumberOfMatchingComponents(components) > bestMatchCorrectComponents)) {
+            if (s.CheckComponents(components) && s.GetNumberOfMatchingComponents(components) > bestMatchCorrectComponents) {
                 spellMatch = s;
-                bestMatchError = s.GetError(distribution);
                 bestMatchCorrectComponents = s.GetNumberOfMatchingComponents(components);
                 spellStrength = (spellMatch.errorThreshold - s.GetError(distribution)) / spellMatch.errorThreshold + 0.3f;
                 if (spellStrength < 0.25f) spellStrength = 0.25f;

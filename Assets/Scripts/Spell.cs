@@ -10,6 +10,9 @@ public class Spell : MonoBehaviourPun {
     // Aurica Spell ScriptableObject
     public AuricaSpell auricaSpell;
 
+    // How much Mana is refund for this spell, used only for balancing reasons
+    public float ManaRefund = 0f;
+
     // How much Mana it costs to channel this spell (Mana/second)
     public float ManaChannelCost = 40f;
 

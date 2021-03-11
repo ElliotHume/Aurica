@@ -50,9 +50,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
 
-    void Awake() {
+    void Start() {
         startPosition = transform.position;
         startRotation = transform.rotation;
+        transform.parent = null;
         randomTimeOffset = Random.insideUnitSphere * 10;
         Speed *= GameManager.GLOBAL_SPELL_SPEED_MULTIPLIER;
         if (TrackingProjectile) crosshair = Crosshair.Instance;
@@ -187,6 +188,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     public void SetTarget(GameObject go, bool isPlayerCharacter=false) {
+        Debug.Log("Locking on to target "+go);
         Target = go;
         targetT = go.transform;
         targetIsPlayer = isPlayerCharacter;
