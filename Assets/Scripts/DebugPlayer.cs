@@ -23,6 +23,13 @@ public class DebugPlayer : MonoBehaviourPun
                 CastDebugSpell("Spell_EmberSphere");
             }
         }
+
+        if (Input.GetKeyDown("/")) {
+            gameObject.SetActive(false);
+        }
+        if (Input.GetKeyDown(".")) {
+            GetComponent<LoadoutObject>().BindLoadout();
+        }
     }
 
     public void CastDebugSpell(string prefabName) {

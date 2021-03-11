@@ -600,8 +600,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     IEnumerator SlowRoutine(float duration, float percentage) {
         float startSpeed = animator.speed;
         animator.speed *= 1f - percentage;
+        movementManager.ChangeMovementSpeed(1f - percentage);
         yield return new WaitForSeconds(duration);
-        animator.speed = 1f * GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+        animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+        movementManager.ResetMovementSpeed();
         slowed = false;
     }
 
@@ -621,8 +623,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     IEnumerator HastenRoutine(float duration, float percentage) {
         float startSpeed = animator.speed;
         animator.speed *= 1f + percentage;
+        movementManager.ChangeMovementSpeed(1f + percentage);
         yield return new WaitForSeconds(duration);
-        animator.speed = 1f * GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+        animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+        movementManager.ResetMovementSpeed();
         hastened = false;
     }
 

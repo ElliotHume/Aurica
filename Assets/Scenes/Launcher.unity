@@ -391,6 +391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 0
   auricaSpell: {fileID: 0}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
   Duration: 1
@@ -3384,6 +3385,10 @@ PrefabInstance:
     - target: {fileID: 1714924998345930930, guid: 2e37d4acdd4b04da38a0596a977bbc25, type: 3}
       propertyPath: viewIdField
       value: 46
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283461556626891339, guid: 2e37d4acdd4b04da38a0596a977bbc25, type: 3}
+      propertyPath: viewIdField
+      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 2401650640214290016, guid: 2e37d4acdd4b04da38a0596a977bbc25, type: 3}
       propertyPath: viewIdField

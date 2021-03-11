@@ -5330,6 +5330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 0
   auricaSpell: {fileID: 11400000, guid: 17655aded83ff4e06b6a91c8f08e7a86, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: effectprojectile
   Duration: 1
@@ -5423,7 +5424,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_UseLocal: 0
 --- !u!1 &2530809585593844897
 GameObject:
   m_ObjectHideFlags: 0

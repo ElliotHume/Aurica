@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 125718524}
   - component: {fileID: 125718526}
   - component: {fileID: 125718525}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Fog (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4696,7 +4696,7 @@ GameObject:
   - component: {fileID: 991393001}
   - component: {fileID: 991393003}
   - component: {fileID: 991393002}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Particles (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9505,7 +9505,7 @@ GameObject:
   - component: {fileID: 4402439773730286927}
   - component: {fileID: 4402439773730286924}
   - component: {fileID: 1767624346080468128}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Spell_Dissolution
   m_TagString: Spell
   m_Icon: {fileID: 0}
@@ -9544,6 +9544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 0
   auricaSpell: {fileID: 11400000, guid: 8de90bba5cf049b49951f9c5bcca11fa, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: AoE
   Duration: 1
@@ -9626,12 +9627,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents:
   - {fileID: 4402439773730286927}
-  sceneViewId: 0
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1767624346080468128
@@ -9657,7 +9658,7 @@ GameObject:
   - component: {fileID: 8334756916235222485}
   - component: {fileID: 8334756916235222507}
   - component: {fileID: 8334756916235222506}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9881,7 +9882,7 @@ GameObject:
   - component: {fileID: 8334756917242956936}
   - component: {fileID: 8334756917242956942}
   - component: {fileID: 8334756917242956937}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: FX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

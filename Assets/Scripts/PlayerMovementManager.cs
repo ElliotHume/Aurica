@@ -13,6 +13,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, casting;
     private Vector3 playerVelocity, impact, velocity;
 
+    private float movementSpeed;
+
     Vector3 networkPosition;
     Quaternion networkRotation;
 
@@ -25,10 +27,10 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         } else {
             // Network player, receive data
             // CRITICAL DATA
-            networkPosition = (Vector3) stream.ReceiveNext();
-            networkRotation = (Quaternion) stream.ReceiveNext();
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
 
-            float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.timestamp));
             networkPosition += (velocity * lag);
         }
     }
@@ -40,6 +42,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
         }
         animator.speed *= GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+        movementSpeed = PlayerSpeed;
 
         characterController = GetComponent<CharacterController>();
 
@@ -81,8 +84,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!jumping && !casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * PlayerSpeed * Time.deltaTime);
-    
+        if (!jumping && !casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime);
+
         // Apply impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 
@@ -170,13 +173,21 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     // call this function to add an impact force:
-    public void AddImpact(Vector3 direction, float forceValue, bool isWorldSpaceDirection=false) {
+    public void AddImpact(Vector3 direction, float forceValue, bool isWorldSpaceDirection = false) {
         direction.Normalize();
         if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
         Vector3 movement = !isWorldSpaceDirection
                 ? transform.forward * direction.z + transform.right * direction.x + Vector3.up * direction.y
                 : direction;
         impact += movement.normalized * forceValue / Mass;
+    }
+
+    public void ChangeMovementSpeed(float multiplier) {
+        movementSpeed *= multiplier;
+    }
+
+    public void ResetMovementSpeed() {
+        movementSpeed = PlayerSpeed;
     }
 
     public void StartBlock() {

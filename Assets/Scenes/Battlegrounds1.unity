@@ -28004,6 +28004,7 @@ GameObject:
   - component: {fileID: 800478857}
   - component: {fileID: 800478856}
   - component: {fileID: 800478858}
+  - component: {fileID: 800478859}
   m_Layer: 3
   m_Name: FakePlayer
   m_TagString: Player
@@ -28138,6 +28139,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &800478859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800478851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key1: 1
+  key2: 1
+  key3: 1
+  keyQ: 1
+  keyE: 1
+  keyR: 1
+  spell1: {fileID: 11400000, guid: 17655aded83ff4e06b6a91c8f08e7a86, type: 2}
+  spell2: {fileID: 11400000, guid: 05bfe659fddf1a1439d1b0a5714a1865, type: 2}
+  spell3: {fileID: 11400000, guid: 67a0357aaf24949fd958b89fdf2c2313, type: 2}
+  spellQ: {fileID: 11400000, guid: 8de90bba5cf049b49951f9c5bcca11fa, type: 2}
+  spellE: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
+  spellR: {fileID: 11400000, guid: 167b2c4b43db39747b62a976b1c13879, type: 2}
 --- !u!1001 &802698976
 PrefabInstance:
   m_ObjectHideFlags: 0
