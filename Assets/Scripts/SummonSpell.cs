@@ -43,11 +43,12 @@ public class SummonSpell : Spell, IPunObservable {
             Invoke("Enable", StartTimeDelay);
         }
         if (Duration > 0f) Invoke("DisableParticlesAfterDuration", Duration);
-        if (DestroyTimeDelay > 0f) Invoke("PlayDestructionParticles", DestroyTimeDelay-0.1f);
+        if (DestroyTimeDelay > 0f) Invoke("PlayDestructionParticles", DestroyTimeDelay - 0.1f);
         //if (RotationOffset != Vector3.zero) transform.Rotate(RotationOffset);
 
-        foreach( var effect in RisingParticles) {
-            Instantiate(effect, transform.position, transform.rotation);
+        foreach (var effect in RisingParticles) {
+            GameObject newEffect = Instantiate(effect, transform.position, transform.rotation);
+            Destroy(newEffect, DestroyTimeDelay);
         }
 
         if (Rising) {
@@ -58,7 +59,7 @@ public class SummonSpell : Spell, IPunObservable {
             StartCoroutine(Rise());
         }
 
-        
+
     }
 
     void FixedUpdate() {
@@ -96,7 +97,8 @@ public class SummonSpell : Spell, IPunObservable {
 
     void PlayDestructionParticles() {
         foreach (var effect in DestructionParticles) {
-            Instantiate(effect, transform.position, transform.rotation);
+            GameObject newEffect = Instantiate(effect, transform.position, transform.rotation);
+            Destroy(newEffect, DestroyTimeDelay);
         }
     }
 
