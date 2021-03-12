@@ -6,6 +6,10 @@ using Photon.Pun;
 public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public float AimSensitivity = 1.5f;
     public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f;
+    public AudioSource footStepSource;
+    public AudioClip[] footsteps;
+    public AudioSource jumpSource;
+    public AudioClip[] jumpingSounds;
 
     private Animator animator;
     private CharacterController characterController;
@@ -112,9 +116,16 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         casting = false;
     }
 
+    public void Footstep() {
+        footStepSource.clip = footsteps[Random.Range(0, footsteps.Length)];
+        footStepSource.Play ();
+    }
+
     public void JumpLift() {
         if (!photonView.IsMine) return;
         Debug.Log("JUMP");
+        jumpSource.clip = jumpingSounds[0];
+        jumpSource.Play();
         //JumpImpulse();
         StartCoroutine(JumpRoutine());
     }
@@ -142,6 +153,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
             yield return new WaitForEndOfFrame();
         }
+        jumpSource.clip = jumpingSounds[1];
+        jumpSource.Play();
     }
 
     public void EndJump() {

@@ -18,6 +18,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public int LivesPerPlayer = 1;
     public float RespawnTimer;
+    public AudioSource MatchMusic;
     int blueSideLives, redSideLives;
 
 
@@ -94,6 +95,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         DisplayBeginMessage();
         matchStarted = true;
         readyButton.SetActive(false);
+
+        if (MatchMusic != null)MatchMusic.Play();
     }
 
     public void DisplayBeginMessage() {
@@ -127,6 +130,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         }
 
         matchStarted = false;
+        if (MatchMusic != null) MatchMusic.Stop();
 
     }
 
