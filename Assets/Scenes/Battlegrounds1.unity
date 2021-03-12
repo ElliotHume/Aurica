@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571336, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -27032,11 +27032,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &760923079
@@ -28201,11 +28201,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 2
+  viewIdField: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &800478857
@@ -35997,11 +35997,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 3
+  viewIdField: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!82 &1062525622
@@ -37882,11 +37882,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 4
+  viewIdField: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1160871808
@@ -61899,10 +61899,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1024719715916506650, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -61965,18 +61961,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1024719716423976059, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
-      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1024719716709331979, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}

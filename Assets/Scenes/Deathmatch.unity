@@ -5054,11 +5054,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!82 &155218847
@@ -8072,6 +8072,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1024719716709331979, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -8544,6 +8556,11 @@ GameObject:
 --- !u!1 &253344726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1024719716258812781, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+  m_PrefabInstance: {fileID: 253344722}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &253344727 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
   m_PrefabInstance: {fileID: 253344722}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &253552596
@@ -27556,13 +27573,14 @@ MonoBehaviour:
   RedSideSpawnPoint: {fileID: 268279324}
   blueLifeCounter: {fileID: 205304111}
   redLifeCounter: {fileID: 153092780}
+  DeathMatchGamePanel: {fileID: 253344727}
   readyButton: {fileID: 851948210}
   resultsPanel: {fileID: 658971420}
   bluesidewinUI: {fileID: 1407529306}
   redsidewinUI: {fileID: 1428337444}
   LivesPerPlayer: 1
   RespawnTimer: 10
-  MatchMusic: {fileID: 0}
+  MatchMusic: {fileID: 770329855}
 --- !u!114 &770329854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27578,11 +27596,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 2
+  viewIdField: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!82 &770329855

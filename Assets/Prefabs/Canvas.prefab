@@ -175,7 +175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &227797170
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3776,7 +3776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 08338c2d8f2308a409a7e5575a723f27, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: -4751.238}
+  m_Color: {r: 1, g: 1, b: 1, a: -4752.1943}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4862,11 +4862,11 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Bound: Ember Sphere'
 --- !u!1 &1024719716144697547
@@ -7527,11 +7527,11 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Bound: Shade Smoke'
 --- !u!1 &1024719716309031956
@@ -8144,11 +8144,11 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Bound: Fireball'
 --- !u!1 &1024719716354694265
@@ -11851,11 +11851,11 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Bound: Auric Barrier'
 --- !u!1 &1024719716541352378
@@ -21769,8 +21769,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -8.5, y: -40}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -8.5, y: -21}
+  m_SizeDelta: {x: 250, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1024719717269277977
 CanvasRenderer:
@@ -21807,10 +21807,10 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Spell
@@ -23016,11 +23016,11 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Bound: Auric Bolt'
 --- !u!1 &1024719717374896339
@@ -25105,13 +25105,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Bound: Force Shield'
+  m_Text: 'Bound: Hymn of the hastened'
 --- !u!1 &1024719717556863741
 GameObject:
   m_ObjectHideFlags: 0
@@ -28931,7 +28931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.00008443059}
   m_SizeDelta: {x: 0, y: 3000}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1024719717868781315
@@ -40929,11 +40929,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
---- !u!224 &6628247844904604293 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6180290448777581681, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
-  m_PrefabInstance: {fileID: 1024719716610541300}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6628247844904604297 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6180290448777581693, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
@@ -40945,6 +40940,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3427c01fa092a48efb430006b0c86041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &6628247844904604293 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6180290448777581681, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
+  m_PrefabInstance: {fileID: 1024719716610541300}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1024719717125140341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41540,11 +41540,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
---- !u!224 &6628247846039947106 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6180290448777581681, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
-  m_PrefabInstance: {fileID: 1024719717473260307}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6628247846039947118 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6180290448777581693, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
@@ -41556,3 +41551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3427c01fa092a48efb430006b0c86041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &6628247846039947106 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6180290448777581681, guid: dcd615afbcf6143b88657750bb65ecb2, type: 3}
+  m_PrefabInstance: {fileID: 1024719717473260307}
+  m_PrefabAsset: {fileID: 0}

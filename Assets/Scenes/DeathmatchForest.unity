@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15586,7 +15586,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd15cbbeb80414648bab7c15830b8255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allWindows: []
+  _allWindows:
+  - {fileID: 0}
   _prefabManagementWindow: {fileID: 0}
   _objectPlacementSettingsWindow: {fileID: 0}
   _prefabsToCategoryDropSettingsWindow: {fileID: 0}
@@ -31595,6 +31596,7 @@ MonoBehaviour:
   RedSideSpawnPoint: {fileID: 225389340}
   blueLifeCounter: {fileID: 1166636564}
   redLifeCounter: {fileID: 1166636563}
+  DeathMatchGamePanel: {fileID: 1166636565}
   readyButton: {fileID: 1166636562}
   resultsPanel: {fileID: 1166636561}
   bluesidewinUI: {fileID: 1166636560}
@@ -31617,11 +31619,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!82 &770329855
@@ -53561,6 +53563,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1166636565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1167393333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82861,11 +82868,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 2
+  viewIdField: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1918489684

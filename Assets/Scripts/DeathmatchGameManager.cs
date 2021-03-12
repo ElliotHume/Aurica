@@ -14,7 +14,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     public List<PlayerManager> players;
     public Transform BlueSideSpawnPoint, RedSideSpawnPoint;
     public Text blueLifeCounter, redLifeCounter;
-    public GameObject readyButton, resultsPanel, bluesidewinUI, redsidewinUI;
+    public GameObject DeathMatchGamePanel, readyButton, resultsPanel, bluesidewinUI, redsidewinUI;
 
     public int LivesPerPlayer = 1;
     public float RespawnTimer;
@@ -36,6 +36,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
         blueSideLives = LivesPerPlayer;
         redSideLives = LivesPerPlayer;
+
+        DeathMatchGamePanel.SetActive(true);
     }
 
     [PunRPC]
@@ -48,7 +50,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
         List<PlayerManager> playerManagers = ps.OrderBy(x => x.Mana).ToList();
-        foreach( var p in playerManagers) {
+        foreach (var p in playerManagers) {
             players.Add(p);
             if (players.Count % 2 == 1) {
                 // ODD player, add to blue side
@@ -96,7 +98,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         matchStarted = true;
         readyButton.SetActive(false);
 
-        if (MatchMusic != null)MatchMusic.Play();
+        if (MatchMusic != null) MatchMusic.Play();
     }
 
     public void DisplayBeginMessage() {
