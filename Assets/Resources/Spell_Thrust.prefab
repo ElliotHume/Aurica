@@ -4857,6 +4857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 5
   auricaSpell: {fileID: 11400000, guid: 358e9df03dc6e4a7e803c12d9d689607, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: healing
   Duration: 5
@@ -4950,10 +4951,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displacementDistance: 8
   displacementSpeed: 15
-  displacementDirection: {x: 1, y: 0, z: 0}
+  displacementDirection: {x: 0, y: 0, z: 1}
   canHitSelf: 0
   isKnockback: 0
   isContinuous: 0
+  clip: {fileID: 0}
 --- !u!114 &6469829140295485748
 MonoBehaviour:
   m_ObjectHideFlags: 0

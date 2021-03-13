@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6944175470399277584}
   - component: {fileID: 7050816013295459412}
   - component: {fileID: 6965621344819174952}
+  - component: {fileID: 1091417571538438745}
   m_Layer: 6
   m_Name: TriggerEnter
   m_TagString: Shield
@@ -64,6 +65,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 4faa2359d909194448519ab0cdf22f83, type: 3}
+--- !u!54 &1091417571538438745
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6937799670519862706}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6937893351455484036
 GameObject:
   m_ObjectHideFlags: 0
@@ -19009,6 +19026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   auricaSpell: {fileID: 11400000, guid: 16654beb6600848c49fcec66f7f6114b, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 10
   SpellEffectType: shield
   Duration: 1
@@ -19045,13 +19063,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 6939512357159097500}
   - {fileID: 6939512357159097498}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6939512357159097498

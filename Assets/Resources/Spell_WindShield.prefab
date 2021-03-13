@@ -10051,6 +10051,7 @@ GameObject:
   - component: {fileID: 6592607947016753106}
   - component: {fileID: 6555993532551537332}
   - component: {fileID: 6597559706582365608}
+  - component: {fileID: 2276756617603260500}
   m_Layer: 6
   m_Name: TriggerEnter
   m_TagString: Shield
@@ -10104,6 +10105,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 4faa2359d909194448519ab0cdf22f83, type: 3}
+--- !u!54 &2276756617603260500
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6586900697864346546}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6587070073506442008
 GameObject:
   m_ObjectHideFlags: 0
@@ -15170,13 +15187,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 6587869225652884222}
   - {fileID: 6587869225652884223}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6587869225652884223

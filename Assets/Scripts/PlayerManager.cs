@@ -303,7 +303,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 TakeDamage(Damage, spellDistribution);
                 break;
         }
-        if (HitSound != null && !SpellEffectType.Contains("dot")) HitSound.Play();
         // Debug.Log("Current Health: "+Health);
     }
 
@@ -313,6 +312,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);
         if (isShielded || damage == 0f) return;
         Health -= aura.GetDamage(damage, spellDistribution);
+        if (HitSound != null && damage > 3f) HitSound.Play();
         // Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution) + "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
     }
 

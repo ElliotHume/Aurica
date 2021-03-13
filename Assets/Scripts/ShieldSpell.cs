@@ -32,8 +32,10 @@ public class ShieldSpell : Spell, IPunObservable {
         Health -= ShieldDistribution.GetDamage(damage, damageDistribution);
         Debug.Log("Health: " + Health);
 
-        foreach (string effect in networkedEffectsOnHit) {
-            PhotonNetwork.Instantiate(effect, transform.position + transform.up, transform.rotation);
+        if (damage > 1f) {
+            foreach (string effect in networkedEffectsOnHit) {
+                PhotonNetwork.Instantiate(effect, transform.position + transform.up, transform.rotation);
+            }
         }
     }
 
