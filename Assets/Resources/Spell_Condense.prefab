@@ -14559,6 +14559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   auricaSpell: {fileID: 11400000, guid: 9b5b69601973642a7bced96c1b358fb8, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: effectprojectile
   Duration: 10
@@ -14631,13 +14632,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 4151492393079109419}
   - {fileID: 4151492393079109416}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4151492393079109416
@@ -14670,7 +14671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slow: 1
   slowDuration: 3
-  slowPercentage: 50
+  slowPercentage: 60
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0
@@ -14735,6 +14736,7 @@ MonoBehaviour:
   canHitSelf: 1
   isKnockback: 1
   isContinuous: 0
+  clip: {fileID: 0}
 --- !u!1 &4151153290034563424
 GameObject:
   m_ObjectHideFlags: 0

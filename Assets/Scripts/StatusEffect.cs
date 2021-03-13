@@ -175,22 +175,23 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void ActivateContinuous(PhotonView pv) {
         if (pv != null) {
+            Debug.Log("Activate continuous");
             float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
             if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
             if (changeManaRegen) pv.RPC("ContinuousManaRestoration", RpcTarget.All, changePercentage/100f * multiplier);
+            if (slow) pv.RPC("ContinuousSlow", RpcTarget.All, slowPercentage/100f * multiplier) ;
+            if (hasten) pv.RPC("ContinuousHasten", RpcTarget.All, hastenPercentage/100f * multiplier);
+            if (root) pv.RPC("ContinuousRoot", RpcTarget.All);
+            if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
+            if (stun) pv.RPC("ContinuousStun", RpcTarget.All);
+            if (fragile) pv.RPC("ContinuousFragile", RpcTarget.All, fragilePercentage/100f * multiplier);
+            if (tough) pv.RPC("ContinuousTough", RpcTarget.All, toughPercentage/100f * multiplier);
         }
     }
 
     void ApplyContinuous(PhotonView pv) {
         float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
-        if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
-        if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
-        if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
-        if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
-        if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
-        if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration * multiplier, fragilePercentage/100f * multiplier);
-        if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration * multiplier, toughPercentage/100f * multiplier);
         if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.002f * multiplier, healPercentAmount/100f * 0.002f * multiplier);
         if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * 0.002f * multiplier, manaDrainPercentAmount/100f * 0.002f * multiplier);
     }
@@ -201,6 +202,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (weaken) pv.RPC("EndContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
             if (strengthen) pv.RPC("EndContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
             if (changeManaRegen) pv.RPC("EndContinuousManaRestoration", RpcTarget.All, changePercentage/100f * multiplier);
+            if (slow) pv.RPC("EndContinuousSlow", RpcTarget.All) ;
+            if (hasten) pv.RPC("EndContinuousHasten", RpcTarget.All);
+            if (root) pv.RPC("EndContinuousRoot", RpcTarget.All);
+            if (silence) pv.RPC("EndContinuousSilence", RpcTarget.All);
+            if (stun) pv.RPC("EndContinuousStun", RpcTarget.All);
+            if (fragile) pv.RPC("EndContinuousFragile", RpcTarget.All);
+            if (tough) pv.RPC("EndContinuousTough", RpcTarget.All);
         }
     }
 }

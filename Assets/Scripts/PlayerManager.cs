@@ -604,13 +604,28 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator SlowRoutine(float duration, float percentage) {
-        float startSpeed = animator.speed;
         animator.speed *= 1f - percentage;
         movementManager.ChangeMovementSpeed(1f - percentage);
         yield return new WaitForSeconds(duration);
         animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         movementManager.ResetMovementSpeed();
         slowed = false;
+    }
+    [PunRPC]
+    public void ContinuousSlow(float percentage) {
+        if (photonView.IsMine) {
+            slowed = true;
+            animator.speed *= 1f - percentage;
+            movementManager.ChangeMovementSpeed(1f - percentage);
+        }
+    }
+    [PunRPC]
+    public void EndContinuousSlow() {
+        if (photonView.IsMine) {
+            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+            movementManager.ResetMovementSpeed();
+            slowed = false;
+        }
     }
 
 
@@ -627,13 +642,28 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator HastenRoutine(float duration, float percentage) {
-        float startSpeed = animator.speed;
         animator.speed *= 1f + percentage;
         movementManager.ChangeMovementSpeed(1f + percentage);
         yield return new WaitForSeconds(duration);
         animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         movementManager.ResetMovementSpeed();
         hastened = false;
+    }
+    [PunRPC]
+    public void ContinuousHasten(float percentage) {
+        if (photonView.IsMine) {
+            hastened = true;
+            animator.speed *= 1f + percentage;
+            movementManager.ChangeMovementSpeed(1f + percentage);
+        }
+    }
+    [PunRPC]
+    public void EndContinuousHasten() {
+        if (photonView.IsMine) {
+            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+            movementManager.ResetMovementSpeed();
+            hastened = false;
+        }
     }
 
 
@@ -655,6 +685,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         movementManager.Root(false);
         rooted = false;
     }
+    [PunRPC]
+    public void ContinuousRoot() {
+        if (photonView.IsMine) {
+            rooted = true;
+            movementManager.Root(true);
+        }
+    }
+    [PunRPC]
+    public void EndContinuousRoot() {
+        if (photonView.IsMine) {
+            rooted = false;
+            movementManager.Root(false);
+        }
+    }
 
 
 
@@ -675,6 +719,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         movementManager.Stun(false);
         stunned = false;
     }
+    [PunRPC]
+    public void ContinuousStun() {
+        if (photonView.IsMine) {
+            stunned = true;
+            movementManager.Stun(true);
+        }
+    }
+    [PunRPC]
+    public void EndContinuousStun() {
+        if (photonView.IsMine) {
+            stunned = false;
+            movementManager.Stun(false);
+        }
+    }
 
 
 
@@ -692,6 +750,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     IEnumerator SilenceRoutine(float duration) {
         yield return new WaitForSeconds(duration);
         silenced = false;
+    }
+    [PunRPC]
+    public void ContinuousSilence() {
+        if (photonView.IsMine) {
+            silenced = true;
+        }
+    }
+
+    [PunRPC]
+    public void EndContinuousSilence() {
+        if (photonView.IsMine) {
+            silenced = false;
+        }
     }
 
 
@@ -795,6 +866,21 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         fragile = false;
         fragilePercentage = 0f;
     }
+    [PunRPC]
+    public void ContinuousFragile(float percentage) {
+        if (photonView.IsMine) {
+            fragile = true;
+            fragilePercentage = percentage;
+        }
+    }
+
+    [PunRPC]
+    public void EndContinuousFragile() {
+        if (photonView.IsMine) {
+            fragile = false;
+            fragilePercentage = 0f;
+        }
+    }
 
 
 
@@ -814,6 +900,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         yield return new WaitForSeconds(duration);
         tough = false;
         toughPercentage = 0f;
+    }
+    [PunRPC]
+    public void ContinuousTough(float percentage) {
+        if (photonView.IsMine) {
+            tough = true;
+            toughPercentage = percentage;
+        }
+    }
+    [PunRPC]
+    public void EndContinuousTough() {
+        if (photonView.IsMine) {
+            tough = false;
+            toughPercentage = 0f;
+        }
     }
 
 
