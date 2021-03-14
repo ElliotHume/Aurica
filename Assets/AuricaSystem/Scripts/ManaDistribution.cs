@@ -94,17 +94,20 @@ public struct ManaDistribution {
         error += Mathf.Abs(earth - dist.earth);
         error += Mathf.Abs(air - dist.air);
 
+        Debug.Log("Structure Error" + GetAlignedErrorFunc(structure, dist.structure));
+        Debug.Log("Essence Error" + GetAlignedErrorFunc(essence, dist.essence));
+        Debug.Log("Nature Error" + GetAlignedErrorFunc(nature, dist.nature));
         return error;
     }
 
     public static float GetAlignedErrorFunc(float target, float actual) {
-        if (target > 0f && actual > 0f) {
+        if (target >= 0f && actual >= 0f) {
             return target > actual ? target - actual : actual - target;
-        } else if (target < 0f && actual < 0f) {
+        } else if (target <= 0f && actual <= 0f) {
             return target < actual ? Mathf.Abs(target - actual) : Mathf.Abs(actual - target);
-        } else if (target > 0f && actual <= 0f) {
+        } else if (target >= 0f && actual <= 0f) {
             return Mathf.Abs(target + actual);
-        } else if (target <= 0f && actual > 0f) {
+        } else if (target <= 0f && actual >= 0f) {
             return Mathf.Abs(actual + target);
         }
         return 0f;
@@ -175,19 +178,21 @@ public struct ManaDistribution {
             Mathf.Min(air, siphonDist.air),
             siphonDist.nature >= 0f ? Mathf.Min(Mathf.Max(0f, nature), siphonDist.nature) : Mathf.Max(Mathf.Min(0f, nature), siphonDist.nature)
         );
+        Debug.Log("Siphon Distribution "+siphon.ToString());
         // Water, Earth and Divine add structure, Fire, Earth and Demonic reduce it
-        structure += (0.1f * siphon.water) + (0.1f * siphon.earth) - (0.1f * siphon.fire) - (0.1f * siphon.air) + (0.15f * siphon.nature) - siphon.structure;
+        structure += (0.3f * siphon.water) + (0.3f * siphon.earth) - (0.3f * siphon.fire) - (0.3f * siphon.air) + (0.5f * siphon.nature) - siphon.structure;
         // Water and Air add essence, Earth and Fire reduce it
-        essence += (0.05f * siphon.water) - (0.05f * siphon.earth) - (0.05f * siphon.fire) + (0.05f * siphon.air) - siphon.essence;
+        essence += (0.1f * siphon.water) - (0.1f * siphon.earth) - (0.1f * siphon.fire) + (0.1f * siphon.air) - siphon.essence;
         // Demonic increases fire
-        fire += (0.1f * Mathf.Max(0f, -siphon.nature)) - siphon.fire;
+        fire += (0.5f * Mathf.Max(0f, -siphon.nature)) - siphon.fire;
         // Divine increases air
-        air += (0.1f * Mathf.Max(0f, siphon.nature)) - siphon.air;
+        air += (0.5f * Mathf.Max(0f, siphon.nature)) - siphon.air;
 
         // No siphon interactions
         water -= siphon.water;
         earth -= siphon.earth;
         nature -= siphon.nature;
+        Debug.Log("Post-Siphon Distribution "+this.ToString());
     }
 
     public void ClampElementalValues() {

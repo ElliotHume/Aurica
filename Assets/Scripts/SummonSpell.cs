@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class SummonSpell : Spell, IPunObservable {
 
-    public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false;
+    public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false, SpellStrengthChangesDuration = true;
     public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     //public Vector3 RotationOffset = Vector3.zero;
@@ -34,6 +34,10 @@ public class SummonSpell : Spell, IPunObservable {
 
     void Start() {
         if (photonView.IsMine) {
+            if (SpellStrengthChangesDuration) {
+                Duration *= GetSpellStrength();
+                DestroyTimeDelay *= GetSpellStrength();
+            }
             if (DestroyTimeDelay > 0f) Invoke("DestroySelf", DestroyTimeDelay);
             if (Duration > 0f) Invoke("DisableCollisions", Duration);
         }

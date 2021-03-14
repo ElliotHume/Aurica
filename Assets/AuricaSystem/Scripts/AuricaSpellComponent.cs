@@ -29,10 +29,11 @@ public class AuricaSpellComponent : ScriptableObject {
     }
 
     public float GetManaCost(ManaDistribution aura) {
-        if (!hasAuricDistribution && !hasBasicDistribution) return 0;
+        if (!hasAuricDistribution && !hasBasicDistribution && !hasSiphonDistribution) return 0;
         float auricContribution = hasAuricDistribution ? (auricDistribution * aura).GetAggregate() : 0f;
         float basicContribution = hasBasicDistribution ? basicDistribution.GetAggregate() * 0.25f : 0f;
-        return (auricContribution + basicContribution) * 100f * manaCostMultiplier;
+        float siphonContribution = hasSiphonDistribution ? 0.05f : 0f;
+        return (auricContribution + basicContribution + siphonContribution) * 100f * manaCostMultiplier;
     }
 
     public int CompareTo(AuricaSpellComponent other) {

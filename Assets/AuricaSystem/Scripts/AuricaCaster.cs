@@ -83,9 +83,9 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void AddComponent(AuricaSpellComponent newComponent) {
-        if (currentComponents.Count >= 6) {
+        if (currentComponents.Count >= 10) {
             currentManaCost += 10f;
-        } else if (currentComponents.Count > 8) {
+        } else if (currentComponents.Count > 12) {
             currentManaCost += 20f;
         }
         currentComponents.Add(newComponent);
