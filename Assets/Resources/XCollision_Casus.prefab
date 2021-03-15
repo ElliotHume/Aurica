@@ -4607,7 +4607,6 @@ GameObject:
   - component: {fileID: 2596072014053907335}
   - component: {fileID: 8576276454758931398}
   - component: {fileID: 82748418876510399}
-  - component: {fileID: 9217069286110511742}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -9233,55 +9232,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &9217069286110511742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 233810295288245277}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &248920848518433890
 GameObject:
   m_ObjectHideFlags: 0
@@ -9924,7 +9874,6 @@ GameObject:
   - component: {fileID: 854032811762754565}
   - component: {fileID: 7976292913084111061}
   - component: {fileID: 3948082051908987109}
-  - component: {fileID: 4437294238231090766}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -14550,55 +14499,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &4437294238231090766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969410524858985125}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &1002069735731064704
 GameObject:
   m_ObjectHideFlags: 0
@@ -14900,7 +14800,6 @@ GameObject:
   - component: {fileID: 6981130273285926738}
   - component: {fileID: 131504644294256775}
   - component: {fileID: 1643942861534043301}
-  - component: {fileID: 908541824293336573}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -19526,55 +19425,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &908541824293336573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215007231596544163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &1296469019731919407
 GameObject:
   m_ObjectHideFlags: 0
@@ -29068,7 +28918,6 @@ GameObject:
   - component: {fileID: 8319511486979226902}
   - component: {fileID: 2027906168024410861}
   - component: {fileID: 862103468645029868}
-  - component: {fileID: 4047449362590110826}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -33694,55 +33543,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &4047449362590110826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2228300960556684582}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &2288704845113902738
 GameObject:
   m_ObjectHideFlags: 0
@@ -33754,7 +33554,6 @@ GameObject:
   - component: {fileID: 8402888121350763032}
   - component: {fileID: 6869504095732212410}
   - component: {fileID: 3298198859117403953}
-  - component: {fileID: 3487773949903461161}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -38380,55 +38179,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &3487773949903461161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2288704845113902738}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &2289055947097724250
 GameObject:
   m_ObjectHideFlags: 0
@@ -38440,7 +38190,6 @@ GameObject:
   - component: {fileID: 7100099579775968971}
   - component: {fileID: 1686898848159366562}
   - component: {fileID: 4491381057574791801}
-  - component: {fileID: 6346573036933880000}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -43066,55 +42815,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &6346573036933880000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2289055947097724250}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &2585306624816185591
 GameObject:
   m_ObjectHideFlags: 0
@@ -67386,7 +67086,6 @@ GameObject:
   - component: {fileID: 5109716830710457901}
   - component: {fileID: 5109716830710457902}
   - component: {fileID: 5109716830710457903}
-  - component: {fileID: 5109716830710457900}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -72012,55 +71711,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &5109716830710457900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5109716830710457898}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &5109716831327667151
 GameObject:
   m_ObjectHideFlags: 0
@@ -90778,7 +90428,6 @@ GameObject:
   - component: {fileID: 7876521836380038629}
   - component: {fileID: 4221431492155640947}
   - component: {fileID: 6951583270805424320}
-  - component: {fileID: 5523677166808068332}
   m_Layer: 7
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -95404,55 +95053,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &5523677166808068332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6679330726776714751}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &6804401892512439688
 GameObject:
   m_ObjectHideFlags: 0

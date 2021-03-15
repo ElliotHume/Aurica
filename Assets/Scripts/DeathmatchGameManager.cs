@@ -63,7 +63,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
             }
         }
 
-        if (players.Count >= 2 && !matchStarted) {
+        if (!matchStarted) {
             Debug.Log("Starting the match....");
             StartMatch();
         }
@@ -111,8 +111,10 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         resultsPanel.SetActive(true);
         if (winningTeam == 0) {
             bluesidewinUI.SetActive(true);
+            redsidewinUI.SetActive(false);
         } else {
             redsidewinUI.SetActive(true);
+            bluesidewinUI.SetActive(false);
         }
 
         blueSideLives = LivesPerPlayer;
@@ -133,7 +135,6 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
         matchStarted = false;
         if (MatchMusic != null) MatchMusic.Stop();
-
     }
 
     public void playerDeath(PlayerManager player) {

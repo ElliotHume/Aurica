@@ -18,11 +18,11 @@ public class Crosshair : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit hit;
         if( Physics.Raycast( ray, out hit, 1000f, WPLayermask) ) {
-            // Debug.Log("Point hit: "+hit.point);
+            Debug.Log("Point hit: "+hit.point);
             return hit.point;
         }
 
-        return transform.forward * 100f;
+        return Camera.main.transform.position + Camera.main.transform.forward * 100f;
     }
 
     public GameObject GetPlayerHit(float radius = 5f) {

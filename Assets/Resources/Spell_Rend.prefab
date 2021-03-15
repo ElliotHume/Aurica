@@ -23051,8 +23051,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 20
+  Damage: 30
   auricaSpell: {fileID: 11400000, guid: a46b52384ba3e49619f17b0a0c982eff, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: effectprojectile
   Duration: 1
@@ -23062,7 +23063,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 20
+  Speed: 2
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   Target: {fileID: 0}

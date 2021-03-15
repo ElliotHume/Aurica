@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
-    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false;
+    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, casting = false;
     private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
@@ -313,11 +313,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (isShielded || damage == 0f) return;
         Health -= aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
         if (HitSound != null && damage > 3f) HitSound.Play();
-        // Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution) + "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
+        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution) + "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
         float damagePerSecond = damage / duration;
+        Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
         while (duration > 0f) {
             TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
             duration -= Time.deltaTime;
@@ -335,18 +336,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void ProcessInputs() {
         if (silenced || stunned || !photonView.IsMine) return;
 
-        if (Input.GetKeyDown("1")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("1"));
-        } else if (Input.GetKeyDown("2")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("2"));
-        } else if (Input.GetKeyDown("3")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("3"));
-        } else if (Input.GetKeyDown("e")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("e"));
-        } else if (Input.GetKeyDown("q")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("q"));
-        } else if (Input.GetKeyDown("r")) {
-            CastAuricaSpell(auricaCaster.CastBindSlot("r"));
+        if (!casting) {
+            if (Input.GetKeyDown("1")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("1"));
+            } else if (Input.GetKeyDown("2")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("2"));
+            } else if (Input.GetKeyDown("3")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("3"));
+            } else if (Input.GetKeyDown("e")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("e"));
+            } else if (Input.GetKeyDown("q")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("q"));
+            } else if (Input.GetKeyDown("r")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("r"));
+            }
         }
 
         if (Input.GetKeyDown("\\")) {
@@ -355,7 +358,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             if (!isChannelling) {
-                CastAuricaSpell(auricaCaster.Cast());
+                if (!casting) CastAuricaSpell(auricaCaster.Cast());
             } else {
                 StopBlocking();
                 auricaCaster.ResetCast();
@@ -422,6 +425,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             auricaCaster.ResetCast();
             return;
         }
+        casting = true;
         Debug.Log("Spell Match: " + spell.c_name);
         // Load spell resource
         GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
@@ -504,6 +508,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 CastFizzle();
             }
             auricaCaster.ResetCast();
+            casting = false;
         }
         currentSpellCast = null;
     }

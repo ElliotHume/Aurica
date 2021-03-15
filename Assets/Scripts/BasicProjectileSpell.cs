@@ -28,7 +28,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
     private bool targetIsPlayer;
     private Vector3 randomTimeOffset;
     private Crosshair crosshair;
-    private float homingLockoutTime = 1.5f;
     private int homingLayerMask = 1 << 3;
 
     private Vector3 networkPosition, oldPosition, velocity;
@@ -151,9 +150,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         // If a homing projectile, check for a player in the radius and set it as target
         // Only check after a set time, so that it doesnt immediately target the caster
         if (HomingProjectile) {
-            if (homingLockoutTime > 0f) {
-                homingLockoutTime -= Time.deltaTime;
-            } else if (Target == null){
+            if (Target == null){
                 Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
                 if (hits.Length > 0 && hits[0].gameObject != PlayerManager.LocalPlayerInstance) {
                     SetTarget(hits[0].gameObject, true);

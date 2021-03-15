@@ -41,7 +41,8 @@ public class ShieldSpell : Spell, IPunObservable {
 
     public void Break() {
         foreach (GameObject effect in spawnEffectsOnBreak) {
-            Instantiate(effect, transform.position, transform.rotation);
+            GameObject newEffect = Instantiate(effect, transform.position, transform.rotation);
+            Destroy(newEffect, Duration);
         }
         if (photonView.IsMine) {
             foreach (string effect in networkedEffectsOnBreak) {

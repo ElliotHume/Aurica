@@ -90,8 +90,10 @@ public class SpellUIDisplay : MonoBehaviour {
     }
 
     public void ClearSpell() {
-        componentUIList.ResetList();
-        componentUIList.WipeList();
+        if (componentUIList != null) {
+            componentUIList.ResetList();
+            componentUIList.WipeList();
+        }
         HideSpell();
     }
 

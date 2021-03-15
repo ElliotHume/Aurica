@@ -9525,8 +9525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 5
+  Damage: 10
   auricaSpell: {fileID: 11400000, guid: d2678656325974630b047c09ebcf494f, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: effectprojectile
   Duration: 1
@@ -9536,7 +9537,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 3
+  Speed: 15
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   Target: {fileID: 0}
@@ -9642,11 +9643,11 @@ MonoBehaviour:
   hastenDuration: 0
   hastenPercentage: 0
   root: 1
-  rootDuration: 10
-  silence: 1
+  rootDuration: 15
+  silence: 0
   silenceDuration: 3
-  stun: 0
-  stunDuration: 0
+  stun: 1
+  stunDuration: 5
   weaken: 0
   weakenDuration: 0
   weakenDistribution:
@@ -9673,9 +9674,9 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
-  changeManaRegen: 0
-  changeDuration: 0
-  changePercentage: 0
+  changeManaRegen: 1
+  changeDuration: 10
+  changePercentage: 75
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0

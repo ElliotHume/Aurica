@@ -43,7 +43,7 @@ public class BindingUIPanel : MonoBehaviour
     }
 
     public void SetBindText(string key, string name) {
-        dict[key].text = "Bound: "+name;
+        dict[key].text = key.ToUpper()+": "+name;
     }
 
     public void Bind(string key) {

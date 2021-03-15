@@ -15559,11 +15559,11 @@ MonoBehaviour:
     air: 0
     nature: 0
   strengthen: 1
-  strengthenDuration: 0
+  strengthenDuration: 1
   strengthenDistribution:
     structure: 0.5
     essence: 0.5
-    fire: 0.5
+    fire: 2
     water: 0
     earth: 0
     air: 0
@@ -15600,12 +15600,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 9085698444767215687}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &9085698444767215687

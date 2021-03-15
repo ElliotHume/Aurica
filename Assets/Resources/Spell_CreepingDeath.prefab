@@ -916,7 +916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 50
-  auricaSpell: {fileID: 11400000, guid: 57c98445bbeef4db79a56f21156779df, type: 2}
+  auricaSpell: {fileID: 11400000, guid: 67a0357aaf24949fd958b89fdf2c2313, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: dotprojectile
@@ -927,7 +927,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 2
+  Speed: 5
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   Target: {fileID: 0}
@@ -975,13 +975,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 2131690658006917565}
   - {fileID: 2131690658006917566}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &2131690658006917566

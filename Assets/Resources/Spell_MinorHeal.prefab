@@ -18584,6 +18584,7 @@ MonoBehaviour:
   OneShotEffect: 1
   LastingEffect: 0
   FollowsTarget: 0
+  SpellStrengthChangesDuration: 1
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration:
   - {fileID: 1358278127907202148}
@@ -18640,9 +18641,9 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
-  changeManaRegen: 0
-  changeDuration: 0
-  changePercentage: 0
+  changeManaRegen: 1
+  changeDuration: 2.5
+  changePercentage: 50
   healing: 1
   healFlatAmount: 5
   healPercentAmount: 7.5

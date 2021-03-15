@@ -9135,6 +9135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 15
   auricaSpell: {fileID: 11400000, guid: 57c98445bbeef4db79a56f21156779df, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: dotprojectile
   Duration: 5
@@ -9144,12 +9145,12 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 7
+  Speed: 20
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 10
   Target: {fileID: 0}
   HomingProjectile: 1
-  HomingDetectionSphereRadius: 4
+  HomingDetectionSphereRadius: 6
   TrackingProjectile: 0
   TrackingTurnSpeed: 0.1
   CollisionOffset: 0

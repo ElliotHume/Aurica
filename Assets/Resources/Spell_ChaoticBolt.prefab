@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6534538209178269166}
   - component: {fileID: 6534538209178269165}
   - component: {fileID: 6534538209178269164}
-  - component: {fileID: 6534538209178269167}
   m_Layer: 6
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -4637,55 +4636,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &6534538209178269167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6534538209178269161}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0, z: 0}
-  ShieldCollisionTrigger: {fileID: 0}
-  Force: 1.5
-  ForceByTime:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.0727117
-      outSlope: 3.0727117
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.155
-      value: 1
-      inSlope: 0.000015070094
-      outSlope: 0.000015070094
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1.1834319
-      outSlope: -1.1834319
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  ForceLifeTime: 0.7
 --- !u!1 &6534538209955867410
 GameObject:
   m_ObjectHideFlags: 0
@@ -9656,7 +9606,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7067024723184556711}
-  - component: {fileID: 7171202011400716989}
   m_Layer: 7
   m_Name: Collision
   m_TagString: Untagged
@@ -9682,39 +9631,6 @@ Transform:
   m_Father: {fileID: 7066799024706886625}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7171202011400716989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7068686795324038613}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 151e5fb4355af6c4ab88423606b59ab8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Distance: 30
-  Speed: 5
-  TimeDelay: 0
-  RandomMoveRadius: 1
-  RandomMoveSpeedScale: 3
-  Target: {fileID: 0}
-  CollidesWith:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  EffectsOnCollision:
-  - {fileID: 1187866334216756, guid: 7ec1056975e6b9b45820dcf4158cf42e, type: 3}
-  CollisionOffset: 0
-  DestroyTimeDelay: 7
-  CollisionEffectInWorldSpace: 1
-  DeactivatedObjectsOnCollision:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 7068932643824750251}
-  HUE: -1
-  CollidedInstances: []
 --- !u!1 &7068932643824750251
 GameObject:
   m_ObjectHideFlags: 0
@@ -9808,7 +9724,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 5
+  Speed: 10
   RandomMoveRadius: 0.1
   RandomMoveSpeedScale: 20
   Target: {fileID: 0}
@@ -9851,13 +9767,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 7070001880803783846}
   - {fileID: 7070001880803783845}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7070001880803783845

@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 public class TargetedSpell : Spell {
-    public bool OneShotEffect = true, LastingEffect = false, FollowsTarget = true;
+    public bool OneShotEffect = true, LastingEffect = false, FollowsTarget = true, SpellStrengthChangesDuration = true;
     public float DestroyTimeDelay = 15f;
     public GameObject[] DeactivateObjectsAfterDuration;
     public Vector3 PositionOffset = Vector3.zero;
@@ -19,6 +19,13 @@ public class TargetedSpell : Spell {
     void Awake() {
         statusEffect = GetComponent<StatusEffect>();
         movementEffect = GetComponent<MovementEffect>();
+        if (SpellStrengthChangesDuration) {
+            Duration *= GetSpellStrength();
+            DestroyTimeDelay *= GetSpellStrength();
+        }
+        Duration *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
+        DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
+
         if (photonView.IsMine) {
             if (OneShotEffect && TargetGO != null) OneShot();
             Invoke("DestroySelf", DestroyTimeDelay);
