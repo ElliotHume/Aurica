@@ -38,6 +38,8 @@ public class SummonSpell : Spell, IPunObservable {
                 Duration *= GetSpellStrength();
                 DestroyTimeDelay *= GetSpellStrength();
             }
+            Duration *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
+            DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
             if (DestroyTimeDelay > 0f) Invoke("DestroySelf", DestroyTimeDelay);
             if (Duration > 0f) Invoke("DisableCollisions", Duration);
         }

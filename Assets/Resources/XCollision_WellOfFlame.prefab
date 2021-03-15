@@ -14526,11 +14526,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5196724089358221070}
+  - component: {fileID: 8316678771313687781}
   - component: {fileID: 8316678771313687780}
   - component: {fileID: 8316678771313687787}
   - component: {fileID: 8316678771313687785}
   - component: {fileID: 8316678771313687786}
-  - component: {fileID: 8316678771313687781}
   m_Layer: 7
   m_Name: XCollision_WellOfFlame
   m_TagString: Spell
@@ -14562,6 +14562,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -90}
+--- !u!114 &8316678771313687781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194290556884512416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
+  auricaSpell: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
+  ManaRefund: 0
+  ManaChannelCost: 40
+  SpellEffectType: dotAoE
+  Duration: 30
+  CastAnimationType: 1
+  CastingAnchor: front
+  TurnToAimPoint: 1
+  IsChannel: 0
+  IsSelfTargeted: 0
+  IsOpponentTargeted: 0
+  LastingDamage: 50
+  OneShotEffect: 0
+  LastingEffect: 1
+  canHitSelf: 1
+  growBeforeStart: 0
+  SpellStrengthChangesDuration: 1
+  DestroyTimeDelay: 32
+  StartTimeDelay: 0
+  ScalingFactor: 0
+  ScalingLimit: 0
+  DeactivateObjectsAfterDuration:
+  - {fileID: 5193217340669093140}
+  - {fileID: 5193952557239455298}
+  - {fileID: 5194307686023291780}
+  EffectsOnDelayedStartup: []
 --- !u!54 &8316678771313687780
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14622,53 +14661,14 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 8316678771313687785}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8316678771313687781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5194290556884512416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: 10
-  auricaSpell: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
-  ManaRefund: 0
-  ManaChannelCost: 40
-  SpellEffectType: dotAoE
-  Duration: 30
-  CastAnimationType: 1
-  CastingAnchor: front
-  TurnToAimPoint: 1
-  IsChannel: 0
-  IsSelfTargeted: 0
-  IsOpponentTargeted: 0
-  LastingDamage: 50
-  OneShotEffect: 0
-  LastingEffect: 1
-  canHitSelf: 1
-  growBeforeStart: 0
-  SpellStrengthChangesDuration: 1
-  DestroyTimeDelay: 32
-  StartTimeDelay: 0
-  ScalingFactor: 0
-  ScalingLimit: 0
-  DeactivateObjectsAfterDuration:
-  - {fileID: 5193217340669093140}
-  - {fileID: 5193952557239455298}
-  - {fileID: 5194307686023291780}
-  EffectsOnDelayedStartup: []
 --- !u!1 &5194307686023291780
 GameObject:
   m_ObjectHideFlags: 0

@@ -311,7 +311,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (tough) damage *= (1 - toughPercentage);
         if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);
         if (isShielded || damage == 0f) return;
-        Health -= aura.GetDamage(damage, spellDistribution);
+        Health -= aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
         if (HitSound != null && damage > 3f) HitSound.Play();
         // Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution) + "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
     }

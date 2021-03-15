@@ -5054,11 +5054,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 1
+  sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!82 &155218847
@@ -8561,6 +8561,11 @@ GameObject:
 --- !u!1 &253344727 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+  m_PrefabInstance: {fileID: 253344722}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &253344728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 620777604, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
   m_PrefabInstance: {fileID: 253344722}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &253552596
@@ -27596,11 +27601,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 2
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!82 &770329855
@@ -29447,6 +29452,7 @@ MonoBehaviour:
   glyphCastingPanel: {fileID: 253344726}
   auraPanel: {fileID: 253344723}
   infoPanel: {fileID: 253344724}
+  spellListPanel: {fileID: 253344728}
 --- !u!4 &818667658
 Transform:
   m_ObjectHideFlags: 0
@@ -29477,6 +29483,7 @@ MonoBehaviour:
   - {fileID: 253344725}
   - {fileID: 253344723}
   - {fileID: 253344724}
+  - {fileID: 253344728}
 --- !u!1001 &818682176
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,12 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "AuricaSpell", menuName = "Aurica/AuricaSpell", order = 1)]
 public class AuricaSpell : ScriptableObject {
+    public enum ManaType {
+        Auric, Order, Chaos, Life, Death, Fire, Water, Earth, Air, Divine, Demonic
+    };
+
     public string c_name;
+    public ManaType manaType;
     [TextArea(15, 3)]
     public string description;
     public ManaDistribution targetDistribution;

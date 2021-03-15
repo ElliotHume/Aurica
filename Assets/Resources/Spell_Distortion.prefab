@@ -57,7 +57,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: dotAoE
-  Duration: 15
+  Duration: 30
   CastAnimationType: 5
   CastingAnchor: transform
   TurnToAimPoint: 0
@@ -69,7 +69,8 @@ MonoBehaviour:
   LastingEffect: 1
   canHitSelf: 0
   growBeforeStart: 0
-  DestroyTimeDelay: 15
+  SpellStrengthChangesDuration: 1
+  DestroyTimeDelay: 32
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -184,12 +185,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 7313513928875267492}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7313513928875267492

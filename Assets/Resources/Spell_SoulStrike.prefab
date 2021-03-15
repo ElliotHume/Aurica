@@ -5068,6 +5068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 22
   auricaSpell: {fileID: 11400000, guid: c3ac7c81c9d964c0d8d098f5305997e7, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: projectile
   Duration: 1
@@ -5140,13 +5141,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 1
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 6053203369044158416}
   - {fileID: 6053203369044158423}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6053203369044158423

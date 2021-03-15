@@ -19,6 +19,8 @@ public class AoESpell : Spell {
             Duration *= GetSpellStrength();
             DestroyTimeDelay *= GetSpellStrength();
         }
+        Duration *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
+        DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
         if (photonView.IsMine) {
             Invoke("DestroySelf", DestroyTimeDelay);
             Invoke("DisableCollisions", Duration);

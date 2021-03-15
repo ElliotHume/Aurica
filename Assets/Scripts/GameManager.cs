@@ -24,10 +24,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform SceneSpawnPoint;
     public float RespawnTimer = 5.0f;
 
-    public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel;
+    public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel, spellListPanel;
 
     public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 1f;
+    public static float GLOBAL_SPELL_DAMAGE_MULTIPLIER = 1f;
+    public static float GLOBAL_SPELL_DURATION_MULTIPLIER = 1f;
     public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.5f;
+    
 
     void Start() {
         Instance = this;
@@ -55,6 +58,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!spellCraftingPanel.activeInHierarchy) {
                 auraPanel.SetActive(false);
                 if (infoPanel != null) infoPanel.SetActive(false);
+                if (spellListPanel != null) spellListPanel.SetActive(false);
             }
         }
     }

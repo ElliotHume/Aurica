@@ -9,6 +9,7 @@ public class SpellUIDisplay : MonoBehaviour {
     public DistributionUIDisplayValues targetDistDisplayValues;
     public ComponentUIList componentUIList;
     public ComponentUIDisplay componentUIDisplay;
+    public bool isCasterAgnostic = false;
 
     private AuricaSpell spell;
     private bool isHidden = true;
@@ -41,8 +42,17 @@ public class SpellUIDisplay : MonoBehaviour {
         description.text = spell.description;
         targetDistDisplay.SetDistribution(spell.targetDistribution);
         targetDistDisplayValues.SetDistribution(spell.targetDistribution);
-        spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f) + "%";
-        manaCostText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetManaCost());
+        if (!isCasterAgnostic) {
+            spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f) + "%";
+            manaCostText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetManaCost());
+        } 
+        if (componentUIList != null) {
+            componentUIList.ResetList();
+            foreach ( var component in spell.keyComponents) {
+                componentUIList.AddComponent(component);
+            }
+        }
+
         StartCoroutine(SetTargetDist(spell.targetDistribution));
     }
 
@@ -55,25 +65,27 @@ public class SpellUIDisplay : MonoBehaviour {
     public void ShowSpell() {
         title.gameObject.SetActive(true);
         description.gameObject.SetActive(true);
-        spellEfficacyText.gameObject.SetActive(true);
-        manaCostText.gameObject.SetActive(true);
+        if (spellEfficacyText != null) spellEfficacyText.gameObject.SetActive(true);
+        if (manaCostText != null) manaCostText.gameObject.SetActive(true);
         targetDistDisplay.gameObject.SetActive(true);
         targetDistDisplayValues.gameObject.SetActive(true);
+        if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(true);
         isHidden = false;
     }
 
     public void HideSpell() {
         title.gameObject.SetActive(false);
         description.gameObject.SetActive(false);
-        spellEfficacyText.gameObject.SetActive(false);
-        manaCostText.gameObject.SetActive(false);
+        if (spellEfficacyText != null) spellEfficacyText.gameObject.SetActive(false);
+        if (manaCostText != null) manaCostText.gameObject.SetActive(false);
         targetDistDisplay.gameObject.SetActive(false);
         targetDistDisplayValues.gameObject.SetActive(false);
+        if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(false);
         isHidden = true;
     }
 
     public void Discard() {
-        AuricaCaster.LocalCaster.ResetCast();
+        if (!isCasterAgnostic) AuricaCaster.LocalCaster.ResetCast();
         ClearSpell();
     }
 

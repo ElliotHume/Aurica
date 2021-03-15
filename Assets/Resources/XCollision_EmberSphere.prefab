@@ -14625,12 +14625,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 1347737552281444919}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1347737552281444923
@@ -14647,6 +14647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   auricaSpell: {fileID: 11400000, guid: ce820255bf14d48b3a6bf772ac507420, type: 2}
+  ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: dotAoE
   Duration: 10
@@ -14661,6 +14662,7 @@ MonoBehaviour:
   LastingEffect: 1
   canHitSelf: 1
   growBeforeStart: 0
+  SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 15
   StartTimeDelay: 0
   ScalingFactor: 0

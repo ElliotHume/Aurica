@@ -14886,6 +14886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -14898,6 +14899,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 577bf4cef895ba04fabbb85367d3cab2, type: 2}
   spellE: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   spellR: {fileID: 11400000, guid: 07e04655c48bc4418960820182da7cb3, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &380696940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22176,6 +22183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -22188,6 +22196,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 07e04655c48bc4418960820182da7cb3, type: 2}
   spellE: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   spellR: {fileID: 11400000, guid: 44367a93c28073c4f8a275dc6c1808df, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &511651567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24262,6 +24276,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620132119}
   m_CullTransparentMesh: 1
+--- !u!1 &620777604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 620777604, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+  m_PrefabInstance: {fileID: 1024719716416070694}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &624492882
 GameObject:
   m_ObjectHideFlags: 0
@@ -27006,6 +27025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -27018,6 +27038,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 4e2cec013a4a841a39472cc58b4dd798, type: 2}
   spellE: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   spellR: {fileID: 11400000, guid: 14efdf6722cb9704789a81bc47af15a1, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &742361832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27113,6 +27139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -27125,6 +27152,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 577bf4cef895ba04fabbb85367d3cab2, type: 2}
   spellE: {fileID: 11400000, guid: 3f73283f33440e744a69b595838e3681, type: 2}
   spellR: {fileID: 11400000, guid: 127afc1d8f84542038efe3516fc53569, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &759128996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28672,6 +28705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -28684,6 +28718,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 8de90bba5cf049b49951f9c5bcca11fa, type: 2}
   spellE: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
   spellR: {fileID: 11400000, guid: 167b2c4b43db39747b62a976b1c13879, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &802698976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29101,6 +29141,7 @@ MonoBehaviour:
   glyphCastingPanel: {fileID: 983807819}
   auraPanel: {fileID: 1201685736}
   infoPanel: {fileID: 883756373}
+  spellListPanel: {fileID: 620777604}
 --- !u!4 &818667658
 Transform:
   m_ObjectHideFlags: 0
@@ -29131,6 +29172,7 @@ MonoBehaviour:
   - {fileID: 724313831}
   - {fileID: 883756373}
   - {fileID: 1201685736}
+  - {fileID: 620777604}
 --- !u!4 &825285795 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 423238, guid: 39f0ed697681ef1478f347abd260639a, type: 3}
@@ -29314,6 +29356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -29326,6 +29369,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: dcd52eb4ebdfe48b8a7a20259ac2b899, type: 2}
   spellE: {fileID: 11400000, guid: 3f73283f33440e744a69b595838e3681, type: 2}
   spellR: {fileID: 11400000, guid: b35fa682ebdff43408388b38533e9f02, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &846242094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45355,6 +45404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -45367,6 +45417,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 2846785fb3a1c3743bd70887afacef13, type: 2}
   spellE: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   spellR: {fileID: 11400000, guid: 67a0357aaf24949fd958b89fdf2c2313, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1 &1281561275
 GameObject:
   m_ObjectHideFlags: 0
@@ -45951,6 +46007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -45963,6 +46020,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 07e04655c48bc4418960820182da7cb3, type: 2}
   spellE: {fileID: 11400000, guid: 3f73283f33440e744a69b595838e3681, type: 2}
   spellR: {fileID: 11400000, guid: 127afc1d8f84542038efe3516fc53569, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1 &1324440901
 GameObject:
   m_ObjectHideFlags: 0
@@ -47383,6 +47446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -47395,6 +47459,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 5c7b8327e302f447a831948183220e5d, type: 2}
   spellE: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   spellR: {fileID: 11400000, guid: ce820255bf14d48b3a6bf772ac507420, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &1411458265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49861,6 +49931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -49873,6 +49944,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 8de90bba5cf049b49951f9c5bcca11fa, type: 2}
   spellE: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   spellR: {fileID: 11400000, guid: 16654beb6600848c49fcec66f7f6114b, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!4 &1548040864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 423238, guid: 39f0ed697681ef1478f347abd260639a, type: 3}
@@ -51388,6 +51465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -51400,6 +51478,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 60cc99053b031f24d982ff223a659df0, type: 2}
   spellE: {fileID: 11400000, guid: 8c5c36de5adc84de09e1968d5763c8a7, type: 2}
   spellR: {fileID: 11400000, guid: ce820255bf14d48b3a6bf772ac507420, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &1611709294
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60707,6 +60791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -60719,6 +60804,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 16654beb6600848c49fcec66f7f6114b, type: 2}
   spellE: {fileID: 11400000, guid: 804a4a1e21d0f4d41b96cbca3e7607b5, type: 2}
   spellR: {fileID: 11400000, guid: a46b52384ba3e49619f17b0a0c982eff, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1001 &2088042661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62105,6 +62196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useString: 0
   key1: 1
   key2: 1
   key3: 1
@@ -62117,6 +62209,12 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: 8de90bba5cf049b49951f9c5bcca11fa, type: 2}
   spellE: {fileID: 11400000, guid: b35fa682ebdff43408388b38533e9f02, type: 2}
   spellR: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
+  spell1Text: 
+  spell2Text: 
+  spell3Text: 
+  spellQText: 
+  spellEText: 
+  spellRText: 
 --- !u!1 &2142507215
 GameObject:
   m_ObjectHideFlags: 0
@@ -62403,6 +62501,110 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 64828801, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64828801, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64828801, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311535620, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311535620, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 466633171, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 466633171, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 704748362, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 704748362, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 817118799, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 817118799, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090981029, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090981029, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1279285762, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1279285762, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1518237800, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1518237800, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740445841, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1740445841, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790004915, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790004915, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016429663, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016429663, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1024719715916506650, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -62465,18 +62667,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1024719716423976059, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024719716501019883, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
-      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1024719716709331979, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}

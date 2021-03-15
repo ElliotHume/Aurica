@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15586,8 +15586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd15cbbeb80414648bab7c15830b8255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allWindows:
-  - {fileID: 0}
+  _allWindows: []
   _prefabManagementWindow: {fileID: 0}
   _objectPlacementSettingsWindow: {fileID: 0}
   _prefabsToCategoryDropSettingsWindow: {fileID: 0}
@@ -31619,11 +31618,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 1
+  sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!82 &770329855
@@ -33612,6 +33611,7 @@ MonoBehaviour:
   glyphCastingPanel: {fileID: 1166636557}
   auraPanel: {fileID: 1166636555}
   infoPanel: {fileID: 1166636556}
+  spellListPanel: {fileID: 1166636566}
 --- !u!4 &818667658
 Transform:
   m_ObjectHideFlags: 0
@@ -33642,6 +33642,7 @@ MonoBehaviour:
   - {fileID: 1166636558}
   - {fileID: 1166636555}
   - {fileID: 1166636556}
+  - {fileID: 1166636566}
 --- !u!1001 &819587102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53566,6 +53567,11 @@ MonoBehaviour:
 --- !u!1 &1166636565 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166636566 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 620777604, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
   m_PrefabInstance: {fileID: 1166636554}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1167393333
@@ -82868,11 +82874,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 2
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1918489684
