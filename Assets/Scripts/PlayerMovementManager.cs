@@ -97,7 +97,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 
         // Consume the impact energy each cycle:
-        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+        impact = characterController.isGrounded ? Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime) : Vector3.Lerp(impact, Vector3.zero, 2.5f * Time.deltaTime);
 
         // Calculate velocity for lag compensation
         velocity = transform.position - oldPosition;
@@ -196,12 +196,12 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
     // call this function to add an impact force:
     public void AddImpact(Vector3 direction, float forceValue, bool isWorldSpaceDirection = false) {
-        direction.Normalize();
+        // direction.Normalize();
         if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
         Vector3 movement = !isWorldSpaceDirection
                 ? transform.forward * direction.z + transform.right * direction.x + Vector3.up * direction.y
                 : direction;
-        impact += movement.normalized * forceValue / Mass;
+        impact += movement * forceValue / Mass;
     }
 
     public void ChangeMovementSpeed(float multiplier) {

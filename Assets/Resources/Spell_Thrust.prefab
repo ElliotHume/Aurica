@@ -4870,10 +4870,9 @@ MonoBehaviour:
   OneShotEffect: 1
   LastingEffect: 0
   FollowsTarget: 1
+  SpellStrengthChangesDuration: 1
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 6469829141419433482}
   PositionOffset: {x: 0, y: 1, z: 0}
 --- !u!114 &6469829140295485745
@@ -4951,7 +4950,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displacementDistance: 8
   displacementSpeed: 15
-  displacementDirection: {x: 0, y: 0, z: 1}
+  displacementDirection: {x: 0, y: 0.1, z: 1}
   canHitSelf: 0
   isKnockback: 0
   isContinuous: 0
@@ -4971,12 +4970,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents:
   - {fileID: 6469829140295485751}
-  sceneViewId: 0
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6469829140295485751

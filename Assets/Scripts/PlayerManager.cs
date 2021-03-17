@@ -553,6 +553,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     // Do nothing, likely has already been cleaned up
                 }
                 channelledSpell = null;
+                casting = false;
             }
         }
     }

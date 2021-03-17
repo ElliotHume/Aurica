@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Propulsion
+  m_EditorClassIdentifier: 
+  c_name: Propulsion
+  manaType: 5
+  description: Summon a concussive blast of flame that throws the caster high into
+    the air and slightly backwards
+  targetDistribution:
+    structure: -0.1
+    essence: 0.05
+    fire: 0.8
+    water: 0
+    earth: 0.05
+    air: 0.33
+    nature: 0.06
+  keyComponents:
+  - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: 3ac906ae1eff3405f84ba9a716ee2556, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_Propulsion

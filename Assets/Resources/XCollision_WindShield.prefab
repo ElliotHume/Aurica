@@ -167,7 +167,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4980110808562731133}
   serializedVersion: 7
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1.1
   stopAction: 0
   cullingMode: 3
@@ -243,7 +243,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 1.5
-      minScalar: 2
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -19098,12 +19098,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents:
   - {fileID: 4980110810516212361}
-  sceneViewId: 0
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4980110810516212361

@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 public class TargetedSpell : Spell {
-    public bool OneShotEffect = true, LastingEffect = false, FollowsTarget = true, SpellStrengthChangesDuration = true;
+    public bool OneShotEffect = true, UNIMPLEMENTEDLastingEffect = false, FollowsTarget = true, SpellStrengthChangesDuration = true;
     public float DestroyTimeDelay = 15f;
     public GameObject[] DeactivateObjectsAfterDuration;
     public Vector3 PositionOffset = Vector3.zero;
@@ -41,7 +41,7 @@ public class TargetedSpell : Spell {
             OneShot();
         }
 
-        if (LastingEffect) {
+        if (UNIMPLEMENTEDLastingEffect) {
             Lasting();
         }
 
@@ -64,12 +64,17 @@ public class TargetedSpell : Spell {
 
     void OneShot() {
         hasActivated = true;
+        if (Damage > 0f) {
+            PhotonView pv = PhotonView.Get(TargetPM);
+            if (pv != null)
+                pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+        }
         if (statusEffect != null) statusEffect.ManualActivation(TargetGO);
         if (movementEffect != null) movementEffect.ManualActivation(TargetGO);
     }
 
     void Lasting() {
-        // Do nothing, so far unneeded
+        // TODO: Do nothing, so far unneeded
     }
 
     void DestroySelf() {
