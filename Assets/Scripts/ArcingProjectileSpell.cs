@@ -70,6 +70,10 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
             oldPosition = transform.position;
             transform.Translate(0, (Vy - (Gravity * elapsed_time)) * Time.deltaTime, Vx * Time.deltaTime);
             velocity = transform.position - oldPosition;
+            if (!photonView.IsMine) {
+                transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * projectile_Velocity);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 100);
+            }
             elapsed_time += Time.deltaTime;
         } else if (controlled) {
             controlled = false;
