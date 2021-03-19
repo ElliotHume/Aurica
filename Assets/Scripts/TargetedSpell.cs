@@ -64,7 +64,7 @@ public class TargetedSpell : Spell {
 
     void OneShot() {
         hasActivated = true;
-        if (Damage > 0f) {
+        if (Damage > 0f && TargetPM != null) {
             PhotonView pv = PhotonView.Get(TargetPM);
             if (pv != null)
                 pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());

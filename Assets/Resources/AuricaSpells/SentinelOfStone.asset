@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: SentinelOfStone
+  m_EditorClassIdentifier: 
+  c_name: Sentinel of Stone
+  manaType: 7
+  description: Grow the stone beneath you into a crowned column.
+  targetDistribution:
+    structure: 0.6
+    essence: 0
+    fire: 0.15
+    water: 0.03
+    earth: 0.95
+    air: 0
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: 9158d01a20f674f70a37d08d910d65dd, type: 2}
+  - {fileID: 11400000, guid: ddab4c958b760457d8a7b68e3f8cb208, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  - {fileID: 11400000, guid: 3f79dc01f24dc49b7b7d35a67e0eaaf5, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_SentinelOfStone

@@ -10,7 +10,7 @@ public class SummonSpell : Spell, IPunObservable {
     public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     //public Vector3 RotationOffset = Vector3.zero;
-    public bool Rising = false;
+    public bool Rising = false, AlignToZAxis = true;
     public float TimeToRise = 1f;
     public float StartingOffset = 0f;
     public GameObject[] RisingParticles, DestructionParticles, DeactivateObjectsAfterDuration;
@@ -59,7 +59,7 @@ public class SummonSpell : Spell, IPunObservable {
 
         if (Rising) {
             if (Destination == Vector3.zero) Destination = transform.localPosition;
-            transform.position -= transform.forward * StartingOffset;
+            transform.position -= AlignToZAxis ? transform.forward * StartingOffset : transform.up * StartingOffset;
             startPosition = transform.position;
 
             StartCoroutine(Rise());

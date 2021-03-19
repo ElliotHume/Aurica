@@ -415,6 +415,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     void CastFizzle() {
         PhotonNetwork.Instantiate("XCollision_Fizzle", transform.position, transform.rotation);
+        casting = false;
     }
 
     void CastAuricaSpell(AuricaSpell spell) {
@@ -429,7 +430,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         Debug.Log("Spell Match: " + spell.c_name);
         // Load spell resource
         GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
-        Spell foundSpell = dataObject.GetComponent<Spell>();
+        Spell foundSpell = dataObject != null ? dataObject.GetComponent<Spell>() : null;
+
+        if (foundSpell == null) {
+            casting = false;
+            return;
+        }
 
         // Change the casting anchor (where the spell spawns from)
         switch (foundSpell.CastingAnchor) {
