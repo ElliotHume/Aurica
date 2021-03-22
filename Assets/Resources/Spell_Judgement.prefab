@@ -4681,6 +4681,7 @@ GameObject:
   - component: {fileID: 5566351787157328730}
   - component: {fileID: 5566351787157328728}
   - component: {fileID: 5566351787157328731}
+  - component: {fileID: 2893567336630857064}
   m_Layer: 6
   m_Name: Spell_Judgement
   m_TagString: Spell
@@ -4857,12 +4858,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents:
   - {fileID: 5566351787157328721}
-  sceneViewId: 0
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &5566351787157328721
@@ -5169,6 +5170,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2893567336630857064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5566351787157328735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 4
+  MaximumStress: 0.5
+  Range: 45
 --- !u!1 &6118140317044414218
 GameObject:
   m_ObjectHideFlags: 0

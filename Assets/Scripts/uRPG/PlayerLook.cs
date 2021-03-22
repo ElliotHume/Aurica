@@ -150,6 +150,16 @@ public class PlayerLook : MonoBehaviourPun
         // rotate character for horizontal, rotate camera for vertical
         transform.Rotate(new Vector3(0, xExtra, 0));
         camera.transform.Rotate(new Vector3(-yExtra, 0, 0));
+
+        if (Input.GetKey(KeyCode.RightShift)) {
+            if (Input.GetKeyDown("h")) {
+                QualitySettings.SetQualityLevel(2, true);
+            } else if (Input.GetKeyDown("m")) {
+                QualitySettings.SetQualityLevel(1, true);
+            } else if (Input.GetKeyDown("l")) {
+                QualitySettings.SetQualityLevel(0, true);
+            }
+        }
     }
 
     // Update camera position after everything else was updated

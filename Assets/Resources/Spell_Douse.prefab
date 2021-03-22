@@ -94,7 +94,7 @@ MonoBehaviour:
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
   FiringAngle: 20
-  Gravity: 15
+  Gravity: 20
   Target: {x: 0, y: 0, z: 0}
   CrosshairTargeted: 1
   CollisionOffset: 0
@@ -149,13 +149,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents:
   - {fileID: 9064220549118733514}
   - {fileID: 9064220549118733518}
-  sceneViewId: 0
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &9064220549118733518

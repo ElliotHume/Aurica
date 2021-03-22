@@ -40,12 +40,6 @@ public class GlyphRecognition : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKey("1")) {
-            Cast();
-        } else if (Input.GetKey("tab")) {
-            glyphInput.EndCustomDrag(glyphInput.GetPrevPos());
-        }
-
 		// Clean screen
 		if (img == null) img = GetComponent<UnityEngine.UI.Image>();
 		if (img.color.a > 0f) {

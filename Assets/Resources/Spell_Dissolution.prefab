@@ -9505,6 +9505,7 @@ GameObject:
   - component: {fileID: 4402439773730286927}
   - component: {fileID: 4402439773730286924}
   - component: {fileID: 1767624346080468128}
+  - component: {fileID: -3120691803607867720}
   m_Layer: 8
   m_Name: Spell_Dissolution
   m_TagString: Spell
@@ -9628,12 +9629,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
   ObservedComponents:
   - {fileID: 4402439773730286927}
-  sceneViewId: 0
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1767624346080468128
@@ -9648,6 +9649,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294717af6900a274aad7131663f19d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3120691803607867720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461495115992923910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 20
 --- !u!1 &8334756916235222484
 GameObject:
   m_ObjectHideFlags: 0

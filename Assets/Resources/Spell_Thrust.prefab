@@ -4820,6 +4820,7 @@ GameObject:
   - component: {fileID: 6469829140295485748}
   - component: {fileID: 6469829140295485751}
   - component: {fileID: 5409071167698863732}
+  - component: {fileID: -4867642783484433301}
   m_Layer: 6
   m_Name: Spell_Thrust
   m_TagString: Spell
@@ -5090,6 +5091,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4867642783484433301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469829140295485747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.3
+  Range: 20
 --- !u!1 &6469829141419433482
 GameObject:
   m_ObjectHideFlags: 0

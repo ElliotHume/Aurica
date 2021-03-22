@@ -14468,6 +14468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4284258336192742369}
+  - component: {fileID: -34342236188828516}
   m_Layer: 0
   m_Name: ZCollision_EmberSphere
   m_TagString: Untagged
@@ -14499,6 +14500,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+--- !u!114 &-34342236188828516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4287168437683966543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.6
+  Range: 60
 --- !u!1 &4287185050347298667
 GameObject:
   m_ObjectHideFlags: 0
