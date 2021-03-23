@@ -14,7 +14,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
 
     string gameVersion = "0.1";
-    string roomName = "FreePlay";
+    string roomName = "default";
     /// <summary>
     /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon,
     /// we need to keep track of this to properly adjust the behavior when we receive call back by Photon.
@@ -69,6 +69,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             // #Critical
             // Load the Room Level.
+            Debug.Log("Room name: "+roomName.ToUpper());
             string level = roomName.ToUpper() == "FREEPLAY" ? "Battlegrounds1" : roomName.Contains("FOREST") ? "DeathmatchForest" : "Deathmatch";
             PhotonNetwork.LoadLevel(level);
         }
@@ -87,6 +88,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
             // #Critical, we must first and foremost connect to Photon Online Server.
             isConnecting = PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
+        } else {
+            RoomOptions roomOptions = new RoomOptions();
+            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
         }
     }
 

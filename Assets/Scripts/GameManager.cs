@@ -40,7 +40,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PlayerManager.LocalPlayerInstance == null) {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position, transform.rotation, 0);
+                if (PhotonNetwork.IsConnected) {
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position, transform.rotation, 0);
+                } else {
+                    // Go back to the launcher, as the connection has failed at some point (or you are loading the game from the wrong scene)
+                    SceneManager.LoadScene(0);
+                }
             } else {
                 Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
             }
@@ -61,6 +66,14 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (spellListPanel != null) spellListPanel.SetActive(false);
             }
         }
+        if (Input.GetKeyDown("c")) {
+            spellListPanel.SetActive(!spellListPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+        }
+        if (Input.GetKeyDown("i")) {
+            infoPanel.SetActive(!infoPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+        }
     }
 
     #region Photon Callbacks
@@ -71,6 +84,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnLeftRoom()
     {
+        PhotonNetwork.Destroy(PlayerManager.LocalPlayerInstance);
         SceneManager.LoadScene(0);
         Cursor.lockState = CursorLockMode.None;
     }
