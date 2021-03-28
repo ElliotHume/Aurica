@@ -153,9 +153,9 @@ public class PlayerLook : MonoBehaviourPun
 
         if (Input.GetKey(KeyCode.RightShift)) {
             if (Input.GetKeyDown("h")) {
-                QualitySettings.SetQualityLevel(2, true);
+                QualitySettings.SetQualityLevel(5, true);
             } else if (Input.GetKeyDown("m")) {
-                QualitySettings.SetQualityLevel(1, true);
+                QualitySettings.SetQualityLevel(3, true);
             } else if (Input.GetKeyDown("l")) {
                 QualitySettings.SetQualityLevel(0, true);
             }
