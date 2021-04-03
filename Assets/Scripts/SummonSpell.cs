@@ -82,7 +82,7 @@ public class SummonSpell : Spell, IPunObservable {
         while (t < 1) {
             t += Time.deltaTime / TimeToRise;
             transform.localPosition = Vector3.Lerp(currentPos, Destination, t);
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
         doneMoving = true;
     }

@@ -5343,6 +5343,7 @@ MonoBehaviour:
   Speed: 90
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
+  CanHitSelf: 1
   Target: {fileID: 0}
   HomingProjectile: 0
   HomingDetectionSphereRadius: 0
@@ -5400,13 +5401,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 2594908265963863572}
   - {fileID: 2594908265963863569}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &2594908265963863569

@@ -42,6 +42,7 @@ public class SpellUIDisplay : MonoBehaviour {
         description.text = spell.description;
         targetDistDisplay.SetDistribution(spell.targetDistribution);
         targetDistDisplayValues.SetDistribution(spell.targetDistribution);
+        Debug.Log("IDEAL AURA:    "+spell.IdealAuraCalculation().ToString());
         if (!isCasterAgnostic) {
             spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f) + "%";
             manaCostText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetManaCost());

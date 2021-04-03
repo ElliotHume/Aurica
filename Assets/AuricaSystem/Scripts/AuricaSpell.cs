@@ -82,6 +82,27 @@ public class AuricaSpell : ScriptableObject {
         return sum;
     }
 
+    public ManaDistribution IdealAuraCalculation() {
+        // List<float> basicDist = new List<float>();
+        // List<float> auricDist = new List<float>();
+        ManaDistribution basicDist = new ManaDistribution();
+        ManaDistribution auricDist = new ManaDistribution();
+        foreach(AuricaSpellComponent component in keyComponents) {
+            basicDist += component.basicDistribution;
+            auricDist += component.auricDistribution;
+        }
+        
+        float structure = auricDist.structure != 0 ? (targetDistribution.structure - basicDist.structure) / auricDist.structure : 0;
+        float essence = auricDist.essence != 0 ? (targetDistribution.essence - basicDist.essence) / auricDist.essence : 0;
+        float fire = auricDist.fire != 0 ? (targetDistribution.fire - basicDist.fire) / auricDist.fire : 0;
+        float water = auricDist.water != 0 ? (targetDistribution.water - basicDist.water) / auricDist.water : 0;
+        float earth = auricDist.earth != 0 ? (targetDistribution.earth - basicDist.earth) / auricDist.earth : 0;
+        float air = auricDist.air != 0 ? (targetDistribution.air - basicDist.air) / auricDist.air : 0;
+        float nature = auricDist.nature != 0 ? (targetDistribution.nature - basicDist.nature) / auricDist.nature : 0;
+
+        return new ManaDistribution(structure, essence, fire, water, earth, air, nature);
+    }
+
     public override string ToString() {
         string componentString = "";
         foreach(AuricaSpellComponent c in keyComponents) {

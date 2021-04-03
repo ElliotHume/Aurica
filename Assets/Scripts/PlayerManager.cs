@@ -512,6 +512,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 }
             } else {
                 CastFizzle();
+                manaBar.BlinkText();
             }
             auricaCaster.ResetCast();
             casting = false;
