@@ -44,10 +44,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The root bone of the character model, used for animations and ragdolling")]
     public GameObject RootBone;
 
+    public PlayerParticleManager ParticleManager;
+
     [HideInInspector]
     public bool dead = false;
 
-    public AudioSource DeathSound, HitSound;
+    public AudioSource CastingSound, DeathSound, HitSound;
 
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
@@ -464,6 +466,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!foundSpell.IsChannel) {
             currentSpellCast = spell.linkedSpellResource;
             movementManager.PlayCastingAnimation(foundSpell.CastAnimationType);
+            ParticleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
+            if (CastingSound != null) CastingSound.Play();
         } else {
             // If the spell is channelled, channel it immediately
             currentChannelledSpell = spell.linkedSpellResource;
@@ -563,6 +567,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 casting = false;
             }
         }
+    }
+
+    public void EndCast() {
+        ParticleManager.StopHandParticles();
     }
 
 
