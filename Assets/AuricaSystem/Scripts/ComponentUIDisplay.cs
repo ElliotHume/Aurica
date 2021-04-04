@@ -21,7 +21,7 @@ public class ComponentUIDisplay : MonoBehaviour {
 
     void Update() {
         if (Input.GetKeyDown("b")) {
-            AuricaCaster.LocalCaster.AddComponent(component);
+            if (component != null) AuricaCaster.LocalCaster.AddComponent(component);
         }
     }
 

@@ -459,8 +459,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ResetCastingAnchorDirection();
         }
 
-        if (foundSpell.IsSelfTargeted) currentSpellIsSelfTargeted = true;
-        if (foundSpell.IsOpponentTargeted) currentSpellIsOpponentTargeted = true;
+        currentSpellIsSelfTargeted = foundSpell.IsSelfTargeted;
+        currentSpellIsOpponentTargeted = foundSpell.IsOpponentTargeted;
 
         // Set the spell to cast, and start the animation
         if (!foundSpell.IsChannel) {
