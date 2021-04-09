@@ -66,7 +66,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
     }
 
     void FixedUpdate() {
-        if (elapsed_time <= flightDuration) {
+        if (elapsed_time <= flightDuration && !isCollided) {
             oldPosition = transform.position;
             transform.Translate(0, (Vy - (Gravity * elapsed_time)) * Time.deltaTime, Vx * Time.deltaTime);
             velocity = transform.position - oldPosition;

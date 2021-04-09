@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
+    public BlinkingText blinkingText;
 
     public void SetHealth(float health) {
         slider.value = health;
@@ -13,6 +14,10 @@ public class HealthBar : MonoBehaviour
 
     public void SetMaxHealth(float health) {
         slider.maxValue = health;
+    }
+
+    public void BlinkText() {
+        if (blinkingText != null) blinkingText.Fire();
     }
 
 }

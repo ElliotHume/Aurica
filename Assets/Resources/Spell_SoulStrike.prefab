@@ -5048,7 +5048,7 @@ Transform:
   m_GameObject: {fileID: 6054169607109061093}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 6057282522170123281}
   m_Father: {fileID: 0}
@@ -5081,6 +5081,7 @@ MonoBehaviour:
   Speed: 10
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
+  CanHitSelf: 1
   Target: {fileID: 0}
   HomingProjectile: 0
   HomingDetectionSphereRadius: 1

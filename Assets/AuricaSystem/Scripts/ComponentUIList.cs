@@ -18,7 +18,7 @@ public class ComponentUIList : MonoBehaviour
     private List<GameObject> instances = new List<GameObject>();
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
@@ -27,12 +27,16 @@ public class ComponentUIList : MonoBehaviour
             componentList = new List<AuricaSpellComponent>(allComponents);
             componentList.Sort((a, b) => a.CompareTo(b));;
         }
+    }
+
+    void Start() {
         PopulateList();
     }
 
     public void PopulateList() {
+        rect = GetComponent<RectTransform>();
         currentYPos = startYPos;
-        rect.sizeDelta = new Vector2(150, 60 * componentList.Count);
+        rect.sizeDelta = new Vector2(1, 60 * componentList.Count);
         foreach (AuricaSpellComponent component in componentList) {
             GameObject newButton = Instantiate(componentElementPrefab, transform.position + (Vector3.up * currentYPos)+(Vector3.right * xOffset), transform.rotation, transform);
             instances.Add(newButton);

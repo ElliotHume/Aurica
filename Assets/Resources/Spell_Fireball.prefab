@@ -390,13 +390,14 @@ MonoBehaviour:
   Speed: 15
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
+  CanHitSelf: 1
   Target: {fileID: 0}
   HomingProjectile: 0
   HomingDetectionSphereRadius: 1
   TrackingProjectile: 1
   TrackingTurnSpeed: 35
   CollisionOffset: 0
-  CollisionDestroyTimeDelay: 5
+  CollisionDestroyTimeDelay: 10
   EffectsOnCollision:
   - {fileID: 1031498901634068, guid: 304c4e03de2378b48a47f6c271eb78f2, type: 3}
   NetworkedEffectsOnCollision: []

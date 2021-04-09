@@ -19,6 +19,12 @@ public class ComponentUIDisplay : MonoBehaviour {
         allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
     }
 
+    void Update() {
+        if (Input.GetKeyDown("b")) {
+            if (component != null) AuricaCaster.LocalCaster.AddComponent(component);
+        }
+    }
+
     public void SendAura(ManaDistribution a) {
         aura = a;
         Debug.Log("AURA recieved: " + a.ToString());

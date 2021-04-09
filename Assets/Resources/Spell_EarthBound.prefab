@@ -9506,7 +9506,7 @@ Transform:
   m_GameObject: {fileID: 6776993459028496630}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 21.81, y: -15.036396, z: 51.977356}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 7, y: 7, z: 7}
   m_Children:
   - {fileID: 6775491965168589828}
   - {fileID: 6775505838591719326}
@@ -9540,6 +9540,7 @@ MonoBehaviour:
   Speed: 10
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
+  CanHitSelf: 0
   Target: {fileID: 0}
   HomingProjectile: 1
   HomingDetectionSphereRadius: 20
@@ -9599,13 +9600,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 6775942533867765754}
   - {fileID: 6775942533867765758}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6775942533867765758

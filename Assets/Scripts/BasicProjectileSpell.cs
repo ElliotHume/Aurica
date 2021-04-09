@@ -10,6 +10,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float Speed = 1f;
     public float RandomMoveRadius = 0f;
     public float RandomMoveSpeedScale = 0f;
+    public bool CanHitSelf = true;
     public GameObject Target;
     public bool HomingProjectile = false;
     public float HomingDetectionSphereRadius = 1f;
@@ -77,7 +78,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     void OnCollisionEnter(Collision collision) {
         Debug.Log("Collision with: "+collision.gameObject);
-        //if (collision.gameObject == PlayerManager.LocalPlayerInstance) return;
+        if ( !CanHitSelf && collision.gameObject == PlayerManager.LocalPlayerInstance) return;
 
         ContactPoint hit = collision.GetContact(0);
         isCollided = true;

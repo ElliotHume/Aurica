@@ -44,10 +44,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The root bone of the character model, used for animations and ragdolling")]
     public GameObject RootBone;
 
+    public PlayerParticleManager ParticleManager;
+
     [HideInInspector]
     public bool dead = false;
 
-    public AudioSource DeathSound, HitSound;
+    public AudioSource CastingSound, DeathSound, HitSound;
 
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
@@ -188,7 +190,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Awake() {
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-        DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
 
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
@@ -457,13 +459,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             ResetCastingAnchorDirection();
         }
 
-        if (foundSpell.IsSelfTargeted) currentSpellIsSelfTargeted = true;
-        if (foundSpell.IsOpponentTargeted) currentSpellIsOpponentTargeted = true;
+        currentSpellIsSelfTargeted = foundSpell.IsSelfTargeted;
+        currentSpellIsOpponentTargeted = foundSpell.IsOpponentTargeted;
 
         // Set the spell to cast, and start the animation
         if (!foundSpell.IsChannel) {
             currentSpellCast = spell.linkedSpellResource;
             movementManager.PlayCastingAnimation(foundSpell.CastAnimationType);
+            ParticleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
+            if (CastingSound != null) CastingSound.Play();
         } else {
             // If the spell is channelled, channel it immediately
             currentChannelledSpell = spell.linkedSpellResource;
@@ -512,6 +516,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 }
             } else {
                 CastFizzle();
+                manaBar.BlinkText();
             }
             auricaCaster.ResetCast();
             casting = false;
@@ -562,6 +567,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 casting = false;
             }
         }
+    }
+
+    public void EndCast() {
+        ParticleManager.StopHandParticles();
     }
 
 

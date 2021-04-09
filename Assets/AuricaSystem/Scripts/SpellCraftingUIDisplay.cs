@@ -13,6 +13,7 @@ public class SpellCraftingUIDisplay : MonoBehaviour
         aura = a;
         componentUIDisplay.SendAura(a);
         bindingPanel.Startup();
+        gameObject.SetActive(false);
     }
 
     public ManaDistribution GetAura() {
