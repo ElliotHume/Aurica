@@ -9727,6 +9727,7 @@ MonoBehaviour:
   Speed: 10
   RandomMoveRadius: 0.1
   RandomMoveSpeedScale: 20
+  CanHitSelf: 1
   Target: {fileID: 0}
   HomingProjectile: 1
   HomingDetectionSphereRadius: 5
@@ -9783,7 +9784,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7069144415228799305}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
