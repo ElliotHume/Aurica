@@ -4,6 +4,8 @@ using System.Collections;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 using Photon.Pun;
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position, transform.rotation, 0);
                 } else {
                     // Go back to the launcher, as the connection has failed at some point (or you are loading the game from the wrong scene)
+                    Cursor.lockState = CursorLockMode.None;
                     SceneManager.LoadScene(0);
                 }
             } else {
@@ -52,7 +55,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public bool IsEditingInputField => 
+        EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
+
     void Update() {
+        if (IsEditingInputField) return;
+        
+            
         if (Input.GetKeyDown("`")) {
             auraPanel.SetActive(!auraPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);

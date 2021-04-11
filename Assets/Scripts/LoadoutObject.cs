@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LoadoutObject : MonoBehaviour
 {
     public bool useString = false,key1,key2,key3,keyQ,keyE,keyR;
     public AuricaSpell spell1, spell2, spell3, spellQ, spellE, spellR;
     public string spell1Text, spell2Text, spell3Text, spellQText, spellEText, spellRText;
+    public UnityEvent OnBind;
 
     public void BindLoadout() {
         if (!useString) {
@@ -24,6 +26,6 @@ public class LoadoutObject : MonoBehaviour
             if (keyE) AuricaCaster.LocalCaster.CacheSpell("e", spellEText);
             if (keyR) AuricaCaster.LocalCaster.CacheSpell("r", spellRText);
         }
-        
+        OnBind.Invoke();
     }
 }

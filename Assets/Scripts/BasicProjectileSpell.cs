@@ -71,8 +71,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
         UpdateWorldPosition();
         velocity = transform.position - oldPosition;
         if (!photonView.IsMine) {
-            transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 100);
+            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * Speed * 2f);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
         }
     }
 

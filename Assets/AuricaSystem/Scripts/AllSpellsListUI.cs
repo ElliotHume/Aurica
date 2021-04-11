@@ -7,7 +7,6 @@ public class AllSpellsListUI : MonoBehaviour
 {
     public GameObject spellListPanelGameObject, spellElementPrefab;
     public SpellUIDisplay spellUIDisplay;
-    public float startYPos = 500f, spaceBetweenElements = 50f, xOffset = 10f; 
     private AuricaSpell[] allSpells;
     private List<AuricaSpell> allSpellsList;
     private float currentYPos;
@@ -26,20 +25,18 @@ public class AllSpellsListUI : MonoBehaviour
     }
 
     public void PopulateList() {
-        currentYPos = startYPos;
-        rect.sizeDelta = new Vector2(150, 80 * allSpellsList.Count);
+        //currentYPos = startYPos;
+        //rect.sizeDelta = new Vector2(150, 80 * allSpellsList.Count);
         foreach (AuricaSpell spell in allSpellsList) {
-            GameObject newButton = Instantiate(spellElementPrefab, transform.position + (Vector3.up * currentYPos)+(Vector3.right * xOffset), transform.rotation, transform);
+            GameObject newButton = Instantiate(spellElementPrefab, transform.position, transform.rotation, transform);
             instances.Add(newButton);
-            currentYPos -= spaceBetweenElements;
             newButton.GetComponent<SpellUIButton>().SetSpellDisplay(spellUIDisplay);
             newButton.GetComponent<SpellUIButton>().SetSpell(spell);
         }
     }
 
     public void WipeList() {
-        Debug.Log("Wiping list");
-        currentYPos = startYPos;
+        // Debug.Log("Wiping list");
         if (instances.Count > 0) {
             foreach (var item in instances){
                 Destroy(item);

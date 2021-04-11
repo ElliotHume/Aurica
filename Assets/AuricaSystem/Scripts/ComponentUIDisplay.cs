@@ -9,6 +9,7 @@ public class ComponentUIDisplay : MonoBehaviour {
     public DistributionUIDisplay BasicDistDisplay, AuricDistDisplay;
     public DistributionUIDisplayValues FluxDistDisplay;
     public AuricaSpellComponent component;
+    public GameObject placeholder;
     
     private ManaDistribution aura;
     private bool isHidden = true;
@@ -32,37 +33,18 @@ public class ComponentUIDisplay : MonoBehaviour {
 
     public void UpdateComponent(AuricaSpellComponent c) {
         if (isHidden) Show();
-
-        component = c;
-        Title.text = component.c_name;
-        Description.text = component.description;
-
-        if (component.hasBasicDistribution) {
-            BasicDistDisplayGO.SetActive(true);
-            BasicDistDisplay.SetDistribution(component.basicDistribution);
-        } else {
-            BasicDistDisplayGO.SetActive(false);
-        }
-
-        if (component.hasAuricDistribution) {
-            AuricDistDisplayGO.SetActive(true);
-            AuricDistDisplay.SetDistribution(component.auricDistribution * aura);
-        } else {
-            AuricDistDisplayGO.SetActive(false);
-        }
-
-        if (component.hasFluxDistribution) {
-            FluxDistDisplayGO.SetActive(true);
-            FluxDistDisplay.SetDistribution(component.fluxDistribution);
-        } else {
-            FluxDistDisplayGO.SetActive(false);
-        }
-
+        ActivateCP(c);
+        // There is a bug with enabling objects and changing the values at the same time,
+        // so... change the values again soon after enabling to display values correctly
         StartCoroutine(UpdateComponentAgain(c));
     }
 
     IEnumerator UpdateComponentAgain(AuricaSpellComponent c) {
         yield return new WaitForSeconds(0.2f);
+        ActivateCP(c);
+    }
+
+    void ActivateCP(AuricaSpellComponent c) {
         component = c;
         Title.text = component.c_name;
         Description.text = component.description;
@@ -104,6 +86,7 @@ public class ComponentUIDisplay : MonoBehaviour {
         BasicDistDisplayGO.SetActive(false);
         AuricDistDisplayGO.SetActive(false);
         FluxDistDisplayGO.SetActive(false);
+        if (placeholder != null) placeholder.SetActive(true);
         isHidden = true;
     }
 
@@ -113,6 +96,7 @@ public class ComponentUIDisplay : MonoBehaviour {
         BasicDistDisplayGO.SetActive(true);
         AuricDistDisplayGO.SetActive(true);
         FluxDistDisplayGO.SetActive(true);
+        if (placeholder != null) placeholder.SetActive(false);
         isHidden = false;
     }
 }

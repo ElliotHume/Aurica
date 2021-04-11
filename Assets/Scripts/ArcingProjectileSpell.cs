@@ -71,8 +71,8 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
             transform.Translate(0, (Vy - (Gravity * elapsed_time)) * Time.deltaTime, Vx * Time.deltaTime);
             velocity = transform.position - oldPosition;
             if (!photonView.IsMine) {
-                transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * projectile_Velocity);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 100);
+                transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * projectile_Velocity * 2f);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
             }
             elapsed_time += Time.deltaTime;
         } else if (controlled) {
@@ -94,7 +94,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
 
     void OnCollisionEnter(Collision collision) {
         Debug.Log("Collision with: " + collision.gameObject);
-        if (collision.gameObject == PlayerManager.LocalPlayerInstance) return;
+        if (collision.gameObject == PlayerManager.LocalPlayerInstance || isCollided) return;
 
         ContactPoint hit = collision.GetContact(0);
         isCollided = true;

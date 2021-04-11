@@ -383,7 +383,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!photonView.IsMine) return;
         spellCraftingDisplay = GameManager.Instance.GetSpellCraftingPanel();
         glyphCastingPanel = GameManager.Instance.GetGlyphCastingPanel();
-        glyphCastingPanel.SetActive(false);
+        // glyphCastingPanel.SetActive(false);
         var gc = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
         if (gc != null) gc.SendAura(aura.GetAura());
     }

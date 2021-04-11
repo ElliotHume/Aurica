@@ -9,6 +9,7 @@ public class SpellUIDisplay : MonoBehaviour {
     public DistributionUIDisplayValues targetDistDisplayValues;
     public ComponentUIList componentUIList;
     public ComponentUIDisplay componentUIDisplay;
+    public GameObject placeholder, spellStrengthTitle, manaCostTitle;
     public bool isCasterAgnostic = false;
 
     private AuricaSpell spell;
@@ -70,7 +71,10 @@ public class SpellUIDisplay : MonoBehaviour {
         if (manaCostText != null) manaCostText.gameObject.SetActive(true);
         targetDistDisplay.gameObject.SetActive(true);
         targetDistDisplayValues.gameObject.SetActive(true);
+        if (spellStrengthTitle != null) spellStrengthTitle.SetActive(true);
+        if (manaCostTitle != null) manaCostTitle.SetActive(true);
         if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(true);
+        if (placeholder != null) placeholder.SetActive(false);
         isHidden = false;
     }
 
@@ -82,6 +86,9 @@ public class SpellUIDisplay : MonoBehaviour {
         targetDistDisplay.gameObject.SetActive(false);
         targetDistDisplayValues.gameObject.SetActive(false);
         if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(false);
+        if (spellStrengthTitle != null) spellStrengthTitle.SetActive(false);
+        if (manaCostTitle != null) manaCostTitle.SetActive(false);
+        if (placeholder != null) placeholder.SetActive(true);
         isHidden = true;
     }
 

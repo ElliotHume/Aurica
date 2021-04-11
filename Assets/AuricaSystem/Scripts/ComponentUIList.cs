@@ -8,7 +8,6 @@ public class ComponentUIList : MonoBehaviour
 {
     public GameObject componentElementPrefab;
     public ComponentUIDisplay componentUIDisplay;
-    public float startYPos = 500f, spaceBetweenElements = 50f, xOffset = 10f; 
     public bool isListOfAll = true;
     public List<AuricaSpellComponent> componentList;
     private AuricaSpellComponent[] allComponents;
@@ -35,12 +34,10 @@ public class ComponentUIList : MonoBehaviour
 
     public void PopulateList() {
         rect = GetComponent<RectTransform>();
-        currentYPos = startYPos;
-        rect.sizeDelta = new Vector2(1, 60 * componentList.Count);
+        //rect.sizeDelta = new Vector2(1, 60 * componentList.Count);
         foreach (AuricaSpellComponent component in componentList) {
-            GameObject newButton = Instantiate(componentElementPrefab, transform.position + (Vector3.up * currentYPos)+(Vector3.right * xOffset), transform.rotation, transform);
+            GameObject newButton = Instantiate(componentElementPrefab, transform.position, transform.rotation, transform);
             instances.Add(newButton);
-            currentYPos -= spaceBetweenElements;
             newButton.GetComponent<ComponentUIButton>().SetComponent(component);
             newButton.GetComponent<ComponentUIButton>().componentDisplay = componentUIDisplay;
             newButton.GetComponent<ComponentUIButton>().SetGlyph(allComponentGlyphs, component.c_name);
@@ -50,7 +47,6 @@ public class ComponentUIList : MonoBehaviour
 
     public void WipeList() {
         Debug.Log("Wiping list");
-        currentYPos = startYPos;
         if (instances.Count > 0) {
             foreach (var item in instances){
                 Destroy(item);

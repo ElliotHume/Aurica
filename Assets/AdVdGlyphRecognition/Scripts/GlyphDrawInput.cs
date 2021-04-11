@@ -213,7 +213,7 @@ namespace AdVd.GlyphRecognition
 			if (eventData.button!=PointerEventData.InputButton.Left) return;
 			stroke=new List<Vector2>();
 			Vector2 localPoint;
-			Debug.Log("Begin Drag");
+			// Debug.Log("Begin Drag");
 			if (RectEventPoint(eventData.pressPosition, eventData.pressEventCamera, out localPoint)){
 				stroke.Add (prevPos=localPoint);
 				//Debug.Log("stroke added: "+localPoint.ToString());
@@ -281,7 +281,7 @@ namespace AdVd.GlyphRecognition
 				if (OnStrokeDraw!=null) OnStrokeDraw(strokeList.ToArray());
 				Cast();
 			} else {
-				Debug.Log("Null Stroke   (OnEndDrag)");
+				// Debug.Log("Null Stroke   (OnEndDrag)");
 			}
 		}
 
