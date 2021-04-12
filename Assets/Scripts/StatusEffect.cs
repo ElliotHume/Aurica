@@ -47,6 +47,9 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     public bool manaDrain = false;
     public float manaDrainFlatAmount = 0f, manaDrainPercentAmount = 0f;
 
+    public bool camouflage = false;
+    public float camouflageDuration = 0f;
+
     public bool isContinuous = false;
     public bool canHitSelf = false;
 
@@ -171,6 +174,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (changeManaRegen) pv.RPC("ManaRestoration", RpcTarget.All, changeDuration * multiplier, changePercentage/100f * multiplier);
             if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount/100f * multiplier);
             if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * multiplier, manaDrainPercentAmount/100f * multiplier);
+            if (camouflage) pv.RPC("Camouflage", RpcTarget.All, camouflageDuration * multiplier);
         }
     }
 
@@ -188,6 +192,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (stun) pv.RPC("ContinuousStun", RpcTarget.All);
             if (fragile) pv.RPC("ContinuousFragile", RpcTarget.All, fragilePercentage/100f * multiplier);
             if (tough) pv.RPC("ContinuousTough", RpcTarget.All, toughPercentage/100f * multiplier);
+            if (camouflage) pv.RPC("ContinuousCamouflage", RpcTarget.All);
         }
     }
 

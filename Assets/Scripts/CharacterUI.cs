@@ -86,4 +86,14 @@ public class CharacterUI : MonoBehaviour {
             playerNameText.color = Color.black;
         }
     }
+
+    public void Hide() {
+        playerNameText.gameObject.SetActive(false);
+        playerHealthSlider.gameObject.SetActive(false);
+    }
+
+    public void Show() {
+        playerNameText.gameObject.SetActive(true);
+        playerHealthSlider.gameObject.SetActive(true);
+    }
 }

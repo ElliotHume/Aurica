@@ -46,6 +46,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public PlayerParticleManager ParticleManager;
 
+    public CharacterMaterialManager materialManager;
+
     [HideInInspector]
     public bool dead = false;
 
@@ -110,6 +112,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public bool manaRestorationChange;
     private float manaRestorationDuration;
 
+    [HideInInspector]
+    public bool camouflaged = false;
+
 
 
 
@@ -165,6 +170,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
             _uiGo.transform.SetParent(transform);
             characterUI = _uiGo.GetComponent<CharacterUI>();
+            materialManager.SetUI(characterUI);
         } else {
             Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
         }
@@ -184,7 +190,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
-
     }
 
     void Awake() {
@@ -973,5 +978,35 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
             //Debug.Log("New Mana Regen after end: " + ManaRegen);
         }
+    }
+
+
+
+
+
+
+    // Camouflage
+    [PunRPC]
+    void Camouflage(float duration) {
+        StartCoroutine(CamouflageRoutine(duration));
+    }
+    IEnumerator CamouflageRoutine(float duration) {
+        camouflaged = true;
+        materialManager.GoInvisible();
+        yield return new WaitForSeconds(duration);
+        materialManager.ResetMaterial();
+        camouflaged = false;
+    }
+
+    [PunRPC]
+    public void ContinuousCamouflage() {
+        camouflaged = true;
+        materialManager.GoInvisible();
+    }
+
+    [PunRPC]
+    public void EndContinuousCamouflage() {
+        camouflaged = false;
+        materialManager.ResetMaterial();
     }
 }
