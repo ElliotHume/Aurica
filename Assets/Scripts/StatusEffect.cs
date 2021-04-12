@@ -215,6 +215,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (stun) pv.RPC("EndContinuousStun", RpcTarget.All);
             if (fragile) pv.RPC("EndContinuousFragile", RpcTarget.All);
             if (tough) pv.RPC("EndContinuousTough", RpcTarget.All);
+            if (camouflage) pv.RPC("EndContinuousCamouflage", RpcTarget.All);
         }
     }
 }

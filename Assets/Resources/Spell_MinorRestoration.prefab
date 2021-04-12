@@ -9332,6 +9332,8 @@ MonoBehaviour:
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
   isContinuous: 0
   canHitSelf: 0
 --- !u!114 &4718893882218331357
@@ -9349,12 +9351,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 4718893882218331358}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4718893882218331358
