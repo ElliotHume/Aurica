@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Decal 1
   m_Shader: {fileID: 4800000, guid: d8f400148b999fe41bd30759b3a9126b, type: 3}
-  m_ShaderKeywords: USE_CUTOUT USE_CUTOUT_TEX USE_NOISE_DISTORTION USE_QUAD_DECAL
+  m_ShaderKeywords: USE_CUTOUT USE_CUTOUT_TEX USE_NOISE_DISTORTION USE_WORLD_SPACE_UV
     _ALPHABLEND_ON _BLENDMODE_ADD _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
@@ -96,12 +96,12 @@ Material:
     - _UseCutoutThreshold: 0
     - _UseFrameBlending: 0
     - _UseNoiseDistortion: 1
-    - _UseWorldSpaceUV: 0
-    - _ZTest1: 4
+    - _UseWorldSpaceUV: 1
+    - _ZTest1: 5
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _CutoutColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CutoutColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _TintColor: {r: 5, g: 1.1379302, b: 0, a: 1}
   m_BuildTextureStacks: []

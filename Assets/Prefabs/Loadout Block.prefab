@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240805801}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.103, y: -0.112, z: 0}
   m_LocalScale: {x: 0.32464275, y: 0.26422462, z: 0.37598163}
   m_Children:
   - {fileID: 965095280}
@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 951934482}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.103, y: -0.112, z: 0}
   m_LocalScale: {x: 0.32464272, y: 0.26422462, z: 0.37598148}
   m_Children:
   - {fileID: 1515344783}
@@ -219,7 +219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1435384454}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.313, y: -0.024, z: 0.24}
+  m_LocalPosition: {x: 0.119, y: -0.024, z: 0.048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 951934483}
@@ -379,7 +379,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5176471, g: 0.13333334, b: 0, a: 1}
+      maxColor: {r: 0, g: 1, b: 0.70980394, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4779,7 +4779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515344782}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.313, y: -0.024, z: 0.24}
+  m_LocalPosition: {x: 0.119, y: -0.024, z: 0.048}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 951934483}
@@ -4939,7 +4939,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5176471, g: 0.13406992, b: 0, a: 1}
+      maxColor: {r: 0, g: 1, b: 0.70980394, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9401,7 +9401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738480127}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.313, y: -0.024, z: 0.24}
+  m_LocalPosition: {x: 0.119, y: -0.024, z: 0.048}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 951934483}
@@ -9561,7 +9561,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0, g: 1, b: 0.70980394, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -14213,7 +14213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885370776}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.313, y: -0.024, z: 0.24}
+  m_LocalPosition: {x: 0.119, y: -0.024, z: 0.048}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 951934483}
@@ -14373,7 +14373,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5176471, g: 0.20188649, b: 0, a: 1}
+      maxColor: {r: 0, g: 1, b: 0.70980394, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -18985,9 +18985,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 954746d370bc8934299c8c8267543f4f, type: 3}
     m_FontSize: 30
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
@@ -19249,11 +19249,11 @@ MonoBehaviour:
   keyQ: 1
   keyE: 1
   keyR: 1
-  spell1: {fileID: 11400000, guid: e42e1348c9ea44863b3e766424f4ff9a, type: 2}
-  spell2: {fileID: 11400000, guid: 05bfe659fddf1a1439d1b0a5714a1865, type: 2}
+  spell1: {fileID: 11400000, guid: 58c033ced01f9bb4b81a156eb69d2e4a, type: 2}
+  spell2: {fileID: 11400000, guid: e42e1348c9ea44863b3e766424f4ff9a, type: 2}
   spell3: {fileID: 11400000, guid: 1892cc9ff5d434816aec79c5acf112b7, type: 2}
   spellQ: {fileID: 11400000, guid: 8de90bba5cf049b49951f9c5bcca11fa, type: 2}
-  spellE: {fileID: 11400000, guid: b35fa682ebdff43408388b38533e9f02, type: 2}
+  spellE: {fileID: 11400000, guid: 05bfe659fddf1a1439d1b0a5714a1865, type: 2}
   spellR: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
   spell1Text: 
   spell2Text: 

@@ -4752,8 +4752,8 @@ MonoBehaviour:
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
   Speed: 30
-  RandomMoveRadius: 0
-  RandomMoveSpeedScale: 0
+  RandomMoveRadius: 0.1
+  RandomMoveSpeedScale: 2
   CanHitSelf: 1
   Target: {fileID: 0}
   HomingProjectile: 1
@@ -4820,7 +4820,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 7870400193651394105}
   - {fileID: 7870400193651394117}
-  sceneViewId: 0
+  sceneViewId: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7870400193651394117
@@ -9553,7 +9553,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.42620698, g: 0.19999999, b: 1, a: 0.5882353}
+  m_Color: {r: 0.6883453, g: 0.19999999, b: 1, a: 0.5882353}
   m_Intensity: 2.5
   m_Range: 10
   m_SpotAngle: 30

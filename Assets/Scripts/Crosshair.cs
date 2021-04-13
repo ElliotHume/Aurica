@@ -35,10 +35,9 @@ public class Crosshair : MonoBehaviour
 
     public GameObject GetPlayerHit(float radius = 5f) {
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
-        RaycastHit hit;
-        if( Physics.SphereCast( ray, radius, out hit, 1000f, 1 << 3) ) {
-            // Debug.Log("Player hit: "+hit.collider.gameObject);
-            return hit.collider.gameObject;
+        RaycastHit[] hits = Physics.SphereCastAll( ray, radius, 1000f, 1 << 3);
+        foreach(var hit in hits) {
+            if (hit.collider.gameObject != PlayerManager.LocalPlayerInstance) return hit.collider.gameObject;
         }
 
         return null;
