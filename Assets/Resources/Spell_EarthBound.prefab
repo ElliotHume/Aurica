@@ -9548,6 +9548,10 @@ MonoBehaviour:
   TrackingTurnSpeed: 0.1
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
+  MaxDistance: 0
+  AirDrag: 0
+  MinSpeed: 0
+  ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:
   - {fileID: 5634195982306634895, guid: e518ac03fa58b0345869cb7cda054f40, type: 3}
   NetworkedEffectsOnCollision: []
@@ -9684,6 +9688,8 @@ MonoBehaviour:
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
   isContinuous: 0
   canHitSelf: 0
 --- !u!1 &6777071893119756992
@@ -10442,7 +10448,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 50
       minScalar: 0
       maxCurve:
         serializedVersion: 2

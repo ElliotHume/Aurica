@@ -18,7 +18,7 @@ public class PlayerParticleManager : MonoBehaviour
 
     public void PlayHandParticle(int animationKey, AuricaSpell.ManaType manaType) {
         bool isOneHandedAnimation = animationKey == 0 || animationKey == 1 || animationKey == 2;
-        Debug.Log("ISONEHANDED: "+isOneHandedAnimation+ "   ANIMATION: "+animationKey);
+        // Debug.Log("ISONEHANDED: "+isOneHandedAnimation+ "   ANIMATION: "+animationKey);
 
         GameObject rHandParticles = r_auric, lHandParticles = l_auric;
         switch (manaType) {
