@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class BasicProjectileSpell : Spell, IPunObservable
 {
-    public float Speed = 1f;
+    public float Speed = 20f;
     public float RandomMoveRadius = 0f;
     public float RandomMoveSpeedScale = 0f;
     public bool CanHitSelf = true;
@@ -18,11 +18,14 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float TrackingTurnSpeed = 0.1f;
     public float CollisionOffset = 0;
     public float CollisionDestroyTimeDelay = 5;
+    public float MaxDistance = 0f, AirDrag = 0f, MinSpeed = 0f;
+    public bool ExplodeOnReachMaxDistance = false;
     public GameObject[] EffectsOnCollision;
     public string[] NetworkedEffectsOnCollision;
     public GameObject[] DeactivateObjectsOnCollision;
 
     private Vector3 startPosition;
+    private Vector3 travelDistance = Vector3.zero;
     private Quaternion startRotation;
     private bool isCollided = false, networkCollided = false;
     private Transform targetT;
@@ -44,7 +47,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
             networkRotation = (Quaternion) stream.ReceiveNext();
             networkCollided = (bool) stream.ReceiveNext();
 
-            float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp));
+            float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
         }
     }
@@ -63,7 +66,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public void FixedUpdate() {
         // If no collision has happened locally, but the network shows a collision, spawn the collision at current location
         if (!isCollided && networkCollided) {
-            LocalCollisionBehaviour(transform.position, -transform.forward);
+            LocalCollisionBehaviour(networkPosition, -transform.forward);
             isCollided = true;
         }
 
@@ -71,7 +74,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         UpdateWorldPosition();
         velocity = transform.position - oldPosition;
         if (!photonView.IsMine) {
-            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * Speed * 2f);
+            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
         }
     }
@@ -103,17 +106,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                 }
             }
-            foreach(string effect in NetworkedEffectsOnCollision) {
-                GameObject instance = PhotonNetwork.Instantiate(effect, hit.point + hit.normal * CollisionOffset, transform.rotation);
-                instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
-                instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
-                Spell instanceSpell = instance.GetComponent<Spell>();
-                if (instanceSpell != null) {
-                    instanceSpell.SetSpellStrength(GetSpellStrength());
-                    instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
-                    instanceSpell.SetOwner(GetOwner());
-                }
-            }
+            NetworkCollisionBehaviour(hit.point, hit.normal);
         }
     }
 
@@ -131,6 +124,20 @@ public class BasicProjectileSpell : Spell, IPunObservable
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
+    void NetworkCollisionBehaviour(Vector3 hitPoint, Vector3 hitNormal) {
+        foreach(string effect in NetworkedEffectsOnCollision) {
+            GameObject instance = PhotonNetwork.Instantiate(effect, hitPoint + hitNormal * CollisionOffset, transform.rotation);
+            instance.transform.LookAt(hitPoint + hitNormal + hitNormal * CollisionOffset);
+            instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
+            Spell instanceSpell = instance.GetComponent<Spell>();
+            if (instanceSpell != null) {
+                instanceSpell.SetSpellStrength(GetSpellStrength());
+                instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
+                instanceSpell.SetOwner(GetOwner());
+            }
+        }
+    }
+
     void DestroySelf() {
         PhotonNetwork.Destroy(gameObject);
     }
@@ -138,6 +145,23 @@ public class BasicProjectileSpell : Spell, IPunObservable
     void UpdateWorldPosition() {
         if (!photonView.IsMine || isCollided) return;
         if (Target != null && targetT == null) targetT = Target.transform;
+        if ((MaxDistance > 0f && travelDistance.magnitude > MaxDistance) || Speed < 0.1f) {
+            Debug.Log("Stopping due to max distance");
+            if (ExplodeOnReachMaxDistance) {
+                LocalCollisionBehaviour(transform.position, transform.forward);
+                NetworkCollisionBehaviour(transform.position, transform.forward);
+            } else {
+                // Similar to LocalCollision Behaviour, but do not spawn any effects
+                foreach (var effect in DeactivateObjectsOnCollision) {
+                    if (effect != null) effect.SetActive(false);
+                }
+                GetComponent<Collider>().enabled = false;
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().isKinematic = true;
+                Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
+            }
+            isCollided = true;
+        }
 
         Vector3 randomOffset = Vector3.zero;
         if (RandomMoveRadius > 0) {
@@ -172,8 +196,9 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
 
         if (TrackingProjectile) transform.rotation = startRotation;
+        if (AirDrag > 0f) Speed = Mathf.Lerp(Speed, MinSpeed, AirDrag/100f);
         transform.position += frameMoveOffsetWorld;
-        
+        travelDistance += frameMoveOffsetWorld;
     }
 
     Vector3 GetRadiusRandomVector() {

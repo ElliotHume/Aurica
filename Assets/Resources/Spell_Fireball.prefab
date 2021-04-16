@@ -398,6 +398,10 @@ MonoBehaviour:
   TrackingTurnSpeed: 35
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 10
+  MaxDistance: 0
+  AirDrag: 0
+  MinSpeed: 0
+  ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:
   - {fileID: 1031498901634068, guid: 304c4e03de2378b48a47f6c271eb78f2, type: 3}
   NetworkedEffectsOnCollision: []

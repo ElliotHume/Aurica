@@ -41,6 +41,10 @@ public class CharacterUI : MonoBehaviour {
             SetStatusEffect("SILENCED...");
         } else if (target.rooted) {
             SetStatusEffect("ROOTED...");
+        } else if (target.slowed) {
+            SetStatusEffect("SLOWED...");
+        } else if (target.hastened) {
+            SetStatusEffect("HASTE...");
         } else if (target.fragile) {
             SetStatusEffect("FRAGILE...");
         } else if (target.tough) {
@@ -49,10 +53,6 @@ public class CharacterUI : MonoBehaviour {
             SetStatusEffect("WEAK...");
         } else if (target.strengthened) {
             SetStatusEffect("STRONG...");
-        } else if (target.slowed) {
-            SetStatusEffect("SLOWED...");
-        } else if (target.hastened) {
-            SetStatusEffect("HASTE...");
         } else {
             ResetStatusEffects();
         }

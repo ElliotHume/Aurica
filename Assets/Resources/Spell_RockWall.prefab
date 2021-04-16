@@ -10354,7 +10354,6 @@ GameObject:
   - component: {fileID: 6118797229486627060}
   - component: {fileID: 6118797229486627061}
   - component: {fileID: 6118797229486627058}
-  - component: {fileID: 6118797229486627059}
   m_Layer: 9
   m_Name: Spell_RockWall
   m_TagString: Spell
@@ -10413,6 +10412,10 @@ MonoBehaviour:
   TrackingTurnSpeed: 0
   CollisionOffset: 0.05
   CollisionDestroyTimeDelay: 5
+  MaxDistance: 0
+  AirDrag: 0
+  MinSpeed: 0
+  ExplodeOnReachMaxDistance: 0
   EffectsOnCollision: []
   NetworkedEffectsOnCollision:
   - XCollision_RockWall
@@ -10470,26 +10473,10 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 6118797229486627062}
-  - {fileID: 6118797229486627059}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6118797229486627059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6119982956522427103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &6120143889409302135
 GameObject:
   m_ObjectHideFlags: 0

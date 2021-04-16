@@ -17,7 +17,7 @@ public class Crosshair : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1") && Cursor.lockState == CursorLockMode.Locked) {
             PressHitButtons();
         }
     }

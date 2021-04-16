@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Necrose
+  m_EditorClassIdentifier: 
+  c_name: Necrose
+  manaType: 3
+  description: Fire a bolt of malignant life essence that will kill living tissue
+    it touches.
+  targetDistribution:
+    structure: -0.075
+    essence: 0.85
+    fire: 0
+    water: 0.1
+    earth: 0.1
+    air: 0
+    nature: 0.1
+  keyComponents:
+  - {fileID: 11400000, guid: f2a312eb39a2f4cbdb6d601a6ae97e52, type: 2}
+  - {fileID: 11400000, guid: ec341d06fe0184444983a2205987618b, type: 2}
+  - {fileID: 11400000, guid: d4e98e168819744fd8980d3b105e8577, type: 2}
+  errorThreshold: 3
+  isAuric: 0
+  linkedSpellResource: Spell_Necrose

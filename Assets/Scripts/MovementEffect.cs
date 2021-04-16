@@ -60,7 +60,7 @@ public class MovementEffect : MonoBehaviourPun {
             if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
-                    if (isKnockback) displacementDirection = transform.forward;
+                    if (isKnockback) displacementDirection = transform.position - collision.gameObject.transform.position;
                     Activate(pm);
                 }
             }

@@ -302,7 +302,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
         // Spell spell = spellGO.GetComponent<Spell>();
         switch (SpellEffectType) {
-            case "dotprojectile":
+            case "dot":
                 StartCoroutine(TakeDirectDoTDamage(Damage, Duration, spellDistribution));
                 break;
             default:

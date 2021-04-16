@@ -23074,6 +23074,10 @@ MonoBehaviour:
   TrackingTurnSpeed: 35
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
+  MaxDistance: 0
+  AirDrag: 0
+  MinSpeed: 0
+  ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:
   - {fileID: 7594053420557360836, guid: aca026d78ddaf4e6e9e98e5656614ec1, type: 3}
   NetworkedEffectsOnCollision: []
@@ -23210,6 +23214,8 @@ MonoBehaviour:
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
   isContinuous: 0
   canHitSelf: 0
 --- !u!1 &8103915007479243408

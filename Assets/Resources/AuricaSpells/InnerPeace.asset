@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: InnerPeace
+  m_EditorClassIdentifier: 
+  c_name: Inner Peace
+  manaType: 6
+  description: Create a dome of blesed water that will restore mana and health to
+    the caster. Others will be pushed out of the area of influence
+  targetDistribution:
+    structure: 0.1
+    essence: 0.55
+    fire: 0
+    water: 0.75
+    earth: 0
+    air: 0
+    nature: 0.15
+  keyComponents:
+  - {fileID: 11400000, guid: 1e6fd499fedae463c8e2e416884ececc, type: 2}
+  - {fileID: 11400000, guid: 310184bc9d5bd47c088cfdc3f5e6cd99, type: 2}
+  - {fileID: 11400000, guid: ec341d06fe0184444983a2205987618b, type: 2}
+  - {fileID: 11400000, guid: 3cb6d78aac23a4de3a0d2d431b55ff5b, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_InnerPeace
