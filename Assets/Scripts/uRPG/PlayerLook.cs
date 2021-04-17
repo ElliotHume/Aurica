@@ -16,19 +16,17 @@ public class PlayerLook : MonoBehaviourPun
 
     // head position is useful for raycasting etc.
     public Transform firstPersonParent;
-    public Vector3 headPosition => firstPersonParent.position;
-    public Transform freeLookParent;
+    public Transform thirdPersonParent;
+    public Vector3 headPosition => thirdPersonParent.position;
 
     Vector3 originalCameraPosition;
-
-    public KeyCode freeLookKey = KeyCode.LeftAlt;
 
     // the layer mask to use when trying to detect view blocking
     // (this way we dont zoom in all the way when standing in another entity)
     // (-> create a entity layer for them if needed)
     public LayerMask viewBlockingLayers;
     public float zoomSpeed = 0.5f;
-    public float distance = 0;
+    public float distance = 4;
     public float minDistance = 0;
     public float maxDistance = 7;
 
@@ -45,6 +43,9 @@ public class PlayerLook : MonoBehaviourPun
     public Vector3 firstPersonOffsetStanding = Vector3.zero;
     public Vector3 thirdPersonOffsetStanding = Vector3.up;
     public Vector3 thirdPersonOffsetStandingMultiplier = Vector3.zero;
+
+
+    private bool isFirstPerson = false;
 
     // look directions /////////////////////////////////////////////////////////
     // * for first person, all we need is the camera.forward
@@ -170,20 +171,29 @@ public class PlayerLook : MonoBehaviourPun
         // whatever we like in Update, and LateUpdate will correct it.
         camera.transform.localRotation = Utils.ClampRotationAroundXAxis(camera.transform.localRotation, MinimumX, MaximumX);
 
-        // zoom after rotating, otherwise it won't be smooth and would overwrite
-        // each other.
-
-        // zoom should only happen if not in a UI right now
-        distance = 4;
+        // Zoom changing
+        float step = Utils.GetZoomUniversal() * zoomSpeed;
+        distance = Mathf.Clamp(distance - step, minDistance, maxDistance);
+        if (distance == 0f && !isFirstPerson) {
+            // set camera to head position
+            camera.transform.position = firstPersonParent.position;
+            // remember original camera position
+            originalCameraPosition = camera.transform.localPosition;
+            isFirstPerson = true;
+        } else if (distance > 0f && isFirstPerson) {
+            // set camera to head position
+            camera.transform.position = thirdPersonParent.position;
+            // remember original camera position
+            originalCameraPosition = camera.transform.localPosition;
+            isFirstPerson = false;
+        }
 
         // calculate target and zoomed position
-        Vector3 origin = Vector3.zero;
-        Vector3 offsetBase = Vector3.zero;
-        Vector3 offsetMult = Vector3.zero;
+        Vector3 origin = isFirstPerson ? transform.InverseTransformPoint(headPosition) : originalCameraPosition;
+        Vector3 offsetBase = isFirstPerson ? firstPersonOffsetStanding : thirdPersonOffsetStanding;
+        Vector3 offsetMult = isFirstPerson ? Vector3.zero : thirdPersonOffsetStanding;
 
         origin = originalCameraPosition;
-        offsetBase = thirdPersonOffsetStanding;
-        offsetMult = thirdPersonOffsetStandingMultiplier;
 
         Vector3 target = transform.TransformPoint(origin + offsetBase + offsetMult * distance);
         Vector3 newPosition = target - (camera.transform.rotation * Vector3.forward * distance);

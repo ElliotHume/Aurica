@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719205760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.35, z: 1.35}
+  m_LocalPosition: {x: 0.25, y: 1.35, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8656817884985772173}
@@ -4868,20 +4868,19 @@ MonoBehaviour:
   YSensitivity: 2
   MinimumX: -90
   MaximumX: 90
-  firstPersonParent: {fileID: 2366181545966283103}
-  freeLookParent: {fileID: 2366181545966283103}
-  freeLookKey: 308
+  firstPersonParent: {fileID: 8656926026687785297}
+  thirdPersonParent: {fileID: 2366181545966283103}
   viewBlockingLayers:
     serializedVersion: 2
     m_Bits: 1
   zoomSpeed: 0.5
-  distance: 0
+  distance: 4
   minDistance: 0
   maxDistance: 7
   raycastLayers:
     serializedVersion: 2
     m_Bits: 4294967291
-  firstPersonOffsetStanding: {x: 1, y: 0, z: 0}
+  firstPersonOffsetStanding: {x: 0, y: 0, z: 0}
   thirdPersonOffsetStanding: {x: 0.09, y: 0, z: 0}
   thirdPersonOffsetStandingMultiplier: {x: 0, y: 0.05, z: 0}
 --- !u!114 &5738928514015778667
