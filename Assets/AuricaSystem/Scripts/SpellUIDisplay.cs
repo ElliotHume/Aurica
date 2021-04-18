@@ -38,7 +38,8 @@ public class SpellUIDisplay : MonoBehaviour {
         }
     }
 
-    public void PopulateFromSpell(AuricaSpell spell) {
+    public void PopulateFromSpell(AuricaSpell s) {
+        spell = s;
         title.text = spell.c_name;
         description.text = spell.description;
         targetDistDisplay.SetDistribution(spell.targetDistribution);
@@ -55,7 +56,7 @@ public class SpellUIDisplay : MonoBehaviour {
             }
         }
 
-        StartCoroutine(SetTargetDist(spell.targetDistribution));
+        if (gameObject.activeInHierarchy) StartCoroutine(SetTargetDist(spell.targetDistribution));
     }
 
     IEnumerator SetTargetDist(ManaDistribution target) {
@@ -107,5 +108,14 @@ public class SpellUIDisplay : MonoBehaviour {
 
     public void CacheSpell(string key) {
         AuricaCaster.LocalCaster.CacheCurrentSpell(key);
+    }
+
+    public void CastSpellComponents() {
+        if (spell != null && spell.c_name != null) {
+            AuricaCaster.LocalCaster.ResetCast();
+            foreach(var keyComponent in spell.keyComponents) {
+                AuricaCaster.LocalCaster.AddComponent(keyComponent);
+            }
+        }
     }
 }

@@ -61,11 +61,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Update() {
         if (IsEditingInputField) return;
         
-            
+        // Bring up the Aura display menu
         if (Input.GetKeyDown("`")) {
             auraPanel.SetActive(!auraPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
+
+        // Bring up the spell crafting menu
         if (Input.GetKeyDown(KeyCode.Escape)) {
             spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
@@ -75,10 +77,14 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (spellListPanel != null) spellListPanel.SetActive(false);
             }
         }
+
+        // Bring up spell list menu
         if (Input.GetKeyDown("c")) {
             spellListPanel.SetActive(!spellListPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
+
+        // Bring up the info menus
         if (Input.GetKeyDown("i")) {
             infoPanel.SetActive(!infoPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
