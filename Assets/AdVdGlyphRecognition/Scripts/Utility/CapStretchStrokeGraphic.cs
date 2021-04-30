@@ -25,6 +25,10 @@ namespace AdVd.GlyphRecognition
             }
         }
 
+        public void SetColor(Color c) {
+            color = c;
+        }
+
         protected override void BuildStrokeMesh(Stroke s, VertexHelper vh)
         {
             if (s.Length < 2) return;

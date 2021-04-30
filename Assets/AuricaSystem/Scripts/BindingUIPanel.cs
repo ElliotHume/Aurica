@@ -40,6 +40,8 @@ public class BindingUIPanel : MonoBehaviour
             Debug.Log("Found spell name: "+spellName);
             SetBindText("r", spellName);
         }
+
+        gameObject.SetActive(false);
     }
 
     public void SetBindText(string key, string name) {

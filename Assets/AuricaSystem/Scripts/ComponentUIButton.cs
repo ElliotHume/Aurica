@@ -28,8 +28,7 @@ public class ComponentUIButton : MonoBehaviour
                 glyphDisplay.glyph = item;
                 break;
             }
-        }
-        
+        }  
     }
 
     public void DisplayComponent(){

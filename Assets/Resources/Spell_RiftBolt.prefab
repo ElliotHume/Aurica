@@ -71,6 +71,10 @@ MonoBehaviour:
   TrackingTurnSpeed: 50
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
+  MaxDistance: 0
+  AirDrag: 0
+  MinSpeed: 0
+  ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:
   - {fileID: 2331186632438128978, guid: d8e8ade8bcc101c4cb2c33c72d800ceb, type: 3}
   NetworkedEffectsOnCollision: []
@@ -98,7 +102,7 @@ MonoBehaviour:
   FadeoutTime: 1.5
   UseCollisionDetection: 1
   LimitMaxDistance: 0
-  MaxDistnace: -1
+  MaxDistance: -1
   Mass: 1
   Speed: 20
   AirDrag: 0
@@ -4812,7 +4816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseCollisionDetect: 1
-  MaxDistnace: -1
+  MaxDistance: -1
   Mass: 1
   Speed: 20
   RandomSpeedOffset: 0

@@ -93,6 +93,9 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         Vector3 oldPosition = transform.position;
         if (!jumping && !casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime);
 
+        // Apply Gravity
+        // if (!characterController.isGrounded) characterController.Move(Physics.gravity * Time.deltaTime);
+
         // Apply impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 

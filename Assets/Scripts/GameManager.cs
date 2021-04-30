@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform SceneSpawnPoint;
     public float RespawnTimer = 5.0f;
 
-    public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel, spellListPanel;
+    public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel, spellListPanel, bindingPanel;
 
     public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 1f;
     public static float GLOBAL_SPELL_DAMAGE_MULTIPLIER = 1f;
@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Bring up the spell crafting menu
         if (Input.GetKeyDown(KeyCode.Escape)) {
             spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+            bindingPanel.SetActive(spellCraftingPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
             if (!spellCraftingPanel.activeInHierarchy) {
                 auraPanel.SetActive(false);

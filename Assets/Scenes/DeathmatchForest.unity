@@ -34021,6 +34021,7 @@ MonoBehaviour:
   auraPanel: {fileID: 1166636555}
   infoPanel: {fileID: 1166636556}
   spellListPanel: {fileID: 1166636566}
+  bindingPanel: {fileID: 1166636567}
 --- !u!4 &818667658
 Transform:
   m_ObjectHideFlags: 0
@@ -54446,6 +54447,12 @@ GameObject:
 --- !u!1 &1166636566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 620777604, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166636567 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1024719717655210665, guid: 49d05c70d726ef843b55f895a94a3e24,
     type: 3}
   m_PrefabInstance: {fileID: 1166636554}
   m_PrefabAsset: {fileID: 0}
@@ -84217,6 +84224,8 @@ MonoBehaviour:
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
   isContinuous: 1
   canHitSelf: 1
 --- !u!136 &1918489685
