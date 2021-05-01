@@ -36,7 +36,7 @@ public class AuricaCaster : MonoBehaviourPun {
         if (PlayerPrefs.HasKey("CachedSpell_q")) {
             cachedSpells.Add("q", new CachedSpell(PlayerPrefs.GetString("CachedSpell_q")));;
         } else {
-            cachedSpells.Add("q", new CachedSpell("self, protect, form"));
+            cachedSpells.Add("q", new CachedSpell("self, protect, ordo"));
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
@@ -48,7 +48,7 @@ public class AuricaCaster : MonoBehaviourPun {
         if (PlayerPrefs.HasKey("CachedSpell_2")) {
             cachedSpells.Add("2", new CachedSpell(PlayerPrefs.GetString("CachedSpell_2")));;
         } else {
-            cachedSpells.Add("2", new CachedSpell("mortuus, bolt"));
+            cachedSpells.Add("2", new CachedSpell("throw, self"));
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
