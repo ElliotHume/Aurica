@@ -12,7 +12,6 @@ public class SideBarComponent : MonoBehaviour
     public CapStretchStrokeGraphic glyphGraphic;
     public Text text;
     public Image flashingOutline;
-    public Color auric, order, chaos, life, death, fire, water, earth, air, divine, demonic;
 
     public float outlineFadingSpeed = 1f;
 
@@ -76,41 +75,7 @@ public class SideBarComponent : MonoBehaviour
     public void ActivateComponent(AuricaSpell spell) {
         OutlinePulse( true );
         if (!spell.keyComponents.Contains(component)) return;
-        switch (spell.manaType) {
-            case AuricaSpell.ManaType.Auric:
-                color = auric;
-                break;
-            case AuricaSpell.ManaType.Order:
-                color = order;
-                break;
-            case AuricaSpell.ManaType.Chaos:
-                color = chaos;
-                break;
-            case AuricaSpell.ManaType.Life:
-                color = life;
-                break;
-            case AuricaSpell.ManaType.Death:
-                color = death;
-                break;
-            case AuricaSpell.ManaType.Fire:
-                color = fire;
-                break;
-            case AuricaSpell.ManaType.Water:
-                color = water;
-                break;
-            case AuricaSpell.ManaType.Earth:
-                color = earth;
-                break;
-            case AuricaSpell.ManaType.Air:
-                color = air;
-                break;
-            case AuricaSpell.ManaType.Divine:
-                color = divine;
-                break;
-            case AuricaSpell.ManaType.Demonic:
-                color = demonic;
-                break;
-        }
+        color = ResourceManager.Instance.GetColor(spell.manaType);
     }
 
     public void DeactivateComponent() {

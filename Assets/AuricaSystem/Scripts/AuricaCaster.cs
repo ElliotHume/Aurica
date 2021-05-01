@@ -130,7 +130,7 @@ public class AuricaCaster : MonoBehaviourPun {
         return spellMatch;
     }
 
-    public string GetSpellMatchString(string componentString) {
+    public AuricaSpell GetSpellMatchFromString(string componentString) {
         string[] componentSeperator = new string[] { ", " };
         string[] splitComponents = componentString.Split(componentSeperator, System.StringSplitOptions.None);
         List<AuricaSpellComponent> components = new List<AuricaSpellComponent>();
@@ -142,12 +142,12 @@ public class AuricaCaster : MonoBehaviourPun {
                 }
             }
         }
-        string spellMatch = "";
-        int bestNumCorrectComponents = 0;
+        AuricaSpell spellMatch = null;
+        int bestMatchCorrectComponents = 0;
         foreach (AuricaSpell s in allSpells) {
-            if (s.CheckComponents(components) && s.GetNumberOfMatchingComponents(components) > bestNumCorrectComponents) {
-                spellMatch = s.c_name;
-                bestNumCorrectComponents = s.GetNumberOfMatchingComponents(components);
+            if (s.CheckComponents(components) && s.GetNumberOfMatchingComponents(components) > bestMatchCorrectComponents) {
+                spellMatch = s;
+                bestMatchCorrectComponents = s.GetNumberOfMatchingComponents(components);
             }
         }
 
@@ -191,10 +191,10 @@ public class AuricaCaster : MonoBehaviourPun {
         Debug.Log("Spell cached under key: CachedSpell_"+key+" with string -> "+componentString);
         AuricaSpell match = Cast();
         try {
-            BindingUIPanel.LocalInstance.SetBindText(key, match.c_name);
+            BindingUIPanel.LocalInstance.SetBind(key, match);
         } catch {
             Debug.Log("No spell found for binding...");
-            BindingUIPanel.LocalInstance.SetBindText(key, "NONE");
+            BindingUIPanel.LocalInstance.SetBind(key, null);
         }
     }
 
@@ -208,10 +208,10 @@ public class AuricaCaster : MonoBehaviourPun {
         PlayerPrefs.SetString("CachedSpell_"+key, spell);
         AuricaSpell match = CastSpellByName(spell);
         try {
-            BindingUIPanel.LocalInstance.SetBindText(key, match.c_name);
+            BindingUIPanel.LocalInstance.SetBind(key, match);
         } catch {
             Debug.Log("No spell found for binding...");
-            BindingUIPanel.LocalInstance.SetBindText(key, "NONE");
+            BindingUIPanel.LocalInstance.SetBind(key, null);
         }
     }
 

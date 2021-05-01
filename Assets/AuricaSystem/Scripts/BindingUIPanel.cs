@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class BindingUIPanel : MonoBehaviour
 {
-    public Text bindQ, bindE, bind1, bind2, bind3, bindR;
+    public BindingButton bind1, bind2, bind3, bindQ, bindE, bindR;
     public static BindingUIPanel LocalInstance;
-    private Dictionary<string, Text> dict = new Dictionary<string, Text>();
+    private Dictionary<string, BindingButton> dict = new Dictionary<string, BindingButton>();
+
+    void Awake() {
+        BindingUIPanel.LocalInstance = this;
+    }
 
     public void Startup() {
         dict.Add("q", bindQ);
@@ -17,35 +21,33 @@ public class BindingUIPanel : MonoBehaviour
         dict.Add("2", bind2);
         dict.Add("3", bind3);
 
-        BindingUIPanel.LocalInstance = this;
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
-            SetBindText("e", AuricaCaster.LocalCaster.GetSpellMatchString(PlayerPrefs.GetString("CachedSpell_e")));
+            SetBind("e", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_e")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_q")) {
-            SetBindText("q", AuricaCaster.LocalCaster.GetSpellMatchString(PlayerPrefs.GetString("CachedSpell_q")));
+            SetBind("q", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_q")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
-            SetBindText("1", AuricaCaster.LocalCaster.GetSpellMatchString(PlayerPrefs.GetString("CachedSpell_1")));
+            SetBind("1", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_1")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_2")) {
-            SetBindText("2", AuricaCaster.LocalCaster.GetSpellMatchString(PlayerPrefs.GetString("CachedSpell_2")));
+            SetBind("2", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_2")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
-            SetBindText("3", AuricaCaster.LocalCaster.GetSpellMatchString(PlayerPrefs.GetString("CachedSpell_3")));
+            SetBind("3", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_3")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_r")) {
             string componentString = PlayerPrefs.GetString("CachedSpell_r");
-            Debug.Log("Try to find spell name for: "+componentString);
-            string spellName = AuricaCaster.LocalCaster.GetSpellMatchString(componentString);
-            Debug.Log("Found spell name: "+spellName);
-            SetBindText("r", spellName);
+            // Debug.Log("Try to find spell name for: "+componentString);
+            AuricaSpell spell = AuricaCaster.LocalCaster.GetSpellMatchFromString(componentString);
+            // Debug.Log("Found spell name: "+spell.c_name);
+            SetBind("r", spell);
         }
-
-        gameObject.SetActive(false);
     }
 
-    public void SetBindText(string key, string name) {
-        dict[key].text = key.ToUpper()+": "+name;
+    public void SetBind(string key, AuricaSpell spell) {
+        Debug.Log("Set graphics for key: "+key+" with spell: "+spell.c_name);
+        dict[key].SetButtonGraphics(spell);
     }
 
     public void Bind(string key) {

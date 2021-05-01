@@ -70,8 +70,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Bring up the spell crafting menu
         if (Input.GetKeyDown(KeyCode.Escape)) {
             spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
-            bindingPanel.SetActive(spellCraftingPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+            if (bindingPanel != null) bindingPanel.SetActive(spellCraftingPanel.activeInHierarchy);
             if (!spellCraftingPanel.activeInHierarchy) {
                 auraPanel.SetActive(false);
                 if (infoPanel != null) infoPanel.SetActive(false);

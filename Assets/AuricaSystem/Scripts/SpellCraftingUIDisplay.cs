@@ -12,7 +12,7 @@ public class SpellCraftingUIDisplay : MonoBehaviour
     public void SendAura(ManaDistribution a) {
         aura = a;
         componentUIDisplay.SendAura(a);
-        bindingPanel.Startup();
+        BindingUIPanel.LocalInstance.Startup();
         gameObject.SetActive(false);
     }
 
