@@ -146,7 +146,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         movement.y += JumpHeight;
         characterController.Move(movement * Time.deltaTime * JumpSpeed);
 
-        while (timer > 0f && !characterController.isGrounded) {
+        while (timer > 0f) {
             movement = transform.forward * v + transform.right * h;
             movement.y += JumpHeight;
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
