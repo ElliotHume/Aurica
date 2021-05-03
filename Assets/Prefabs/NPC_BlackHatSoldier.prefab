@@ -496,7 +496,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7290337068310484439}
-  m_LocalRotation: {x: -0, y: 0.99738145, z: -0, w: 0.07232078}
+  m_LocalRotation: {x: 0, y: 0.99738115, z: 0, w: 0.07232442}
   m_LocalPosition: {x: -14.193, y: 0.264, z: 28.334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3191,6 +3191,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dialogue Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5566199328933059400, guid: 5a7f4e2bd8492e444badbc4b87be2d4d,
+        type: 3}
+      propertyPath: dialogue.sentences.Array.data[0]
+      value: 'Greetings magi... I.. I mean, Magus.
+
+
+
+
+        (click while facing
+        this box to continue dialogue)'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a7f4e2bd8492e444badbc4b87be2d4d, type: 3}
