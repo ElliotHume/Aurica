@@ -33,7 +33,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
             networkRotation = (Quaternion)stream.ReceiveNext();
             networkCollided = (bool)stream.ReceiveNext();
 
-            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.timestamp));
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
         }
     }

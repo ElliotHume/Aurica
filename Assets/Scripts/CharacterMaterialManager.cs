@@ -9,7 +9,7 @@ public class CharacterMaterialManager : MonoBehaviour
     public List<GameObject> toggleObjects;
 
     bool isInvisible = false;
-    SkinnedMeshRenderer renderer;
+    new SkinnedMeshRenderer renderer;
 
     void Start() {
         renderer = GetComponent<SkinnedMeshRenderer>();
