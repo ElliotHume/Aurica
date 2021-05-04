@@ -139,7 +139,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     IEnumerator JumpRoutine() {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        float timer = 0.5f;
+        float timer = 0.3f;
 
         // Do it once so we are off the ground
         Vector3 movement = transform.forward * v + transform.right * h;
