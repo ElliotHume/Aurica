@@ -274,7 +274,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 100
+  Speed: 120
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 1
@@ -285,10 +285,10 @@ MonoBehaviour:
   TrackingTurnSpeed: 50
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
-  MaxDistance: 0
-  AirDrag: 10
-  MinSpeed: 20
-  ExplodeOnReachMaxDistance: 0
+  MaxDistance: 50
+  AirDrag: 15
+  MinSpeed: 10
+  ExplodeOnReachMaxDistance: 1
   EffectsOnCollision:
   - {fileID: 3140731373008193382, guid: 7542dcb82a20d404087a20ee90d69e10, type: 3}
   NetworkedEffectsOnCollision: []

@@ -49,11 +49,11 @@ public class CharacterUI : MonoBehaviour {
             SetStatusEffect("FRAGILE...");
         } else if (target.tough) {
             SetStatusEffect("TOUGH...");
-        } else if (target.weakened) {
-            SetStatusEffect("WEAK...");
         } else if (target.strengthened) {
             SetStatusEffect("STRONG...");
-        } else {
+        } else if (target.weakened) {
+            SetStatusEffect("WEAK...");
+        }  else {
             ResetStatusEffects();
         }
     }

@@ -17,13 +17,13 @@ MonoBehaviour:
   description: A projectile that will rend the defenses of what it hits, inflicting
     a moderately-strong fragile effect
   targetDistribution:
-    structure: -0.3
+    structure: 0.3
     essence: -0.15
     fire: 0
     water: 1
     earth: 0
     air: 0
-    nature: 0
+    nature: 0.15
   keyComponents:
   - {fileID: 11400000, guid: d4e98e168819744fd8980d3b105e8577, type: 2}
   - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
