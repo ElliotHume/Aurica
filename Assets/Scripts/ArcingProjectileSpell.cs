@@ -27,13 +27,17 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
         if (stream.IsWriting) {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(projectile_Velocity);
             stream.SendNext(isCollided);
+            stream.SendNext(Vx);
+            stream.SendNext(Vy);
+            stream.SendNext(projectile_Velocity);
         } else {
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
-            projectile_Velocity = (float)stream.ReceiveNext();
             networkCollided = (bool)stream.ReceiveNext();
+            projectile_Velocity = (float)stream.ReceiveNext();
+            Vx = (float)stream.ReceiveNext();
+            Vy = (float)stream.ReceiveNext();
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
@@ -47,6 +51,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                 CalculateTragectory();
             }
         }
+        elapsed_time = 0f;
         rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -66,32 +71,33 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
 
         // Rotate projectile to face the target.
         transform.rotation = Quaternion.LookRotation(Target - transform.position);
-        elapsed_time = 0f;
     }
 
     void FixedUpdate() {
-        // Check for network collision
+        // Remote Behaviour
         if (!photonView.IsMine) {
-            // If no collision has happened locally, but the network shows a collision, spawn the collision at current location
+            // If the network shows a collision, but no collision has happened locally, spawn the collision at current location
             if (!isCollided && networkCollided) {
                 transform.position = networkPosition;
                 transform.rotation = networkRotation;
-                LocalCollisionBehaviour(networkPosition, -transform.forward);
+                LocalCollisionBehaviour(networkPosition, Vector3.up);
                 isCollided = true;
+            }
+
+            // Lag compensation
+            if (!isCollided) {
+                if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * projectile_Velocity);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
             }
         }
 
-        if (elapsed_time <= flightDuration && !isCollided) {
+        if (!isCollided) {
             oldPosition = transform.position;
             transform.Translate(0, (Vy - (Gravity * elapsed_time)) * Time.deltaTime, Vx * Time.deltaTime);
             velocity = transform.position - oldPosition;
             elapsed_time += Time.deltaTime;
         }
 
-        if (!photonView.IsMine && !isCollided) {
-            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * projectile_Velocity);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
-        }
     }
 
     public void SetTarget(Vector3 targetPos) {
