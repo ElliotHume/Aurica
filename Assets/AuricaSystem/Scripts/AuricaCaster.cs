@@ -24,41 +24,46 @@ public class AuricaCaster : MonoBehaviourPun {
     // Start is called before the first frame update
     void Start() {
         cpUI = GameObject.Find("ComponentPanel").GetComponent<ComponentUIPanel>();
-        distDisplay = GameObject.Find("LocalDistributionDisplay").GetComponent<DistributionUIDisplay>();
+        try {
+            distDisplay = GameObject.Find("LocalDistributionDisplay").GetComponent<DistributionUIDisplay>();
+        } catch {
+            // do nothing
+        }
+
         if (aura == null) aura = GetComponent<Aura>();
 
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
-            cachedSpells.Add("e", new CachedSpell(PlayerPrefs.GetString("CachedSpell_e")));;
+            cachedSpells.Add("e", new CachedSpell(PlayerPrefs.GetString("CachedSpell_e")));
         } else {
             cachedSpells.Add("e", new CachedSpell("protect, self"));
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_q")) {
-            cachedSpells.Add("q", new CachedSpell(PlayerPrefs.GetString("CachedSpell_q")));;
+            cachedSpells.Add("q", new CachedSpell(PlayerPrefs.GetString("CachedSpell_q")));
         } else {
             cachedSpells.Add("q", new CachedSpell("self, protect, ordo"));
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
-            cachedSpells.Add("1", new CachedSpell(PlayerPrefs.GetString("CachedSpell_1")));;
+            cachedSpells.Add("1", new CachedSpell(PlayerPrefs.GetString("CachedSpell_1")));
         } else {
             cachedSpells.Add("1", new CachedSpell("infernum, bolt"));
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_2")) {
-            cachedSpells.Add("2", new CachedSpell(PlayerPrefs.GetString("CachedSpell_2")));;
+            cachedSpells.Add("2", new CachedSpell(PlayerPrefs.GetString("CachedSpell_2")));
         } else {
             cachedSpells.Add("2", new CachedSpell("throw, self"));
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
-            cachedSpells.Add("3", new CachedSpell(PlayerPrefs.GetString("CachedSpell_3")));;
+            cachedSpells.Add("3", new CachedSpell(PlayerPrefs.GetString("CachedSpell_3")));
         } else {
             cachedSpells.Add("3", new CachedSpell("mana, bolt"));
         }
-        
+
         if (PlayerPrefs.HasKey("CachedSpell_r")) {
-            cachedSpells.Add("r", new CachedSpell(PlayerPrefs.GetString("CachedSpell_r")));;
+            cachedSpells.Add("r", new CachedSpell(PlayerPrefs.GetString("CachedSpell_r")));
         } else {
             cachedSpells.Add("r", new CachedSpell("throw, infernum, expel"));
         }
@@ -164,7 +169,7 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public AuricaSpell CastBindSlot(string slot) {
-        if(cachedSpells.ContainsKey(slot)) {
+        if (cachedSpells.ContainsKey(slot)) {
             ResetCast();
             CachedSpell cachedSpell = cachedSpells[slot];
             cachedSpell.AddComponents(this);
@@ -176,19 +181,19 @@ public class AuricaCaster : MonoBehaviourPun {
 
     public void CacheCurrentSpell(string key) {
         string componentString = "";
-        foreach(AuricaSpellComponent c in currentComponents) {
-            componentString += c.c_name+", ";
+        foreach (AuricaSpellComponent c in currentComponents) {
+            componentString += c.c_name + ", ";
         }
-        componentString = componentString.Substring(0, componentString.Length-2);
-        Debug.Log("Caching spell: "+componentString);
+        componentString = componentString.Substring(0, componentString.Length - 2);
+        Debug.Log("Caching spell: " + componentString);
 
         if (cachedSpells.ContainsKey(key)) {
             cachedSpells[key] = new CachedSpell(componentString);
         } else {
             cachedSpells.Add(key, new CachedSpell(componentString));
         }
-        PlayerPrefs.SetString("CachedSpell_"+key, componentString);
-        Debug.Log("Spell cached under key: CachedSpell_"+key+" with string -> "+componentString);
+        PlayerPrefs.SetString("CachedSpell_" + key, componentString);
+        Debug.Log("Spell cached under key: CachedSpell_" + key + " with string -> " + componentString);
         AuricaSpell match = Cast();
         try {
             BindingUIPanel.LocalInstance.SetBind(key, match);
@@ -199,13 +204,13 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void CacheSpell(string key, string spell) {
-        Debug.Log("Caching spell: "+spell);
+        Debug.Log("Caching spell: " + spell);
         if (cachedSpells.ContainsKey(key)) {
             cachedSpells[key] = new CachedSpell(spell);
         } else {
             cachedSpells.Add(key, new CachedSpell(spell));
         }
-        PlayerPrefs.SetString("CachedSpell_"+key, spell);
+        PlayerPrefs.SetString("CachedSpell_" + key, spell);
         AuricaSpell match = CastSpellByName(spell);
         try {
             BindingUIPanel.LocalInstance.SetBind(key, match);
