@@ -17,7 +17,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
 
     private Vector3 startPosition;
     private Quaternion startRotation;
-    private bool isCollided = false, networkCollided = false, controlled = true;
+    private bool isCollided = false, networkCollided = false;
     private Vector3 networkPosition, oldPosition, velocity;
     private Quaternion networkRotation;
     private float projectile_Velocity, flightDuration, Vx, Vy, elapsed_time;
@@ -27,10 +27,12 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
         if (stream.IsWriting) {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(projectile_Velocity);
             stream.SendNext(isCollided);
         } else {
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
+            projectile_Velocity = (float)stream.ReceiveNext();
             networkCollided = (bool)stream.ReceiveNext();
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
@@ -39,9 +41,11 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
     }
 
     void Start() {
-        if (CrosshairTargeted) GetTargetFromCrosshair();
-        if (Target != null) {
-            CalculateTragectory();
+        if (photonView.IsMine) {
+            if (CrosshairTargeted) GetTargetFromCrosshair();
+            if (Target != null) {
+                CalculateTragectory();
+            }
         }
         rigidbody = GetComponent<Rigidbody>();
     }
@@ -66,24 +70,32 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
     }
 
     void FixedUpdate() {
+        // Check for network collision
+        if (!photonView.IsMine) {
+            // If no collision has happened locally, but the network shows a collision, spawn the collision at current location
+            if (!isCollided && networkCollided) {
+                transform.position = networkPosition;
+                transform.rotation = networkRotation;
+                LocalCollisionBehaviour(networkPosition, -transform.forward);
+                isCollided = true;
+            }
+        }
+
         if (elapsed_time <= flightDuration && !isCollided) {
             oldPosition = transform.position;
             transform.Translate(0, (Vy - (Gravity * elapsed_time)) * Time.deltaTime, Vx * Time.deltaTime);
             velocity = transform.position - oldPosition;
-            if (!photonView.IsMine) {
-                transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * projectile_Velocity * 2f);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
-            }
             elapsed_time += Time.deltaTime;
-        } else if (controlled) {
-            controlled = false;
-            rigidbody.useGravity = true;
+        }
+
+        if (!photonView.IsMine && !isCollided) {
+            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * projectile_Velocity);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
         }
     }
 
     public void SetTarget(Vector3 targetPos) {
         Target = targetPos;
-        controlled = true;
     }
 
     void GetTargetFromCrosshair() {

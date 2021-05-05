@@ -41,10 +41,12 @@ public class BasicProjectileSpell : Spell, IPunObservable
         if (stream.IsWriting) {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(Speed);
             stream.SendNext(isCollided);
         } else {
             networkPosition = (Vector3) stream.ReceiveNext();
             networkRotation = (Quaternion) stream.ReceiveNext();
+            Speed = (float) stream.ReceiveNext();
             networkCollided = (bool) stream.ReceiveNext();
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
@@ -64,19 +66,30 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
 
     public void FixedUpdate() {
-        // If no collision has happened locally, but the network shows a collision, spawn the collision at current location
-        if (!isCollided && networkCollided) {
-            LocalCollisionBehaviour(networkPosition, -transform.forward);
-            isCollided = true;
+        // Check for network collision
+        if (!photonView.IsMine) {
+            // If no collision has happened locally, but the network shows a collision, spawn the collision at current location
+            if (!isCollided && networkCollided) {
+                transform.position = networkPosition;
+                transform.rotation = networkRotation;
+                LocalCollisionBehaviour(networkPosition, -transform.forward);
+                isCollided = true;
+            }
         }
 
+        // Local Behaviour
         oldPosition = transform.position;
         UpdateWorldPosition();
         velocity = transform.position - oldPosition;
+
+        // Remote movement compensation
         if (!photonView.IsMine) {
-            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
+            if (!isCollided) {
+                if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
+            }
         }
+        
     }
 
     void OnCollisionEnter(Collision collision) {
