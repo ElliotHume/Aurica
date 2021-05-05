@@ -35,9 +35,9 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
             networkCollided = (bool)stream.ReceiveNext();
-            projectile_Velocity = (float)stream.ReceiveNext();
             Vx = (float)stream.ReceiveNext();
             Vy = (float)stream.ReceiveNext();
+            projectile_Velocity = (float)stream.ReceiveNext();
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
@@ -86,7 +86,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
 
             // Lag compensation
             if (!isCollided) {
-                if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * projectile_Velocity);
+                if (networkPosition.magnitude > 0.05f) transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
             }
         }
@@ -97,7 +97,6 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
             velocity = transform.position - oldPosition;
             elapsed_time += Time.deltaTime;
         }
-
     }
 
     public void SetTarget(Vector3 targetPos) {
@@ -111,8 +110,15 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
 
 
     void OnCollisionEnter(Collision collision) {
-        Debug.Log("Collision with: " + collision.gameObject);
-        if (collision.gameObject == PlayerManager.LocalPlayerInstance || isCollided) return;
+        if ( isCollided ) return;
+        Debug.Log("Collision with: "+ collision.gameObject);
+        
+        PhotonView p = PhotonView.Get(collision.gameObject);
+        if (p != null) {
+            if (p.Owner.ActorNumber == photonView.Owner.ActorNumber) {
+                return;
+            }
+        }
 
         ContactPoint hit = collision.GetContact(0);
         isCollided = true;

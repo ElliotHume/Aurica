@@ -141,7 +141,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (col != null) {
                 center += col.center;
                 Vector3 scale = gameObject.transform.localScale;
-                radius = col.radius * Mathf.Max(new float[] {scale.x, scale.y, scale.z});
+                radius = col.radius * Mathf.Max(new float[] {scale.x, scale.y, scale.z}) * 1.5f;
             }
             Collider[] hitColliders = Physics.OverlapSphere(center, radius, 1<<3);
             if (hitColliders.Length == 0) return;

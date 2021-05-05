@@ -9137,7 +9137,7 @@ MonoBehaviour:
   auricaSpell: {fileID: 11400000, guid: 57c98445bbeef4db79a56f21156779df, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
-  SpellEffectType: dotprojectile
+  SpellEffectType: dot
   Duration: 5
   CastAnimationType: 1
   CastingAnchor: front
@@ -9156,6 +9156,10 @@ MonoBehaviour:
   TrackingTurnSpeed: 0.1
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
+  MaxDistance: 0
+  AirDrag: 0
+  MinSpeed: 0
+  ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:
   - {fileID: 3540434359764236655, guid: 731689bafa9154355b6302833d880502, type: 3}
   NetworkedEffectsOnCollision: []
@@ -9292,6 +9296,8 @@ MonoBehaviour:
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
   isContinuous: 0
   canHitSelf: 0
 --- !u!1 &4086460706064050869

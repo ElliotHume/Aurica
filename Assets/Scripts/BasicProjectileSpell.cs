@@ -93,8 +93,17 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void OnCollisionEnter(Collision collision) {
+        if ( isCollided ) return;
         Debug.Log("Collision with: "+collision.gameObject);
-        if ( isCollided ||  (!CanHitSelf && collision.gameObject == PlayerManager.LocalPlayerInstance)) return;
+        
+        if (!CanHitSelf) {
+            PhotonView p = PhotonView.Get(collision.gameObject);
+            if (p != null) {
+                if (p.Owner.ActorNumber == photonView.Owner.ActorNumber) {
+                    return;
+                }
+            }
+        }
 
         ContactPoint hit = collision.GetContact(0);
         isCollided = true;
@@ -186,12 +195,16 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
 
         // If a homing projectile, check for a player in the radius and set it as target
-        // Only check after a set time, so that it doesnt immediately target the caster
         if (HomingProjectile) {
             if (Target == null){
                 Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
-                if (hits.Length > 0 && hits[0].gameObject != PlayerManager.LocalPlayerInstance) {
-                    SetTarget(hits[0].gameObject, true);
+                if (hits.Length > 0) {
+                    foreach( var hit in hits ) {
+                        if (hit.gameObject != PlayerManager.LocalPlayerInstance) {
+                            SetTarget(hit.gameObject, true);
+                            break;
+                        }
+                    }
                 }
             }
         }
