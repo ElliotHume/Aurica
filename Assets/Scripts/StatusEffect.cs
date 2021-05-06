@@ -142,27 +142,6 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     public void OnPreNetDestroy(PhotonView rootView) {
         if (photonView.IsMine && isContinuous) {
-            // SphereCollider col = GetComponent<SphereCollider>();
-            // Vector3 center = transform.position;
-            // float radius = 1f;
-            // if (col != null) {
-            //     center += col.center;
-            //     Vector3 scale = gameObject.transform.localScale;
-            //     radius = col.radius * Mathf.Max(new float[] { scale.x, scale.y, scale.z }) * 1.5f;
-            // }
-            // Collider[] hitColliders = Physics.OverlapSphere(center, radius, 1 << 3);
-            // if (hitColliders.Length == 0) return;
-
-            // foreach (Collider collision in hitColliders) {
-            //     if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
-            //         PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
-            //         if (pm != null) {
-            //             PhotonView pv = PhotonView.Get(pm);
-            //             DeactivateContinuous(pv);
-            //         }
-            //     }
-            // }
-
             foreach (PhotonView player in AffectedPlayers) {
                 DeactivateContinuous(player, false);
             }
