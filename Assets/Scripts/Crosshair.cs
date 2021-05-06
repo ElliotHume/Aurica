@@ -33,7 +33,7 @@ public class Crosshair : MonoBehaviour
         return Camera.main.transform.position + Camera.main.transform.forward * 100f;
     }
 
-    public GameObject GetPlayerHit(float radius = 5f) {
+    public GameObject GetPlayerHit(float radius = 3f) {
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit[] hits = Physics.SphereCastAll( ray, radius, 1000f, 1 << 3);
         foreach(var hit in hits) {

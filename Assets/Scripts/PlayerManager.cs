@@ -75,45 +75,58 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Increase or decrease movement speed
     [HideInInspector]
     public bool slowed;
+    Coroutine slowRoutine;
+
     [HideInInspector]
     public bool hastened;
+    Coroutine hasteRoutine;
 
     // Prevent all movement, including movement spells
     [HideInInspector]
     public bool rooted;
+    Coroutine rootRoutine;
 
     // Prevent all spellcasts
     [HideInInspector]
     public bool silenced;
+    Coroutine silenceRoutine;
 
     // Prevent all actions
     [HideInInspector]
     public bool stunned;
+    Coroutine stunRoutine;
 
     // Do less damage of given mana types
     [HideInInspector]
     public bool weakened;
     private ManaDistribution weaknesses;
+    Coroutine weakenRoutine;
 
     // Do more damage of given mana types
     [HideInInspector]
     public bool strengthened;
     private ManaDistribution strengths;
+    Coroutine strengthenRoutine;
 
     // Increase or decrease the amount of damage taken
     [HideInInspector]
     public bool fragile;
     private float fragileDuration, fragilePercentage = 0f;
+    Coroutine fragileRoutine;
+
     [HideInInspector]
     public bool tough;
     private float toughDuration, toughPercentage = 0f;
+    Coroutine toughRoutine;
 
     [HideInInspector]
     public bool manaRestorationChange;
     private float manaRestorationDuration;
+    Coroutine manaRestorationRoutine;
 
     [HideInInspector]
     public bool camouflaged = false;
+    Coroutine camouflageRoutine;
 
 
 
@@ -488,7 +501,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void CastSpell() {
         if (photonView.IsMine && !silenced && !stunned) {
             if (Mana - auricaCaster.GetManaCost() > 0f) {
-                Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(10f) != null ? GetPlayerWithinAimTolerance(10f).transform : null;
+                Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(5f) != null ? GetPlayerWithinAimTolerance(5f).transform : null;
                 if (aimTransform == null) {
                     CastFizzle();
                     return;
@@ -626,7 +639,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Slow(float duration, float percentage) {
         if (photonView.IsMine && !slowed) {
             slowed = true;
-            StartCoroutine(SlowRoutine(duration, percentage));
+            slowRoutine = StartCoroutine(SlowRoutine(duration, percentage));
         }
     }
     IEnumerator SlowRoutine(float duration, float percentage) {
@@ -664,7 +677,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Hasten(float duration, float percentage) {
         if (photonView.IsMine && !hastened) {
             hastened = true;
-            StartCoroutine(HastenRoutine(duration, percentage));
+            hasteRoutine = StartCoroutine(HastenRoutine(duration, percentage));
         }
     }
     IEnumerator HastenRoutine(float duration, float percentage) {
@@ -702,7 +715,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Root(float duration) {
         if (photonView.IsMine && !rooted) {
             rooted = true;
-            StartCoroutine(RootRoutine(duration));
+            rootRoutine = StartCoroutine(RootRoutine(duration));
         }
     }
     IEnumerator RootRoutine(float duration) {
@@ -736,7 +749,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Stun(float duration) {
         if (photonView.IsMine && !stunned) {
             stunned = true;
-            StartCoroutine(StunRoutine(duration));
+            slowRoutine = StartCoroutine(StunRoutine(duration));
         }
     }
     IEnumerator StunRoutine(float duration) {
@@ -770,7 +783,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Silence(float duration) {
         if (photonView.IsMine && !silenced) {
             silenced = true;
-            StartCoroutine(SilenceRoutine(duration));
+            silenceRoutine = StartCoroutine(SilenceRoutine(duration));
         }
     }
     IEnumerator SilenceRoutine(float duration) {
@@ -801,7 +814,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Weaken(float duration, string weaknessString) {
         if (photonView.IsMine) {
             ManaDistribution weaknessDist = new ManaDistribution(weaknessString);
-            StartCoroutine(WeakenRoutine(duration, weaknessDist));
+            weakenRoutine = StartCoroutine(WeakenRoutine(duration, weaknessDist));
         }
     }
     IEnumerator WeakenRoutine(float duration, ManaDistribution weaknessDist) {
@@ -841,7 +854,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Strengthen(float duration, string strengthString) {
         if (photonView.IsMine) {
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
-            StartCoroutine(StrengthenRoutine(duration, strengthDist));
+            strengthenRoutine = StartCoroutine(StrengthenRoutine(duration, strengthDist));
         }
     }
     IEnumerator StrengthenRoutine(float duration, ManaDistribution strengthDist) {
@@ -884,7 +897,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine && !fragile) {
             fragile = true;
             fragilePercentage = percentage;
-            StartCoroutine(FragileRoutine(duration));
+            fragileRoutine = StartCoroutine(FragileRoutine(duration));
         }
     }
     IEnumerator FragileRoutine(float duration) {
@@ -917,12 +930,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void Tough(float duration, float percentage) {
         if (photonView.IsMine && !tough) {
-            tough = true;
-            toughPercentage = percentage;
-            StartCoroutine(ToughRoutine(duration));
+            toughRoutine = StartCoroutine(ToughRoutine(duration, percentage));
         }
     }
-    IEnumerator ToughRoutine(float duration) {
+    IEnumerator ToughRoutine(float duration, float percentage) {
+        tough = true;
+        toughPercentage = percentage;
         yield return new WaitForSeconds(duration);
         tough = false;
         toughPercentage = 0f;
@@ -951,15 +964,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void ManaRestoration(float duration, float restorationPercentage) {
         if (photonView.IsMine) {
-            StartCoroutine(ManaRestorationRoutine(duration, restorationPercentage));
+            manaRestorationRoutine = StartCoroutine(ManaRestorationRoutine(duration, restorationPercentage));
         }
     }
     IEnumerator ManaRestorationRoutine(float duration, float restorationPercentage) {
+        Debug.Log("Mana restoration mult: "+restorationPercentage+"     for: "+duration+" seconds.");
         manaRestorationChange = true;
         ManaRegen *= restorationPercentage;
+        Debug.Log("New Mana Regen : " + ManaRegen);
         yield return new WaitForSeconds(duration);
         ManaRegen /= restorationPercentage;
         if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
+        Debug.Log("New Mana Regen after end: " + ManaRegen);
     }
 
     [PunRPC]
@@ -988,7 +1004,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Camouflage
     [PunRPC]
     void Camouflage(float duration) {
-        StartCoroutine(CamouflageRoutine(duration));
+        camouflageRoutine = StartCoroutine(CamouflageRoutine(duration));
     }
     IEnumerator CamouflageRoutine(float duration) {
         camouflaged = true;
@@ -1008,5 +1024,100 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void EndContinuousCamouflage() {
         camouflaged = false;
         materialManager.ResetMaterial();
+    }
+
+
+    // Cleanse
+    [PunRPC]
+    void Cleanse() {
+        if (slowed) {
+            StopCoroutine(slowRoutine);
+            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+            movementManager.ResetMovementSpeed();
+            slowed = false;
+        }
+        if (hastened) {
+            StopCoroutine(hasteRoutine);
+            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+            movementManager.ResetMovementSpeed();
+            hastened = false;
+        }
+        if (rooted) {
+            StopCoroutine(rootRoutine);
+            movementManager.Root(false);
+            rooted = false;
+        }
+        if (silenced) {
+            StopCoroutine(silenceRoutine);
+            silenced = false;
+        }
+        if (stunned) {
+            StopCoroutine(stunRoutine);
+            movementManager.Stun(false);
+            stunned = false;
+        }
+        if (fragile) {
+            StopCoroutine(fragileRoutine);
+            fragilePercentage = 0f;
+            fragile = false;
+        }
+        if (tough) {
+            StopCoroutine(toughRoutine);
+            toughPercentage = 0f;
+            tough = false;
+        }
+        if (weakened) {
+            StopCoroutine(weakenRoutine);
+            weaknesses = new ManaDistribution();
+            weakened = false;
+        }
+        if (strengthened) {
+            StopCoroutine(strengthenRoutine);
+            strengths = new ManaDistribution();
+            strengthened = false;
+        }
+        if (manaRestorationChange) {
+            StopCoroutine(manaRestorationRoutine);
+            ManaRegen = defaultManaRegen;
+            manaRestorationChange = false;
+        }
+        if (camouflaged) {
+            StopCoroutine(camouflageRoutine);
+            materialManager.ResetMaterial();
+            camouflaged = false;
+        }
+    }
+
+
+
+
+
+    // Cure
+    // Removes all negative status effects
+    [PunRPC]
+    void Cure() {
+        if (slowed) {
+            StopCoroutine(slowRoutine);
+            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+            movementManager.ResetMovementSpeed();
+            slowed = false;
+        }
+        if (tough) {
+            StopCoroutine(toughRoutine);
+            toughPercentage = 0f;
+            tough = false;
+        }
+        if (strengthened) {
+            StopCoroutine(strengthenRoutine);
+            strengths = new ManaDistribution();
+            strengthened = false;
+        }
+        if (manaRestorationChange) {
+            if (ManaRegen < defaultManaRegen) {
+                StopCoroutine(manaRestorationRoutine);
+                ManaRegen = defaultManaRegen;
+                manaRestorationChange = false;
+            }
+        }
     }
 }

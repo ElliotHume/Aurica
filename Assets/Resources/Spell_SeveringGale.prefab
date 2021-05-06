@@ -4707,6 +4707,7 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 0
   HomingDetectionSphereRadius: 1
@@ -4718,7 +4719,8 @@ MonoBehaviour:
   AirDrag: 5
   MinSpeed: 0
   ExplodeOnReachMaxDistance: 0
-  EffectsOnCollision: []
+  EffectsOnCollision:
+  - {fileID: 6848419787228877049, guid: 49b55ceceaea7fd468ecba1518b50bed, type: 3}
   NetworkedEffectsOnCollision: []
   DeactivateObjectsOnCollision:
   - {fileID: 6570721203496115322}
@@ -4775,10 +4777,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.14594555
+  m_Radius: 0.20634556
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0.045529366, y: -0.1975143, z: 0.7269687}
+  m_Center: {x: 0.05913639, y: -0.1975143, z: 0.7269687}
 --- !u!114 &6569867819681743638
 MonoBehaviour:
   m_ObjectHideFlags: 0

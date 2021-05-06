@@ -50,8 +50,12 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     public bool camouflage = false;
     public float camouflageDuration = 0f;
 
+    public bool cleanse = false;
+    public bool cure = false;
+
     public bool isContinuous = false;
     public bool canHitSelf = false;
+    public bool onlyHitSelf = false;
 
     private bool isCollided = false;
     private Spell attachedSpell;
@@ -86,7 +90,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnCollisionEnter(Collision collision) {
         if (photonView.IsMine && !isCollided) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -98,7 +102,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnTriggerEnter(Collider collision) {
         if (photonView.IsMine) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -114,7 +118,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnTriggerStay(Collider collision) {
         if (photonView.IsMine && isContinuous) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -126,7 +130,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnTriggerExit(Collider collision) {
         if (photonView.IsMine && isContinuous) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -168,8 +172,10 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     void Activate(PhotonView pv) {
         if (pv != null) {
             float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
-            if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * multiplier, slowPercentage / 100f * multiplier);
-            if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration * multiplier, hastenPercentage / 100f * multiplier);
+            if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
+            if (cure) pv.RPC("Cure", RpcTarget.All);
+            if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
+            if (hasten) pv.RPC("Hasten", RpcTarget.All, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
             if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
             if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
             if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
@@ -205,8 +211,10 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void ApplyContinuous(PhotonView pv) {
         float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
-        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.002f * multiplier, healPercentAmount / 100f * 0.002f * multiplier);
-        if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * 0.002f * multiplier, manaDrainPercentAmount / 100f * 0.002f * multiplier);
+        if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
+        if (cure) pv.RPC("Cure", RpcTarget.All);
+        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.002f * multiplier, healPercentAmount/100f * 0.002f * multiplier);
+        if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * 0.002f * multiplier, manaDrainPercentAmount/100f * 0.002f * multiplier);
     }
 
     void DeactivateContinuous(PhotonView pv, bool modify = true) {

@@ -10,7 +10,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float Speed = 20f;
     public float RandomMoveRadius = 0f;
     public float RandomMoveSpeedScale = 0f;
-    public bool CanHitSelf = true;
+    public bool CanHitSelf = true, ContinuesPastCollision = false;
     public GameObject Target;
     public bool HomingProjectile = false;
     public float HomingDetectionSphereRadius = 1f;
@@ -106,7 +106,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
 
         ContactPoint hit = collision.GetContact(0);
-        isCollided = true;
+        if (!ContinuesPastCollision) isCollided = true;
 
         // Call local collision response to generate collision VFX
         LocalCollisionBehaviour(hit.point, hit.normal);

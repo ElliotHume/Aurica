@@ -70,7 +70,7 @@ MonoBehaviour:
   DestroyTimeDelay: 5
   StartTimeDelay: 0
   ScalingFactor: 5
-  ScalingLimit: 0
+  ScalingLimit: 3
   DeactivateObjectsAfterDuration:
   - {fileID: 7722791258434799395}
   - {fileID: 7722791259440330364}
@@ -135,12 +135,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 2710963961870620600}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &7722791258434799395

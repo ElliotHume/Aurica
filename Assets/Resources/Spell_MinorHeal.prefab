@@ -18584,7 +18584,7 @@ MonoBehaviour:
   OneShotEffect: 1
   UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 0
-  SpellStrengthChangesDuration: 1
+  SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration:
   - {fileID: 1358278127907202148}
@@ -18652,8 +18652,10 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!114 &1358278128738505426
 MonoBehaviour:
   m_ObjectHideFlags: 0
