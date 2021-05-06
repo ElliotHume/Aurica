@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: LordsFury
+  m_EditorClassIdentifier: 
+  c_name: Lord's Fury
+  manaType: 10
+  description: Break through into a mana flow of hell and channel the Lord of Rage's
+    fury, dealing massive damage to any around you. This spell will severly damage
+    the caster's mana channels, completely draining the caster's remaining mana and
+    preventing mana regeneration for an extended duration. The explusion of mana
+    will cleanse your Aura as a side effect.
+  targetDistribution:
+    structure: -0.666
+    essence: -0.66
+    fire: 0.33
+    water: 0
+    earth: 0.66
+    air: 0
+    nature: -1.26
+  keyComponents:
+  - {fileID: 11400000, guid: 9158d01a20f674f70a37d08d910d65dd, type: 2}
+  - {fileID: 11400000, guid: 751db08e913374239a7d5ff6b0ba730e, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: 3b94403fe60b4433f8914e88089b077a, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: b6bee5d7afca44e46a8def7f53f0441e, type: 2}
+  - {fileID: 11400000, guid: 23758fe548dbd481696933aa0e64df59, type: 2}
+  - {fileID: 11400000, guid: c3a3c4c865d684b27b0bc4154d819208, type: 2}
+  - {fileID: 11400000, guid: bcafaa27cc8dc45808f2769dae7ddca4, type: 2}
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_LordsFury

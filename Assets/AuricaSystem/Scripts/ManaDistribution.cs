@@ -94,9 +94,9 @@ public struct ManaDistribution {
         error += Mathf.Abs(earth - dist.earth);
         error += Mathf.Abs(air - dist.air);
 
-        // Debug.Log("Structure Error" + GetAlignedErrorFunc(structure, dist.structure));
-        // Debug.Log("Essence Error" + GetAlignedErrorFunc(essence, dist.essence));
-        // Debug.Log("Nature Error" + GetAlignedErrorFunc(nature, dist.nature));
+        Debug.Log("Structure Error" + GetAlignedErrorFunc(structure, dist.structure));
+        Debug.Log("Essence Error" + GetAlignedErrorFunc(essence, dist.essence));
+        Debug.Log("Nature Error" + GetAlignedErrorFunc(nature, dist.nature));
         return error;
     }
 
@@ -106,9 +106,9 @@ public struct ManaDistribution {
         } else if (target <= 0f && actual <= 0f) {
             return target < actual ? Mathf.Abs(target - actual) : Mathf.Abs(actual - target);
         } else if (target >= 0f && actual <= 0f) {
-            return Mathf.Abs(target + actual);
+            return Mathf.Abs(target) + Mathf.Abs(actual);
         } else if (target <= 0f && actual >= 0f) {
-            return Mathf.Abs(actual + target);
+            return Mathf.Abs(actual) + Mathf.Abs(target);
         }
         return 0f;
     }

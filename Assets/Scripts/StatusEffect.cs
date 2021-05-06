@@ -162,7 +162,15 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (strengthen) pv.RPC("Strengthen", RpcTarget.All, strengthenDuration * multiplier, strengthenDistribution.ToString());
             if (fragile) pv.RPC("Fragile", RpcTarget.All, fragileDuration * multiplier, fragilePercentage / 100f * multiplier);
             if (tough) pv.RPC("Tough", RpcTarget.All, toughDuration * multiplier, toughPercentage / 100f * multiplier);
-            if (changeManaRegen) pv.RPC("ManaRestoration", RpcTarget.All, changeDuration * multiplier, changePercentage / 100f * multiplier);
+            if (changeManaRegen) {
+                // Do not reduce the duration of a regen debuff, else people will cast spells at deliberately low strength to lessen the debuff
+                if (changePercentage < 100f) {
+                    pv.RPC("ManaRestoration", RpcTarget.All, changeDuration, changePercentage / 100f * multiplier);
+                } else {
+                    pv.RPC("ManaRestoration", RpcTarget.All, changeDuration * multiplier, changePercentage / 100f * multiplier);
+                }
+                
+            }
             if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount / 100f * multiplier);
             if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * multiplier, manaDrainPercentAmount / 100f * multiplier);
             if (camouflage) pv.RPC("Camouflage", RpcTarget.All, camouflageDuration * multiplier);

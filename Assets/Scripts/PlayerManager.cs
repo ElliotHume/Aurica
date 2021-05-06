@@ -255,6 +255,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 if (Mana > maxMana) Mana = maxMana;
             }
 
+            if (Mana < 0f) Mana = 0f;
+
             // Display health and mana values
             healthBar.SetHealth(Health);
             manaBar.SetHealth(Mana);
@@ -373,7 +375,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
 
         if (Input.GetKeyDown("\\")) {
-            Mana += 50;
+            Mana += 400;
         }
 
         if (Input.GetKeyDown(KeyCode.Tab)) {

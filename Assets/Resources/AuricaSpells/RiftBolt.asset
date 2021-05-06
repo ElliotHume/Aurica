@@ -18,17 +18,17 @@ MonoBehaviour:
     causing a small amount of damage to whomever it hits and draining a small portion
     of their mana
   targetDistribution:
-    structure: 1
+    structure: 0.5
     essence: 0
     fire: 0
-    water: 0.2
+    water: 0
     earth: 0.1
     air: 0
-    nature: 0.1
+    nature: 0.15
   keyComponents:
   - {fileID: 11400000, guid: f94546944b5a04d9382b1a98f95a6ca9, type: 2}
   - {fileID: 11400000, guid: 756e7ce5743bb4cb5a23fe32386f9e88, type: 2}
   - {fileID: 11400000, guid: d4e98e168819744fd8980d3b105e8577, type: 2}
-  errorThreshold: 2
+  errorThreshold: 1.5
   isAuric: 0
   linkedSpellResource: Spell_RiftBolt
