@@ -29,7 +29,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     // Start is called before the first frame update
     void Start() {
-        Instance = this;
+        DeathmatchGameManager.Instance = this;
 
         blueSide = new List<PlayerManager>();
         redSide = new List<PlayerManager>();

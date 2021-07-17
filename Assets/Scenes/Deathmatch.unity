@@ -5093,8 +5093,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 1
   canHitSelf: 1
+  onlyHitSelf: 0
 --- !u!114 &155218846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8105,6 +8108,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 311535620, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -8188,6 +8195,10 @@ PrefabInstance:
     - target: {fileID: 1518237800, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
@@ -8935,12 +8946,6 @@ GameObject:
 --- !u!1 &253344728 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 620777604, guid: 49d05c70d726ef843b55f895a94a3e24,
-    type: 3}
-  m_PrefabInstance: {fileID: 253344722}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &253344729 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1024719717655210665, guid: 49d05c70d726ef843b55f895a94a3e24,
     type: 3}
   m_PrefabInstance: {fileID: 253344722}
   m_PrefabAsset: {fileID: 0}
@@ -30099,7 +30104,6 @@ MonoBehaviour:
   auraPanel: {fileID: 253344723}
   infoPanel: {fileID: 253344724}
   spellListPanel: {fileID: 253344728}
-  bindingPanel: {fileID: 253344729}
 --- !u!4 &818667658
 Transform:
   m_ObjectHideFlags: 0
