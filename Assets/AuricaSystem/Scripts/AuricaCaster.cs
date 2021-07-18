@@ -121,10 +121,12 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public AuricaSpell Cast() {
+        AuricaSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
+        if (pureSpell != null) return pureSpell;
         return GetSpellMatch(currentComponents, currentDistribution);
     }
 
-    public (AuricaPureSpell, AuricaSpell.ManaType) CastPureSpell() {
+    public AuricaSpell CastPureSpell() {
         return GetPureMagicSpellMatch(currentComponents, currentDistribution);
     }
 
@@ -252,18 +254,19 @@ public class AuricaCaster : MonoBehaviourPun {
         return currentComponents;
     }
 
-    public (AuricaPureSpell, AuricaSpell.ManaType) GetPureMagicSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
+    public AuricaSpell GetPureMagicSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
         AuricaPureSpell spellMatch = null;
         foreach (AuricaPureSpell s in allPureSpells) {
-            // Debug.Log("Check Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(distribution)+"  Num matching components: "+s.GetNumberOfMatchingComponents(components));
+            // Debug.Log("Check Pure Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(s.GetManaType(distribution), distribution));
             if (s.CheckComponents(components, distribution)) {
                 spellMatch = s;
                 spellStrength = (spellMatch.errorThreshold - s.GetError(s.GetManaType(distribution), distribution)) / spellMatch.errorThreshold + 0.3f;
                 if (spellStrength < 0.25f) spellStrength = 0.25f;
             }
         }
-
-        return (spellMatch, spellMatch.GetManaType(distribution));
+        
+        if (spellMatch == null) return null;
+        return spellMatch.GetAuricaSpell(spellMatch.GetManaType(distribution));
     }
 
 }

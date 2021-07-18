@@ -15,45 +15,17 @@ public class AuricaPureSpell : ScriptableObject {
     public AuricaSpellComponent.Classification SpellAction;
     public float errorThreshold = 3.0f;
 
-    public bool OrderCast;
-    public ManaDistribution TargetOrderDistribution;
-    public string OrderSpellResource;
+    public AuricaSpell OrderSpell = null;
+    public AuricaSpell ChaosSpell = null;
+    public AuricaSpell LifeSpell = null;
+    public AuricaSpell DeathSpell = null;
+    public AuricaSpell FireSpell = null;
+    public AuricaSpell WaterSpell = null;
+    public AuricaSpell EarthSpell = null;
+    public AuricaSpell AirSpell = null;
+    public AuricaSpell DivineSpell = null;
+    public AuricaSpell DemonicSpell = null;
 
-    public bool ChaosCast;
-    public ManaDistribution TargetChaosDistribution;
-    public string ChaosSpellResource;
-    
-    public bool LifeCast;
-    public ManaDistribution TargetLifeDistribution;
-    public string LifeSpellResource;
-    
-    public bool DeathCast;
-    public ManaDistribution TargetDeathDistribution;
-    public string DeathSpellResource;
-    
-    public bool FireCast;
-    public ManaDistribution TargetFireDistribution;
-    public string FireSpellResource;
-    
-    public bool WaterCast;
-    public ManaDistribution TargetWaterDistribution;
-    public string WaterSpellResource;
-    
-    public bool EarthCast;
-    public ManaDistribution TargetEarthDistribution;
-    public string EarthSpellResource;
-    
-    public bool AirCast;
-    public ManaDistribution TargetAirDistribution;
-    public string AirSpellResource;
-    
-    public bool DivineCast;
-    public ManaDistribution TargetDivineDistribution;
-    public string DivineSpellResource;
-    
-    public bool DemonicCast;
-    public ManaDistribution TargetDemonicDistribution;
-    public string DemonicSpellResource;
 
 
     public bool CheckComponents(List<AuricaSpellComponent> components, ManaDistribution distribution) {
@@ -70,31 +42,33 @@ public class AuricaPureSpell : ScriptableObject {
             }
         }
 
+        // Debug.Log("PURE CHECKS:  "+hasCorrectBasis+"  "+hasCorrectForm+"  "+hasCorrectFocus+"  "+hasCorrectAction);
+
         return hasCorrectBasis && hasCorrectForm && hasCorrectFocus && hasCorrectAction;
     }
 
     public float GetError(AuricaSpell.ManaType manaType, ManaDistribution checkDist) {
         switch(manaType) {
             case AuricaSpell.ManaType.Order:
-                return TargetOrderDistribution.CheckDistError(checkDist);
+                return OrderSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Chaos:
-                return TargetChaosDistribution.CheckDistError(checkDist);
+                return ChaosSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Life:
-                return TargetLifeDistribution.CheckDistError(checkDist);
+                return LifeSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Death:
-                return TargetDeathDistribution.CheckDistError(checkDist);
+                return DeathSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Fire:
-                return TargetFireDistribution.CheckDistError(checkDist);
+                return FireSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Water:
-                return TargetWaterDistribution.CheckDistError(checkDist);
+                return WaterSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Earth:
-                return TargetEarthDistribution.CheckDistError(checkDist);
+                return EarthSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Air:
-                return TargetAirDistribution.CheckDistError(checkDist);
+                return AirSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Divine:
-                return TargetDivineDistribution.CheckDistError(checkDist);
+                return DivineSpell.targetDistribution.CheckDistError(checkDist);
             case AuricaSpell.ManaType.Demonic:
-                return TargetDemonicDistribution.CheckDistError(checkDist);
+                return DemonicSpell.targetDistribution.CheckDistError(checkDist);
         }
         return 0f;
     }
@@ -103,43 +77,43 @@ public class AuricaPureSpell : ScriptableObject {
         float bestError = 999f;
         AuricaSpell.ManaType manaType = AuricaSpell.ManaType.Auric;
 
-        if (OrderCast) {
+        if (OrderSpell != null) {
             bestError = GetError(AuricaSpell.ManaType.Order, distribution);
             manaType = AuricaSpell.ManaType.Order;
         }
-        if (ChaosCast && bestError > GetError(AuricaSpell.ManaType.Chaos, distribution)) {
+        if (ChaosSpell != null && bestError > GetError(AuricaSpell.ManaType.Chaos, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Chaos, distribution);
             manaType = AuricaSpell.ManaType.Chaos;
         }
-        if (LifeCast && bestError > GetError(AuricaSpell.ManaType.Life, distribution)) {
+        if (LifeSpell != null && bestError > GetError(AuricaSpell.ManaType.Life, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Life, distribution);
             manaType = AuricaSpell.ManaType.Life;
         }
-        if (DeathCast && bestError > GetError(AuricaSpell.ManaType.Death, distribution)) {
+        if (DeathSpell != null && bestError > GetError(AuricaSpell.ManaType.Death, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Death, distribution);
             manaType = AuricaSpell.ManaType.Death;
         }
-        if (FireCast && bestError > GetError(AuricaSpell.ManaType.Fire, distribution)) {
+        if (FireSpell != null && bestError > GetError(AuricaSpell.ManaType.Fire, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Fire, distribution);
             manaType = AuricaSpell.ManaType.Fire;
         }
-        if (WaterCast && bestError > GetError(AuricaSpell.ManaType.Water, distribution)) {
+        if (WaterSpell != null && bestError > GetError(AuricaSpell.ManaType.Water, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Water, distribution);
             manaType = AuricaSpell.ManaType.Water;
         }
-        if (EarthCast && bestError > GetError(AuricaSpell.ManaType.Earth, distribution)) {
+        if (EarthSpell != null && bestError > GetError(AuricaSpell.ManaType.Earth, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Earth, distribution);
             manaType = AuricaSpell.ManaType.Earth;
         }
-        if (AirCast && bestError > GetError(AuricaSpell.ManaType.Air, distribution)) {
+        if (AirSpell != null && bestError > GetError(AuricaSpell.ManaType.Air, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Air, distribution);
             manaType = AuricaSpell.ManaType.Air;
         }
-        if (DivineCast && bestError > GetError(AuricaSpell.ManaType.Divine, distribution)) {
+        if (DivineSpell != null && bestError > GetError(AuricaSpell.ManaType.Divine, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Divine, distribution);
             manaType = AuricaSpell.ManaType.Divine;
         }
-        if (DemonicCast && bestError > GetError(AuricaSpell.ManaType.Demonic, distribution)) {
+        if (DemonicSpell != null && bestError > GetError(AuricaSpell.ManaType.Demonic, distribution)) {
             bestError = GetError(AuricaSpell.ManaType.Demonic, distribution);
             manaType = AuricaSpell.ManaType.Demonic;
         }
@@ -150,27 +124,53 @@ public class AuricaPureSpell : ScriptableObject {
     public string GetSpellResourceName(AuricaSpell.ManaType manaType) {
         switch(manaType) {
             case (AuricaSpell.ManaType.Order):
-                return OrderSpellResource;
+                return OrderSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Chaos):
-                return ChaosSpellResource;
+                return ChaosSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Life):
-                return LifeSpellResource;
+                return LifeSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Death):
-                return DeathSpellResource;
-            case (AuricaSpell.ManaType.Fire):
-                return FireSpellResource;
+                return DeathSpell.linkedSpellResource;
+            case (AuricaSpell.ManaType.Fire ):
+                return FireSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Water):
-                return WaterSpellResource;
+                return WaterSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Earth):
-                return EarthSpellResource;
+                return EarthSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Air):
-                return AirSpellResource;
+                return AirSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Divine):
-                return DivineSpellResource;
+                return DivineSpell.linkedSpellResource;
             case (AuricaSpell.ManaType.Demonic):
-                return DemonicSpellResource;
+                return DemonicSpell.linkedSpellResource;
         }
         return "";
+    }
+
+    public AuricaSpell GetAuricaSpell(AuricaSpell.ManaType manaType) {
+        switch(manaType) {
+            case (AuricaSpell.ManaType.Order):
+                return OrderSpell;
+            case (AuricaSpell.ManaType.Chaos):
+                return ChaosSpell;
+            case (AuricaSpell.ManaType.Life):
+                return LifeSpell;
+            case (AuricaSpell.ManaType.Death):
+                return DeathSpell;
+            case (AuricaSpell.ManaType.Fire ):
+                return FireSpell;
+            case (AuricaSpell.ManaType.Water):
+                return WaterSpell;
+            case (AuricaSpell.ManaType.Earth):
+                return EarthSpell;
+            case (AuricaSpell.ManaType.Air):
+                return AirSpell;
+            case (AuricaSpell.ManaType.Divine):
+                return DivineSpell;
+            case (AuricaSpell.ManaType.Demonic):
+                return DemonicSpell;
+        }
+        return null;
     }
     
 }

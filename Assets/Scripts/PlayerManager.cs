@@ -390,8 +390,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (Input.GetKeyDown("]")) {
             if (!isChannelling) {
                 if (!casting) {
-                    (AuricaPureSpell spell, AuricaSpell.ManaType manaType) spellCast = auricaCaster.CastPureSpell();
-                    CastAuricaPureSpell(spellCast.spell, spellCast.manaType);
+                    if (!casting) CastAuricaSpell(auricaCaster.CastPureSpell());
                 }
             } else {
                 StopBlocking();
@@ -503,67 +502,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         } else {
             // If the spell is channelled, channel it immediately
             currentChannelledSpell = spell.linkedSpellResource;
-            ChannelSpell();
-        }
-
-        if (spellCraftingDisplay != null) {
-            SpellCraftingUIDisplay sp = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
-            if (sp != null) sp.ClearSpell();
-        }
-    }
-
-    void CastAuricaPureSpell(AuricaPureSpell spell, AuricaSpell.ManaType manaType) {
-        if (!photonView.IsMine) return;
-        if (spell == null) {
-            Debug.Log("Invalid cast");
-            CastFizzle();
-            auricaCaster.ResetCast();
-            return;
-        }
-        casting = true;
-        Debug.Log("Spell Match: " + spell.c_name);
-        // Load spell resource
-        string spellResourceName = spell.GetSpellResourceName(manaType);
-        GameObject dataObject = Resources.Load<GameObject>(spellResourceName);
-        Spell foundSpell = dataObject != null ? dataObject.GetComponent<Spell>() : null;
-
-        if (foundSpell == null) {
-            casting = false;
-            return;
-        }
-
-        // Change the casting anchor (where the spell spawns from)
-        switch (foundSpell.CastingAnchor) {
-            case "transform":
-                currentCastingTransform = transform;
-                break;
-            case "top":
-                currentCastingTransform = topCastingAnchor;
-                break;
-            default:
-                currentCastingTransform = frontCastingAnchor;
-                break;
-        }
-
-        // Turn the casting anchor in the direction we want the spell to face
-        if (foundSpell.TurnToAimPoint) {
-            TurnCastingAnchorDirectionToAimPoint();
-        } else {
-            ResetCastingAnchorDirection();
-        }
-
-        currentSpellIsSelfTargeted = foundSpell.IsSelfTargeted;
-        currentSpellIsOpponentTargeted = foundSpell.IsOpponentTargeted;
-
-        // Set the spell to cast, and start the animation
-        if (!foundSpell.IsChannel) {
-            currentSpellCast = spellResourceName;
-            movementManager.PlayCastingAnimation(foundSpell.CastAnimationType);
-            ParticleManager.PlayHandParticle(foundSpell.CastAnimationType, manaType);
-            if (CastingSound != null) CastingSound.Play();
-        } else {
-            // If the spell is channelled, channel it immediately
-            currentChannelledSpell = spellResourceName;
             ChannelSpell();
         }
 

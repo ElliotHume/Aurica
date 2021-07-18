@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa11aad955653524e8c1664593085106, type: 3}
+  m_Name: ManaBall
+  m_EditorClassIdentifier: 
+  c_name: ManaBall
+  description: Shoot a ball of energy
+  SpellBasis: 0
+  SpellForm: 5
+  SpellFocus: 13
+  SpellAction: 17
+  errorThreshold: 3
+  OrderSpell: {fileID: 11400000, guid: 72a32a0310cf8e246b5e846760ee22d1, type: 2}
+  ChaosSpell: {fileID: 11400000, guid: 918a235fcd48c471c99e41392b229415, type: 2}
+  LifeSpell: {fileID: 11400000, guid: cfb8676578221f642b3d3ef63a6e2f04, type: 2}
+  DeathSpell: {fileID: 11400000, guid: 57c98445bbeef4db79a56f21156779df, type: 2}
+  FireSpell: {fileID: 11400000, guid: faa4c7fad132345e2b910b0a25881ef5, type: 2}
+  WaterSpell: {fileID: 11400000, guid: bef9d3177aeb44186b1e48fd4ae421d6, type: 2}
+  EarthSpell: {fileID: 11400000, guid: 9b5b69601973642a7bced96c1b358fb8, type: 2}
+  AirSpell: {fileID: 11400000, guid: 1892cc9ff5d434816aec79c5acf112b7, type: 2}
+  DivineSpell: {fileID: 11400000, guid: 0036374f1dbfd18498e4848cbee12c62, type: 2}
+  DemonicSpell: {fileID: 11400000, guid: c3ac7c81c9d964c0d8d098f5305997e7, type: 2}
