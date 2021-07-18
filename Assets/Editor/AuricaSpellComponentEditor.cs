@@ -20,28 +20,22 @@ public class AuricaSpellComponentEditor : Editor {
 
         component.category = (AuricaSpellComponent.Category)EditorGUILayout.EnumPopup("Category:", component.category);
 
+        component.classification = (AuricaSpellComponent.Classification)EditorGUILayout.EnumPopup("Classification:", component.classification);
+
+        if (component.category == AuricaSpellComponent.Category.ManaType) {
+            component.classification = AuricaSpellComponent.Classification.ManaType;
+        } else if (component.category == AuricaSpellComponent.Category.WildGlyph) {
+            component.classification = AuricaSpellComponent.Classification.Wild;
+        } else if (component.category == AuricaSpellComponent.Category.ManaSiphon) {
+            component.classification = AuricaSpellComponent.Classification.Siphon;
+        }
+
         EditorGUILayout.LabelField("Description");
         GUIStyle myCustomStyle = new GUIStyle(GUI.skin.GetStyle("textArea")) { wordWrap = true };
         component.description = EditorGUILayout.TextArea(component.description, myCustomStyle);
 
         component.manaCostMultiplier = EditorGUILayout.FloatField("Mana Cost Multiplier", component.manaCostMultiplier);
         EditorGUILayout.Space();
-
-        // component.hasBasicDistribution = EditorGUILayout.Toggle("Basic distribution", component.hasBasicDistribution);
-        // if (component.hasBasicDistribution) {
-        //     Rect r = EditorGUILayout.BeginVertical("Basic Distribution");
-        //     component.basicDistribution[0] = EditorGUILayout.DelayedFloatField("Structure", component.basicDistribution[0]);
-        //     component.basicDistribution[1] = EditorGUILayout.DelayedFloatField("Essence", component.basicDistribution[1]);
-        //     component.basicDistribution[2] = EditorGUILayout.DelayedFloatField("Fire", component.basicDistribution[2]);
-        //     component.basicDistribution[3] = EditorGUILayout.DelayedFloatField("Water", component.basicDistribution[3]);
-        //     component.basicDistribution[4] = EditorGUILayout.DelayedFloatField("Earth", component.basicDistribution[4]);
-        //     component.basicDistribution[5] = EditorGUILayout.DelayedFloatField("Air", component.basicDistribution[5]);
-        //     component.basicDistribution[6] = EditorGUILayout.DelayedFloatField("Nature/Alignment", component.basicDistribution[6]);
-        //     EditorGUILayout.EndVertical();
-
-        //     EditorGUILayout.Space();
-        //     EditorGUILayout.Space();
-        // }
 
         component.hasBasicDistribution = EditorGUILayout.Toggle("Basic distribution", component.hasBasicDistribution);
         if (component.hasBasicDistribution) {

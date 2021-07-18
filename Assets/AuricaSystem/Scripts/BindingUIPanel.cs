@@ -46,8 +46,8 @@ public class BindingUIPanel : MonoBehaviour
     }
 
     public void SetBind(string key, AuricaSpell spell) {
-        Debug.Log("Set graphics for key: "+key+" with spell: "+spell.c_name);
         dict[key].SetButtonGraphics(spell);
+        // Debug.Log("Set graphics for key: "+key+" with spell: "+spell.c_name);
     }
 
     public void Bind(string key) {

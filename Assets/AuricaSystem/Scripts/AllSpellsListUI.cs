@@ -18,7 +18,7 @@ public class AllSpellsListUI : MonoBehaviour
     {
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
         allSpellsList = new List<AuricaSpell>(allSpells);
-        allSpellsList.Sort((a, b) => a.manaType.CompareTo(b.manaType) == 0 ? a.c_name.CompareTo(b.c_name) : a.manaType.CompareTo(b.manaType));
+        // allSpellsList.Sort((a, b) => a.manaType.CompareTo(b.manaType) == 0 ? a.c_name.CompareTo(b.c_name) : a.manaType.CompareTo(b.manaType));
         rect = GetComponent<RectTransform>();
         PopulateList();
         spellListPanelGameObject.SetActive(false);

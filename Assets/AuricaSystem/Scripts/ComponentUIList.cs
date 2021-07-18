@@ -24,7 +24,7 @@ public class ComponentUIList : MonoBehaviour
         rect = GetComponent<RectTransform>();
         if (isListOfAll) {
             componentList = new List<AuricaSpellComponent>(allComponents);
-            componentList.Sort((a, b) => a.CompareTo(b));;
+            // componentList.Sort((a, b) => a.CompareTo(b));;
         }
     }
 

@@ -1,22 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 [CreateAssetMenu(fileName = "AuricaSpellComponent", menuName = "Aurica/AuricaSpellComponent", order = 0)]
 public class AuricaSpellComponent : ScriptableObject {
     public enum Category {
-        Elemental, Basic, Minor, Siphon, Advanced, Balancer, Uncommon
+        SpellBasis, SpellForm, SpellFocus, SpellAction, ManaType, ManaSiphon, WildGlyph
     };
+
+    public enum Classification {
+        // Spell Basis
+        Attack, Defend, Support, Summon,
+
+        // Spell Form
+        Dart, Ball, Wall, Aura, Area, Infusion, Blade, Shield,
+
+        // Spell Focus
+        Self, Other, Ground, Mana, Form,
+
+        // Spell Action
+        Shoot, Throw, Target, Sustain, Control, Collect, Contain, Expel, Pull, Bless, Curse,
+
+        // Mana Type
+        ManaType,
+
+        // Mana Siphon
+        Siphon,
+
+        // Wild Glyphs
+        Wild
+
+    }
 
     public string c_name;
     [TextArea(15, 3)]
 
     public Category category;
+    public Classification classification;
     public string description;
     public float manaCostMultiplier = 1f;
     public bool hasBasicDistribution, hasAuricDistribution, hasFluxDistribution, hasSiphonDistribution;
     public ManaDistribution basicDistribution, auricDistribution, fluxDistribution, siphonDistribution;
-    //public List<float> basicDistribution = new List<float>(7), auricDistribution = new List<float>(7), fluxDistribution = new List<float>(7);
 
     public ManaDistribution CalculateDistributionChange(ManaDistribution givenDistribution, ManaDistribution aura) {
         ManaDistribution calculatedDistribution = new ManaDistribution(givenDistribution.ToString());
