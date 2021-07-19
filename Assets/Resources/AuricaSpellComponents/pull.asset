@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed2b308b79762475c9d6cbdbcea392df, type: 3}
-  m_Name: summon
+  m_Name: pull
   m_EditorClassIdentifier: 
   c_name: summon
   category: 0
   classification: 3
-  description: Basis of summoning, the spell will initiate a summoning
+  description: This glyph acts as a summoning call to beings from other planes
   manaCostMultiplier: 1
   hasBasicDistribution: 0
   hasAuricDistribution: 1
@@ -30,21 +30,21 @@ MonoBehaviour:
     air: 0
     nature: 0
   auricDistribution:
-    structure: 0
+    structure: 0.05
     essence: 0
-    fire: 0
+    fire: 0.075
     water: 0
     earth: 0
-    air: 0
-    nature: 1
+    air: 0.075
+    nature: 0
   fluxDistribution:
     structure: 0
     essence: 0
     fire: 0
     water: 0
     earth: 0
-    air: 0
-    nature: -0.3
+    air: 0.1
+    nature: 0
   siphonDistribution:
     structure: 0
     essence: 0

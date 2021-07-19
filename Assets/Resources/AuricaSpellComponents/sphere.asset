@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed2b308b79762475c9d6cbdbcea392df, type: 3}
-  m_Name: summon
+  m_Name: sphere
   m_EditorClassIdentifier: 
-  c_name: summon
-  category: 0
-  classification: 3
-  description: Basis of summoning, the spell will initiate a summoning
+  c_name: sphere
+  category: 1
+  classification: 5
+  description: Form of the sphere, the spell will take the form of a sphere
   manaCostMultiplier: 1
-  hasBasicDistribution: 0
+  hasBasicDistribution: 1
   hasAuricDistribution: 1
   hasFluxDistribution: 0
   hasSiphonDistribution: 0
   basicDistribution:
-    structure: 0
+    structure: 0.2
     essence: 0
     fire: 0
     water: 0
@@ -30,13 +30,13 @@ MonoBehaviour:
     air: 0
     nature: 0
   auricDistribution:
-    structure: 0
+    structure: 0.4
     essence: 0
     fire: 0
     water: 0
     earth: 0
     air: 0
-    nature: 1
+    nature: 0
   fluxDistribution:
     structure: 0
     essence: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
     water: 0
     earth: 0
     air: 0
-    nature: -0.3
+    nature: 0
   siphonDistribution:
     structure: 0
     essence: 0

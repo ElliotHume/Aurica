@@ -30,6 +30,48 @@ public class AuricaSpellComponentEditor : Editor {
             component.classification = AuricaSpellComponent.Classification.Siphon;
         }
 
+        if (component.classification == AuricaSpellComponent.Classification.Attack
+            || component.classification == AuricaSpellComponent.Classification.Defend
+            || component.classification == AuricaSpellComponent.Classification.Support
+            || component.classification == AuricaSpellComponent.Classification.Summon
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellBasis;
+
+        } else if (component.classification == AuricaSpellComponent.Classification.Dart
+            || component.classification == AuricaSpellComponent.Classification.Sphere
+            || component.classification == AuricaSpellComponent.Classification.Wall
+            || component.classification == AuricaSpellComponent.Classification.Aura
+            || component.classification == AuricaSpellComponent.Classification.Area
+            || component.classification == AuricaSpellComponent.Classification.Infusion
+            || component.classification == AuricaSpellComponent.Classification.Blade
+            || component.classification == AuricaSpellComponent.Classification.Shield
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellForm;
+
+        } else if (component.classification == AuricaSpellComponent.Classification.Self
+            || component.classification == AuricaSpellComponent.Classification.Other
+            || component.classification == AuricaSpellComponent.Classification.Surface
+            || component.classification == AuricaSpellComponent.Classification.Mana
+            || component.classification == AuricaSpellComponent.Classification.Form
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellFocus;
+
+        } else if (component.classification == AuricaSpellComponent.Classification.Propel
+            || component.classification == AuricaSpellComponent.Classification.Throw
+            || component.classification == AuricaSpellComponent.Classification.Target
+            || component.classification == AuricaSpellComponent.Classification.Sustain
+            || component.classification == AuricaSpellComponent.Classification.Control
+            || component.classification == AuricaSpellComponent.Classification.Collect
+            || component.classification == AuricaSpellComponent.Classification.Contain
+            || component.classification == AuricaSpellComponent.Classification.Expel
+            || component.classification == AuricaSpellComponent.Classification.Pull
+            || component.classification == AuricaSpellComponent.Classification.Bless
+            || component.classification == AuricaSpellComponent.Classification.Curse
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellAction;
+
+        }
+
         EditorGUILayout.LabelField("Description");
         GUIStyle myCustomStyle = new GUIStyle(GUI.skin.GetStyle("textArea")) { wordWrap = true };
         component.description = EditorGUILayout.TextArea(component.description, myCustomStyle);
