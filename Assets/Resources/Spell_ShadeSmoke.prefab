@@ -9149,6 +9149,7 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 10
   CanHitSelf: 1
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 1
   HomingDetectionSphereRadius: 6
@@ -9298,8 +9299,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!1 &4086460706064050869
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class AuricaSpellComponent : ScriptableObject {
         Dart, Ball, Wall, Aura, Area, Infusion, Blade, Shield,
 
         // Spell Focus
-        Self, Other, Ground, Mana, Form,
+        Self, Other, Surface, Mana, Form,
 
         // Spell Action
         Shoot, Throw, Target, Sustain, Control, Collect, Contain, Expel, Pull, Bless, Curse,
