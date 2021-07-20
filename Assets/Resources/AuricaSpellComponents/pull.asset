@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2b308b79762475c9d6cbdbcea392df, type: 3}
   m_Name: pull
   m_EditorClassIdentifier: 
-  c_name: summon
-  category: 0
-  classification: 3
-  description: This glyph acts as a summoning call to beings from other planes
+  c_name: pull
+  category: 3
+  classification: 25
+  description: Pull action, the spell will pull its focus towards you
   manaCostMultiplier: 1
-  hasBasicDistribution: 0
+  hasBasicDistribution: 1
   hasAuricDistribution: 1
   hasFluxDistribution: 0
   hasSiphonDistribution: 0
   basicDistribution:
-    structure: 0
+    structure: -0.075
     essence: 0
     fire: 0
     water: 0
@@ -30,11 +30,11 @@ MonoBehaviour:
     air: 0
     nature: 0
   auricDistribution:
-    structure: 0.05
+    structure: 0.1
     essence: 0
-    fire: 0.075
+    fire: 0
     water: 0
-    earth: 0
+    earth: 0.075
     air: 0.075
     nature: 0
   fluxDistribution:
