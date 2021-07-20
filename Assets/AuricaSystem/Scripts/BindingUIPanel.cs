@@ -22,27 +22,28 @@ public class BindingUIPanel : MonoBehaviour
         dict.Add("3", bind3);
 
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
-            SetBind("e", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_e")));
+            SetBind("e", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_e")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_q")) {
-            SetBind("q", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_q")));
+            SetBind("q", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_q")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
-            SetBind("1", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_1")));
+            SetBind("1", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_1")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_2")) {
-            SetBind("2", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_2")));
+            SetBind("2", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_2")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
-            SetBind("3", AuricaCaster.LocalCaster.GetSpellMatchFromString(PlayerPrefs.GetString("CachedSpell_3")));
+            SetBind("3", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_3")));
         }
         if (PlayerPrefs.HasKey("CachedSpell_r")) {
             string componentString = PlayerPrefs.GetString("CachedSpell_r");
             // Debug.Log("Try to find spell name for: "+componentString);
-            AuricaSpell spell = AuricaCaster.LocalCaster.GetSpellMatchFromString(componentString);
+            AuricaSpell spell = AuricaCaster.LocalCaster.CastSpellByName(componentString);
             // Debug.Log("Found spell name: "+spell.c_name);
             SetBind("r", spell);
         }
+        AuricaCaster.LocalCaster.ResetCast();
     }
 
     public void SetBind(string key, AuricaSpell spell) {

@@ -53,7 +53,7 @@ public class AuricaCaster : MonoBehaviourPun {
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
             cachedSpells.Add("3", new CachedSpell(PlayerPrefs.GetString("CachedSpell_3")));
         } else {
-            cachedSpells.Add("3", new CachedSpell("mana, bolt"));
+            cachedSpells.Add("3", new CachedSpell("attack, bolt, other, propel"));
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_r")) {
@@ -140,30 +140,6 @@ public class AuricaCaster : MonoBehaviourPun {
                 bestMatchCorrectComponents = s.GetNumberOfMatchingComponents(components);
                 spellStrength = (spellMatch.errorThreshold - s.GetError(distribution)) / spellMatch.errorThreshold + 0.3f;
                 if (spellStrength < 0.25f) spellStrength = 0.25f;
-            }
-        }
-
-        return spellMatch;
-    }
-
-    public AuricaSpell GetSpellMatchFromString(string componentString) {
-        string[] componentSeperator = new string[] { ", " };
-        string[] splitComponents = componentString.Split(componentSeperator, System.StringSplitOptions.None);
-        List<AuricaSpellComponent> components = new List<AuricaSpellComponent>();
-        foreach (string componentName in splitComponents) {
-            foreach (AuricaSpellComponent c in allComponents) {
-                if (c.c_name == componentName) {
-                    components.Add(c);
-                    break;
-                }
-            }
-        }
-        AuricaSpell spellMatch = null;
-        int bestMatchCorrectComponents = 0;
-        foreach (AuricaSpell s in allSpells) {
-            if (s.CheckComponents(components) && s.GetNumberOfMatchingComponents(components) > bestMatchCorrectComponents) {
-                spellMatch = s;
-                bestMatchCorrectComponents = s.GetNumberOfMatchingComponents(components);
             }
         }
 

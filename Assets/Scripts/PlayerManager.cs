@@ -29,9 +29,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The rate at which Mana regen will increase if a spell hasnt been cast recently")]
     public float ManaRegenGrowthRate = 0.005f;
 
-    [Tooltip("Where spells witll spawn from when being cast forwards")]
+    [Tooltip("Where spells will spawn from when being cast forwards")]
     public Transform frontCastingAnchor;
-    [Tooltip("Where spells witll spawn from when being cast upwards")]
+    [Tooltip("Where spells will spawn from when being cast upwards")]
     public Transform topCastingAnchor;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]

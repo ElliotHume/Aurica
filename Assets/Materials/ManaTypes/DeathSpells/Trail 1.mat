@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Trail 1
   m_Shader: {fileID: 4800000, guid: 4775e5a8f344d6348adf934e722da85d, type: 3}
-  m_ShaderKeywords: BlendAdd Clip_ON FrameBlend_ON FresnelFade_OFF SoftParticles_OFF
+  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_ON FresnelFade_OFF SoftParticles_OFF
     VertLight_OFF
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -26,17 +26,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - CullMode: 0
-    - DstMode: 1
+    - DstMode: 10
     - SrcMode: 5
     - _ColorStrength: 1
     - _CoreStrength: 1
     - _CutOutLightCore: 0
-    - _Cutout: 0.1
+    - _Cutout: 0
     - _FresnelStr: 1.5
     - _InvFade: 3
     - _TintStrength: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CoreColor: {r: 0.61764705, g: 0.71521294, b: 1, a: 0.5019608}
-    - _TintColor: {r: 4.766016, g: 3.356863, b: 8, a: 1}
+    - _TintColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

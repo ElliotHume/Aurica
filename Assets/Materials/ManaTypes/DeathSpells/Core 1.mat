@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Core 1
   m_Shader: {fileID: 4800000, guid: 4775e5a8f344d6348adf934e722da85d, type: 3}
-  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_ON FresnelFade_ON SoftParticles_OFF
+  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_ON FresnelFade_OFF SoftParticles_OFF
     VertLight_OFF
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -34,5 +34,5 @@ Material:
     - _InvFade: 3
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _TintColor: {r: 10.980392, g: 6.7137256, b: 16, a: 1}
+    - _TintColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
