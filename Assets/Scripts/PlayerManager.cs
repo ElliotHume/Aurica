@@ -33,6 +33,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public Transform frontCastingAnchor;
     [Tooltip("Where spells will spawn from when being cast upwards")]
     public Transform topCastingAnchor;
+    [Tooltip("Where spells will spawn from when being cast at aimpoint")]
+    public Transform aimPointAnchor;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -68,6 +70,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private AuricaCaster auricaCaster;
     private ShieldSpell currentShield;
     private CustomCameraWork cameraWorker;
+    private AimpointAnchor aimPointAnchorManager;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -203,6 +206,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
+
+        aimPointAnchorManager = aimPointAnchor.GetComponent<AimpointAnchor>();
     }
 
     void Awake() {
@@ -215,6 +220,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) {
             PlayerManager.LocalPlayerInstance = this.gameObject;
         }
+
+        // Unparent the aimpoint anchor so that when the player moves the anchor wont move with the player
+        if (aimPointAnchor != null) aimPointAnchor.transform.parent = null;
     }
 
     void Update() {
@@ -477,6 +485,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 break;
             case "top":
                 currentCastingTransform = topCastingAnchor;
+                break;
+            case "aimpoint":
+                aimPointAnchor.position = GetCrosshairAimPoint();
+                aimPointAnchor.rotation = Quaternion.LookRotation(aimPointAnchorManager.GetHitNormal(), (aimPointAnchor.transform.position - transform.position));
+                currentCastingTransform = aimPointAnchor;
                 break;
             default:
                 currentCastingTransform = frontCastingAnchor;
