@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
   m_Name: WallConstruct_Air
   m_EditorClassIdentifier: 
-  c_name: Earth Wall
-  manaType: 7
-  description: Raise a wall of earth.
+  c_name: Wind Wall
+  manaType: 8
+  description: Raise a wall of wind.
   targetDistribution:
     structure: 0.5
     essence: 0
     fire: 0
     water: 0
-    earth: 1
-    air: 0
-    nature: 0
+    earth: 0
+    air: 1
+    nature: 0.1
   keyComponents: []
   errorThreshold: 1.5
   isAuric: 0
-  linkedSpellResource: Spell_WallConstruct_Earth
+  linkedSpellResource: Spell_WallConstruct_Air
