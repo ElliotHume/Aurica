@@ -1128,15 +1128,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             movementManager.ResetMovementSpeed();
             slowed = false;
         }
-        if (tough) {
-            StopCoroutine(toughRoutine);
-            toughPercentage = 0f;
-            tough = false;
+        if (fragile) {
+            StopCoroutine(fragileRoutine);
+            fragilePercentage = 0f;
+            fragile = false;
         }
-        if (strengthened) {
-            StopCoroutine(strengthenRoutine);
-            strengths = new ManaDistribution();
-            strengthened = false;
+        if (weakened) {
+            StopCoroutine(weakenRoutine);
+            weaknesses = new ManaDistribution();
+            weakened = false;
         }
         if (manaRestorationChange) {
             if (ManaRegen < defaultManaRegen) {
