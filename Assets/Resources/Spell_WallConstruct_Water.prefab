@@ -4550,6 +4550,7 @@ GameObject:
   - component: {fileID: 4082741049534245052}
   - component: {fileID: 4082741049535119372}
   - component: {fileID: 4057164319960271932}
+  - component: {fileID: 1832267106318530349}
   m_Layer: 0
   m_Name: SM_Env_Rock_Rectangle_03
   m_TagString: Untagged
@@ -4629,11 +4630,24 @@ MeshCollider:
   m_GameObject: {fileID: 4082741049533143130}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43549938121079044, guid: 4eff9077ab203f74aa205c00db547a37, type: 2}
+--- !u!65 &1832267106318530349
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082741049533143130}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8276867, y: 1.5795243, z: 0.8280005}
+  m_Center: {x: 0, y: -0.000000059591727, z: 0.00021791458}
 --- !u!1 &4082741049692948970
 GameObject:
   m_ObjectHideFlags: 0
@@ -4650,7 +4664,7 @@ GameObject:
   - component: {fileID: 4082741049692948973}
   m_Layer: 0
   m_Name: Spell_WallConstruct_Water
-  m_TagString: Untagged
+  m_TagString: Spell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4662,7 +4676,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4082741049692948970}
-  m_LocalRotation: {x: -0.70710695, y: -0, z: -0, w: 0.7071066}
+  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 0, y: -1.59, z: -15.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

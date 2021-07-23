@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 973535255556537743}
   - component: {fileID: 973535255557477695}
   - component: {fileID: 965897902138317071}
+  - component: {fileID: 5175702773010770729}
   m_Layer: 0
   m_Name: SM_Env_Rock_Rectangle_03
   m_TagString: Untagged
@@ -91,11 +92,24 @@ MeshCollider:
   m_GameObject: {fileID: 973535255559720297}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43549938121079044, guid: 4eff9077ab203f74aa205c00db547a37, type: 2}
+--- !u!65 &5175702773010770729
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973535255559720297}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.8276867, y: 1.5795243, z: 0.8280005}
+  m_Center: {x: 0, y: -0.000000059591727, z: 0.00021791458}
 --- !u!1 &973535255836908761
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,9 +124,11 @@ GameObject:
   - component: {fileID: 973535255836908764}
   - component: {fileID: 973535255836908767}
   - component: {fileID: 973535255836908766}
+  - component: {fileID: 1241880006}
+  - component: {fileID: 291470239874370528}
   m_Layer: 0
   m_Name: Spell_WallConstruct_Order
-  m_TagString: Untagged
+  m_TagString: Spell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -406,6 +422,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &1241880006
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973535255836908761}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8, y: 1, z: 7.8884797}
+  m_Center: {x: 0, y: -1.1435738e-14, z: 0.70117974}
+--- !u!54 &291470239874370528
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973535255836908761}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &974905079961126716
 GameObject:
   m_ObjectHideFlags: 0

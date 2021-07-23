@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7523554543933973256}
   - component: {fileID: 7523554543932754872}
   - component: {fileID: 7533456549814863752}
+  - component: {fileID: 5205318865163837680}
   m_Layer: 0
   m_Name: SM_Env_Rock_Rectangle_03
   m_TagString: Untagged
@@ -91,11 +92,24 @@ MeshCollider:
   m_GameObject: {fileID: 7523554543930774510}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43549938121079044, guid: 4eff9077ab203f74aa205c00db547a37, type: 2}
+--- !u!65 &5205318865163837680
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7523554543930774510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8276867, y: 1.5795243, z: 0.8280005}
+  m_Center: {x: 0, y: -0.000000059591727, z: 0.00021791458}
 --- !u!1 &7523554544090579550
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +126,7 @@ GameObject:
   - component: {fileID: 7523554544090579545}
   m_Layer: 0
   m_Name: Spell_WallConstruct_Divine
-  m_TagString: Untagged
+  m_TagString: Spell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,7 +138,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7523554544090579550}
-  m_LocalRotation: {x: -0.70710695, y: -0, z: -0, w: 0.7071066}
+  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 0, y: -1.59, z: -15.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
