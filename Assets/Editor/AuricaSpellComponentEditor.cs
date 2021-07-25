@@ -37,8 +37,7 @@ public class AuricaSpellComponentEditor : Editor {
         ) {
             component.category = AuricaSpellComponent.Category.SpellBasis;
 
-        } else if (component.classification == AuricaSpellComponent.Classification.Dart
-            || component.classification == AuricaSpellComponent.Classification.Sphere
+        } else if (component.classification == AuricaSpellComponent.Classification.Sphere
             || component.classification == AuricaSpellComponent.Classification.Wall
             || component.classification == AuricaSpellComponent.Classification.Aura
             || component.classification == AuricaSpellComponent.Classification.Area

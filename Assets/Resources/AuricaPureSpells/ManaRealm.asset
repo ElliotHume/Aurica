@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa11aad955653524e8c1664593085106, type: 3}
+  m_Name: ManaRealm
+  m_EditorClassIdentifier: 
+  c_name: Mana Realm
+  description: Create a concentrated area of mana that harms anything caught within
+  SpellBasis: 0
+  SpellForm: 7
+  SpellFocus: 14
+  SpellAction: 21
+  errorThreshold: 3
+  OrderSpell: {fileID: 0}
+  ChaosSpell: {fileID: 11400000, guid: b4416aee1cd804b47bb085d0a01fedbd, type: 2}
+  LifeSpell: {fileID: 0}
+  DeathSpell: {fileID: 11400000, guid: bb0463a72766b004c9d3b2705a9e403f, type: 2}
+  FireSpell: {fileID: 11400000, guid: 57fa037a321b6ee4aab26f56818fb14b, type: 2}
+  WaterSpell: {fileID: 0}
+  EarthSpell: {fileID: 11400000, guid: 741379b0ee772ab4f97419e3b5d38d55, type: 2}
+  AirSpell: {fileID: 0}
+  DivineSpell: {fileID: 11400000, guid: c959f79a2d9125f4397f3097f922b571, type: 2}
+  DemonicSpell: {fileID: 11400000, guid: 4d0aef7c48bf18c44ae6050fb62a754b, type: 2}
