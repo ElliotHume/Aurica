@@ -10,7 +10,7 @@ public class DebugPlayer : MonoBehaviourPun
     void Update() {
         if (Input.GetKey(KeyCode.RightShift)) {
             if (Input.GetKeyDown("n")) {
-                CastDebugSpell("Spell_Fireball");
+                CastDebugSpell("Spell_ManaBall_Fire");
             } else if (Input.GetKeyDown("m")) {
                 CastDebugSpell("Spell_ShadeSmoke");
             } else if (Input.GetKeyDown("b")) {
@@ -20,7 +20,7 @@ public class DebugPlayer : MonoBehaviourPun
             } else if (Input.GetKeyDown("l")) {
                 CastDebugSpell("Spell_EarthBound");
             } else if (Input.GetKeyDown("j")) {
-                CastDebugSpell("Spell_EmberSphere");
+                CastDebugSpell("Spell_ManaRealm_Chaos");
             }
         }
 
@@ -32,7 +32,7 @@ public class DebugPlayer : MonoBehaviourPun
         }
     }
 
-    public void CastDebugSpell(string prefabName) {
-        PhotonNetwork.Instantiate(prefabName, transform.position+ transform.forward*2f, transform.rotation);
+    public GameObject CastDebugSpell(string prefabName) {
+        return PhotonNetwork.Instantiate(prefabName, transform.position+ transform.forward*2f, transform.rotation);
     }
 }

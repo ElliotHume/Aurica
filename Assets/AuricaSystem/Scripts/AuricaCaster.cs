@@ -121,13 +121,21 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public AuricaSpell Cast() {
-        AuricaSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
-        if (pureSpell != null) return pureSpell;
+        AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
+        AuricaSpell spell = pureSpell == null ? null :  pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
+        if (spell != null) return spell;
         return GetSpellMatch(currentComponents, currentDistribution);
     }
 
-    public AuricaSpell CastPureSpell() {
-        return GetPureMagicSpellMatch(currentComponents, currentDistribution);
+    public AuricaSpell CastFinal() {
+        AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
+        AuricaSpell spell = pureSpell == null ? null : pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
+        if (spell != null) {
+            Debug.Log("Add extra mana cost for pure spell: "+pureSpell.addedManaCost+"     pre-addition: "+currentManaCost);
+            currentManaCost += pureSpell.addedManaCost;
+            return spell;
+        }
+        return GetSpellMatch(currentComponents, currentDistribution);
     }
 
     public AuricaSpell GetSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
@@ -160,7 +168,7 @@ public class AuricaCaster : MonoBehaviourPun {
             ResetCast();
             CachedSpell cachedSpell = cachedSpells[slot];
             cachedSpell.AddComponents(this);
-            return Cast();
+            return CastFinal();
         }
 
         return GetSpellMatch(new List<AuricaSpellComponent>(), new ManaDistribution());
@@ -230,7 +238,7 @@ public class AuricaCaster : MonoBehaviourPun {
         return currentComponents;
     }
 
-    public AuricaSpell GetPureMagicSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
+    public AuricaPureSpell GetPureMagicSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
         AuricaPureSpell spellMatch = null;
         foreach (AuricaPureSpell s in allPureSpells) {
             // Debug.Log("Check Pure Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(s.GetManaType(distribution), distribution));
@@ -243,7 +251,7 @@ public class AuricaCaster : MonoBehaviourPun {
         }
         
         if (spellMatch == null) return null;
-        return spellMatch.GetAuricaSpell(spellMatch.GetManaType(distribution));
+        return spellMatch;
     }
 
 }

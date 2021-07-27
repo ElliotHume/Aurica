@@ -388,24 +388,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             if (!isChannelling) {
-                if (!casting) CastAuricaSpell(auricaCaster.Cast());
+                if (!casting) CastAuricaSpell(auricaCaster.CastFinal());
             } else {
                 StopBlocking();
                 auricaCaster.ResetCast();
             }
         }
-
-        if (Input.GetKeyDown("]")) {
-            if (!isChannelling) {
-                if (!casting) {
-                    if (!casting) CastAuricaSpell(auricaCaster.CastPureSpell());
-                }
-            } else {
-                StopBlocking();
-                auricaCaster.ResetCast();
-            }
-        }
-
     }
 
     public void SetMaxMana(float newMax) {

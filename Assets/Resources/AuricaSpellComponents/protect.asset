@@ -16,7 +16,7 @@ MonoBehaviour:
   category: 0
   classification: 1
   description: The spell will defend a mana source from incoming mana influence
-  manaCostMultiplier: 1
+  manaCostMultiplier: 0.75
   hasBasicDistribution: 1
   hasAuricDistribution: 1
   hasFluxDistribution: 0
@@ -30,13 +30,13 @@ MonoBehaviour:
     air: 0
     nature: 0
   auricDistribution:
-    structure: 0
+    structure: 0.1
     essence: 0.3
-    fire: 0
-    water: 0
-    earth: 0
+    fire: 0.1
+    water: 0.1
+    earth: 0.1
     air: 0.05
-    nature: 0
+    nature: 0.1
   fluxDistribution:
     structure: 0
     essence: 0

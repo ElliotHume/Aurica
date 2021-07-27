@@ -237,4 +237,8 @@ public struct ManaDistribution {
 
         return sum;
     }
+
+    public ManaDistribution GetInverted() {
+        return new ManaDistribution(1,1,1,1,1,1,1) - this;
+    }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   category: 0
   classification: 1
   description: Basis of defense, the spell will protect from harm
-  manaCostMultiplier: 1
+  manaCostMultiplier: 0.75
   hasBasicDistribution: 0
   hasAuricDistribution: 1
   hasFluxDistribution: 0
@@ -30,12 +30,12 @@ MonoBehaviour:
     air: 0
     nature: 0
   auricDistribution:
-    structure: 0
+    structure: 0.1
     essence: 0.1
-    fire: 0
+    fire: 0.1
     water: 0.1
     earth: 0.1
-    air: 0
+    air: 0.1
     nature: 0.1
   fluxDistribution:
     structure: 0

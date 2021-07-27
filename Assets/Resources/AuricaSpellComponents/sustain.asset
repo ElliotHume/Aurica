@@ -17,7 +17,7 @@ MonoBehaviour:
   classification: 19
   description: The spell will attempt to sustain its mana formation by consuming
     mana from your aura
-  manaCostMultiplier: 1.5
+  manaCostMultiplier: 2
   hasBasicDistribution: 0
   hasAuricDistribution: 1
   hasFluxDistribution: 0
@@ -31,13 +31,13 @@ MonoBehaviour:
     air: 0
     nature: 0
   auricDistribution:
-    structure: 0.5
-    essence: 0.5
+    structure: 0.1
+    essence: 0.1
     fire: 0.1
     water: 0.1
     earth: 0.1
     air: 0.1
-    nature: 1
+    nature: 0.1
   fluxDistribution:
     structure: 0
     essence: 0

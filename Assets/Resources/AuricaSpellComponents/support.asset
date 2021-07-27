@@ -16,8 +16,8 @@ MonoBehaviour:
   category: 0
   classification: 2
   description: Basis of support, the spell will aid others
-  manaCostMultiplier: 1
-  hasBasicDistribution: 1
+  manaCostMultiplier: 0.75
+  hasBasicDistribution: 0
   hasAuricDistribution: 1
   hasFluxDistribution: 0
   hasSiphonDistribution: 0
@@ -31,11 +31,11 @@ MonoBehaviour:
     nature: 0
   auricDistribution:
     structure: 0.1
-    essence: 0.15
-    fire: 0
+    essence: 0.1
+    fire: 0.1
     water: 0.1
-    earth: 0
-    air: 0
+    earth: 0.1
+    air: 0.1
     nature: 0.1
   fluxDistribution:
     structure: 0

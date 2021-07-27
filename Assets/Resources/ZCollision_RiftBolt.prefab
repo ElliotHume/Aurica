@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2331186632438128978}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 2326914616080912508}
   - {fileID: 2331186632437840918}
@@ -59,7 +59,7 @@ MonoBehaviour:
   FadeoutTime: 1.5
   UseCollisionDetection: 1
   LimitMaxDistance: 0
-  MaxDistnace: -1
+  MaxDistance: -1
   Mass: 1
   Speed: 10
   AirDrag: 0.1
@@ -29579,32 +29579,6 @@ MonoBehaviour:
   GraphTimeMultiplier: 0.5
   GraphIntensityMultiplier: 1
   IsLoop: 0
-  DestoryDistance: 1
-  UseDistanceScale: 1
-  DistanceScaleCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.79999995
-      value: 1
-      inSlope: -0.023910971
-      outSlope: -0.023910971
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.22999999
-      inSlope: -5.0533323
-      outSlope: -5.0533323
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
   UseUPVector: 0
   DragCurve:
     serializedVersion: 2

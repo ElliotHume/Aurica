@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: ManaBall
   m_EditorClassIdentifier: 
   c_name: ManaBall
-  description: Shoot a ball of energy
+  description: Shoot a weak ball of mana that will direct itself towards where the
+    caster targets.
   SpellBasis: 0
   SpellForm: 4
   SpellFocus: 12
-  SpellAction: 16
+  SpellAction: 18
   errorThreshold: 3
   OrderSpell: {fileID: 11400000, guid: f333ae6e61544c9448cd9bc00519aafa, type: 2}
   ChaosSpell: {fileID: 11400000, guid: f832b95b3cc9c6741a8515accad3b02d, type: 2}

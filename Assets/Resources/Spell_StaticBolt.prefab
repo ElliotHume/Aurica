@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 15
+  Damage: 30
   auricaSpell: {fileID: 11400000, guid: 1892cc9ff5d434816aec79c5acf112b7, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -277,11 +277,11 @@ MonoBehaviour:
   Speed: 120
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
-  CanHitSelf: 1
+  CanHitSelf: 0
   ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 0
-  HomingDetectionSphereRadius: 1
+  HomingDetectionSphereRadius: 0.8
   TrackingProjectile: 1
   TrackingTurnSpeed: 50
   CollisionOffset: 0
@@ -307,7 +307,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4936092335273999724
 Rigidbody:
@@ -346,7 +346,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4936092335273999726}
   - {fileID: 4936092335273999714}
-  sceneViewId: 0
+  sceneViewId: 17
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4936092335273999714

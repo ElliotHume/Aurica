@@ -107,7 +107,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 2
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -4644,7 +4644,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 2
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -9114,7 +9114,7 @@ Transform:
   m_GameObject: {fileID: 4086438890484715115}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4088224382421925253}
   - {fileID: 4080965706250034303}
@@ -9133,7 +9133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 15
+  Damage: 30
   auricaSpell: {fileID: 11400000, guid: 57c98445bbeef4db79a56f21156779df, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -9146,15 +9146,15 @@ MonoBehaviour:
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
   Speed: 20
-  RandomMoveRadius: 0.2
-  RandomMoveSpeedScale: 10
-  CanHitSelf: 1
+  RandomMoveRadius: 0
+  RandomMoveSpeedScale: 0
+  CanHitSelf: 0
   ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 1
-  HomingDetectionSphereRadius: 6
+  HomingDetectionSphereRadius: 2
   TrackingProjectile: 0
-  TrackingTurnSpeed: 0.1
+  TrackingTurnSpeed: 0
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
@@ -9180,7 +9180,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4085581394677322630
 MonoBehaviour:
@@ -9203,7 +9203,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4085581394677322628}
   - {fileID: 4085581394677322631}
-  sceneViewId: 0
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4085581394677322631
@@ -9259,7 +9259,7 @@ MonoBehaviour:
   root: 0
   rootDuration: 0
   silence: 1
-  silenceDuration: 2
+  silenceDuration: 1
   stun: 0
   stunDuration: 0
   weaken: 0
