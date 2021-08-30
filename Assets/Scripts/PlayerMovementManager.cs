@@ -11,12 +11,21 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public AudioSource jumpSource;
     public AudioClip[] jumpingSounds;
 
+    [Header("Player Grounded")]
+    [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
+    public bool Grounded = true;
+    [Tooltip("Useful for rough ground")]
+    public float GroundedOffset = -0.14f;
+    [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
+    public float GroundedRadius = 0.28f;
+    [Tooltip("What layers the character uses as ground")]
+    public LayerMask GroundLayers;
+
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, casting;
+    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting;
     private Vector3 playerVelocity, impact, velocity;
-
     private float movementSpeed;
 
     Vector3 networkPosition;
@@ -82,10 +91,23 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             jumping = true;
         }
 
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            if (running) {
+                movementSpeed /= 3f;
+            }
+            running = false;
+        } else {
+            if (!running) {
+                movementSpeed *= 3f;
+            }
+            running = true;
+        }
+
         animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isBlocking && !isBeingDisplaced);
-        animator.SetBool("Running", !isRooted && !isBlocking && !isBeingDisplaced);
+        animator.SetBool("Running", running);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
+        GroundedCheck();
 
         transform.rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
 
@@ -123,16 +145,17 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void Footstep() {
+        // no footsteps if walking
+        if (!running) return;
+
         footStepSource.clip = footsteps[Random.Range(0, footsteps.Length)];
         footStepSource.Play ();
     }
 
     public void JumpLift() {
         if (!photonView.IsMine) return;
-        Debug.Log("JUMP");
         jumpSource.clip = jumpingSounds[0];
         jumpSource.Play();
-        //JumpImpulse();
         StartCoroutine(JumpRoutine());
     }
 
@@ -164,14 +187,16 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void EndJump() {
+        Debug.Log("END JUMP");
         jumping = false;
     }
 
-    void JumpImpulse() {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        Vector3 movement = transform.forward * v + transform.right * h + transform.up;
-        AddImpact(movement * JumpHeight, JumpSpeed, true);
+    private void GroundedCheck() {
+        // set sphere position, with offset
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+        Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+
+        animator.SetBool("FreeFall", !Grounded);
     }
 
     public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
@@ -237,5 +262,17 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             isStunned = false;
             animator.speed = 1f * GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         }
+    }
+
+
+    private void OnDrawGizmosSelected() {
+        Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
+        Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
+
+        if (Grounded) Gizmos.color = transparentGreen;
+        else Gizmos.color = transparentRed;
+        
+        // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
+        Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
     }
 }

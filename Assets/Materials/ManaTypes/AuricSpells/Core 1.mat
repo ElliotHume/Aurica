@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SmokeTrail
+  m_Name: Core 1
   m_Shader: {fileID: 4800000, guid: 4775e5a8f344d6348adf934e722da85d, type: 3}
-  m_ShaderKeywords: BlendAlpha Clip_OFF FrameBlend_OFF FresnelFade_OFF SoftParticles_OFF
+  m_ShaderKeywords: BlendAlpha Clip_ON FrameBlend_OFF FresnelFade_OFF SoftParticles_OFF
     VertLight_OFF
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -20,22 +20,28 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b662268751189264dba6818c71ee99cc, type: 3}
-        m_Scale: {x: 0.85, y: 1}
-        m_Offset: {x: 0.2, y: 0}
+        m_Texture: {fileID: 2800000, guid: 91f045fd1cd874f47af16c5c5b224d17, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - CullMode: 2
     - DstMode: 10
     - SrcMode: 5
-    - _CoreStrength: 6
+    - _BumpAmt: 10
+    - _ColorStrength: 1
+    - _CoreStrength: 2
     - _CutOutLightCore: 1
-    - _Cutout: 0.2
+    - _Cutout: 0.3
     - _FresnelStr: 1
     - _InvFade: 3
-    - _TintStrength: 6
+    - _TintStrength: 4
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _CoreColor: {r: 0.47794116, g: 0.5679513, b: 1, a: 1}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 0.40784314}
+    - _CoreColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    - _TintColor: {r: 0.55570614, g: 0.7993403, b: 1.4912621, a: 0.523}
   m_BuildTextureStacks: []
