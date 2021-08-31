@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerParticleManager : MonoBehaviour
 {
     public GameObject defaultParticles;
+    private bool defaultParticlesPlaying = true;
     public GameObject r_auric, r_order, r_chaos, r_life, r_death, r_fire, r_water, r_earth, r_air, r_divine, r_demonic;
     public GameObject l_auric, l_order, l_chaos, l_life, l_death, l_fire, l_water, l_earth, l_air, l_divine, l_demonic;
 
@@ -69,12 +70,10 @@ public class PlayerParticleManager : MonoBehaviour
                 break;
         }
 
-        // stop default particles
-        ParticleSystem[] particles = defaultParticles.GetComponentsInChildren<ParticleSystem>();
-        foreach(var particle in particles) particle.Stop();
+        StopDefaultParticles();
 
         rHandParticles.SetActive(true);
-        particles = rHandParticles.GetComponentsInChildren<ParticleSystem>();
+        ParticleSystem[] particles = rHandParticles.GetComponentsInChildren<ParticleSystem>();
         foreach(var particle in particles) particle.Play();
         activeParticles.Add(rHandParticles);
 
@@ -86,6 +85,20 @@ public class PlayerParticleManager : MonoBehaviour
         }
 
         
+    }
+
+    public void StopDefaultParticles() {
+        if (!defaultParticlesPlaying) return;
+        ParticleSystem[] particles = defaultParticles.GetComponentsInChildren<ParticleSystem>();
+        foreach(var particle in particles) particle.Stop();
+        defaultParticlesPlaying = false;
+    }
+
+    public void StartDefaultParticles() {
+        if (defaultParticlesPlaying) return;
+        ParticleSystem[] defaultParticleSystems = defaultParticles.GetComponentsInChildren<ParticleSystem>();
+        foreach(var particle in defaultParticleSystems) particle.Play();
+        defaultParticlesPlaying = true;
     }
 
     public void StopHandParticles() {
@@ -101,10 +114,7 @@ public class PlayerParticleManager : MonoBehaviour
             foreach(var particle in particles) particle.Stop();
         }
 
-        // restart default particles
-        ParticleSystem[] defaultParticleSystems = defaultParticles.GetComponentsInChildren<ParticleSystem>();
-        foreach(var particle in defaultParticleSystems) particle.Play();
-
+        StartDefaultParticles();
 
         yield return new WaitForSeconds(3f);
         foreach(var particleGO in disableParticles) {

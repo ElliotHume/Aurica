@@ -17,6 +17,7 @@ public class CharacterUI : MonoBehaviour {
 
 
     private PlayerManager target;
+    private bool hidden = false;
 
     // Start is called before the first frame update
     void Awake() {
@@ -88,12 +89,16 @@ public class CharacterUI : MonoBehaviour {
     }
 
     public void Hide() {
+        if (hidden) return;
         playerNameText.gameObject.SetActive(false);
         playerHealthSlider.gameObject.SetActive(false);
+        hidden = true;
     }
 
     public void Show() {
+        if (!hidden) return;
         playerNameText.gameObject.SetActive(true);
         playerHealthSlider.gameObject.SetActive(true);
+        hidden = false;
     }
 }

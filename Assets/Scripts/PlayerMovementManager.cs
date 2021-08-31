@@ -27,6 +27,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting;
     private Vector3 playerVelocity, impact, velocity;
     private float movementSpeed;
+    private PlayerParticleManager particleManager;
+    private CharacterMaterialManager materialManager;
 
     Vector3 networkPosition;
     Quaternion networkRotation;
@@ -37,11 +39,13 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             // CRITICAL DATA
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(running);
         } else {
             // Network player, receive data
             // CRITICAL DATA
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
+            running = (bool)stream.ReceiveNext();
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
@@ -58,6 +62,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         movementSpeed = PlayerSpeed;
 
         characterController = GetComponent<CharacterController>();
+        particleManager = GetComponent<PlayerParticleManager>();
+        materialManager = GetComponentInChildren<CharacterMaterialManager>();
 
         // Init dictionary with cast types
         castAnimationTypes = new Dictionary<int, string>();
@@ -79,6 +85,14 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (!photonView.IsMine && PhotonNetwork.IsConnected) {
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * movementSpeed * 2f);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000f);
+
+            if (!running) {
+                particleManager.StopDefaultParticles();
+                materialManager.HideCharacterUI();
+            } else {
+                particleManager.StartDefaultParticles();
+                materialManager.ShowCharacterUI();
+            }
             return;
         }
         if (!animator) return;
@@ -94,11 +108,15 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (Input.GetKey(KeyCode.LeftShift)) {
             if (running) {
                 movementSpeed /= 3f;
+                particleManager.StopDefaultParticles();
+                materialManager.HideCharacterUI();
             }
             running = false;
         } else {
             if (!running) {
                 movementSpeed *= 3f;
+                particleManager.StartDefaultParticles();
+                materialManager.ShowCharacterUI();
             }
             running = true;
         }
