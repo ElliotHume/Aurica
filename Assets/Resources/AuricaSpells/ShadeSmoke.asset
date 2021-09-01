@@ -17,13 +17,13 @@ MonoBehaviour:
   description: Cast an easily obscured projectile that deals damage over time and
     has a brief silencing effect
   targetDistribution:
-    structure: 0.15
+    structure: 0.1
     essence: -1
-    fire: 0
+    fire: 0.1
     water: 0
-    earth: 0
+    earth: 0.1
     air: 0
-    nature: -0.1
+    nature: 0
   keyComponents:
   - {fileID: 11400000, guid: 9665561dfbacb4175b289685ee628d66, type: 2}
   - {fileID: 11400000, guid: d4e98e168819744fd8980d3b105e8577, type: 2}

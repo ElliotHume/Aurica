@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: 
-  c_name: Fireball
+  c_name: Fire bolt
   manaType: 5
-  description: A directable projectile that does moderate damage
+  description: A projectile that does moderate damage
   targetDistribution:
-    structure: 0.2
+    structure: -0.1
     essence: -0.1
     fire: 1
     water: 0
-    earth: 0.2
+    earth: 0
     air: 0
     nature: -0.1
   keyComponents:

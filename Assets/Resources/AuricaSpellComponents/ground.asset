@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: ground
   category: 2
-  description: Minor glyph of earth, increase the earth mana in the spell using a
-    small amount of mana gathered from your surroundings
+  classification: 13
+  description: Surface focus, the spell will affect the ground around the target.
+    This focus will use primarily earth mana to accomplish the focus.
   manaCostMultiplier: 1
-  hasBasicDistribution: 1
-  hasAuricDistribution: 0
+  hasBasicDistribution: 0
+  hasAuricDistribution: 1
   hasFluxDistribution: 0
   hasSiphonDistribution: 0
   basicDistribution:
@@ -26,24 +27,24 @@ MonoBehaviour:
     essence: 0
     fire: 0
     water: 0
-    earth: 0.1
+    earth: 0
     air: 0
     nature: 0
   auricDistribution:
-    structure: 0.5
+    structure: 0.07
     essence: 0
     fire: 0
-    water: 0.01
-    earth: 0.01
+    water: 0
+    earth: 0.3
     air: 0
-    nature: 0.2
+    nature: 0
   fluxDistribution:
     structure: 0
     essence: 0
-    fire: 0.1
-    water: 0.1
-    earth: 0.1
-    air: 0.3
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
     nature: 0
   siphonDistribution:
     structure: 0

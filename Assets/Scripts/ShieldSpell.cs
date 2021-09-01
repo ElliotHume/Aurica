@@ -11,6 +11,10 @@ public class ShieldSpell : Spell, IPunObservable {
     public List<string> networkedEffectsOnHit;
     public ManaDistribution ShieldDistribution;
 
+    void Start() {
+        Health *= GameManager.GLOBAL_SHIELD_HEALTH_MULTIPLIER;
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
             stream.SendNext(Health);
@@ -29,7 +33,9 @@ public class ShieldSpell : Spell, IPunObservable {
     public void TakeDamage(float damage, string damageDistributionJson) {
         if (!photonView.IsMine) return;
         ManaDistribution damageDistribution = JsonUtility.FromJson<ManaDistribution>(damageDistributionJson);
-        Health -= ShieldDistribution.GetDamage(damage, damageDistribution);
+        // Invert the shield distribution for damage calc
+        // this means a shield dist [0,0,1,1,1,1,0] will completely nullify all elemental damage
+        Health -= ShieldDistribution.GetInverted().GetDamage(damage, damageDistribution);
         Debug.Log("Health: " + Health);
 
         if (damage > 1f) {

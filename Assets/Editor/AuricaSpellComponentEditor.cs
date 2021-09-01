@@ -20,28 +20,63 @@ public class AuricaSpellComponentEditor : Editor {
 
         component.category = (AuricaSpellComponent.Category)EditorGUILayout.EnumPopup("Category:", component.category);
 
+        component.classification = (AuricaSpellComponent.Classification)EditorGUILayout.EnumPopup("Classification:", component.classification);
+
+        if (component.category == AuricaSpellComponent.Category.ManaType) {
+            component.classification = AuricaSpellComponent.Classification.ManaType;
+        } else if (component.category == AuricaSpellComponent.Category.WildGlyph) {
+            component.classification = AuricaSpellComponent.Classification.Wild;
+        } else if (component.category == AuricaSpellComponent.Category.ManaSiphon) {
+            component.classification = AuricaSpellComponent.Classification.Siphon;
+        }
+
+        if (component.classification == AuricaSpellComponent.Classification.Attack
+            || component.classification == AuricaSpellComponent.Classification.Defend
+            || component.classification == AuricaSpellComponent.Classification.Support
+            || component.classification == AuricaSpellComponent.Classification.Summon
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellBasis;
+
+        } else if (component.classification == AuricaSpellComponent.Classification.Sphere
+            || component.classification == AuricaSpellComponent.Classification.Wall
+            || component.classification == AuricaSpellComponent.Classification.Aura
+            || component.classification == AuricaSpellComponent.Classification.Area
+            || component.classification == AuricaSpellComponent.Classification.Infusion
+            || component.classification == AuricaSpellComponent.Classification.Blade
+            || component.classification == AuricaSpellComponent.Classification.Shield
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellForm;
+
+        } else if (component.classification == AuricaSpellComponent.Classification.Self
+            || component.classification == AuricaSpellComponent.Classification.Other
+            || component.classification == AuricaSpellComponent.Classification.Surface
+            || component.classification == AuricaSpellComponent.Classification.Mana
+            || component.classification == AuricaSpellComponent.Classification.Form
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellFocus;
+
+        } else if (component.classification == AuricaSpellComponent.Classification.Propel
+            || component.classification == AuricaSpellComponent.Classification.Throw
+            || component.classification == AuricaSpellComponent.Classification.Target
+            || component.classification == AuricaSpellComponent.Classification.Sustain
+            || component.classification == AuricaSpellComponent.Classification.Control
+            || component.classification == AuricaSpellComponent.Classification.Collect
+            || component.classification == AuricaSpellComponent.Classification.Contain
+            || component.classification == AuricaSpellComponent.Classification.Expel
+            || component.classification == AuricaSpellComponent.Classification.Pull
+            || component.classification == AuricaSpellComponent.Classification.Bless
+            || component.classification == AuricaSpellComponent.Classification.Curse
+        ) {
+            component.category = AuricaSpellComponent.Category.SpellAction;
+
+        }
+
         EditorGUILayout.LabelField("Description");
         GUIStyle myCustomStyle = new GUIStyle(GUI.skin.GetStyle("textArea")) { wordWrap = true };
         component.description = EditorGUILayout.TextArea(component.description, myCustomStyle);
 
         component.manaCostMultiplier = EditorGUILayout.FloatField("Mana Cost Multiplier", component.manaCostMultiplier);
         EditorGUILayout.Space();
-
-        // component.hasBasicDistribution = EditorGUILayout.Toggle("Basic distribution", component.hasBasicDistribution);
-        // if (component.hasBasicDistribution) {
-        //     Rect r = EditorGUILayout.BeginVertical("Basic Distribution");
-        //     component.basicDistribution[0] = EditorGUILayout.DelayedFloatField("Structure", component.basicDistribution[0]);
-        //     component.basicDistribution[1] = EditorGUILayout.DelayedFloatField("Essence", component.basicDistribution[1]);
-        //     component.basicDistribution[2] = EditorGUILayout.DelayedFloatField("Fire", component.basicDistribution[2]);
-        //     component.basicDistribution[3] = EditorGUILayout.DelayedFloatField("Water", component.basicDistribution[3]);
-        //     component.basicDistribution[4] = EditorGUILayout.DelayedFloatField("Earth", component.basicDistribution[4]);
-        //     component.basicDistribution[5] = EditorGUILayout.DelayedFloatField("Air", component.basicDistribution[5]);
-        //     component.basicDistribution[6] = EditorGUILayout.DelayedFloatField("Nature/Alignment", component.basicDistribution[6]);
-        //     EditorGUILayout.EndVertical();
-
-        //     EditorGUILayout.Space();
-        //     EditorGUILayout.Space();
-        // }
 
         component.hasBasicDistribution = EditorGUILayout.Toggle("Basic distribution", component.hasBasicDistribution);
         if (component.hasBasicDistribution) {

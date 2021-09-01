@@ -74,7 +74,7 @@ public class SideBarComponent : MonoBehaviour
 
     public void ActivateComponent(AuricaSpell spell) {
         OutlinePulse( true );
-        if (!spell.keyComponents.Contains(component)) return;
+        //if (!spell.keyComponents.Contains(component)) return;
         color = ResourceManager.Instance.GetColor(spell.manaType);
     }
 

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa11aad955653524e8c1664593085106, type: 3}
+  m_Name: LesserShield
+  m_EditorClassIdentifier: 
+  c_name: Lesser Shield
+  description: Create a weak shield of mana around the caster.
+  SpellBasis: 1
+  SpellForm: 10
+  SpellFocus: 11
+  SpellAction: 22
+  errorThreshold: 3
+  OrderSpell: {fileID: 11400000, guid: b4c9417116a81914c93c2a98cad82a41, type: 2}
+  ChaosSpell: {fileID: 11400000, guid: 763f73a8fa62dfd4c94d7b4e197254c5, type: 2}
+  LifeSpell: {fileID: 11400000, guid: 8d72c3cd46c29df4985df8338feb761f, type: 2}
+  DeathSpell: {fileID: 11400000, guid: 195d5591c302f8343a1e23638da25b7a, type: 2}
+  FireSpell: {fileID: 11400000, guid: b59cc0c3baf3d4340bff7261c8b5343b, type: 2}
+  WaterSpell: {fileID: 11400000, guid: 4ed0934745a5a8140963581973573e0d, type: 2}
+  EarthSpell: {fileID: 11400000, guid: 956e14b94dd194247a03058d1f03af5b, type: 2}
+  AirSpell: {fileID: 11400000, guid: e6f665afdca23ba4b8ab04b979b3e779, type: 2}
+  DivineSpell: {fileID: 11400000, guid: 334c9ff0c15567a4db4361886614cfdb, type: 2}
+  DemonicSpell: {fileID: 11400000, guid: 1d4407240f1c22344a9c027b26dcb31d, type: 2}

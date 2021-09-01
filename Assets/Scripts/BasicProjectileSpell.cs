@@ -96,7 +96,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
         if ( isCollided ) return;
         Debug.Log("Collision with: "+collision.gameObject);
         
-        if (!CanHitSelf) {
+        // Prevent the projectile hitting the player who cast it if the flag is set.
+        if (!CanHitSelf && collision.gameObject.tag == "Player") {
             PhotonView p = PhotonView.Get(collision.gameObject);
             if (p != null) {
                 if (p.Owner.ActorNumber == photonView.Owner.ActorNumber) {

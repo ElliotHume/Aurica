@@ -42,6 +42,14 @@ public class SummonSpell : Spell, IPunObservable {
             DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
             if (DestroyTimeDelay > 0f) Invoke("DestroySelf", DestroyTimeDelay);
             if (Duration > 0f) Invoke("DisableCollisions", Duration);
+            
+            if (Rising) {
+                if (Destination == Vector3.zero) Destination = transform.localPosition;
+                transform.position -= AlignToZAxis ? transform.forward * StartingOffset : transform.up * StartingOffset;
+                startPosition = transform.position;
+
+                StartCoroutine(Rise());
+            }
         }
         if (StartTimeDelay > 0f) {
             active = false;
@@ -55,14 +63,6 @@ public class SummonSpell : Spell, IPunObservable {
         foreach (var effect in RisingParticles) {
             GameObject newEffect = Instantiate(effect, transform.position, transform.rotation);
             Destroy(newEffect, DestroyTimeDelay);
-        }
-
-        if (Rising) {
-            if (Destination == Vector3.zero) Destination = transform.localPosition;
-            transform.position -= AlignToZAxis ? transform.forward * StartingOffset : transform.up * StartingOffset;
-            startPosition = transform.position;
-
-            StartCoroutine(Rise());
         }
 
 

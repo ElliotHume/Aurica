@@ -29,10 +29,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The rate at which Mana regen will increase if a spell hasnt been cast recently")]
     public float ManaRegenGrowthRate = 0.005f;
 
-    [Tooltip("Where spells witll spawn from when being cast forwards")]
+    [Tooltip("Where spells will spawn from when being cast forwards")]
     public Transform frontCastingAnchor;
-    [Tooltip("Where spells witll spawn from when being cast upwards")]
+    [Tooltip("Where spells will spawn from when being cast upwards")]
     public Transform topCastingAnchor;
+    [Tooltip("Where spells will spawn from when being cast at aimpoint")]
+    public Transform aimPointAnchor;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -68,6 +70,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private AuricaCaster auricaCaster;
     private ShieldSpell currentShield;
     private CustomCameraWork cameraWorker;
+    private AimpointAnchor aimPointAnchorManager;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -203,6 +206,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
+
+        aimPointAnchorManager = aimPointAnchor.GetComponent<AimpointAnchor>();
     }
 
     void Awake() {
@@ -215,6 +220,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) {
             PlayerManager.LocalPlayerInstance = this.gameObject;
         }
+
+        // Unparent the aimpoint anchor so that when the player moves the anchor wont move with the player
+        if (aimPointAnchor != null) aimPointAnchor.transform.parent = null;
     }
 
     void Update() {
@@ -331,11 +339,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void TakeDamage(float damage, ManaDistribution spellDistribution) {
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
-        if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);
         if (isShielded || damage == 0f) return;
-        Health -= aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
-        if (HitSound != null && damage > 3f) HitSound.Play();
-        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution) + "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
+        float finalDamage = aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
+        Health -= finalDamage;
+        DamageVignette.Instance.FlashDamage(finalDamage);
+        if (cameraWorker != null) cameraWorker.Shake(finalDamage / 100f, 0.198f);
+        if (HitSound != null && finalDamage > 3f) HitSound.Play();
+        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
@@ -380,13 +390,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             if (!isChannelling) {
-                if (!casting) CastAuricaSpell(auricaCaster.Cast());
+                if (!casting) CastAuricaSpell(auricaCaster.CastFinal());
             } else {
                 StopBlocking();
                 auricaCaster.ResetCast();
             }
         }
-
     }
 
     public void SetMaxMana(float newMax) {
@@ -466,6 +475,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 break;
             case "top":
                 currentCastingTransform = topCastingAnchor;
+                break;
+            case "aimpoint":
+                aimPointAnchor.position = GetCrosshairAimPoint();
+                aimPointAnchor.rotation = Quaternion.LookRotation(aimPointAnchorManager.GetHitNormal(), (aimPointAnchor.transform.position - transform.position));
+                currentCastingTransform = aimPointAnchor;
                 break;
             default:
                 currentCastingTransform = frontCastingAnchor;
@@ -1104,15 +1118,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             movementManager.ResetMovementSpeed();
             slowed = false;
         }
-        if (tough) {
-            StopCoroutine(toughRoutine);
-            toughPercentage = 0f;
-            tough = false;
+        if (fragile) {
+            StopCoroutine(fragileRoutine);
+            fragilePercentage = 0f;
+            fragile = false;
         }
-        if (strengthened) {
-            StopCoroutine(strengthenRoutine);
-            strengths = new ManaDistribution();
-            strengthened = false;
+        if (weakened) {
+            StopCoroutine(weakenRoutine);
+            weaknesses = new ManaDistribution();
+            weakened = false;
         }
         if (manaRestorationChange) {
             if (ManaRegen < defaultManaRegen) {

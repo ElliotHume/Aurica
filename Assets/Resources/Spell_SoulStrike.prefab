@@ -5048,7 +5048,7 @@ Transform:
   m_GameObject: {fileID: 6054169607109061093}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 6057282522170123281}
   m_Father: {fileID: 0}
@@ -5066,7 +5066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 22
+  Damage: 21
   auricaSpell: {fileID: 11400000, guid: c3ac7c81c9d964c0d8d098f5305997e7, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -5078,15 +5078,16 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 10
+  Speed: 30
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
-  CanHitSelf: 1
+  CanHitSelf: 0
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
-  HomingProjectile: 0
+  HomingProjectile: 1
   HomingDetectionSphereRadius: 1
-  TrackingProjectile: 1
-  TrackingTurnSpeed: 100
+  TrackingProjectile: 0
+  TrackingTurnSpeed: 0
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
@@ -5113,7 +5114,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6053203369044158421
 Rigidbody:
@@ -5152,7 +5153,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6053203369044158416}
   - {fileID: 6053203369044158423}
-  sceneViewId: 0
+  sceneViewId: 7
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6053203369044158423
@@ -5169,8 +5170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!114 &2360278210837887441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5219,7 +5220,7 @@ MonoBehaviour:
   fragileDuration: 0
   fragilePercentage: 0
   tough: 1
-  toughDuration: 5
+  toughDuration: 10
   toughPercentage: 25
   changeManaRegen: 0
   changeDuration: 0
@@ -5232,8 +5233,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
-  canHitSelf: 1
+  canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!1 &6054319627831631825
 GameObject:
   m_ObjectHideFlags: 0

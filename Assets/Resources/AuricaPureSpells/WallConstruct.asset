@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa11aad955653524e8c1664593085106, type: 3}
+  m_Name: WallConstruct
+  m_EditorClassIdentifier: 
+  c_name: Wall Construct
+  description: Create a solid wall of mana.
+  SpellBasis: 3
+  SpellForm: 5
+  SpellFocus: 15
+  SpellAction: 19
+  addedManaCost: 50
+  errorThreshold: 3
+  OrderSpell: {fileID: 11400000, guid: 067e219dc764aa7449dcfb8674304b15, type: 2}
+  ChaosSpell: {fileID: 0}
+  LifeSpell: {fileID: 0}
+  DeathSpell: {fileID: 0}
+  FireSpell: {fileID: 0}
+  WaterSpell: {fileID: 11400000, guid: 14541f4de1e952145aa3df4f01b9c0b1, type: 2}
+  EarthSpell: {fileID: 11400000, guid: 9c4ce6fcfe9cd62438792d771c167bae, type: 2}
+  AirSpell: {fileID: 11400000, guid: 3b45d0a1188895d4e86c5e77831bfb1a, type: 2}
+  DivineSpell: {fileID: 11400000, guid: f75ff2652b03a6749aa0e7ddb50b3702, type: 2}
+  DemonicSpell: {fileID: 0}

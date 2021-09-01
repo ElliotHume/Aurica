@@ -94,9 +94,9 @@ public struct ManaDistribution {
         error += Mathf.Abs(earth - dist.earth);
         error += Mathf.Abs(air - dist.air);
 
-        Debug.Log("Structure Error" + GetAlignedErrorFunc(structure, dist.structure));
-        Debug.Log("Essence Error" + GetAlignedErrorFunc(essence, dist.essence));
-        Debug.Log("Nature Error" + GetAlignedErrorFunc(nature, dist.nature));
+        // Debug.Log("Structure Error" + GetAlignedErrorFunc(structure, dist.structure));
+        // Debug.Log("Essence Error" + GetAlignedErrorFunc(essence, dist.essence));
+        // Debug.Log("Nature Error" + GetAlignedErrorFunc(nature, dist.nature));
         return error;
     }
 
@@ -236,5 +236,9 @@ public struct ManaDistribution {
         }
 
         return sum;
+    }
+
+    public ManaDistribution GetInverted() {
+        return new ManaDistribution(1,1,1,1,1,1,1) - this;
     }
 }

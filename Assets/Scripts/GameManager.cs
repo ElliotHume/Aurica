@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 1f;
     public static float GLOBAL_SPELL_DAMAGE_MULTIPLIER = 1f;
     public static float GLOBAL_SPELL_DURATION_MULTIPLIER = 1f;
+    public static float GLOBAL_SHIELD_HEALTH_MULTIPLIER = 0.5f;
     public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.5f;
+    public static float GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER = 1.25f;
     
 
     void Start() {

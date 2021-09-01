@@ -4720,7 +4720,7 @@ Transform:
   m_GameObject: {fileID: 7870877990932945985}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 7869629539735276897}
   - {fileID: 7870037249540040537}
@@ -4739,7 +4739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 15
+  Damage: 30
   auricaSpell: {fileID: 11400000, guid: 918a235fcd48c471c99e41392b229415, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -4751,15 +4751,16 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 30
-  RandomMoveRadius: 0.1
-  RandomMoveSpeedScale: 2
+  Speed: 40
+  RandomMoveRadius: 0
+  RandomMoveSpeedScale: 0
   CanHitSelf: 1
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 1
-  HomingDetectionSphereRadius: 3
-  TrackingProjectile: 1
-  TrackingTurnSpeed: 20
+  HomingDetectionSphereRadius: 1
+  TrackingProjectile: 0
+  TrackingTurnSpeed: 0
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
@@ -4785,8 +4786,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.15
+  m_Center: {x: 0, y: 0.02, z: 0}
 --- !u!54 &7870400193651394119
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4824,7 +4825,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 7870400193651394105}
   - {fileID: 7870400193651394117}
-  sceneViewId: 4
+  sceneViewId: 109
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7870400193651394117

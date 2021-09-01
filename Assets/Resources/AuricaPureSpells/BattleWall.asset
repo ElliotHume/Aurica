@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa11aad955653524e8c1664593085106, type: 3}
+  m_Name: BattleWall
+  m_EditorClassIdentifier: 
+  c_name: Battle Wall
+  description: Create a volatile wall of mana that can aid the caster, but will damage
+    others caught within.
+  SpellBasis: 1
+  SpellForm: 5
+  SpellFocus: 14
+  SpellAction: 19
+  errorThreshold: 3
+  OrderSpell: {fileID: 0}
+  ChaosSpell: {fileID: 11400000, guid: de7b60f30d044184e9118c91a90d392c, type: 2}
+  LifeSpell: {fileID: 0}
+  DeathSpell: {fileID: 11400000, guid: 229071e7ce843cd46a5d4da57f1fe083, type: 2}
+  FireSpell: {fileID: 11400000, guid: fd79d327957491042b7aec5a23b9678c, type: 2}
+  WaterSpell: {fileID: 0}
+  EarthSpell: {fileID: 0}
+  AirSpell: {fileID: 0}
+  DivineSpell: {fileID: 0}
+  DemonicSpell: {fileID: 11400000, guid: 21e40b0d3a9743b40b3fd34562379652, type: 2}

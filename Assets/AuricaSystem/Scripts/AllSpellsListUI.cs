@@ -18,7 +18,7 @@ public class AllSpellsListUI : MonoBehaviour
     {
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
         allSpellsList = new List<AuricaSpell>(allSpells);
-        allSpellsList.Sort((a, b) => a.manaType.CompareTo(b.manaType) == 0 ? a.c_name.CompareTo(b.c_name) : a.manaType.CompareTo(b.manaType));
+        // allSpellsList.Sort((a, b) => a.manaType.CompareTo(b.manaType) == 0 ? a.c_name.CompareTo(b.c_name) : a.manaType.CompareTo(b.manaType));
         rect = GetComponent<RectTransform>();
         PopulateList();
         spellListPanelGameObject.SetActive(false);
@@ -28,6 +28,7 @@ public class AllSpellsListUI : MonoBehaviour
         //currentYPos = startYPos;
         //rect.sizeDelta = new Vector2(150, 80 * allSpellsList.Count);
         foreach (AuricaSpell spell in allSpellsList) {
+            if (spell.keyComponents.Count == 0) return;
             GameObject newButton = Instantiate(spellElementPrefab, transform.position, transform.rotation, transform);
             instances.Add(newButton);
             newButton.GetComponent<SpellUIButton>().SetSpellDisplay(spellUIDisplay);

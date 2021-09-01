@@ -6035,8 +6035,8 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 0.99215686}
-        key2: {r: 0, g: 0, b: 0, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 0.7058824}
+        key2: {r: 0, g: 0, b: 0, a: 0.9647059}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -10551,7 +10551,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -14315,7 +14315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5380262003368313179}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 5386132048245815395}
@@ -15449,7 +15449,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 0.99215686}
+        key1: {r: 1, g: 1, b: 1, a: 0.5686275}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -28189,7 +28189,7 @@ Transform:
   m_GameObject: {fileID: 5380626153865885591}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -2.0673227, y: -0.72, z: 16.338333}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 5386132048245815395}
   - {fileID: 5377464130451188701}
@@ -28208,7 +28208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 20
+  Damage: 30
   auricaSpell: {fileID: 11400000, guid: d312bf5b6818e4b2687afcffda308b5c, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -28220,16 +28220,17 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 15
+  Speed: 40
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 1
-  HomingDetectionSphereRadius: 2
+  HomingDetectionSphereRadius: 1
   TrackingProjectile: 0
-  TrackingTurnSpeed: 0.1
-  CollisionOffset: 0.05
+  TrackingTurnSpeed: 0
+  CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
   AirDrag: 0
@@ -28288,8 +28289,8 @@ MonoBehaviour:
     air: 0
     nature: 0
   fragile: 0
-  fragileDuration: 10
-  fragilePercentage: 50
+  fragileDuration: 0
+  fragilePercentage: 0
   tough: 0
   toughDuration: 0
   toughPercentage: 0
@@ -28304,8 +28305,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!135 &5381532453877661116
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -28317,7 +28321,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5381532453877661117
 Rigidbody:
@@ -28356,7 +28360,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5381532453877661118}
   - {fileID: 5381532453877661115}
-  sceneViewId: 0
+  sceneViewId: 62
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &5381532453877661115

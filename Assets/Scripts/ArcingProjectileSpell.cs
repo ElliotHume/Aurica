@@ -113,9 +113,10 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
         if ( isCollided ) return;
         Debug.Log("Collision with: "+ collision.gameObject);
         
+        // Prevent the projectile hitting the player who cast it.
         PhotonView p = PhotonView.Get(collision.gameObject);
         if (p != null) {
-            if (p.Owner.ActorNumber == photonView.Owner.ActorNumber) {
+            if (collision.gameObject.tag == "Player" && p.Owner.ActorNumber == photonView.Owner.ActorNumber) {
                 return;
             }
         }
