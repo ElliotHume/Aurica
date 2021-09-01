@@ -339,11 +339,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void TakeDamage(float damage, ManaDistribution spellDistribution) {
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
-        if (cameraWorker != null) cameraWorker.Shake(damage / 100f, 0.198f);
         if (isShielded || damage == 0f) return;
-        Health -= aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
-        if (HitSound != null && damage > 3f) HitSound.Play();
-        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + aura.GetDamage(damage, spellDistribution) + "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
+        float finalDamage = aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
+        Health -= finalDamage;
+        DamageVignette.Instance.FlashDamage(finalDamage);
+        if (cameraWorker != null) cameraWorker.Shake(finalDamage / 100f, 0.198f);
+        if (HitSound != null && finalDamage > 3f) HitSound.Play();
+        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {

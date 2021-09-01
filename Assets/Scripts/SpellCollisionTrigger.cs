@@ -5,7 +5,9 @@ using UnityEngine.Events;
 
 public class SpellCollisionTrigger : MonoBehaviour
 {
+    public bool AcceptAllSpells = false;
     public List<AuricaSpell.ManaType> AcceptedManaTypes;
+    public List<AuricaSpell> AcceptedSpells;
     public UnityEvent OnSpellCollide;
     
 
@@ -19,18 +21,23 @@ public class SpellCollisionTrigger : MonoBehaviour
 
     void CheckCollision(GameObject collision) {
         if (collision.gameObject.tag == "Spell") {
-            if (AcceptedManaTypes.Count > 0) {
+            if (AcceptAllSpells) {
+                Trigger();
+                return;
+            }
+            if (AcceptedManaTypes.Count > 0 || AcceptedSpells.Count > 0) {
                 Spell spell = collision.gameObject.GetComponent<Spell>();
                 if (spell != null) {
-                    if ( !AcceptedManaTypes.Contains(spell.auricaSpell.manaType) ) return;
+                    if ( AcceptedSpells.Contains(spell.auricaSpell) || AcceptedManaTypes.Contains(spell.auricaSpell.manaType) ) {
+                        Trigger();
+                    }
                 }
             }
-            
-            Trigger();
         }
     }
 
     public void Trigger() {
+        Debug.Log("TRIGGER spell collision object: "+gameObject);
         OnSpellCollide.Invoke();
     }
 }

@@ -30,10 +30,18 @@ public class CharacterMaterialManager : MonoBehaviour
         characterUI = ui;
     }
 
+    public void HideCharacterUI() {
+        if (characterUI != null) characterUI.Hide();
+    }
+
+    public void ShowCharacterUI() {
+        if (characterUI != null) characterUI.Show();
+    }
+
     public void GoInvisible() {
         Material[] mats = new Material[]{invisibleMaterial};
         renderer.materials = mats;
-        if (characterUI != null) characterUI.Hide();
+        HideCharacterUI();
         isInvisible = true;
         foreach(var obj in toggleObjects) obj.SetActive(false);
     }
@@ -41,7 +49,7 @@ public class CharacterMaterialManager : MonoBehaviour
     public void ResetMaterial() {
         Material[] mats = new Material[]{baseMaterial};
         renderer.materials = mats;
-        if (characterUI != null) characterUI.Show();
+        ShowCharacterUI();
         isInvisible = false;
         foreach(var obj in toggleObjects) obj.SetActive(true);
     }
