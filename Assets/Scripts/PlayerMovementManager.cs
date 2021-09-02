@@ -133,33 +133,31 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         Vector3 oldPosition = transform.position;
         if (!jumping && !casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
 
-        // Apply Gravity
-        // if (!characterController.isGrounded) characterController.Move(Physics.gravity * Time.deltaTime);
-
         // Apply impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 
         // Consume the impact energy each cycle:
-        impact = characterController.isGrounded ? Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime) : Vector3.Lerp(impact, Vector3.zero, 2.5f * Time.deltaTime);
+        impact = Grounded ? Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime) : Vector3.Lerp(impact, Vector3.zero, 2.5f * Time.deltaTime);
 
         // Calculate velocity for lag compensation
         velocity = transform.position - oldPosition;
     }
 
     public void PlayCastingAnimation(int animationType) {
-        if (!isStunned && !isBlocking) {
-            // Local method
-            //animator.Play(castAnimationTypes[animationType]);
+        // animator method
+        casting = true;
+        animator.SetBool("Cast", casting);
+        animator.SetInteger("CastType", animationType);
+        
+    }
 
-            // animator method
-            animator.SetTrigger("Cast");
-            animator.SetInteger("CastType", animationType);
-            casting = true;
-        }
+    public bool CanCast() {
+        return !isStunned && !isBlocking && !casting && Grounded && !isBeingDisplaced && !jumping;
     }
 
     public void EndCast() {
         casting = false;
+        animator.SetBool("Cast", casting);
     }
 
     public void Footstep() {
@@ -221,23 +219,6 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         // TODO: Animation system
         if (isRooted || isBeingDisplaced) return;
         AddImpact(direction, distance * speed, isWorldSpaceDirection);
-        // StartCoroutine(DisplacementRoutine(direction, distance, speed, isWorldSpaceDirection));
-    }
-
-    // DEPRECATED
-    IEnumerator DisplacementRoutine(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
-        isBeingDisplaced = true;
-        float timer = distance / speed;
-        while (timer > 0f) {
-            Vector3 movement = !isWorldSpaceDirection
-                ? transform.forward * direction.z + transform.right * direction.x + Vector3.up * direction.y
-                : direction;
-            characterController.Move(movement * Time.deltaTime * speed);
-
-            timer -= Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-        isBeingDisplaced = false;
     }
 
     // call this function to add an impact force:

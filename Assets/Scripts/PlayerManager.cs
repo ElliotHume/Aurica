@@ -368,7 +368,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void ProcessInputs() {
         if (silenced || stunned || !photonView.IsMine) return;
 
-        if (!casting) {
+        if (movementManager.CanCast()) {
             if (Input.GetKeyDown("1")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("1"));
             } else if (Input.GetKeyDown("2")) {

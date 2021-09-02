@@ -27,8 +27,8 @@ public class AllSpellsListUI : MonoBehaviour
     public void PopulateList() {
         //currentYPos = startYPos;
         //rect.sizeDelta = new Vector2(150, 80 * allSpellsList.Count);
-        foreach (AuricaSpell spell in allSpellsList) {
-            if (spell.keyComponents.Count == 0) return;
+    foreach (AuricaSpell spell in allSpellsList) {
+            if (spell.keyComponents.Count == 0) continue;
             GameObject newButton = Instantiate(spellElementPrefab, transform.position, transform.rotation, transform);
             instances.Add(newButton);
             newButton.GetComponent<SpellUIButton>().SetSpellDisplay(spellUIDisplay);
