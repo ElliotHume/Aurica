@@ -33993,6 +33993,7 @@ GameObject:
   - component: {fileID: 818667658}
   - component: {fileID: 818667657}
   - component: {fileID: 818667659}
+  - component: {fileID: 818667660}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -34021,7 +34022,6 @@ MonoBehaviour:
   auraPanel: {fileID: 1166636555}
   infoPanel: {fileID: 1166636556}
   spellListPanel: {fileID: 1166636566}
-  bindingPanel: {fileID: 1166636567}
 --- !u!4 &818667658
 Transform:
   m_ObjectHideFlags: 0
@@ -34053,6 +34053,40 @@ MonoBehaviour:
   - {fileID: 1166636555}
   - {fileID: 1166636556}
   - {fileID: 1166636566}
+--- !u!114 &818667660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818667656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 940b7e4c731b8714e803c56dcd37c180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AuricIcon: {fileID: 21300000, guid: b151db0721e7861459da07573be3020f, type: 3}
+  OrderIcon: {fileID: 21300000, guid: 31ccb92444d2b51488c4bfd7ca4fffa2, type: 3}
+  ChaosIcon: {fileID: 21300000, guid: 11765a167c9f4144298a985d01b1f830, type: 3}
+  LifeIcon: {fileID: 21300000, guid: 7d9eb0c649f48c04c86d50bdd4a7e5e1, type: 3}
+  DeathIcon: {fileID: 21300000, guid: 5f0badf2bc83c4744b3f7a7f7c88d2d0, type: 3}
+  FireIcon: {fileID: 21300000, guid: dfe6451973c702944a2fc6429e4a8bff, type: 3}
+  WaterIcon: {fileID: 21300000, guid: 43dc719fd24650d4e898617ff66a5459, type: 3}
+  EarthIcon: {fileID: 21300000, guid: 7ef27700f72462a4c9cd965c6e1961a7, type: 3}
+  AirIcon: {fileID: 21300000, guid: 38a96c053c2d95a4284f68ea28cf36a3, type: 3}
+  DivineIcon: {fileID: 21300000, guid: 9662914a0c6978e44a0ddc4ddb963777, type: 3}
+  DemonicIcon: {fileID: 21300000, guid: a1926c7460a3b654e82b27c40a6feb89, type: 3}
+  AuricColor: {r: 0, g: 0.71217585, b: 1, a: 1}
+  OrderColor: {r: 0.6862745, g: 0.41960785, b: 1, a: 1}
+  ChaosColor: {r: 1, g: 0.5882353, b: 0.9843137, a: 1}
+  LifeColor: {r: 1, g: 1, b: 1, a: 1}
+  DeathColor: {r: 0, g: 0, b: 0, a: 1}
+  FireColor: {r: 1, g: 0.22297573, b: 0, a: 1}
+  WaterColor: {r: 0, g: 0.1363521, b: 0.7169812, a: 1}
+  EarthColor: {r: 0.509434, g: 0.21532431, b: 0, a: 1}
+  AirColor: {r: 0, g: 0.8679245, b: 0.019061709, a: 1}
+  DivineColor: {r: 1, g: 0.7921569, b: 0, a: 1}
+  DemonicColor: {r: 0.5849056, g: 0.025214111, b: 0.0082769515, a: 1}
 --- !u!1001 &819587102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53658,6 +53692,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 550.0011
+      objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -54447,12 +54485,6 @@ GameObject:
 --- !u!1 &1166636566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 620777604, guid: 49d05c70d726ef843b55f895a94a3e24,
-    type: 3}
-  m_PrefabInstance: {fileID: 1166636554}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1166636567 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1024719717655210665, guid: 49d05c70d726ef843b55f895a94a3e24,
     type: 3}
   m_PrefabInstance: {fileID: 1166636554}
   m_PrefabAsset: {fileID: 0}
@@ -84226,8 +84258,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 1
   canHitSelf: 1
+  onlyHitSelf: 0
 --- !u!136 &1918489685
 CapsuleCollider:
   m_ObjectHideFlags: 0

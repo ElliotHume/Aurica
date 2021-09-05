@@ -33,6 +33,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     private Vector3 randomTimeOffset;
     private Crosshair crosshair;
     private int homingLayerMask = 1 << 3;
+    private int collidedViewId = -1, networkCollidedViewId = -1;
 
     private Vector3 networkPosition, oldPosition, velocity;
     private Quaternion networkRotation;
@@ -43,11 +44,13 @@ public class BasicProjectileSpell : Spell, IPunObservable
             stream.SendNext(transform.rotation);
             stream.SendNext(Speed);
             stream.SendNext(isCollided);
+            stream.SendNext(collidedViewId);
         } else {
             networkPosition = (Vector3) stream.ReceiveNext();
             networkRotation = (Quaternion) stream.ReceiveNext();
             Speed = (float) stream.ReceiveNext();
             networkCollided = (bool) stream.ReceiveNext();
+            networkCollidedViewId = (int) stream.ReceiveNext();
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
@@ -66,17 +69,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
 
     public void FixedUpdate() {
-        // Check for network collision
-        if (!photonView.IsMine) {
-            // If no collision has happened locally, but the network shows a collision, spawn the collision at current location
-            if (!isCollided && networkCollided) {
-                transform.position = networkPosition;
-                transform.rotation = networkRotation;
-                LocalCollisionBehaviour(networkPosition, -transform.forward);
-                isCollided = true;
-            }
-        }
-
         // Local Behaviour
         oldPosition = transform.position;
         UpdateWorldPosition();
@@ -87,6 +79,22 @@ public class BasicProjectileSpell : Spell, IPunObservable
             if (!isCollided) {
                 if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
+
+                // If no collision has happened locally, but the network shows a collision, determine where the collision should occur and spawn it.
+                if (networkCollided) {
+                    if (networkCollidedViewId != -1) {
+                        // The spell has collided with a player, we want to make sure this is reflected clientside by moving the projectile towards the player that is hit
+                        Transform hitPlayer = PhotonView.Find(networkCollidedViewId).gameObject.transform;
+                        transform.position = ((hitPlayer.position+new Vector3(0f,1f,0f)) + networkPosition)/2f;
+                        Debug.Log("MOVING TOWARDS LOCAL PLAYER TRANSFORM");
+                    } else {
+                        // The spell has collided with a non-player object, move it to the networked position on the assumption that the hit object is stationary.
+                        transform.position = networkPosition;
+                    }
+                    transform.rotation = networkRotation;
+                    LocalCollisionBehaviour(transform.position, -transform.forward);
+                    if (!ContinuesPastCollision) isCollided = true;
+                }
             }
         }
         
@@ -118,7 +126,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        collidedViewId = pv.ViewID;
+                    }
                 }
             } else if (collision.gameObject.tag == "Shield") {
                 ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();

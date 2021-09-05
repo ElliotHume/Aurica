@@ -85,7 +85,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     // Update is called once per frame
     void Update() {
         if (!photonView.IsMine && PhotonNetwork.IsConnected) {
-            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * movementSpeed * 5f);
+            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * movementSpeed * 3f);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000f);
 
             if (!running) {
