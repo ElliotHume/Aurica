@@ -20,6 +20,28 @@ public class SpellUIDisplay : MonoBehaviour {
         HideSpell();
     }
 
+    void Update() {
+        if (Input.GetKeyDown("1")) {
+            AuricaCaster.LocalCaster.CastBindSlot("1");
+            CheckComponents();
+        } else if (Input.GetKeyDown("2")) {
+            AuricaCaster.LocalCaster.CastBindSlot("2");
+            CheckComponents();
+        } else if (Input.GetKeyDown("3")) {
+            AuricaCaster.LocalCaster.CastBindSlot("3");
+            CheckComponents();
+        } else if (Input.GetKeyDown("e")) {
+            AuricaCaster.LocalCaster.CastBindSlot("e");
+            CheckComponents();
+        } else if (Input.GetKeyDown("q")) {
+            AuricaCaster.LocalCaster.CastBindSlot("q");
+            CheckComponents();
+        } else if (Input.GetKeyDown("r")) {
+            AuricaCaster.LocalCaster.CastBindSlot("r");
+            CheckComponents();
+        }
+    }
+
     public void AddComponentFromComponentDisplay() {
         // componentUIList.AddComponent(componentUIDisplay.component);
         AuricaCaster.LocalCaster.AddComponent(componentUIDisplay.component);

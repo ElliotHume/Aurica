@@ -44847,8 +44847,8 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
-  Duration: 1.2
-  CastAnimationType: 1
+  Duration: 0.5
+  CastAnimationType: 10
   CastingAnchor: front
   TurnToAimPoint: 1
   IsChannel: 0
@@ -44857,9 +44857,9 @@ MonoBehaviour:
   LastingDamage: 0
   OneShotEffect: 1
   LastingEffect: 0
-  canHitSelf: 0
+  canHitSelf: 1
   growBeforeStart: 0
-  SpellStrengthChangesDuration: 1
+  SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 15
   StartTimeDelay: 0.75
   ScalingFactor: 0

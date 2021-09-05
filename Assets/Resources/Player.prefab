@@ -18536,7 +18536,7 @@ MonoBehaviour:
   PlayerUiPrefab: {fileID: 4047682461476091337, guid: 4fd60b50476473b4ca1cb832d7579d48,
     type: 3}
   RootBone: {fileID: 8658202501466747601}
-  ParticleManager: {fileID: 5738928514015778667}
+  particleManager: {fileID: 5738928514015778667}
   materialManager: {fileID: 7164054173599333771}
   dead: 0
   CastingSound: {fileID: -6543760656415228768}
@@ -18622,7 +18622,7 @@ MonoBehaviour:
   GroundedRadius: 0.41
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 3
 --- !u!114 &7920007557602750286
 MonoBehaviour:
   m_ObjectHideFlags: 0

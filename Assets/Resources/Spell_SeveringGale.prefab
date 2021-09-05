@@ -4691,7 +4691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 30
+  Damage: 35
   auricaSpell: {fileID: 11400000, guid: 449ef7560995d8247ac9dab4599bcccb, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -4703,7 +4703,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 50
+  Speed: 100
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
@@ -4716,7 +4716,7 @@ MonoBehaviour:
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
-  AirDrag: 5
+  AirDrag: 10
   MinSpeed: 0
   ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:

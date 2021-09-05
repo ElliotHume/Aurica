@@ -3746,7 +3746,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -5008,7 +5008,7 @@ MonoBehaviour:
   FPS: 30
   IsLoop: 1
   MinVertexDistance: 0.2
-  GetVelocityFromParticleSystem: 0
+  GetVelocityFromParticleSystem: 1
   Gravity: -2.5
   Force: {x: 0.5, y: 0, z: 0}
   InheritVelocity: 0
@@ -13142,7 +13142,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -14404,7 +14404,7 @@ MonoBehaviour:
   FPS: 30
   IsLoop: 1
   MinVertexDistance: 0.2
-  GetVelocityFromParticleSystem: 0
+  GetVelocityFromParticleSystem: 1
   Gravity: -2
   Force: {x: 0.5, y: 0, z: 0}
   InheritVelocity: 0
@@ -14568,7 +14568,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6554722693758682963
 Rigidbody:
@@ -18218,7 +18218,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -19480,7 +19480,7 @@ MonoBehaviour:
   FPS: 30
   IsLoop: 1
   MinVertexDistance: 0.2
-  GetVelocityFromParticleSystem: 0
+  GetVelocityFromParticleSystem: 1
   Gravity: -2.5
   Force: {x: 0.5, y: 0, z: 0}
   InheritVelocity: 0

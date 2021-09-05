@@ -101,12 +101,12 @@ public class PlayerParticleManager : MonoBehaviour
         defaultParticlesPlaying = true;
     }
 
-    public void StopHandParticles() {
+    public void StopHandParticles(bool shouldStartDefaultParticles = true) {
         StopAllCoroutines();
-        StartCoroutine(DisableParticles());
+        StartCoroutine(DisableParticles(shouldStartDefaultParticles));
     }
 
-    IEnumerator DisableParticles() {
+    IEnumerator DisableParticles(bool shouldStartDefaultParticles) {
         List<GameObject> disableParticles = activeParticles;
         ParticleSystem[] particles = new ParticleSystem[]{};
         foreach(var particleGO in disableParticles) {
@@ -114,7 +114,7 @@ public class PlayerParticleManager : MonoBehaviour
             foreach(var particle in particles) particle.Stop();
         }
 
-        StartDefaultParticles();
+        if (shouldStartDefaultParticles) StartDefaultParticles();
 
         yield return new WaitForSeconds(3f);
         foreach(var particleGO in disableParticles) {

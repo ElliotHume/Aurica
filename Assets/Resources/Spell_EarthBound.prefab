@@ -9541,11 +9541,12 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 1
   HomingDetectionSphereRadius: 20
-  TrackingProjectile: 0
-  TrackingTurnSpeed: 0.1
+  TrackingProjectile: 1
+  TrackingTurnSpeed: 25
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
@@ -9690,8 +9691,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!1 &6777071893119756992
 GameObject:
   m_ObjectHideFlags: 0

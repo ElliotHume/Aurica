@@ -27,6 +27,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting;
     private Vector3 playerVelocity, impact, velocity;
     private float movementSpeed;
+    private PlayerManager playerManager;
     private PlayerParticleManager particleManager;
     private CharacterMaterialManager materialManager;
 
@@ -61,6 +62,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         animator.speed *= GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         movementSpeed = PlayerSpeed;
 
+        playerManager = GetComponent<PlayerManager>();
         characterController = GetComponent<CharacterController>();
         particleManager = GetComponent<PlayerParticleManager>();
         materialManager = GetComponentInChildren<CharacterMaterialManager>();
@@ -83,15 +85,13 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     // Update is called once per frame
     void Update() {
         if (!photonView.IsMine && PhotonNetwork.IsConnected) {
-            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * movementSpeed * 2f);
+            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * movementSpeed * 5f);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000f);
 
             if (!running) {
-                particleManager.StopDefaultParticles();
-                materialManager.HideCharacterUI();
+                playerManager.Sneak();
             } else {
-                particleManager.StartDefaultParticles();
-                materialManager.ShowCharacterUI();
+                playerManager.EndSneak();
             }
             return;
         }
@@ -108,15 +108,13 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (Input.GetKey(KeyCode.LeftShift)) {
             if (running) {
                 movementSpeed /= 3f;
-                particleManager.StopDefaultParticles();
-                materialManager.HideCharacterUI();
+                playerManager.Sneak();
             }
             running = false;
         } else {
             if (!running) {
                 movementSpeed *= 3f;
-                particleManager.StartDefaultParticles();
-                materialManager.ShowCharacterUI();
+                playerManager.EndSneak();
             }
             running = true;
         }
@@ -152,7 +150,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public bool CanCast() {
-        return !isStunned && !isBlocking && !casting && Grounded && !isBeingDisplaced && !jumping;
+        return !isStunned && !casting && Grounded && !isBeingDisplaced && !jumping;
     }
 
     public void EndCast() {
@@ -236,7 +234,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void ResetMovementSpeed() {
-        movementSpeed = PlayerSpeed;
+        movementSpeed = running ? PlayerSpeed : PlayerSpeed / 3f;
     }
 
     public void StartBlock() {

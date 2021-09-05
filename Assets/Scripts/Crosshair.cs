@@ -7,9 +7,12 @@ using UnityEngine.UI;
 public class Crosshair : MonoBehaviour
 {
     public static Crosshair Instance;
+    public Vector3 playerHitOffset = new Vector3(0,1f,0);
 
     // Raycast will hit everything but spells
-    public LayerMask WPLayermask;
+    public LayerMask WorldPointLayermask, PlayerVisibleLayermask;
+
+    
 
     // private Vector3 startPos;
     void Start() {
@@ -25,7 +28,7 @@ public class Crosshair : MonoBehaviour
     public Vector3 GetWorldPoint() {
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit hit;
-        if( Physics.Raycast( ray, out hit, 1000f, WPLayermask) ) {
+        if( Physics.Raycast( ray, out hit, 1000f, WorldPointLayermask) ) {
             // Debug.Log("Point hit: "+hit.point);
             return hit.point;
         }
@@ -37,7 +40,10 @@ public class Crosshair : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit[] hits = Physics.SphereCastAll( ray, radius, 1000f, 1 << 3);
         foreach(var hit in hits) {
-            if (hit.collider.gameObject != PlayerManager.LocalPlayerInstance) return hit.collider.gameObject;
+            Vector3 cameraPos = Camera.main.transform.position;
+            Vector3 hitPos = hit.collider.gameObject.transform.position+playerHitOffset;
+            bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
+            if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerInstance) return hit.collider.gameObject;
         }
 
         return null;
@@ -54,4 +60,15 @@ public class Crosshair : MonoBehaviour
             if (b != null) b.onClick.Invoke();
         }
     }
+
+    void OnDrawGizmosSelected(){
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach( var player in players) {
+            Vector3 cameraPos = Camera.main.transform.position;
+            Vector3 hitPos = player.transform.position+playerHitOffset;
+            bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
+            Gizmos.color = isVisibilityBlocked? Color.red : Color.green;
+            Gizmos.DrawLine(Camera.main.transform.position, hitPos);
+        }
+	}
 }

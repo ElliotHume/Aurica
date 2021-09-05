@@ -46,8 +46,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The root bone of the character model, used for animations and ragdolling")]
     public GameObject RootBone;
 
-    public PlayerParticleManager ParticleManager;
-
+    public PlayerParticleManager particleManager;
     public CharacterMaterialManager materialManager;
 
     [HideInInspector]
@@ -58,7 +57,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
-    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, casting = false;
+    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, sneaking = false;
     private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar;
@@ -317,6 +316,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         transform.position = newPosition;
     }
 
+    public void Sneak() {
+        if (sneaking) return;
+        particleManager.StopDefaultParticles();
+        materialManager.HideCharacterUI();
+        sneaking = true;
+    }
+
+    public void EndSneak() {
+        if (!sneaking || camouflaged) return;
+        particleManager.StartDefaultParticles();
+        materialManager.ShowCharacterUI();
+        sneaking = false;
+    }
+
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
 
     [PunRPC]
@@ -390,7 +403,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             if (!isChannelling) {
-                if (!casting) CastAuricaSpell(auricaCaster.CastFinal());
+                if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.CastFinal());
             } else {
                 StopBlocking();
                 auricaCaster.ResetCast();
@@ -446,25 +459,27 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     void CastFizzle() {
         PhotonNetwork.Instantiate("XCollision_Fizzle", transform.position, transform.rotation);
-        casting = false;
     }
 
     void CastAuricaSpell(AuricaSpell spell) {
         if (!photonView.IsMine) return;
+        if (isChannelling) {
+            StopBlocking();
+            auricaCaster.ResetCast();
+            return;
+        }
         if (spell == null) {
             Debug.Log("Invalid cast");
             CastFizzle();
             auricaCaster.ResetCast();
             return;
         }
-        casting = true;
         Debug.Log("Spell Match: " + spell.c_name);
         // Load spell resource
         GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
         Spell foundSpell = dataObject != null ? dataObject.GetComponent<Spell>() : null;
 
         if (foundSpell == null) {
-            casting = false;
             return;
         }
 
@@ -500,7 +515,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!foundSpell.IsChannel) {
             currentSpellCast = spell.linkedSpellResource;
             movementManager.PlayCastingAnimation(foundSpell.CastAnimationType);
-            ParticleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
+            particleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
             if (CastingSound != null) CastingSound.Play();
         } else {
             // If the spell is channelled, channel it immediately
@@ -553,7 +568,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 manaBar.BlinkText();
             }
             auricaCaster.ResetCast();
-            casting = false;
         }
         currentSpellCast = null;
     }
@@ -598,13 +612,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     // Do nothing, likely has already been cleaned up
                 }
                 channelledSpell = null;
-                casting = false;
             }
         }
     }
 
     public void EndCast() {
-        ParticleManager.StopHandParticles();
+        particleManager.StopHandParticles(!sneaking);
     }
 
 
@@ -1025,21 +1038,25 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     IEnumerator CamouflageRoutine(float duration) {
         camouflaged = true;
         materialManager.GoInvisible();
+        Sneak();
         yield return new WaitForSeconds(duration);
         materialManager.ResetMaterial();
         camouflaged = false;
+        EndSneak();
     }
 
     [PunRPC]
     public void ContinuousCamouflage() {
         camouflaged = true;
         materialManager.GoInvisible();
+        Sneak();
     }
 
     [PunRPC]
     public void EndContinuousCamouflage() {
         camouflaged = false;
         materialManager.ResetMaterial();
+        EndSneak();
     }
 
 

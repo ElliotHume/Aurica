@@ -16,21 +16,23 @@ public class AoESpell : Spell {
 
     void Start() {
         if (SpellStrengthChangesDuration) {
-            Duration *= GetSpellStrength();
-            DestroyTimeDelay *= GetSpellStrength();
+            float spellStrength = GetSpellStrength();
+            Duration *= spellStrength;
+            DestroyTimeDelay *= spellStrength;
+            StartTimeDelay *= spellStrength;
         }
         Duration *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
         DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
         if (photonView.IsMine) {
-            Invoke("DestroySelf", DestroyTimeDelay);
-            Invoke("DisableCollisions", Duration);
+            Invoke("DestroySelf", DestroyTimeDelay+StartTimeDelay);
+            Invoke("DisableCollisions", Duration+StartTimeDelay);
         }
         if (StartTimeDelay > 0f) {
             active = false;
             DisableCollisions();
             Invoke("Enable", StartTimeDelay);
         }
-        Invoke("DisableParticlesAfterDuration", Duration);
+        Invoke("DisableParticlesAfterDuration", Duration+StartTimeDelay);
     }
 
     void FixedUpdate() {
@@ -98,6 +100,7 @@ public class AoESpell : Spell {
 
     void DisableCollisions() {
         active = false;
+        Debug.Log("DISABLE COLLISIONS");
         GetComponent<Collider>().enabled = false;
     }
 

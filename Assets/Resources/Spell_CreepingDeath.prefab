@@ -931,6 +931,7 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
   HomingProjectile: 1
   HomingDetectionSphereRadius: 50
@@ -963,7 +964,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2131690658006917567
 MonoBehaviour:
@@ -986,7 +987,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 2131690658006917565}
   - {fileID: 2131690658006917566}
-  sceneViewId: 0
+  sceneViewId: 12
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &2131690658006917566
