@@ -100,7 +100,6 @@ public class AoESpell : Spell {
 
     void DisableCollisions() {
         active = false;
-        Debug.Log("DISABLE COLLISIONS");
         GetComponent<Collider>().enabled = false;
     }
 

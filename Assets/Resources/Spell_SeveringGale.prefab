@@ -4691,7 +4691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 35
+  Damage: 20
   auricaSpell: {fileID: 11400000, guid: 449ef7560995d8247ac9dab4599bcccb, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -4716,7 +4716,7 @@ MonoBehaviour:
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
-  AirDrag: 10
+  AirDrag: 15
   MinSpeed: 0
   ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:
@@ -4777,10 +4777,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.20634556
-  m_Height: 1
+  m_Radius: 0.3
+  m_Height: 1.9171786
   m_Direction: 1
-  m_Center: {x: 0.05913639, y: -0.1975143, z: 0.7269687}
+  m_Center: {x: 0.05913639, y: 0.4114051, z: 0.7269687}
 --- !u!114 &6569867819681743638
 MonoBehaviour:
   m_ObjectHideFlags: 0

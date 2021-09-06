@@ -31985,6 +31985,7 @@ MonoBehaviour:
   resultsPanel: {fileID: 1166636561}
   bluesidewinUI: {fileID: 1166636560}
   redsidewinUI: {fileID: 1166636559}
+  ToggleObjects: []
   LivesPerPlayer: 1
   RespawnTimer: 10
   MatchMusic: {fileID: 770329855}
@@ -53612,6 +53613,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 311535620, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -53667,6 +53672,14 @@ PrefabInstance:
     - target: {fileID: 817118799, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851948212, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 770329853}
+    - target: {fileID: 851948212, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendGameStart
       objectReference: {fileID: 0}
     - target: {fileID: 1090981029, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
@@ -53694,7 +53707,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 550.0011
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x

@@ -35,4 +35,8 @@ public class DebugPlayer : MonoBehaviourPun
     public GameObject CastDebugSpell(string prefabName) {
         return PhotonNetwork.Instantiate(prefabName, transform.position+ transform.forward*2f, transform.rotation);
     }
+
+    void OnCollisionEnter(Collision collision) {
+        Debug.Log("DEBUG HIT BY: "+collision.gameObject);
+    }
 }

@@ -1,28 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CharacterMaterialManager : MonoBehaviour
+public class CharacterMaterialManager : MonoBehaviourPun
 {
     public CharacterUI characterUI;
-    public Material baseMaterial, invisibleMaterial;
-    public List<GameObject> toggleObjects;
+    public Material defaultMaterial, invisibleMaterial;
+    public List<GameObject> toggleObjects, adminToggleObjects;
+    public Mesh adminMesh;
+    public Material adminMaterial;
 
+    Material baseMaterial;
     bool isInvisible = false;
     new SkinnedMeshRenderer renderer;
 
     void Start() {
         renderer = GetComponent<SkinnedMeshRenderer>();
-    }
+        baseMaterial = defaultMaterial;
 
-    // DEBUG PURPOSES
-    void Update() {
-        if (Input.GetKeyDown("l")) {
-            if (!isInvisible) {
-                GoInvisible();
-            } else {
-                ResetMaterial();
-            }
+        if (photonView.Owner.NickName == "Xelerox") {
+            baseMaterial = adminMaterial;
+            Material[] mats = new Material[]{baseMaterial};
+            renderer.materials = mats;
+            renderer.sharedMesh = adminMesh;
+            foreach(var obj in toggleObjects) obj.SetActive(false);
+            toggleObjects.Clear();
+            toggleObjects = adminToggleObjects;
+            foreach(var obj in toggleObjects) obj.SetActive(true);
         }
     }
 
@@ -39,6 +44,7 @@ public class CharacterMaterialManager : MonoBehaviour
     }
 
     public void GoInvisible() {
+        if (isInvisible) return;
         Material[] mats = new Material[]{invisibleMaterial};
         renderer.materials = mats;
         HideCharacterUI();

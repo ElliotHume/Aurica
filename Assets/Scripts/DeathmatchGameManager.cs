@@ -15,6 +15,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     public Transform BlueSideSpawnPoint, RedSideSpawnPoint;
     public Text blueLifeCounter, redLifeCounter;
     public GameObject DeathMatchGamePanel, readyButton, resultsPanel, bluesidewinUI, redsidewinUI;
+    public List<GameObject> ToggleObjects;
 
     public int LivesPerPlayer = 1;
     public float RespawnTimer;
@@ -98,6 +99,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         matchStarted = true;
         readyButton.SetActive(false);
 
+        foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
+
         if (MatchMusic != null) MatchMusic.Play();
     }
 
@@ -134,6 +137,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         }
 
         matchStarted = false;
+        foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
         if (MatchMusic != null) MatchMusic.Stop();
     }
 
