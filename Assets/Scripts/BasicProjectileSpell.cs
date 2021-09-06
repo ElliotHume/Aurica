@@ -237,8 +237,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
         transform.position += frameMoveOffsetWorld;
         travelDistance += frameMoveOffsetWorld;
 
-        if (Target != null && ((targetT.position + new Vector3(0,1,0)) - transform.position).magnitude < 1.5f) {
-            transform.position = targetT.position;
+        if (Target != null && ((targetT.position + new Vector3(0,1,0)) - transform.position).magnitude < 1.25f) {
+            transform.position = targetT.position + new Vector3(0,1,0);
         }
     }
 

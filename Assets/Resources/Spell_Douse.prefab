@@ -133,7 +133,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &9064220549118733517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,13 +149,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 9064220549118733514}
   - {fileID: 9064220549118733518}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &9064220549118733518
@@ -254,8 +254,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!1 &9063836969315772106
 GameObject:
   m_ObjectHideFlags: 0
