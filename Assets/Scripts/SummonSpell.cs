@@ -44,12 +44,13 @@ public class SummonSpell : Spell, IPunObservable {
             if (Duration > 0f) Invoke("DisableCollisions", Duration);
             
             if (Rising) {
-                if (Destination == Vector3.zero) Destination = transform.localPosition;
-                transform.position -= AlignToZAxis ? transform.forward * StartingOffset : transform.up * StartingOffset;
-                startPosition = transform.position;
-
                 StartCoroutine(Rise());
             }
+        }
+        if (Rising) {
+            if (Destination == Vector3.zero) Destination = transform.localPosition;
+            transform.position -= AlignToZAxis ? transform.forward * StartingOffset : transform.up * StartingOffset;
+            startPosition = transform.position;
         }
         if (StartTimeDelay > 0f) {
             active = false;

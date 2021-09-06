@@ -100,7 +100,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (Input.GetButtonDown("Jump") && !isRooted && !isBlocking && !isBeingDisplaced && !jumping) {
+        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isBlocking && !isBeingDisplaced && !jumping) {
             animator.SetTrigger("Jump");
             jumping = true;
         }
@@ -215,7 +215,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
     public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
         // TODO: Animation system
-        if (isRooted || isBeingDisplaced) return;
+        if (isBeingDisplaced) return;
         AddImpact(direction, distance * speed, isWorldSpaceDirection);
     }
 

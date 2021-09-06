@@ -286,6 +286,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         StopBlocking();
 
         // TODO: Clear any status effects
+        Cleanse();
     }
 
     public void Die() {

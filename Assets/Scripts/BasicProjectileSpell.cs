@@ -12,7 +12,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float RandomMoveSpeedScale = 0f;
     public bool CanHitSelf = true, ContinuesPastCollision = false;
     public GameObject Target;
-    public bool HomingProjectile = false;
+    public bool HomingProjectile = true;
     public float HomingDetectionSphereRadius = 1f;
     public bool TrackingProjectile = false;
     public float TrackingTurnSpeed = 0.1f;
@@ -207,18 +207,17 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
 
         // If a homing projectile, check for a player in the radius and set it as target
-        if (HomingProjectile) {
-            if (Target == null){
-                Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
-                if (hits.Length > 0) {
-                    foreach( var hit in hits ) {
-                        if (hit.gameObject != PlayerManager.LocalPlayerInstance) {
-                            SetTarget(hit.gameObject, true);
-                            break;
-                        }
+        if (HomingProjectile && Target == null) {
+            Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
+            if (hits.Length > 0) {
+                foreach( var hit in hits ) {
+                    if (hit.gameObject != PlayerManager.LocalPlayerInstance) {
+                        SetTarget(hit.gameObject, true);
+                        break;
                     }
                 }
             }
+            
         }
 
         var frameMoveOffsetWorld = Vector3.zero;
@@ -237,6 +236,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
         if (AirDrag > 0f) Speed = Mathf.Lerp(Speed, MinSpeed, AirDrag/100f);
         transform.position += frameMoveOffsetWorld;
         travelDistance += frameMoveOffsetWorld;
+
+        if (Target != null && ((targetT.position + new Vector3(0,1,0)) - transform.position).magnitude < 1.5f) {
+            transform.position = targetT.position;
+        }
     }
 
     Vector3 GetRadiusRandomVector() {

@@ -23067,9 +23067,10 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  ContinuesPastCollision: 0
   Target: {fileID: 0}
-  HomingProjectile: 0
-  HomingDetectionSphereRadius: 1
+  HomingProjectile: 1
+  HomingDetectionSphereRadius: 2
   TrackingProjectile: 1
   TrackingTurnSpeed: 35
   CollisionOffset: 0
@@ -23130,13 +23131,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 8102800293011534650}
   - {fileID: 8102800293011534646}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8102800293011534646
@@ -23216,8 +23217,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!1 &8103915007479243408
 GameObject:
   m_ObjectHideFlags: 0

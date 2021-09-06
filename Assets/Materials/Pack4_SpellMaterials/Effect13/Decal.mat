@@ -8,8 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Decal
-  m_Shader: {fileID: 4800000, guid: d8f400148b999fe41bd30759b3a9126b, type: 3}
-  m_ShaderKeywords: USE_CUTOUT USE_CUTOUT_TEX USE_NOISE_DISTORTION _BLENDMODE_BLEND
+  m_Shader: {fileID: 4800000, guid: 32ed75d04da1d2348baeac9738ccd729, type: 3}
+  m_ShaderKeywords: USE_CUTOUT USE_CUTOUT_TEX USE_NOISE_DISTORTION USE_WORLD_SPACE_UV
+    _BLENDMODE_BLEND
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -53,7 +54,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 8029b2e399ecad64abd073cc0565e809, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.1, y: 0.1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
         m_Texture: {fileID: 2800000, guid: b80c73badf90597449a2cf4eab88e541, type: 3}
@@ -65,7 +66,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
         m_Texture: {fileID: 2800000, guid: 994e51c46f307ae4d9386e5c8022a40b, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.1, y: 0.1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -84,7 +85,7 @@ Material:
     - _CutoutAlphaMul: 5
     - _CutoutThreshold: 0.015
     - _DetailNormalMapScale: 1
-    - _DistortScale: 0.3
+    - _DistortScale: 1
     - _DistortSpeed: 2
     - _DstBlend: 0
     - _DstMode: 10
@@ -106,7 +107,7 @@ Material:
     - _UseCutoutThreshold: 0
     - _UseFrameBlending: 0
     - _UseNoiseDistortion: 1
-    - _UseWorldSpaceUV: 0
+    - _UseWorldSpaceUV: 1
     - _ZTest1: 5
     - _ZWrite: 1
     m_Colors:
