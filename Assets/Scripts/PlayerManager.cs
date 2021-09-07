@@ -389,12 +389,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 CastAuricaSpell(auricaCaster.CastBindSlot("2"));
             } else if (Input.GetKeyDown("3")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("3"));
+            } else if (Input.GetKeyDown("4")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("4"));
             } else if (Input.GetKeyDown("e")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("e"));
             } else if (Input.GetKeyDown("q")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("q"));
             } else if (Input.GetKeyDown("r")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("r"));
+            } else if (Input.GetKeyDown("f")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("f"));
             }
         }
 

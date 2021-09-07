@@ -31,6 +31,9 @@ public class SpellUIDisplay : MonoBehaviour {
             } else if (Input.GetKeyDown("3")) {
                 AuricaCaster.LocalCaster.CastBindSlot("3");
                 CheckComponents();
+            } else if (Input.GetKeyDown("4")) {
+                AuricaCaster.LocalCaster.CastBindSlot("4");
+                CheckComponents();
             } else if (Input.GetKeyDown("e")) {
                 AuricaCaster.LocalCaster.CastBindSlot("e");
                 CheckComponents();
@@ -39,6 +42,9 @@ public class SpellUIDisplay : MonoBehaviour {
                 CheckComponents();
             } else if (Input.GetKeyDown("r")) {
                 AuricaCaster.LocalCaster.CastBindSlot("r");
+                CheckComponents();
+            } else if (Input.GetKeyDown("f")) {
+                AuricaCaster.LocalCaster.CastBindSlot("f");
                 CheckComponents();
             }
         }

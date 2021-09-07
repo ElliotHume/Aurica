@@ -392,8 +392,10 @@ MonoBehaviour:
   RandomMoveSpeedScale: 0
   CanHitSelf: 1
   ContinuesPastCollision: 0
-  Target: {fileID: 0}
-  HomingProjectile: 1
+  AimAssistedProjectile: 1
+  AimAssistRadius: 3
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 0
   TrackingProjectile: 0
   TrackingTurnSpeed: 0

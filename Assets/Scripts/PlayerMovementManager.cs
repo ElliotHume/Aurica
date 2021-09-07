@@ -201,7 +201,6 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void EndJump() {
-        Debug.Log("END JUMP");
         jumping = false;
     }
 
