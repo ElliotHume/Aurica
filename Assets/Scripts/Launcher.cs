@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -12,9 +13,13 @@ public class Launcher : MonoBehaviourPunCallbacks {
     [SerializeField]
     public GameObject progressLabel;
 
+    public InputField roomNameField;
+
 
     string gameVersion = "0.1";
     string roomName = "default";
+    string roomNamePlayerPrefKey = "RoomName";
+
     /// <summary>
     /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon,
     /// we need to keep track of this to properly adjust the behavior when we receive call back by Photon.
@@ -27,6 +32,14 @@ public class Launcher : MonoBehaviourPunCallbacks {
         // Connect();
         progressLabel.SetActive(false);
         controlPanel.SetActive(true);
+
+        if (roomNameField != null) {
+            if (PlayerPrefs.HasKey(roomNamePlayerPrefKey)) {
+                roomName = PlayerPrefs.GetString(roomNamePlayerPrefKey);
+                roomNameField.text = roomName;
+                if (string.IsNullOrEmpty(roomName)) roomName = "default";
+            }
+        }
     }
 
     void Awake() {
@@ -70,8 +83,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             // #Critical
             // Load the Room Level.
-            Debug.Log("Room name: "+roomName.ToUpper());
-            string level = roomName.ToUpper() == "FREEPLAY" ? "Battlegrounds1" : roomName.Contains("FOREST") ? "DeathmatchForest" : roomName.Contains("OPEN") ? "DeathmatchOpenGround" : "Deathmatch";
+            roomName = roomName.ToUpper();
+            Debug.Log("Room name: "+roomName);
+            string level = roomName == "FREEPLAY" ? "Battlegrounds1" : roomName.Contains("FOREST") ? "DeathmatchForest" : roomName.Contains("OPEN") ? "DeathmatchOpenGround" : "Deathmatch";
             PhotonNetwork.LoadLevel(level);
         }
     }
@@ -101,6 +115,8 @@ public class Launcher : MonoBehaviourPunCallbacks {
     }
 
     public void SetRoomName(string name) {
-        roomName = name.ToUpper();
+        if (string.IsNullOrEmpty(name)) name = "default";
+        roomName = name;
+        PlayerPrefs.SetString(roomNamePlayerPrefKey, roomName);
     }
 }

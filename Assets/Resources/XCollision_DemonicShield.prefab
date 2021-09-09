@@ -19054,7 +19054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 5
   auricaSpell: {fileID: 11400000, guid: 14efdf6722cb9704789a81bc47af15a1, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -19092,12 +19092,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slow: 1
   slowDuration: 4
-  slowPercentage: 20
+  slowPercentage: 33
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0
-  root: 1
-  rootDuration: 1
+  root: 0
+  rootDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -19126,7 +19126,7 @@ MonoBehaviour:
   fragileDuration: 0
   fragilePercentage: 0
   tough: 1
-  toughDuration: 9
+  toughDuration: 10
   toughPercentage: 33
   changeManaRegen: 0
   changeDuration: 0

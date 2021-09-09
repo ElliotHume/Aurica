@@ -201,6 +201,15 @@ public class BasicProjectileSpell : Spell, IPunObservable
             return;
         }
 
+        // If aim assisted, get the player that is being aimed at from the crosshair and set them as the target
+        if (AimAssistedProjectile) {
+            GameObject crossHairHit = crosshair.GetPlayerHit(1f);
+            SetAimAssistTarget(crossHairHit);
+            if (PerfectHomingProjectile && crossHairHit != null && HomingTarget == null) {
+                SetHomingTarget(crossHairHit);
+            }
+        }
+
         Vector3 randomOffset = Vector3.zero;
         if (RandomMoveRadius > 0) {
             randomOffset = GetRadiusRandomVector() * RandomMoveRadius;
@@ -208,12 +217,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 var fade = Vector3.Distance(transform.position, homingTargetT.position) / Vector3.Distance(startPosition, homingTargetT.position);
                 randomOffset *= fade;
             }
-        }
-
-        // If aim assisted, get the player that is being aimed at from the crosshair and set them as the target
-        if (AimAssistedProjectile) {
-            GameObject crossHairHit = crosshair.GetPlayerHit(1f);
-            SetAimAssistTarget(crossHairHit);
         }
 
         // If a homing projectile, check for a player in the radius and set them as them target
