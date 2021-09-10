@@ -4691,7 +4691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 20
+  Damage: 17.5
   auricaSpell: {fileID: 11400000, guid: 449ef7560995d8247ac9dab4599bcccb, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -4703,21 +4703,21 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 100
+  Speed: 80
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
   ContinuesPastCollision: 0
   AimAssistedProjectile: 1
   AimAssistTurningSpeed: 40
-  PerfectHomingProjectile: 0
-  HomingDetectionSphereRadius: 1
+  PerfectHomingProjectile: 1
+  HomingDetectionSphereRadius: 0.5
   TrackingProjectile: 0
   TrackingTurnSpeed: 0.1
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
-  AirDrag: 15
+  AirDrag: 12
   MinSpeed: 0
   ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:
@@ -4779,9 +4779,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
-  m_Height: 1.9171786
+  m_Height: 1.8926988
   m_Direction: 1
-  m_Center: {x: 0.05913639, y: 0.4114051, z: 0.7269687}
+  m_Center: {x: 0, y: 0.32935405, z: 0}
 --- !u!114 &6569867819681743638
 MonoBehaviour:
   m_ObjectHideFlags: 0
