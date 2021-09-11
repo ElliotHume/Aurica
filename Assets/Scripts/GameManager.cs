@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (playerPrefab == null){
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
         } else {
-            if (PlayerManager.LocalPlayerInstance == null) {
+            if (PlayerManager.LocalPlayerGameObject == null) {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsConnected) {
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnLeftRoom()
     {
-        PhotonNetwork.Destroy(PlayerManager.LocalPlayerInstance);
+        PhotonNetwork.Destroy(PlayerManager.LocalPlayerGameObject);
         SceneManager.LoadScene(0);
         Cursor.lockState = CursorLockMode.None;
     }

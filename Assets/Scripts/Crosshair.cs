@@ -43,7 +43,7 @@ public class Crosshair : MonoBehaviour
             Vector3 cameraPos = Camera.main.transform.position;
             Vector3 hitPos = hit.collider.gameObject.transform.position+playerHitOffset;
             bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
-            if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerInstance) return hit.collider.gameObject;
+            if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerGameObject) return hit.collider.gameObject;
         }
 
         return null;

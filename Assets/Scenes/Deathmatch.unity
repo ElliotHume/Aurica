@@ -8273,7 +8273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 550.00037
+      value: 549.9999
       objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
@@ -28498,11 +28498,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b337b289455416080286029b179ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
   BlueSideSpawnPoint: {fileID: 66235589}
   RedSideSpawnPoint: {fileID: 268279324}
+  blueNameColor: {r: 0.495283, g: 0.495283, b: 1, a: 1}
+  redNameColor: {r: 1, g: 0.33490568, b: 0.33490568, a: 1}
   blueLifeCounter: {fileID: 205304111}
   redLifeCounter: {fileID: 153092780}
+  blueSidePlayerMaterial: {fileID: 2100000, guid: dcf1c8ebc26cef840a13f1b3c0a50f63,
+    type: 2}
+  redSidePlayerMaterial: {fileID: 2100000, guid: 3fbade09b83e6684c85f132da96a79bd,
+    type: 2}
   DeathMatchGamePanel: {fileID: 253344727}
   readyButton: {fileID: 851948210}
   resultsPanel: {fileID: 658971420}

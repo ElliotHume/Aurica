@@ -142,6 +142,8 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 1
   canHitSelf: 0
   onlyHitSelf: 0
@@ -189,12 +191,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 7313513928875267492}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7313513928875267492
@@ -274,6 +276,8 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 1
   camouflageDuration: 1
+  cleanse: 0
+  cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 1
@@ -5416,7 +5420,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fa5d50ffc674c344fa972b6488f906bb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.664
   m_Pitch: 1
   Loop: 1
   Mute: 0

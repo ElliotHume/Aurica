@@ -11,9 +11,10 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public static DeathmatchGameManager Instance;
 
-    public List<PlayerManager> players;
     public Transform BlueSideSpawnPoint, RedSideSpawnPoint;
+    public Color blueNameColor = Color.blue, redNameColor = Color.red;
     public Text blueLifeCounter, redLifeCounter;
+    public Material blueSidePlayerMaterial, redSidePlayerMaterial;
     public GameObject DeathMatchGamePanel, readyButton, resultsPanel, bluesidewinUI, redsidewinUI;
     public List<GameObject> ToggleObjects;
 
@@ -25,7 +26,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
 
     List<PlayerManager> blueSide, redSide;
-    bool matchStarted = false;
+    bool matchStarted = false, isBlueTeam = false;
+    PlayerManager localPlayer;
 
 
     // Start is called before the first frame update
@@ -38,64 +40,72 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         blueSideLives = LivesPerPlayer;
         redSideLives = LivesPerPlayer;
 
+        localPlayer = PlayerManager.LocalInstance;
+
         DeathMatchGamePanel.SetActive(true);
     }
 
     [PunRPC]
-    public void AssignPlayers() {
+    public void AssignPlayers(string blueSideNames, string redSideNames, int blueSideLifeCount, int redSideLifeCount) {
+        if (matchStarted) return;
+        blueSideLives = blueSideLifeCount * LivesPerPlayer;
+        redSideLives = redSideLifeCount * LivesPerPlayer;
 
-        // Clear all in case of retry
-        players.Clear();
-        blueSide.Clear();
-        redSide.Clear();
+        PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
+        foreach( PlayerManager player in ps ) {
+            if (blueSideNames.Contains(player.GetUniqueName())) {
+                blueSide.Add(player);
+                player.SetNameColor(blueNameColor);
+                if (blueSidePlayerMaterial != null) player.SetPlayerMaterial(blueSidePlayerMaterial);
+            } else if (redSideNames.Contains(player.GetUniqueName())) {
+                redSide.Add(player);
+                player.SetNameColor(redNameColor);
+                if (redSidePlayerMaterial != null) player.SetPlayerMaterial(redSidePlayerMaterial);
+            } else {
+                Debug.Log("Player ["+player.GetUniqueName()+"] not found on either team");
+            }
+        }
+
+        if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
+        Debug.Log("Local Player name: "+localPlayer.GetUniqueName());
+        isBlueTeam = blueSideNames.Contains(localPlayer.GetUniqueName());
+
+        StartMatch();
+    }
+
+    public void SendGameStart() {
+        int index = 0, blueSideLifeCount = 0, redSideLifeCount = 0;
+        string blueSideNames = "", redSideNames = "";
 
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
         List<PlayerManager> playerManagers = ps.OrderBy(x => x.Mana).ToList();
         foreach (var p in playerManagers) {
-            players.Add(p);
-            if (players.Count % 2 == 1) {
+            if (index % 2 == 1) {
                 // ODD player, add to blue side
-                Debug.Log("Assigned to blue team");
-                blueSide.Add(p);
+                blueSideNames += p.GetUniqueName();
+                blueSideLifeCount++;
             } else {
                 // EVEN player, add to red side
-                Debug.Log("Assigned to red team");
-                redSide.Add(p);
+                redSideNames += p.GetUniqueName();
+                redSideLifeCount++;
             }
+            index++;
         }
 
-        if (!matchStarted) {
-            Debug.Log("Starting the match....");
-            StartMatch();
-        }
-    }
+        if (blueSideLifeCount < redSideLifeCount) blueSideLifeCount += 2;
+        if (redSideLifeCount < blueSideLifeCount) redSideLifeCount += 2;
 
-    public void SendGameStart() {
-        photonView.RPC("AssignPlayers", RpcTarget.All);
-    }
+        Debug.Log("ASSIGN PLAYERS: \n   BLUE: "+blueSideNames+"\n   RED: "+redSideNames);
 
+        photonView.RPC("AssignPlayers", RpcTarget.All, blueSideNames, redSideNames, blueSideLifeCount, redSideLifeCount);
+    }
 
     public void StartMatch() {
-
-        blueSideLives = blueSide.Count * LivesPerPlayer;
-        redSideLives = redSide.Count * LivesPerPlayer;
-
-        if (blueSide.Count < redSide.Count) blueSideLives += 3;
-        if (redSide.Count < blueSide.Count) redSideLives += 3;
-
         blueLifeCounter.text = blueSideLives.ToString();
         redLifeCounter.text = redSideLives.ToString();
 
-        foreach (var player in blueSide) {
-            player.Teleport(BlueSideSpawnPoint.position);
-            player.HardReset();
-        }
-        foreach (var player in redSide) {
-            player.Teleport(RedSideSpawnPoint.position);
-            player.HardReset();
-        }
+        SpawnLocalPlayer();
 
-        DisplayBeginMessage();
         matchStarted = true;
         readyButton.SetActive(false);
 
@@ -104,13 +114,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         if (MatchMusic != null) MatchMusic.Play();
     }
 
-    public void DisplayBeginMessage() {
-        // TODO
-    }
-
     [PunRPC]
     public void EndMatch(int winningTeam) {
-        // TODO
         resultsPanel.SetActive(true);
         if (winningTeam == 0) {
             bluesidewinUI.SetActive(true);
@@ -127,14 +132,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
         readyButton.SetActive(true);
 
-        foreach (var player in blueSide) {
-            player.Teleport(BlueSideSpawnPoint.position);
-            player.HardReset();
-        }
-        foreach (var player in redSide) {
-            player.Teleport(RedSideSpawnPoint.position);
-            player.HardReset();
-        }
+        SpawnLocalPlayer();
 
         matchStarted = false;
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
@@ -142,32 +140,37 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     }
 
     public void playerDeath(PlayerManager player) {
-        if (!matchStarted) {
-            StartCoroutine(RespawnPlayer(player, BlueSideSpawnPoint));
-            return;
-        }
+        if (matchStarted) {
+            if (blueSide.Contains(player)) {
+                blueSideLives -= 1;
+                blueLifeCounter.text = blueSideLives.ToString();
+            } else if (redSide.Contains(player)) {
+                redSideLives -= 1;
+                redLifeCounter.text = redSideLives.ToString();
+            }
 
-        if (blueSide.Contains(player)) {
-            blueSideLives -= 1;
-            blueLifeCounter.text = blueSideLives.ToString();
-            StartCoroutine(RespawnPlayer(player, BlueSideSpawnPoint));
-        } else if (redSide.Contains(player)) {
-            redSideLives -= 1;
-            redLifeCounter.text = redSideLives.ToString();
-            StartCoroutine(RespawnPlayer(player, RedSideSpawnPoint));
+            if (blueSideLives <= 0) {
+                photonView.RPC("EndMatch", RpcTarget.All, 1);
+            }
+            if (redSideLives <= 0) {
+                photonView.RPC("EndMatch", RpcTarget.All, 0);
+            }
         }
-
-        if (blueSideLives <= 0) {
-            photonView.RPC("EndMatch", RpcTarget.All, 1);
-        }
-        if (redSideLives <= 0) {
-            photonView.RPC("EndMatch", RpcTarget.All, 0);
+        
+        if (player.GetUniqueName() == localPlayer.GetUniqueName()) {
+            StartCoroutine(RespawnPlayer());
         }
     }
 
-    IEnumerator RespawnPlayer(PlayerManager player, Transform spawnPoint) {
+    public void SpawnLocalPlayer() {
+        localPlayer.Teleport(isBlueTeam ? BlueSideSpawnPoint.position : RedSideSpawnPoint.position);
+        localPlayer.HardReset();
+    }
+
+    IEnumerator RespawnPlayer() {
+        if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
         yield return new WaitForSeconds(RespawnTimer);
-        player.Respawn();
-        player.Teleport(spawnPoint.position);
+        localPlayer.Respawn();
+        localPlayer.Teleport(isBlueTeam ? BlueSideSpawnPoint.position : RedSideSpawnPoint.position);
     }
 }

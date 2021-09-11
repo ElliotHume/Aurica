@@ -36,7 +36,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (roomNameField != null) {
             if (PlayerPrefs.HasKey(roomNamePlayerPrefKey)) {
                 roomName = PlayerPrefs.GetString(roomNamePlayerPrefKey);
-                roomNameField.text = roomName;
+                if (roomName != "default") roomNameField.text = roomName;
                 if (string.IsNullOrEmpty(roomName)) roomName = "default";
             }
         }

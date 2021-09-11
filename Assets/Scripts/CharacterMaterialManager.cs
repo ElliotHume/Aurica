@@ -12,7 +12,7 @@ public class CharacterMaterialManager : MonoBehaviourPun
     public Material adminMaterial;
 
     Material baseMaterial;
-    bool isInvisible = false;
+    bool isInvisible = false, isAdmin = false;
     new SkinnedMeshRenderer renderer;
 
     void Start() {
@@ -20,6 +20,7 @@ public class CharacterMaterialManager : MonoBehaviourPun
         baseMaterial = defaultMaterial;
 
         if (photonView.Owner.NickName == "Xelerox") {
+            isAdmin = true;
             baseMaterial = adminMaterial;
             Material[] mats = new Material[]{baseMaterial};
             renderer.materials = mats;
@@ -41,6 +42,28 @@ public class CharacterMaterialManager : MonoBehaviourPun
 
     public void ShowCharacterUI() {
         if (characterUI != null) characterUI.Show();
+    }
+
+    public void SetNameColor(Color color) {
+        if (characterUI != null) characterUI.SetNameColor(color);
+    }
+
+    public void ResetNameColor() {
+        if (characterUI != null) characterUI.ResetNameColor();
+    }
+
+    public void SetPlayerMaterial(Material mat) {
+        if (isAdmin) return;
+        baseMaterial = mat;
+        Material[] mats = new Material[]{baseMaterial};
+        renderer.materials = mats;
+    }
+
+    public void ResetPlayerMaterial() {
+        if (isAdmin) return;
+        baseMaterial = defaultMaterial;
+        Material[] mats = new Material[]{baseMaterial};
+        renderer.materials = mats;
     }
 
     public void GoInvisible() {

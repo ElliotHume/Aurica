@@ -224,7 +224,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
             Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, playerDetectingLayerMask);
             if (hits.Length > 0) {
                 foreach( var hit in hits ) {
-                    if (hit.gameObject != PlayerManager.LocalPlayerInstance) {
+                    if (hit.gameObject != PlayerManager.LocalPlayerGameObject) {
                         SetHomingTarget(hit.gameObject);
                         break;
                     }

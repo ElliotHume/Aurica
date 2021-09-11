@@ -50,7 +50,7 @@ public class AoESpell : Spell {
         // LocalCollisionBehaviour(hit.point, hit.normal);
 
         if (photonView.IsMine) {
-            if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf)) {
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -75,7 +75,7 @@ public class AoESpell : Spell {
         // LocalCollisionBehaviour(hit.point, hit.normal);
 
         if (photonView.IsMine) {
-            if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf)) {
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
