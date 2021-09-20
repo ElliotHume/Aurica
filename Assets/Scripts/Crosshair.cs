@@ -68,7 +68,7 @@ public class Crosshair : MonoBehaviour
             Vector3 hitPos = player.transform.position+playerHitOffset;
             bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
             Gizmos.color = isVisibilityBlocked? Color.red : Color.green;
-            Gizmos.DrawLine(Camera.main.transform.position, hitPos);
+            Gizmos.DrawLine(cameraPos, hitPos);
         }
 	}
 }

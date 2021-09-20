@@ -342,6 +342,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (sneaking) return;
         particleManager.StopDefaultParticles();
         materialManager.HideCharacterUI();
+        materialManager.HideOutline();
         sneaking = true;
     }
 
@@ -349,6 +350,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!sneaking || camouflaged) return;
         particleManager.StartDefaultParticles();
         materialManager.ShowCharacterUI();
+        materialManager.ShowOutline();
         sneaking = false;
     }
 
@@ -366,6 +368,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public void ResetPlayerMaterial() {
         materialManager.ResetPlayerMaterial();
+    }
+
+    public void SetPlayerOutline(Color color) {
+        Debug.Log("Set Player outline "+GetUniqueName()+"    "+color.ToString());
+        materialManager.SetOutline(color);
+    }
+
+    public void ResetPlayerOutline() {
+        materialManager.ResetOutline();
     }
 
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
@@ -544,12 +555,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
 
         // Turn the casting anchor in the direction we want the spell to face
-        if (foundSpell.TurnToAimPoint) {
-            TurnCastingAnchorDirectionToAimPoint();
-        } else {
-            ResetCastingAnchorDirection();
+        if (foundSpell.CastingAnchor != "transform") {
+            if (foundSpell.TurnToAimPoint) {
+                TurnCastingAnchorDirectionToAimPoint();
+            } else {
+                ResetCastingAnchorDirection();
+            }
         }
-
+        
         currentSpellIsSelfTargeted = foundSpell.IsSelfTargeted;
         currentSpellIsOpponentTargeted = foundSpell.IsOpponentTargeted;
 

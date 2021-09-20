@@ -1322,7 +1322,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -1591,7 +1591,7 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 2
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -14597,7 +14597,7 @@ MonoBehaviour:
   IsOpponentTargeted: 1
   OneShotEffect: 1
   UNIMPLEMENTEDLastingEffect: 0
-  FollowsTarget: 0
+  FollowsTarget: 1
   SpellStrengthChangesDuration: 1
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration: []

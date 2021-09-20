@@ -57,7 +57,7 @@ public class AoESpell : Spell {
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                 }
             } else if (other.gameObject.tag == "Shield") {
-                ShieldSpell ss = other.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
+                ShieldSpell ss = other.gameObject.GetComponentInParent<ShieldSpell>();
                 if (ss != null) {
                     PhotonView pv = PhotonView.Get(ss);
                     if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());
@@ -83,7 +83,7 @@ public class AoESpell : Spell {
                 }
             } else if (other.gameObject.tag == "Shield") {
                 // Same as HitShield but with LastingDamage instead
-                ShieldSpell ss = other.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
+                ShieldSpell ss = other.gameObject.GetComponentInParent<ShieldSpell>();
                 if (ss != null) {
                     PhotonView pv = PhotonView.Get(ss);
                     if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());

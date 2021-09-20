@@ -14,6 +14,8 @@ public class CharacterMaterialManager : MonoBehaviourPun
     Material baseMaterial;
     bool isInvisible = false, isAdmin = false;
     new SkinnedMeshRenderer renderer;
+    Outline outline;
+    bool outlineSet = false;
 
     void Start() {
         renderer = GetComponent<SkinnedMeshRenderer>();
@@ -30,6 +32,11 @@ public class CharacterMaterialManager : MonoBehaviourPun
             toggleObjects = adminToggleObjects;
             foreach(var obj in toggleObjects) obj.SetActive(true);
         }
+
+        outline = gameObject.AddComponent<Outline>();
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
+        outline.OutlineColor = Color.white;
+        outline.OutlineWidth = photonView.IsMine ? 0f : 1f;
     }
 
     public void SetUI(CharacterUI ui) {
@@ -52,11 +59,42 @@ public class CharacterMaterialManager : MonoBehaviourPun
         if (characterUI != null) characterUI.ResetNameColor();
     }
 
+    public void SetOutline(Color color) {
+        if (outline != null) {
+            outline.OutlineColor = color;
+            outline.OutlineWidth = 1f;
+            outlineSet = true;
+        }
+    }
+
+    public void ResetOutline() {
+        if (outline != null) {
+            outline.OutlineColor = Color.white;
+            outline.OutlineWidth = photonView.IsMine ? 0f : 1f;
+            outlineSet = false;
+        }
+    }
+
+    public void HideOutline() {
+        if (outline != null) {
+            outline.OutlineWidth = 0f;
+        }
+    }
+
+    public void ShowOutline() {
+        if (outline != null) {
+            outline.OutlineWidth = (!outlineSet && photonView.IsMine) ? 0f : 1f;
+        }
+    }
+
     public void SetPlayerMaterial(Material mat) {
         if (isAdmin) return;
         baseMaterial = mat;
         Material[] mats = new Material[]{baseMaterial};
         renderer.materials = mats;
+        // Refresh the outline on material change
+        outline.enabled = false;
+        outline.enabled = true;
     }
 
     public void ResetPlayerMaterial() {
@@ -64,6 +102,9 @@ public class CharacterMaterialManager : MonoBehaviourPun
         baseMaterial = defaultMaterial;
         Material[] mats = new Material[]{baseMaterial};
         renderer.materials = mats;
+        // Refresh the outline on material change
+        outline.enabled = false;
+        outline.enabled = true;
     }
 
     public void GoInvisible() {
@@ -73,6 +114,7 @@ public class CharacterMaterialManager : MonoBehaviourPun
         HideCharacterUI();
         isInvisible = true;
         foreach(var obj in toggleObjects) obj.SetActive(false);
+        if (outline != null) outline.enabled = false;
     }
 
     public void ResetMaterial() {
@@ -81,5 +123,6 @@ public class CharacterMaterialManager : MonoBehaviourPun
         ShowCharacterUI();
         isInvisible = false;
         foreach(var obj in toggleObjects) obj.SetActive(true);
+        if (outline != null) outline.enabled = true;
     }
 }

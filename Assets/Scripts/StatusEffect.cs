@@ -200,8 +200,8 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
         if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
         if (cure) pv.RPC("Cure", RpcTarget.All);
-        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.002f * multiplier, healPercentAmount/100f * 0.002f * multiplier);
-        if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * 0.002f * multiplier, manaDrainPercentAmount/100f * 0.002f * multiplier);
+        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * Time.deltaTime * multiplier, healPercentAmount/100f * Time.deltaTime * multiplier);
+        if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * Time.deltaTime * multiplier, manaDrainPercentAmount/100f * Time.deltaTime * multiplier);
     }
 
     void DeactivateContinuous(PhotonView pv, bool modify = true) {

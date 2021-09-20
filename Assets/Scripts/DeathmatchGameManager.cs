@@ -57,10 +57,12 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
                 blueSide.Add(player);
                 player.SetNameColor(blueNameColor);
                 if (blueSidePlayerMaterial != null) player.SetPlayerMaterial(blueSidePlayerMaterial);
+                player.SetPlayerOutline(blueNameColor);
             } else if (redSideNames.Contains(player.GetUniqueName())) {
                 redSide.Add(player);
                 player.SetNameColor(redNameColor);
                 if (redSidePlayerMaterial != null) player.SetPlayerMaterial(redSidePlayerMaterial);
+                player.SetPlayerOutline(redNameColor);
             } else {
                 Debug.Log("Player ["+player.GetUniqueName()+"] not found on either team");
             }
@@ -129,6 +131,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         redSideLives = LivesPerPlayer;
         blueLifeCounter.text = blueSideLives.ToString();
         redLifeCounter.text = redSideLives.ToString();
+
+        PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
 
         readyButton.SetActive(true);
 

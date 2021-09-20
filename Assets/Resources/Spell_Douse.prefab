@@ -218,11 +218,11 @@ MonoBehaviour:
   stun: 0
   stunDuration: 0
   weaken: 1
-  weakenDuration: 10
+  weakenDuration: 20
   weakenDistribution:
     structure: 0
     essence: 0
-    fire: 0.5
+    fire: 1
     water: 0
     earth: 0
     air: 0
@@ -249,8 +249,8 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
-  manaDrain: 0
-  manaDrainFlatAmount: 0
+  manaDrain: 1
+  manaDrainFlatAmount: 150
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0

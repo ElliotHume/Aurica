@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 7313513928875267498}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 8982840047028490750}
   - {fileID: 8982840046788784373}
@@ -76,10 +76,9 @@ MonoBehaviour:
   ScalingFactor: 0
   ScalingLimit: 0
   DeactivateObjectsAfterDuration:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 8982840047028490751}
+  - {fileID: 8982840046788784374}
+  - {fileID: 8982840045397680502}
   EffectsOnDelayedStartup: []
 --- !u!114 &7313513928875267495
 MonoBehaviour:
@@ -5324,7 +5323,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 46201898ca864b74f97b845392d2342e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.75
+  m_Volume: 0.412
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5420,7 +5419,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fa5d50ffc674c344fa972b6488f906bb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.664
+  m_Volume: 0.272
   m_Pitch: 1
   Loop: 1
   Mute: 0
