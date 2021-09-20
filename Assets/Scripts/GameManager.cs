@@ -35,13 +35,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.5f;
     public static float GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER = 1f;
     
+    public static bool GLOBAL_ENABLE_PROJECTILE_AIM_ASSIST = true;
+    
 
     void Start() {
         Instance = this;
         if (playerPrefab == null){
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
         } else {
-            if (PlayerManager.LocalPlayerInstance == null) {
+            if (PlayerManager.LocalPlayerGameObject == null) {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsConnected) {
@@ -101,7 +103,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnLeftRoom()
     {
-        PhotonNetwork.Destroy(PlayerManager.LocalPlayerInstance);
+        PhotonNetwork.Destroy(PlayerManager.LocalPlayerGameObject);
         SceneManager.LoadScene(0);
         Cursor.lockState = CursorLockMode.None;
     }

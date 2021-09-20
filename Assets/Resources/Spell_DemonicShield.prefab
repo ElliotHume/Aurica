@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 759075197579420416}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: SelfLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 759345006908449932}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Audio
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 759379560351881672}
   - component: {fileID: 796937715991005540}
   - component: {fileID: 845280099269655322}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Fire (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 763257023688082220}
   - component: {fileID: 601424009181054780}
   - component: {fileID: 602089286285050182}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ShieldBlend
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -4923,7 +4923,7 @@ GameObject:
   - component: {fileID: 763170871320418668}
   - component: {fileID: 799867376527222420}
   - component: {fileID: 796367762176190536}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Point light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5057,7 +5057,7 @@ GameObject:
   - component: {fileID: 758895587633611366}
   - component: {fileID: 601624051177127586}
   - component: {fileID: 603154761764046478}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ShieldAdd
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -9739,7 +9739,7 @@ GameObject:
   - component: {fileID: 601994123271106136}
   - component: {fileID: 602261664966172646}
   - component: {fileID: 796802560328883606}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ShieldDistortion
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -14460,7 +14460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 762871176421637466}
   - component: {fileID: 796509285808835808}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: PerPlatformSettings
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -14509,7 +14509,7 @@ GameObject:
   - component: {fileID: 763224788757455686}
   - component: {fileID: 799507672747993964}
   - component: {fileID: 796364472838234148}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Point light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14643,7 +14643,7 @@ GameObject:
   - component: {fileID: 763147474490870848}
   - component: {fileID: 799697029140607708}
   - component: {fileID: 796458204871756576}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Point light (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14778,7 +14778,7 @@ GameObject:
   - component: {fileID: 797119331895848512}
   - component: {fileID: 797064523684230304}
   - component: {fileID: 845318945998925108}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15101,7 +15101,7 @@ GameObject:
   - component: {fileID: 792884155060977618}
   - component: {fileID: 755594951240575590}
   - component: {fileID: 2067711403338567765}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: TriggerEnter
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -15181,7 +15181,7 @@ GameObject:
   - component: {fileID: 758937188252718326}
   - component: {fileID: 601804500297481442}
   - component: {fileID: 602374124165600336}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Particles
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -19855,7 +19855,7 @@ GameObject:
   - component: {fileID: 788125109831469344}
   - component: {fileID: 777604175858070286}
   - component: {fileID: 796646870688739650}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Decal2
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -19994,7 +19994,7 @@ GameObject:
   - component: {fileID: 763550504190388028}
   - component: {fileID: 763550504190388029}
   - component: {fileID: 763550504190388030}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Spell_DemonicShield
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -20037,9 +20037,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 131d8e682624740ab9c7f95c335c766d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 0
   auricaSpell: {fileID: 11400000, guid: 14efdf6722cb9704789a81bc47af15a1, type: 2}
-  ManaRefund: 0
+  ManaRefund: 20
   ManaChannelCost: 20
   SpellEffectType: shield
   Duration: 1
@@ -20049,7 +20049,7 @@ MonoBehaviour:
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Health: 60
+  Health: 50
   spawnEffectsOnBreak: []
   networkedEffectsOnBreak:
   - XCollision_DemonicShield
@@ -20115,7 +20115,7 @@ GameObject:
   - component: {fileID: 787855791282387190}
   - component: {fileID: 778038563268214164}
   - component: {fileID: 796561039230429182}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Decal
   m_TagString: Shield
   m_Icon: {fileID: 0}
@@ -20253,7 +20253,7 @@ GameObject:
   - component: {fileID: 759414633466162180}
   - component: {fileID: 799980959383225358}
   - component: {fileID: 792787365483901450}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Light
   m_TagString: Shield
   m_Icon: {fileID: 0}

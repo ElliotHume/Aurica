@@ -313,7 +313,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f09c495fbf0a5924e9014272b1aace0a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.255
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -932,8 +932,9 @@ MonoBehaviour:
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
   ContinuesPastCollision: 0
-  Target: {fileID: 0}
-  HomingProjectile: 1
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 1
   HomingDetectionSphereRadius: 50
   TrackingProjectile: 0
   TrackingTurnSpeed: 0.1

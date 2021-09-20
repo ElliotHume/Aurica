@@ -8,7 +8,7 @@ public class ObjectSpell : Spell
     public bool canHitSelf = false;
     
     void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+        if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf)) {
             PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
             if (pm != null) {
                 PhotonView pv = PhotonView.Get(pm);

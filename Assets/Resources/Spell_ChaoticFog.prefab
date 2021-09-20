@@ -14762,8 +14762,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 1
   canHitSelf: 1
+  onlyHitSelf: 0
 --- !u!135 &1862140893200602025
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14808,12 +14811,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 1862140893200602027}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1862140893200602027

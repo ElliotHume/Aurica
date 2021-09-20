@@ -28208,7 +28208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 30
+  Damage: 20
   auricaSpell: {fileID: 11400000, guid: d312bf5b6818e4b2687afcffda308b5c, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -28225,8 +28225,9 @@ MonoBehaviour:
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
   ContinuesPastCollision: 0
-  Target: {fileID: 0}
-  HomingProjectile: 1
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1
   TrackingProjectile: 0
   TrackingTurnSpeed: 0
@@ -28258,7 +28259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slow: 1
   slowDuration: 7.5
-  slowPercentage: 50
+  slowPercentage: 40
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0

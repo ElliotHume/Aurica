@@ -11,6 +11,8 @@ public class ShieldSpell : Spell, IPunObservable {
     public List<string> networkedEffectsOnHit;
     public ManaDistribution ShieldDistribution;
 
+    bool broken = false;
+
     void Start() {
         Health *= GameManager.GLOBAL_SHIELD_HEALTH_MULTIPLIER;
     }
@@ -46,6 +48,9 @@ public class ShieldSpell : Spell, IPunObservable {
     }
 
     public void Break() {
+        if (broken) return;
+        broken = true;
+
         foreach (GameObject effect in spawnEffectsOnBreak) {
             GameObject newEffect = Instantiate(effect, transform.position, transform.rotation);
             Destroy(newEffect, Duration);
@@ -54,7 +59,7 @@ public class ShieldSpell : Spell, IPunObservable {
             foreach (string effect in networkedEffectsOnBreak) {
                 PhotonNetwork.Instantiate(effect, transform.position + transform.up, transform.rotation);
             }
-            PlayerManager owner = PlayerManager.LocalPlayerInstance.GetComponent<PlayerManager>();
+            PlayerManager owner = PlayerManager.LocalPlayerGameObject.GetComponent<PlayerManager>();
             if (owner != null) {
                 PhotonView pv = PhotonView.Get(owner);
                 if (pv != null) pv.RPC("BreakShield", RpcTarget.All);
@@ -62,6 +67,7 @@ public class ShieldSpell : Spell, IPunObservable {
 
             PhotonNetwork.Destroy(gameObject);
         }
+        
     }
 
     public void SetShieldStrength(float strength) {

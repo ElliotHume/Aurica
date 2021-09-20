@@ -15,13 +15,18 @@ public class CharacterUI : MonoBehaviour {
     private Slider playerHealthSlider;
     public Transform cam;
 
+    public Color baseColor = Color.black, statusEffectColor = Color.white;
+
 
     private PlayerManager target;
     private bool hidden = false;
+    private Color initialColor;
+    
 
     // Start is called before the first frame update
     void Awake() {
         cam = Camera.main.transform;
+        initialColor = baseColor;
     }
 
     void FixedUpdate() {
@@ -77,14 +82,14 @@ public class CharacterUI : MonoBehaviour {
     public void SetStatusEffect(string status) {
         if (playerNameText != null) {
             playerNameText.text = status;
-            playerNameText.color = Color.white;
+            playerNameText.color = statusEffectColor;
         }
     }
 
     public void ResetStatusEffects() {
         if (playerNameText != null) {
             playerNameText.text = target.photonView.Owner.NickName;
-            playerNameText.color = Color.black;
+            playerNameText.color = baseColor;
         }
     }
 
@@ -100,5 +105,15 @@ public class CharacterUI : MonoBehaviour {
         playerNameText.gameObject.SetActive(true);
         playerHealthSlider.gameObject.SetActive(true);
         hidden = false;
+    }
+
+    public void SetNameColor(Color newColor) {
+        baseColor = newColor;
+        playerNameText.color = baseColor;
+    }
+
+    public void ResetNameColor() {
+        baseColor = initialColor;
+        playerNameText.color = baseColor;
     }
 }

@@ -13,7 +13,7 @@ public class RoomTeleporter : MonoBehaviourPunCallbacks
     void OnTriggerEnter(Collider other) {
         if (!onCollide) return;
 
-        if (other.gameObject.tag == "Player" && other.gameObject == PlayerManager.LocalPlayerInstance) {
+        if (other.gameObject.tag == "Player" && other.gameObject == PlayerManager.LocalPlayerGameObject) {
             PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
             PhotonNetwork.LoadLevel(SceneName);
             //RoomOptions roomOptions = new RoomOptions();

@@ -33,7 +33,7 @@ public class MovementEffect : MonoBehaviourPun {
 
     void OnCollisionEnter(Collision collision) {
         if (photonView.IsMine && !isCollided) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     if (isKnockback) displacementDirection = transform.forward;
@@ -45,7 +45,7 @@ public class MovementEffect : MonoBehaviourPun {
 
     void OnTriggerEnter(Collider collision) {
         if (photonView.IsMine) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     if (isKnockback) displacementDirection = (collision.gameObject.transform.position - transform.position).normalized;
@@ -57,7 +57,7 @@ public class MovementEffect : MonoBehaviourPun {
 
     void OnTriggerStay(Collider collision) {
         if (photonView.IsMine && isContinuous) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     if (isKnockback) displacementDirection = (collision.gameObject.transform.position - transform.position).normalized;

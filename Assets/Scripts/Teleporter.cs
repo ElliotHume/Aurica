@@ -7,7 +7,7 @@ public class Teleporter : MonoBehaviour {
     public bool isKillingPlane = false;
 
     void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Player" && other.gameObject == PlayerManager.LocalPlayerInstance) {
+        if (other.gameObject.tag == "Player" && other.gameObject == PlayerManager.LocalPlayerGameObject) {
             PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
             pm.Teleport(anchor.position);
 

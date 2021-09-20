@@ -5085,15 +5085,18 @@ MonoBehaviour:
   changeDuration: 1
   changePercentage: 200
   healing: 1
-  healFlatAmount: 10
-  healPercentAmount: 10
+  healFlatAmount: 0
+  healPercentAmount: 3
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 1
   canHitSelf: 1
+  onlyHitSelf: 0
 --- !u!114 &6196599139418983868
 MonoBehaviour:
   m_ObjectHideFlags: 0

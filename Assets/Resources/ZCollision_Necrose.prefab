@@ -5302,6 +5302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2580449123977883655}
   - component: {fileID: 2475457513531930881}
+  - component: {fileID: -5974563833098151285}
   m_Layer: 0
   m_Name: ZCollision_Necrose
   m_TagString: Untagged
@@ -5351,6 +5352,21 @@ MonoBehaviour:
   Speed: 10
   AirDrag: 0.1
   UseGravity: 1
+--- !u!114 &-5974563833098151285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2580449123978154953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.15
+  Range: 45
 --- !u!1 &2580449123978181601
 GameObject:
   m_ObjectHideFlags: 0

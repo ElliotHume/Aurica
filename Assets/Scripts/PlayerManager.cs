@@ -37,7 +37,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public Transform aimPointAnchor;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-    public static GameObject LocalPlayerInstance;
+    public static GameObject LocalPlayerGameObject;
+
+    public static PlayerManager LocalInstance;
 
     [Tooltip("The Player's UI GameObject Prefab")]
     [SerializeField]
@@ -78,57 +80,68 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public bool slowed;
     Coroutine slowRoutine;
+    bool slowRoutineRunning;
 
     [HideInInspector]
     public bool hastened;
     Coroutine hasteRoutine;
+    bool hasteRoutineRunning;
 
     // Prevent all movement, including movement spells
     [HideInInspector]
     public bool rooted;
     Coroutine rootRoutine;
+    bool rootRoutineRunning;
 
     // Prevent all spellcasts
     [HideInInspector]
     public bool silenced;
     Coroutine silenceRoutine;
+    bool silenceRoutineRunning;
 
     // Prevent all actions
     [HideInInspector]
     public bool stunned;
     Coroutine stunRoutine;
+    bool stunRoutineRunning;
 
     // Do less damage of given mana types
     [HideInInspector]
     public bool weakened;
     private ManaDistribution weaknesses;
     Coroutine weakenRoutine;
+    bool weakenRoutineRunning;
 
     // Do more damage of given mana types
     [HideInInspector]
     public bool strengthened;
     private ManaDistribution strengths;
     Coroutine strengthenRoutine;
+    bool strengthenRoutineRunning;
 
     // Increase or decrease the amount of damage taken
     [HideInInspector]
     public bool fragile;
     private float fragileDuration, fragilePercentage = 0f;
     Coroutine fragileRoutine;
+    bool fragileRoutineRunning;
 
     [HideInInspector]
     public bool tough;
     private float toughDuration, toughPercentage = 0f;
     Coroutine toughRoutine;
+    bool toughRoutineRunning;
 
     [HideInInspector]
     public bool manaRestorationChange;
     private float manaRestorationDuration;
     Coroutine manaRestorationRoutine;
+    bool manaRestorationRoutineRunning;
 
     [HideInInspector]
     public bool camouflaged = false;
     Coroutine camouflageRoutine;
+    bool camouflagedRoutineRunning;
 
 
 
@@ -217,7 +230,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
-            PlayerManager.LocalPlayerInstance = this.gameObject;
+            PlayerManager.LocalInstance = this;
+            PlayerManager.LocalPlayerGameObject = this.gameObject;
         }
 
         // Unparent the aimpoint anchor so that when the player moves the anchor wont move with the player
@@ -270,7 +284,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    public string GetUniqueName() {
+        return photonView.Owner.NickName+"-|-"+photonView.ViewID;
+    }
+
     public void HardReset() {
+        if (!photonView.IsMine) return;
         // Reset health and mana
         Health = maxHealth;
         Mana = maxMana;
@@ -304,6 +323,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void Respawn() {
+        if (!photonView.IsMine) return;
         dead = false;
         animator.enabled = true;
         RootBone.transform.position = transform.position;
@@ -313,6 +333,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void Teleport(Vector3 newPosition) {
+        if (!photonView.IsMine) return;
         Debug.Log("Teleport " + gameObject + "  to " + newPosition);
         transform.position = newPosition;
     }
@@ -321,6 +342,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (sneaking) return;
         particleManager.StopDefaultParticles();
         materialManager.HideCharacterUI();
+        materialManager.HideOutline();
         sneaking = true;
     }
 
@@ -328,7 +350,33 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!sneaking || camouflaged) return;
         particleManager.StartDefaultParticles();
         materialManager.ShowCharacterUI();
+        materialManager.ShowOutline();
         sneaking = false;
+    }
+
+    public void SetNameColor(Color color) {
+        materialManager.SetNameColor(color);
+    }
+
+    public void ResetNameColor() {
+        materialManager.ResetNameColor();
+    }
+
+    public void SetPlayerMaterial(Material mat) {
+        materialManager.SetPlayerMaterial(mat);
+    }
+
+    public void ResetPlayerMaterial() {
+        materialManager.ResetPlayerMaterial();
+    }
+
+    public void SetPlayerOutline(Color color) {
+        Debug.Log("Set Player outline "+GetUniqueName()+"    "+color.ToString());
+        materialManager.SetOutline(color);
+    }
+
+    public void ResetPlayerOutline() {
+        materialManager.ResetOutline();
     }
 
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
@@ -389,12 +437,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 CastAuricaSpell(auricaCaster.CastBindSlot("2"));
             } else if (Input.GetKeyDown("3")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("3"));
+            } else if (Input.GetKeyDown("4")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("4"));
             } else if (Input.GetKeyDown("e")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("e"));
             } else if (Input.GetKeyDown("q")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("q"));
             } else if (Input.GetKeyDown("r")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("r"));
+            } else if (Input.GetKeyDown("f")) {
+                CastAuricaSpell(auricaCaster.CastBindSlot("f"));
             }
         }
 
@@ -503,12 +555,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
 
         // Turn the casting anchor in the direction we want the spell to face
-        if (foundSpell.TurnToAimPoint) {
-            TurnCastingAnchorDirectionToAimPoint();
-        } else {
-            ResetCastingAnchorDirection();
+        if (foundSpell.CastingAnchor != "transform") {
+            if (foundSpell.TurnToAimPoint) {
+                TurnCastingAnchorDirectionToAimPoint();
+            } else {
+                ResetCastingAnchorDirection();
+            }
         }
-
+        
         currentSpellIsSelfTargeted = foundSpell.IsSelfTargeted;
         currentSpellIsOpponentTargeted = foundSpell.IsOpponentTargeted;
 
@@ -606,7 +660,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 try {
                     if (currentShield != null) {
                         currentShield.Break();
-                    } else {
+                    } else if (channelledSpell != null) {
                         PhotonNetwork.Destroy(channelledSpell);
                     }
                 } catch {
@@ -673,12 +727,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator SlowRoutine(float duration, float percentage) {
+        slowRoutineRunning = true;
         animator.speed *= 1f - percentage;
         movementManager.ChangeMovementSpeed(1f - percentage);
         yield return new WaitForSeconds(duration);
         animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         movementManager.ResetMovementSpeed();
         slowed = false;
+        slowRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousSlow(float percentage) {
@@ -711,12 +767,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator HastenRoutine(float duration, float percentage) {
+        hasteRoutineRunning = true;
         animator.speed *= 1f + percentage;
         movementManager.ChangeMovementSpeed(1f + percentage);
         yield return new WaitForSeconds(duration);
         animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         movementManager.ResetMovementSpeed();
         hastened = false;
+        hasteRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousHasten(float percentage) {
@@ -749,10 +807,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator RootRoutine(float duration) {
+        rootRoutineRunning = true;
         movementManager.Root(true);
         yield return new WaitForSeconds(duration);
         movementManager.Root(false);
         rooted = false;
+        rootRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousRoot() {
@@ -779,18 +839,22 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Stun(float duration) {
         if (photonView.IsMine && !stunned) {
             stunned = true;
+            ChannelSpell(false);
             slowRoutine = StartCoroutine(StunRoutine(duration));
         }
     }
     IEnumerator StunRoutine(float duration) {
+        stunRoutineRunning = true;
         movementManager.Stun(true);
         yield return new WaitForSeconds(duration);
         movementManager.Stun(false);
         stunned = false;
+        stunRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousStun() {
         if (photonView.IsMine) {
+            ChannelSpell(false);
             stunned = true;
             movementManager.Stun(true);
         }
@@ -813,16 +877,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Silence(float duration) {
         if (photonView.IsMine && !silenced) {
             silenced = true;
+            ChannelSpell(false);
             silenceRoutine = StartCoroutine(SilenceRoutine(duration));
         }
     }
     IEnumerator SilenceRoutine(float duration) {
+        silenceRoutineRunning = true;
         yield return new WaitForSeconds(duration);
         silenced = false;
+        silenceRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousSilence() {
         if (photonView.IsMine) {
+            ChannelSpell(false);
             silenced = true;
         }
     }
@@ -848,11 +916,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator WeakenRoutine(float duration, ManaDistribution weaknessDist) {
+        weakenRoutineRunning = true;
         weakened = true;
         weaknesses += weaknessDist;
         yield return new WaitForSeconds(duration);
         weaknesses -= weaknessDist;
         if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
+        weakenRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousWeaken(string weakString) {
@@ -888,12 +958,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator StrengthenRoutine(float duration, ManaDistribution strengthDist) {
+        strengthenRoutineRunning = true;
         strengthened = true;
         strengths += strengthDist;
         //Debug.Log("New Strength: " + strengths.ToString());
         yield return new WaitForSeconds(duration);
         strengths -= strengthDist;
         if (strengths.GetAggregate() <= 0.1f) strengthened = false;
+        strengthenRoutineRunning = false;
     }
 
     [PunRPC]
@@ -931,9 +1003,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator FragileRoutine(float duration) {
+        fragileRoutineRunning = true;
         yield return new WaitForSeconds(duration);
         fragile = false;
         fragilePercentage = 0f;
+        fragileRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousFragile(float percentage) {
@@ -964,11 +1038,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
     IEnumerator ToughRoutine(float duration, float percentage) {
+        toughRoutineRunning = true;
         tough = true;
         toughPercentage = percentage;
         yield return new WaitForSeconds(duration);
         tough = false;
         toughPercentage = 0f;
+        toughRoutineRunning = false;
     }
     [PunRPC]
     public void ContinuousTough(float percentage) {
@@ -999,6 +1075,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
     IEnumerator ManaRestorationRoutine(float duration, float restorationPercentage) {
         Debug.Log("Mana restoration mult: "+restorationPercentage+"     for: "+duration+" seconds.");
+        manaRestorationRoutineRunning = true;
         manaRestorationChange = true;
         ManaRegen *= restorationPercentage;
         Debug.Log("New Mana Regen : " + ManaRegen);
@@ -1006,6 +1083,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         ManaRegen /= restorationPercentage;
         if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
         Debug.Log("New Mana Regen after end: " + ManaRegen);
+        manaRestorationRoutineRunning = false;
     }
 
     [PunRPC]
@@ -1037,6 +1115,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         camouflageRoutine = StartCoroutine(CamouflageRoutine(duration));
     }
     IEnumerator CamouflageRoutine(float duration) {
+        camouflagedRoutineRunning = true;
         camouflaged = true;
         materialManager.GoInvisible();
         Sneak();
@@ -1044,6 +1123,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         materialManager.ResetMaterial();
         camouflaged = false;
         EndSneak();
+        camouflagedRoutineRunning = false;
     }
 
     [PunRPC]
@@ -1065,58 +1145,58 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void Cleanse() {
         if (slowed) {
-            StopCoroutine(slowRoutine);
+            if (slowRoutineRunning) StopCoroutine(slowRoutine);
             animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
             movementManager.ResetMovementSpeed();
             slowed = false;
         }
         if (hastened) {
-            StopCoroutine(hasteRoutine);
+            if (hasteRoutineRunning) StopCoroutine(hasteRoutine);
             animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
             movementManager.ResetMovementSpeed();
             hastened = false;
         }
         if (rooted) {
-            StopCoroutine(rootRoutine);
+            if (rootRoutineRunning) StopCoroutine(rootRoutine);
             movementManager.Root(false);
             rooted = false;
         }
         if (silenced) {
-            StopCoroutine(silenceRoutine);
+            if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
             silenced = false;
         }
         if (stunned) {
-            StopCoroutine(stunRoutine);
+            if (stunRoutineRunning) StopCoroutine(stunRoutine);
             movementManager.Stun(false);
             stunned = false;
         }
         if (fragile) {
-            StopCoroutine(fragileRoutine);
+            if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
             fragilePercentage = 0f;
             fragile = false;
         }
         if (tough) {
-            StopCoroutine(toughRoutine);
+            if (toughRoutineRunning) StopCoroutine(toughRoutine);
             toughPercentage = 0f;
             tough = false;
         }
         if (weakened) {
-            StopCoroutine(weakenRoutine);
+            if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
             weaknesses = new ManaDistribution();
             weakened = false;
         }
         if (strengthened) {
-            StopCoroutine(strengthenRoutine);
+            if (strengthenRoutineRunning) StopCoroutine(strengthenRoutine);
             strengths = new ManaDistribution();
             strengthened = false;
         }
         if (manaRestorationChange) {
-            StopCoroutine(manaRestorationRoutine);
+            if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
             ManaRegen = defaultManaRegen;
             manaRestorationChange = false;
         }
         if (camouflaged) {
-            StopCoroutine(camouflageRoutine);
+            if (camouflagedRoutineRunning) StopCoroutine(camouflageRoutine);
             materialManager.ResetMaterial();
             camouflaged = false;
         }
@@ -1131,24 +1211,24 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void Cure() {
         if (slowed) {
-            StopCoroutine(slowRoutine);
+            if (slowRoutineRunning) StopCoroutine(slowRoutine);
             animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
             movementManager.ResetMovementSpeed();
             slowed = false;
         }
         if (fragile) {
-            StopCoroutine(fragileRoutine);
+            if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
             fragilePercentage = 0f;
             fragile = false;
         }
         if (weakened) {
-            StopCoroutine(weakenRoutine);
+            if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
             weaknesses = new ManaDistribution();
             weakened = false;
         }
         if (manaRestorationChange) {
             if (ManaRegen < defaultManaRegen) {
-                StopCoroutine(manaRestorationRoutine);
+                if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
                 ManaRegen = defaultManaRegen;
                 manaRestorationChange = false;
             }

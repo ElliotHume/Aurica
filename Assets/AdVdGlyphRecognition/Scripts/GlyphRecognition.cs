@@ -34,7 +34,7 @@ public class GlyphRecognition : MonoBehaviour {
 	void FixedUpdate() {
 		if (player == null) {
 			try {
-				player = PlayerManager.LocalPlayerInstance.GetComponent<PlayerManager>();
+				player = PlayerManager.LocalPlayerGameObject.GetComponent<PlayerManager>();
 			} catch {
 				// Debug.Log("Cannot find player for Glyph Recognition");
 			}

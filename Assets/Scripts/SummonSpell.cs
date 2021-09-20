@@ -43,14 +43,12 @@ public class SummonSpell : Spell, IPunObservable {
             if (DestroyTimeDelay > 0f) Invoke("DestroySelf", DestroyTimeDelay);
             if (Duration > 0f) Invoke("DisableCollisions", Duration);
             
-            if (Rising) {
-                StartCoroutine(Rise());
-            }
         }
         if (Rising) {
             if (Destination == Vector3.zero) Destination = transform.localPosition;
             transform.position -= AlignToZAxis ? transform.forward * StartingOffset : transform.up * StartingOffset;
             startPosition = transform.position;
+            if (photonView.IsMine) StartCoroutine(Rise());
         }
         if (StartTimeDelay > 0f) {
             active = false;
@@ -70,7 +68,7 @@ public class SummonSpell : Spell, IPunObservable {
     }
 
     void FixedUpdate() {
-        if (active && doneMoving && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
+        if (photonView.IsMine && active && doneMoving && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
             transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
             if (ScalingLimit != 0f) amountOfScalingApplied += Mathf.Abs(ScalingFactor * Time.deltaTime);
         }

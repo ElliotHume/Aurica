@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Photon.Pun;
 
 public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
-    public float AimSensitivity = 1.5f;
     public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f;
     public AudioSource footStepSource;
     public AudioClip[] footsteps;
@@ -201,7 +200,6 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void EndJump() {
-        Debug.Log("END JUMP");
         jumping = false;
     }
 

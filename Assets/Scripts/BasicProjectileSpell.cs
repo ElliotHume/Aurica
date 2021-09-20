@@ -11,11 +11,12 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float RandomMoveRadius = 0f;
     public float RandomMoveSpeedScale = 0f;
     public bool CanHitSelf = true, ContinuesPastCollision = false;
-    public GameObject Target;
-    public bool HomingProjectile = true;
-    public float HomingDetectionSphereRadius = 1f;
+    public bool AimAssistedProjectile = true;
+    public float AimAssistTurningSpeed = 15f;
+    public bool PerfectHomingProjectile = false;
+    public float HomingDetectionSphereRadius = 1.5f;
     public bool TrackingProjectile = false;
-    public float TrackingTurnSpeed = 0.1f;
+    public float TrackingTurnSpeed = 10f;
     public float CollisionOffset = 0;
     public float CollisionDestroyTimeDelay = 5;
     public float MaxDistance = 0f, AirDrag = 0f, MinSpeed = 0f;
@@ -28,13 +29,12 @@ public class BasicProjectileSpell : Spell, IPunObservable
     private Vector3 travelDistance = Vector3.zero;
     private Quaternion startRotation;
     private bool isCollided = false, networkCollided = false;
-    private Transform targetT;
-    private bool targetIsPlayer;
-    private Vector3 randomTimeOffset;
+    private GameObject HomingTarget, AimAssistTarget;
+    private Transform homingTargetT, aimAssistTargetT;
+    private Vector3 randomTimeOffset, playerOffset = new Vector3(0f, 1f, 0f);
     private Crosshair crosshair;
-    private int homingLayerMask = 1 << 3;
+    private int playerDetectingLayerMask = 1 << 3;
     private int collidedViewId = -1, networkCollidedViewId = -1;
-
     private Vector3 networkPosition, oldPosition, velocity;
     private Quaternion networkRotation;
 
@@ -64,7 +64,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
         transform.parent = null;
         randomTimeOffset = Random.insideUnitSphere * 10;
         Speed *= GameManager.GLOBAL_SPELL_SPEED_MULTIPLIER;
-        if (TrackingProjectile) crosshair = Crosshair.Instance;
+        crosshair = Crosshair.Instance;
+
+        if (!TrackingProjectile && AimAssistedProjectile && AimAssistTurningSpeed < Speed/3f) {
+            AimAssistTurningSpeed = Speed/3f;
+        }
     }
 
 
@@ -178,9 +182,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     void UpdateWorldPosition() {
         if (!photonView.IsMine || isCollided) return;
-        if (Target != null && targetT == null) targetT = Target.transform;
+        if (HomingTarget != null && homingTargetT == null) homingTargetT = HomingTarget.transform;
         if ((MaxDistance > 0f && travelDistance.magnitude > MaxDistance) || Speed < 0.1f) {
-            Debug.Log("Stopping due to max distance");
             if (ExplodeOnReachMaxDistance) {
                 LocalCollisionBehaviour(transform.position, transform.forward);
                 NetworkCollisionBehaviour(transform.position, transform.forward);
@@ -195,39 +198,52 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             }
             isCollided = true;
+            return;
+        }
+
+        // If aim assisted, get the player that is being aimed at from the crosshair and set them as the target
+        if (AimAssistedProjectile) {
+            GameObject crossHairHit = crosshair.GetPlayerHit(1f);
+            SetAimAssistTarget(crossHairHit);
+            if (PerfectHomingProjectile && crossHairHit != null && HomingTarget == null) {
+                SetHomingTarget(crossHairHit);
+            }
         }
 
         Vector3 randomOffset = Vector3.zero;
         if (RandomMoveRadius > 0) {
             randomOffset = GetRadiusRandomVector() * RandomMoveRadius;
-            if (Target != null) {
-                var fade = Vector3.Distance(transform.position, targetT.position) / Vector3.Distance(startPosition, targetT.position);
+            if (HomingTarget != null) {
+                var fade = Vector3.Distance(transform.position, homingTargetT.position) / Vector3.Distance(startPosition, homingTargetT.position);
                 randomOffset *= fade;
             }
         }
 
-        // If a homing projectile, check for a player in the radius and set it as target
-        if (HomingProjectile && Target == null) {
-            Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, homingLayerMask);
+        // If a homing projectile, check for a player in the radius and set them as them target
+        if (PerfectHomingProjectile && HomingTarget == null) {
+            Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, playerDetectingLayerMask);
             if (hits.Length > 0) {
                 foreach( var hit in hits ) {
-                    if (hit.gameObject != PlayerManager.LocalPlayerInstance) {
-                        SetTarget(hit.gameObject, true);
+                    if (hit.gameObject != PlayerManager.LocalPlayerGameObject) {
+                        SetHomingTarget(hit.gameObject);
                         break;
                     }
                 }
             }
-            
         }
 
         var frameMoveOffsetWorld = Vector3.zero;
-        if (Target == null) {
-            if (TrackingProjectile) startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation(crosshair.GetWorldPoint() - transform.position), TrackingTurnSpeed * Time.deltaTime);
+        if (HomingTarget == null) {
+            if (AimAssistTarget != null) {
+                startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation((aimAssistTargetT.position + playerOffset) - transform.position), (AimAssistTurningSpeed + TrackingTurnSpeed) * Time.deltaTime);
+            } else if (TrackingProjectile) {
+                startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation(crosshair.GetWorldPoint() - transform.position), TrackingTurnSpeed * Time.deltaTime);
+            }
+            
             var currentForwardVector = (Vector3.forward + randomOffset) * Speed * Time.deltaTime;
             frameMoveOffsetWorld = startRotation * currentForwardVector;
         } else {
-            Vector3 targetOffset = targetIsPlayer ? new Vector3(0,1,0) : Vector3.zero;
-            var forwardVec = ((targetT.position + targetOffset) - transform.position).normalized;
+            var forwardVec = ((homingTargetT.position + playerOffset) - transform.position).normalized;
             var currentForwardVector = (forwardVec + randomOffset) * Speed * Time.deltaTime;
             frameMoveOffsetWorld = currentForwardVector;
         }
@@ -237,8 +253,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
         transform.position += frameMoveOffsetWorld;
         travelDistance += frameMoveOffsetWorld;
 
-        if (Target != null && ((targetT.position + new Vector3(0,1,0)) - transform.position).magnitude < 1.25f) {
-            transform.position = targetT.position + new Vector3(0,1,0);
+        if (HomingTarget != null && ((homingTargetT.position + playerOffset) - transform.position).magnitude < 1.25f) {
+            transform.position = homingTargetT.position + playerOffset;
         }
     }
 
@@ -255,11 +271,19 @@ public class BasicProjectileSpell : Spell, IPunObservable
         return new Vector3(vecX, vecY, vecZ);
     }
 
-    public void SetTarget(GameObject go, bool isPlayerCharacter=false) {
-        Debug.Log("Locking on to target "+go);
-        Target = go;
-        targetT = go.transform;
-        targetIsPlayer = isPlayerCharacter;
+    public void SetHomingTarget(GameObject go) {
+        HomingTarget = go;
+        homingTargetT = go.transform;
+    }
+
+    public void SetAimAssistTarget(GameObject go) {
+        if (go == null) {
+            AimAssistTarget = null;
+            aimAssistTargetT = null;
+            return;
+        }
+        AimAssistTarget = go;
+        aimAssistTargetT = go.transform;
     }
 
 

@@ -14564,8 +14564,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -14608,13 +14610,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 1607009268162057292}
   - {fileID: 4505046141183362608}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4505046141183362608
@@ -14714,8 +14716,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -14758,13 +14762,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 2839815906925423939}
   - {fileID: 8431559728430706918}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8431559728430706918
@@ -28758,8 +28762,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -28802,13 +28808,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 6544885086793011224}
   - {fileID: 8865117764772955967}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8865117764772955967
@@ -52349,8 +52355,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -52393,13 +52401,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 2674406073577284822}
   - {fileID: 1621007771424985605}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1621007771424985605
@@ -71801,11 +71809,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &5109716831623428305
@@ -100118,8 +100126,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -100162,13 +100172,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 8683037706373063648}
   - {fileID: 4239952073816334544}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4239952073816334544
@@ -104946,8 +104956,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -104990,13 +105002,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 6294832765660839417}
   - {fileID: 2103188625447739720}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &2103188625447739720
@@ -110024,8 +110036,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -110068,13 +110082,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 2914451391628445127}
   - {fileID: 4366588090149284546}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &4366588090149284546
@@ -119468,8 +119482,10 @@ MonoBehaviour:
   RandomMoveRadius: 0.2
   RandomMoveSpeedScale: 6
   CanHitSelf: 1
-  Target: {fileID: 0}
-  HomingProjectile: 0
+  ContinuesPastCollision: 0
+  AimAssistedProjectile: 1
+  AimAssistTurningSpeed: 10
+  PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 25
@@ -119512,13 +119528,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 9105076418990729061}
   - {fileID: 9105076418990729062}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &9105076418990729062

@@ -90,7 +90,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnCollisionEnter(Collision collision) {
         if (photonView.IsMine && !isCollided) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -102,7 +102,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnTriggerEnter(Collider collision) {
         if (photonView.IsMine) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -118,7 +118,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnTriggerStay(Collider collision) {
         if (photonView.IsMine && isContinuous) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -130,7 +130,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void OnTriggerExit(Collider collision) {
         if (photonView.IsMine && isContinuous) {
-            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerInstance || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerInstance)) {
+            if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
@@ -200,8 +200,8 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
         if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
         if (cure) pv.RPC("Cure", RpcTarget.All);
-        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * 0.002f * multiplier, healPercentAmount/100f * 0.002f * multiplier);
-        if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * 0.002f * multiplier, manaDrainPercentAmount/100f * 0.002f * multiplier);
+        if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * Time.deltaTime * multiplier, healPercentAmount/100f * Time.deltaTime * multiplier);
+        if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * Time.deltaTime * multiplier, manaDrainPercentAmount/100f * Time.deltaTime * multiplier);
     }
 
     void DeactivateContinuous(PhotonView pv, bool modify = true) {

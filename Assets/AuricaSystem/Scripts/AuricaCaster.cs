@@ -29,37 +29,50 @@ public class AuricaCaster : MonoBehaviourPun {
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
             cachedSpells.Add("e", new CachedSpell(PlayerPrefs.GetString("CachedSpell_e")));
         } else {
-            cachedSpells.Add("e", new CachedSpell("protect, self"));
+            CacheSpell("e", "protect, self");
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_q")) {
             cachedSpells.Add("q", new CachedSpell(PlayerPrefs.GetString("CachedSpell_q")));
         } else {
-            cachedSpells.Add("q", new CachedSpell("self, protect, ordo"));
+            CacheSpell("q", "self, protect, ordo");
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
             cachedSpells.Add("1", new CachedSpell(PlayerPrefs.GetString("CachedSpell_1")));
         } else {
-            cachedSpells.Add("1", new CachedSpell("infernum, bolt"));
+            CacheSpell("1", "infernum, bolt");
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_2")) {
             cachedSpells.Add("2", new CachedSpell(PlayerPrefs.GetString("CachedSpell_2")));
         } else {
-            cachedSpells.Add("2", new CachedSpell("throw, self"));
+            CacheSpell("2", "mana, bolt");
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
             cachedSpells.Add("3", new CachedSpell(PlayerPrefs.GetString("CachedSpell_3")));
         } else {
-            cachedSpells.Add("3", new CachedSpell("attack, bolt, other, propel"));
+            CacheSpell("3", "attack, bolt, other, propel");
+        }
+
+        if (PlayerPrefs.HasKey("CachedSpell_4")) {
+            cachedSpells.Add("4", new CachedSpell(PlayerPrefs.GetString("CachedSpell_4")));
+        } else {
+            CacheSpell("4", "throw, self");
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_r")) {
             cachedSpells.Add("r", new CachedSpell(PlayerPrefs.GetString("CachedSpell_r")));
         } else {
-            cachedSpells.Add("r", new CachedSpell("throw, infernum, expel"));
+            CacheSpell("r", "throw, infernum, expel");
+        }
+
+
+        if (PlayerPrefs.HasKey("CachedSpell_f")) {
+            cachedSpells.Add("f", new CachedSpell(PlayerPrefs.GetString("CachedSpell_f")));
+        } else {
+            CacheSpell("f", "expel, mana, purify, self");
         }
 
 

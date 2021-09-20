@@ -1322,7 +1322,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -1591,7 +1591,7 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 2
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -14583,7 +14583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab14f2ffdc8075a49a75a85012620571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 20
+  Damage: 15
   auricaSpell: {fileID: 11400000, guid: f934b42c52ca74ecc85e25ff0706a427, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -14597,7 +14597,7 @@ MonoBehaviour:
   IsOpponentTargeted: 1
   OneShotEffect: 1
   UNIMPLEMENTEDLastingEffect: 0
-  FollowsTarget: 0
+  FollowsTarget: 1
   SpellStrengthChangesDuration: 1
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration: []
@@ -14663,8 +14663,11 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!54 &8491580873689512397
 Rigidbody:
   m_ObjectHideFlags: 0
