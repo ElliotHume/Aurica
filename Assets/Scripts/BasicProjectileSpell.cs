@@ -90,11 +90,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         // The spell has collided with a player, we want to make sure this is reflected clientside by moving the projectile towards the player that is hit
                         Transform hitPlayer = PhotonView.Find(networkCollidedViewId).gameObject.transform;
                         transform.position = ((hitPlayer.position+new Vector3(0f,1f,0f)) + networkPosition)/2f;
-                        Debug.Log("MOVING TOWARDS LOCAL PLAYER TRANSFORM");
                     } else {
                         // The spell has collided with a non-player object, move it to the networked position on the assumption that the hit object is stationary.
                         transform.position = networkPosition;
                     }
+                    Debug.Log("Collision registered on remote client, call local collision functions");
                     transform.rotation = networkRotation;
                     LocalCollisionBehaviour(transform.position, -transform.forward);
                     if (!ContinuesPastCollision) isCollided = true;
@@ -143,8 +143,28 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 } else {
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                 }
+            } else if (collision.gameObject.tag == "Spell") {
+                // This is required for the case when a remote client shoots a spell out of the air.
+                // Without this RPC the spell will turn off its collision on remote clients before those remote clients register the collision on the local spell that is hit.
+                Spell spell = collision.gameObject.GetComponent<Spell>();
+                if (spell != null) {
+                    PhotonView pv = PhotonView.Get(spell);
+                    if (pv != null) {
+                        pv.RPC("SpellCollision", RpcTarget.All);
+                    }
+                }
             }
             NetworkCollisionBehaviour(hit.point, hit.normal);
+        }
+    }
+
+    [PunRPC]
+    public void SpellCollision() {
+        LocalCollisionBehaviour(transform.position, -transform.forward);
+        if (!ContinuesPastCollision) isCollided = true;
+        if (photonView.IsMine) {
+            Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
+            NetworkCollisionBehaviour(transform.position, Vector3.up);
         }
     }
 
@@ -205,7 +225,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
         if (AimAssistedProjectile) {
             GameObject crossHairHit = crosshair.GetPlayerHit(1f);
             SetAimAssistTarget(crossHairHit);
-            if (PerfectHomingProjectile && crossHairHit != null && HomingTarget == null) {
+            if (PerfectHomingProjectile && crossHairHit != null && HomingTarget == null && (crossHairHit.transform.position-transform.position).magnitude <= HomingDetectionSphereRadius) {
+                // Debug.Log("Set homing target to aim targeted player.");
                 SetHomingTarget(crossHairHit);
             }
         }
@@ -219,18 +240,20 @@ public class BasicProjectileSpell : Spell, IPunObservable
             }
         }
 
+        // // DEPRECATED, now use the crosshair aim assist targeting to find homing targets.
         // If a homing projectile, check for a player in the radius and set them as them target
-        if (PerfectHomingProjectile && HomingTarget == null) {
-            Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, playerDetectingLayerMask);
-            if (hits.Length > 0) {
-                foreach( var hit in hits ) {
-                    if (hit.gameObject != PlayerManager.LocalPlayerGameObject) {
-                        SetHomingTarget(hit.gameObject);
-                        break;
-                    }
-                }
-            }
-        }
+        // if (PerfectHomingProjectile && HomingTarget == null) {
+        //     Collider[] hits = Physics.OverlapSphere(transform.position, HomingDetectionSphereRadius, playerDetectingLayerMask);
+        //     if (hits.Length > 0) {
+        //         foreach( var hit in hits ) {
+        //             if (hit.gameObject != PlayerManager.LocalPlayerGameObject) {
+        //                 Debug.Log("Set homing target to player found in radius");
+        //                 SetHomingTarget(hit.gameObject);
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
 
         var frameMoveOffsetWorld = Vector3.zero;
         if (HomingTarget == null) {

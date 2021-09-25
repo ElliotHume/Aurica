@@ -116,8 +116,8 @@ public class AuricaCaster : MonoBehaviourPun {
         ManaDistribution oldMd = currentDistribution;
         currentDistribution = newComponent.CalculateDistributionChange(currentDistribution, aura.GetAura());
 
-        //Debug.Log("Added component: " + newComponent.c_name + "    Current Mana Cost: " + currentManaCost);
-        //Debug.Log("Old Distribution: " + oldMd.ToString() + "    New Distribution: " + currentDistribution.ToString());
+        // Debug.Log("Added component: " + newComponent.c_name + "    Current Mana Cost: " + currentManaCost);
+        // Debug.Log("Old Distribution: " + oldMd.ToString() + "    New Distribution: " + currentDistribution.ToString()+"         Change: "+(currentDistribution-oldMd).ToString());
 
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
         if (cpUI != null) cpUI.AddComponent(newComponent);

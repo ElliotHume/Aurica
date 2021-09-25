@@ -160,21 +160,18 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
                 photonView.RPC("EndMatch", RpcTarget.All, 0);
             }
         }
-        
-        if (player.GetUniqueName() == localPlayer.GetUniqueName()) {
-            StartCoroutine(RespawnPlayer());
-        }
+        StartCoroutine(RespawnPlayer(player));
     }
 
     public void SpawnLocalPlayer() {
+        if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
         localPlayer.Teleport(isBlueTeam ? BlueSideSpawnPoint.position : RedSideSpawnPoint.position);
         localPlayer.HardReset();
     }
 
-    IEnumerator RespawnPlayer() {
-        if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
+    IEnumerator RespawnPlayer(PlayerManager player) {
         yield return new WaitForSeconds(RespawnTimer);
-        localPlayer.Respawn();
-        localPlayer.Teleport(isBlueTeam ? BlueSideSpawnPoint.position : RedSideSpawnPoint.position);
+        player.Respawn();
+        player.Teleport(isBlueTeam ? BlueSideSpawnPoint.position : RedSideSpawnPoint.position);
     }
 }

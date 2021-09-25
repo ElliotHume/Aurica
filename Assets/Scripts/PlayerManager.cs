@@ -323,7 +323,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void Respawn() {
-        if (!photonView.IsMine) return;
+        // if (!photonView.IsMine) return;
         dead = false;
         animator.enabled = true;
         RootBone.transform.position = transform.position;
