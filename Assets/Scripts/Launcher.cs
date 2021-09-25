@@ -85,7 +85,16 @@ public class Launcher : MonoBehaviourPunCallbacks {
             // Load the Room Level.
             roomName = roomName.ToUpper();
             Debug.Log("Room name: "+roomName);
-            string level = roomName == "FREEPLAY" ? "Battlegrounds1" : roomName.Contains("FOREST") ? "DeathmatchForest" : roomName.Contains("OPEN") ? "DeathmatchOpenGround" : "Deathmatch";
+            string level = "Deathmatch";
+            if (roomName == "FREEPLAY") {
+                level = "Battlegrounds1";
+            } else if (roomName.Contains("FOREST")) {
+                level = "DeathmatchForest";
+            } else if (roomName.Contains("OPEN")) {
+                level = "DeathmatchOpenGround";
+            } else if (roomName.Contains("ARENA")) {
+                level = "DeathmatchOpenAdvanced";
+            }
             PhotonNetwork.LoadLevel(level);
         }
     }

@@ -11,6 +11,7 @@ public class MovementEffect : MonoBehaviourPun {
 
     public bool canHitSelf = false;
     public bool isKnockback = false;
+    public bool isFixed = false;
     public bool isContinuous = false;
     public AudioSource clip;
 
@@ -19,6 +20,7 @@ public class MovementEffect : MonoBehaviourPun {
 
     void Start() {
         attachedSpell = GetComponent<Spell>();
+        if (isFixed) displacementDirection = transform.forward;
     }
 
     public void ManualActivation(GameObject playerGO) {
@@ -71,7 +73,7 @@ public class MovementEffect : MonoBehaviourPun {
         PhotonView pv = PhotonView.Get(pm);
         if (pv != null) {
             float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
-            pv.RPC("Displace", RpcTarget.All, displacementDirection, displacementDistance * multiplier, displacementSpeed, isKnockback);
+            pv.RPC("Displace", RpcTarget.All, displacementDirection, displacementDistance * multiplier, displacementSpeed, isKnockback || isFixed);
             if (clip != null) clip.Play();
         }
     }

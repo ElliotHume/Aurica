@@ -69,6 +69,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         }
 
         if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
+        Debug.Log("Starting match -- blue lives: "+blueSideLives+"  red lives: "+redSideLives);
         Debug.Log("Local Player name: "+localPlayer.GetUniqueName());
         isBlueTeam = blueSideNames.Contains(localPlayer.GetUniqueName());
 
