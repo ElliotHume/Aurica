@@ -10,7 +10,7 @@ The Aurica System is inherently unbalanced, but there is ongoing work to balance
 
 ----
 
-#### Description
+### Description
 Players face each other in multiplayer battles of skilled spell casting. The objective of each match is to reduce your opponent(s) shared pool of lives to zero before they do the same to you. To do this well the player must learn the strengths of their own pseudo-randomly generated Aura. A player's Aura is a distribution of mana types that interact with spell casting to make spells stronger or weaker depending on how the mana in the spell is balanced.
 
 There are a wealth of spell options to choose from in each battle. Currently there are 63 unique spells implemented and more being developed constantly. Part of the balance of the game is this large selection of spells, you can read more about this in the wiki.
@@ -31,6 +31,15 @@ Once you have downloaded the game, you will see a box at the bottom of the title
 - (more coming soon...)
 
 Then, hit the "Free Play" button, which will put you in a shared room where you can get a feel for the controls and choose a spell loadout to play with. There is a basic tutorial if you go through the gateway that is in front (and slightly to the right) of where you spawned in.
+
+If you want to face a friend in a match, return to the main menu and type in an agreed upon room name and hit the "Join Room" button. This will put you in the default battlegrounds, but you can change this by including a specific substring in the room name that (sorry for the awful UX there, I'm working on it).
+
+**Different Arenas:**
+Include this in your room name and it will change the arena for the match.
+- "advanced" - a much more advanced arena, this arena has multiple levels of elevation and many obstacles. I would recommend this arena for higher player numbers (2v2 or 3v3).
+- "open" - an arena with minimal obstructions, good for beginners and 1-on-1 duels.
+- "forest" - like the open arena, but with more obstacles.
+
 
 
 ## [The Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52) (Work in progress...)
