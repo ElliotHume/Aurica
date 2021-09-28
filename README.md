@@ -42,4 +42,4 @@ Include this in your room name and it will change the arena for the match.
 
 
 
-## [The Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52) (Work in progress...)
+## [Learn more about the game in the Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52) (Work in progress...)
