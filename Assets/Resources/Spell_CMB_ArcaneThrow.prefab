@@ -4751,7 +4751,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 40
+  Speed: 25
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 1
@@ -4862,6 +4862,7 @@ MonoBehaviour:
   displacementDirection: {x: 0, y: 0, z: 0}
   canHitSelf: 1
   isKnockback: 1
+  isFixed: 0
   isContinuous: 0
   clip: {fileID: 0}
 --- !u!1 &7871190711264516299

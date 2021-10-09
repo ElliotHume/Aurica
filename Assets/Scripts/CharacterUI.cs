@@ -59,7 +59,7 @@ public class CharacterUI : MonoBehaviour {
             SetStatusEffect("STRONG...");
         } else if (target.weakened) {
             SetStatusEffect("WEAK...");
-        }  else {
+        } else {
             ResetStatusEffects();
         }
     }

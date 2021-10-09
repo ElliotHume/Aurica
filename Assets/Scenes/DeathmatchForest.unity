@@ -2443,6 +2443,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Particles
       objectReference: {fileID: 0}
+    - target: {fileID: 189180, guid: a6ac4bd5202435c4aa5edad1f2fb53b9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 479680, guid: a6ac4bd5202435c4aa5edad1f2fb53b9, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -15777,7 +15781,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd15cbbeb80414648bab7c15830b8255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allWindows: []
+  _allWindows:
+  - {fileID: 0}
   _prefabManagementWindow: {fileID: 0}
   _objectPlacementSettingsWindow: {fileID: 0}
   _prefabsToCategoryDropSettingsWindow: {fileID: 0}
@@ -31975,11 +31980,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b337b289455416080286029b179ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
   BlueSideSpawnPoint: {fileID: 1888961611}
   RedSideSpawnPoint: {fileID: 225389340}
+  blueNameColor: {r: 0, g: 0, b: 1, a: 1}
+  redNameColor: {r: 1, g: 0, b: 0, a: 1}
   blueLifeCounter: {fileID: 1166636564}
   redLifeCounter: {fileID: 1166636563}
+  blueSidePlayerMaterial: {fileID: 0}
+  redSidePlayerMaterial: {fileID: 0}
   DeathMatchGamePanel: {fileID: 1166636565}
   readyButton: {fileID: 1166636562}
   resultsPanel: {fileID: 1166636561}
@@ -53707,7 +53715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 550
+      value: 550.00885
       objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x

@@ -41,7 +41,6 @@ public class ComponentUIList : MonoBehaviour
             newButton.GetComponent<ComponentUIButton>().SetComponent(component);
             newButton.GetComponent<ComponentUIButton>().componentDisplay = componentUIDisplay;
             newButton.GetComponent<ComponentUIButton>().SetGlyph(allComponentGlyphs, component.c_name);
-            
         }
     }
 

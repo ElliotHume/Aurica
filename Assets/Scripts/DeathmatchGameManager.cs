@@ -81,7 +81,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         string blueSideNames = "", redSideNames = "";
 
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
-        List<PlayerManager> playerManagers = ps.OrderBy(x => x.Mana).ToList();
+        List<PlayerManager> playerManagers = ps.OrderBy(x => Random.Range(0, 10)).ToList();
         foreach (var p in playerManagers) {
             if (index % 2 == 1) {
                 // ODD player, add to blue side

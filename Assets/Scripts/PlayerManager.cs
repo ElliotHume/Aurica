@@ -223,12 +223,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void Awake() {
-        // #Critical
-        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-        // DontDestroyOnLoad(this.gameObject);
-
-        // #Important
-        // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine) {
             PlayerManager.LocalInstance = this;
             PlayerManager.LocalPlayerGameObject = this.gameObject;
@@ -334,7 +328,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public void Teleport(Vector3 newPosition) {
         if (!photonView.IsMine) return;
-        Debug.Log("Teleport " + gameObject + "  to " + newPosition);
+        Debug.Log("Teleporting " + gameObject + "  to " + newPosition);
         transform.position = newPosition;
     }
 
@@ -371,7 +365,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void SetPlayerOutline(Color color) {
-        Debug.Log("Set Player outline "+GetUniqueName()+"    "+color.ToString());
         materialManager.SetOutline(color);
     }
 
@@ -399,20 +392,28 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void TakeDamage(float damage, ManaDistribution spellDistribution) {
+        // Modify the damage if the player is fragile or tough
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= (1 - toughPercentage);
-        if (isShielded || damage == 0f) return;
+
+        // If you are shielded, negate all but a fraction of the damage.
+        if (isShielded) damage *= 0.1f;
+
+        // Apply the damage
         float finalDamage = aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
         Health -= finalDamage;
+
+        // Play hit effects
         DamageVignette.Instance.FlashDamage(finalDamage);
         if (cameraWorker != null) cameraWorker.Shake(finalDamage / 100f, 0.198f);
         if (HitSound != null && finalDamage > 3f) HitSound.Play();
+
         if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
         float damagePerSecond = damage / duration;
-        Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
+        // Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
         while (duration > 0f) {
             TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
             duration -= Time.deltaTime;

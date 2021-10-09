@@ -33,7 +33,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     private Transform homingTargetT, aimAssistTargetT;
     private Vector3 randomTimeOffset, playerOffset = new Vector3(0f, 1f, 0f);
     private Crosshair crosshair;
-    private int playerDetectingLayerMask = 1 << 3;
+    // private int playerDetectingLayerMask = 1 << 3;
     private int collidedViewId = -1, networkCollidedViewId = -1;
     private Vector3 networkPosition, oldPosition, velocity;
     private Quaternion networkRotation;
