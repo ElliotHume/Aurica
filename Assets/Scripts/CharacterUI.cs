@@ -41,27 +41,30 @@ public class CharacterUI : MonoBehaviour {
             playerHealthSlider.value = target.Health;
         }
 
-        if (target.stunned) {
-            SetStatusEffect("STUNNED...");
-        } else if (target.silenced) {
-            SetStatusEffect("SILENCED...");
-        } else if (target.rooted) {
-            SetStatusEffect("ROOTED...");
-        } else if (target.slowed) {
-            SetStatusEffect("SLOWED...");
-        } else if (target.hastened) {
-            SetStatusEffect("HASTE...");
-        } else if (target.fragile) {
-            SetStatusEffect("FRAGILE...");
-        } else if (target.tough) {
-            SetStatusEffect("TOUGH...");
-        } else if (target.strengthened) {
-            SetStatusEffect("STRONG...");
-        } else if (target.weakened) {
-            SetStatusEffect("WEAK...");
-        } else {
+        List<string> statusEffects = new List<string>();
+        if (target.stunned) statusEffects.Add("STUNNED");
+        if (target.silenced) statusEffects.Add("SILENCED");
+        if (target.rooted) statusEffects.Add("ROOTED");
+        if (target.slowed) statusEffects.Add("SLOWED");
+        if (target.hastened) statusEffects.Add("HASTE");
+        if (target.fragile) statusEffects.Add("FRAGILE");
+        if (target.tough) statusEffects.Add("TOUGH");
+        if (target.strengthened) statusEffects.Add("STRONG");
+        if (target.weakened) statusEffects.Add("WEAK");
+        if (target.manaRestorationChange) statusEffects.Add("ALTERED MANA");
+
+        if (statusEffects.Count == 0) {
             ResetStatusEffects();
+            return;
         }
+
+        string combinedStatusEffects = "";
+        foreach(string status in statusEffects) {
+            combinedStatusEffects += " & "+status;
+        }
+        combinedStatusEffects = combinedStatusEffects.Substring(2) + "...";
+        Debug.Log(combinedStatusEffects);
+        SetStatusEffect(combinedStatusEffects);
     }
 
     void LateUpdate() {
