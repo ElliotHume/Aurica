@@ -5,9 +5,10 @@ using Photon.Pun;
 
 public class AoESpell : Spell {
     public float LastingDamage = 0f;
-    public bool OneShotEffect = true, LastingEffect = false, canHitSelf = false, growBeforeStart = false, SpellStrengthChangesDuration = true;
+    public bool OneShotEffect = true, LastingEffect = false, attachToTarget = false, canHitSelf = false, growBeforeStart = false, SpellStrengthChangesDuration = true;
     public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
+    public Vector3 AttachPositionOffset = Vector3.zero;
     public GameObject[] DeactivateObjectsAfterDuration;
     public ParticleSystem[] EffectsOnDelayedStartup;
 
@@ -91,6 +92,15 @@ public class AoESpell : Spell {
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                 }
             }
+        }
+    }
+
+    public void SetTarget(GameObject targetGO) {
+        transform.position = targetGO.transform.position + AttachPositionOffset;
+        transform.rotation = targetGO.transform.rotation;
+
+        if (attachToTarget) {
+            transform.parent = targetGO.transform;
         }
     }
 

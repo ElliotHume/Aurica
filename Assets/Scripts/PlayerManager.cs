@@ -608,16 +608,22 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
                 if (currentSpellIsSelfTargeted) {
                     currentSpellIsSelfTargeted = false;
-                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                    if (ts != null) ts.SetTarget(gameObject);
+                    TargetedSpell targetedSpell = newSpell.GetComponent<TargetedSpell>();
+                    if (targetedSpell != null) targetedSpell.SetTarget(gameObject);
+                    AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
+                    if (aoeSpell != null) aoeSpell.SetTarget(gameObject);
                 } else if (currentSpellIsOpponentTargeted) {
                     currentSpellIsOpponentTargeted = false;
                     TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+                    AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
+
                     GameObject target = GetPlayerWithinAimTolerance(10f);
-                    if (ts != null && target != null) {
+                    if (target != null) {
                         Debug.Log("Target found: " + target);
-                        ts.SetTarget(target);
+                        if (ts != null) ts.SetTarget(target);
+                        if (aoeSpell != null) aoeSpell.SetTarget(target);
                     }
+                    
                 }
             } else {
                 CastFizzle();
@@ -709,6 +715,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void ManaDrain(float flat, float percentage) {
         if (photonView.IsMine) {
+            Debug.Log("Draining Mana by "+(flat + ((maxMana - Mana) * percentage)));
             Mana -= flat + ((maxMana - Mana) * percentage);
         }
     }
