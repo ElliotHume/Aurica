@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Aura_Conflagration
+  m_EditorClassIdentifier: 
+  c_name: Conflagration
+  manaType: 5
+  description: Burn the air around you. Any foolish enough to step inside the area
+    will suffer damage.
+  targetDistribution:
+    structure: -0.1
+    essence: -0.23
+    fire: 0.88
+    water: 0
+    earth: 0
+    air: 0.11
+    nature: -0.22
+  keyComponents:
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: 24a81935fa8e34990ba28ad05d8af8f5, type: 2}
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
+  - {fileID: 11400000, guid: 7148f1af2d1fc1b4a8c598a4ab0d60c4, type: 2}
+  - {fileID: 11400000, guid: 319d2d350905d8044ace545479d7eb70, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_Aura_Conflagration

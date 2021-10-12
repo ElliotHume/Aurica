@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Aura_Hearthbound
+  m_EditorClassIdentifier: 
+  c_name: Hearthbound
+  manaType: 3
+  description: Channel the restorative power of the hearth. The mana from this spell
+    will cleanse, toughen, hasten, and restore some health. This effect can be spread
+    to others if they are close-by.
+  targetDistribution:
+    structure: -0.17
+    essence: 0.93
+    fire: 0
+    water: 0.18
+    earth: 0
+    air: 0.08
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: aa003eea899653542bd1cfea9106e3a8, type: 2}
+  - {fileID: 11400000, guid: ec341d06fe0184444983a2205987618b, type: 2}
+  - {fileID: 11400000, guid: 3cb6d78aac23a4de3a0d2d431b55ff5b, type: 2}
+  - {fileID: 11400000, guid: 8707cd8dfb1e0714b95707d9a7299cac, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_Aura_Hearthbound
