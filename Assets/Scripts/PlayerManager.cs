@@ -233,9 +233,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void Update() {
-        if (Health <= 0f && !dead) {
-            Die();
-        }
         if (photonView.IsMine) {
             // Allowed to look at and craft spells while dead, but nothing else
             if (Health <= 0f) return;
@@ -275,6 +272,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             // Display health and mana values
             healthBar.SetHealth(Health);
             manaBar.SetHealth(Mana);
+        }
+    }
+
+    public void FixedUpdate () {
+        if (Health <= 0f && !dead) {
+            Die();
+        }
+        if (!photonView.IsMine) {
+            if (stunned && animator.speed > 0f) {
+                movementManager.Stun(true);
+            } else if (!stunned && animator.speed == 0f) {
+                movementManager.Stun(false);
+            }
         }
     }
 
@@ -394,10 +404,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void TakeDamage(float damage, ManaDistribution spellDistribution) {
         // Modify the damage if the player is fragile or tough
         if (fragile) damage *= (1 + fragilePercentage);
-        if (tough) damage *= (1 - toughPercentage);
+        if (tough) damage *= Mathf.Max(0, (1 - toughPercentage));
 
-        // If you are shielded, negate all but a fraction of the damage.
-        if (isShielded) damage *= 0.1f;
+        // If you are shielded but a spell still contacts you (primarily AoE spells), take 0.25x damage.
+        if (isShielded) damage *= 0.25f;
 
         // Apply the damage
         float finalDamage = aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;

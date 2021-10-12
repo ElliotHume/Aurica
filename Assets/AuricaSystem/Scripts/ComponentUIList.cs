@@ -10,11 +10,13 @@ public class ComponentUIList : MonoBehaviour
     public ComponentUIDisplay componentUIDisplay;
     public bool isListOfAll = true;
     public List<AuricaSpellComponent> componentList;
+
     private AuricaSpellComponent[] allComponents;
     private Glyph[] allComponentGlyphs;
     private float currentYPos;
     private RectTransform rect;
     private List<GameObject> instances = new List<GameObject>();
+    private string sortMode = "alphabetic";
 
     // Start is called before the first frame update
     void Awake()
@@ -24,7 +26,7 @@ public class ComponentUIList : MonoBehaviour
         rect = GetComponent<RectTransform>();
         if (isListOfAll) {
             componentList = new List<AuricaSpellComponent>(allComponents);
-            // componentList.Sort((a, b) => a.CompareTo(b));;
+            // componentList.Sort((a, b) => a.CompareTo(b));
         }
     }
 
@@ -59,6 +61,22 @@ public class ComponentUIList : MonoBehaviour
 
     public void AddComponent(AuricaSpellComponent newComponent) {
         componentList.Add(newComponent);
+        WipeList();
+        PopulateList();
+    }
+
+    public void ChangeOrdering(string orderType) {
+        if (sortMode == orderType) return;
+        sortMode = orderType;
+
+        switch(orderType) {
+            case "alphabetic":
+                componentList = componentList.OrderBy((n) => n.name).ToList();
+                break;
+            case "category":
+                componentList.Sort((a, b) => a.CompareTo(b));
+                break;
+        }
         WipeList();
         PopulateList();
     }
