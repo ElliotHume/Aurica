@@ -63,7 +63,6 @@ public class CharacterUI : MonoBehaviour {
             combinedStatusEffects += " & "+status;
         }
         combinedStatusEffects = combinedStatusEffects.Substring(2) + "...";
-        Debug.Log(combinedStatusEffects);
         SetStatusEffect(combinedStatusEffects);
     }
 
