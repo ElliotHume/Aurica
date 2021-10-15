@@ -10,6 +10,7 @@ public class ComponentUIList : MonoBehaviour
     public ComponentUIDisplay componentUIDisplay;
     public bool isListOfAll = true;
     public List<AuricaSpellComponent> componentList;
+    public AudioSource ChangeComponentSound;
 
     private AuricaSpellComponent[] allComponents;
     private Glyph[] allComponentGlyphs;
@@ -32,6 +33,14 @@ public class ComponentUIList : MonoBehaviour
 
     void Start() {
         PopulateList();
+    }
+
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            SelectNextComponent(true);
+        } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            SelectNextComponent(false);
+        }
     }
 
     public void PopulateList() {
@@ -79,5 +88,21 @@ public class ComponentUIList : MonoBehaviour
         }
         WipeList();
         PopulateList();
+    }
+
+    void SelectNextComponent(bool traverseDownwards) {
+        if (componentUIDisplay.component == null) return;
+
+        int selectedIndex = componentList.IndexOf(componentUIDisplay.component);
+
+        if (traverseDownwards) {
+            if (selectedIndex == componentList.Count - 1) return;
+            componentUIDisplay.UpdateComponent(componentList[selectedIndex+1]);
+        } else {
+            if (selectedIndex == 0) return;
+            componentUIDisplay.UpdateComponent(componentList[selectedIndex-1]);
+        }
+        
+        if (ChangeComponentSound != null) ChangeComponentSound.Play();
     }
 }

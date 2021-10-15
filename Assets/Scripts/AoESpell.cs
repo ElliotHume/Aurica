@@ -8,7 +8,7 @@ public class AoESpell : Spell {
     public bool OneShotEffect = true, LastingEffect = false, attachToTarget = false, canHitSelf = false, growBeforeStart = false, SpellStrengthChangesDuration = true;
     public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
-    public Vector3 AttachPositionOffset = Vector3.zero;
+    public Vector3 PositionOffset = Vector3.zero;
     public GameObject[] DeactivateObjectsAfterDuration;
     public ParticleSystem[] EffectsOnDelayedStartup;
 
@@ -34,6 +34,8 @@ public class AoESpell : Spell {
             Invoke("Enable", StartTimeDelay);
         }
         Invoke("DisableParticlesAfterDuration", Duration+StartTimeDelay);
+
+        if (!attachToTarget && PositionOffset != Vector3.zero) transform.position += PositionOffset;
     }
 
     void FixedUpdate() {
@@ -96,7 +98,7 @@ public class AoESpell : Spell {
     }
 
     public void SetTarget(GameObject targetGO) {
-        transform.position = targetGO.transform.position + AttachPositionOffset;
+        transform.position = targetGO.transform.position + PositionOffset;
         transform.rotation = targetGO.transform.rotation;
 
         if (attachToTarget) {

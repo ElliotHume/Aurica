@@ -36,7 +36,7 @@ public class ComponentUIDisplay : MonoBehaviour {
         ActivateCP(c);
         // There is a bug with enabling objects and changing the values at the same time,
         // so... change the values again soon after enabling to display values correctly
-        StartCoroutine(UpdateComponentAgain(c));
+        // StartCoroutine(UpdateComponentAgain(c));
     }
 
     IEnumerator UpdateComponentAgain(AuricaSpellComponent c) {

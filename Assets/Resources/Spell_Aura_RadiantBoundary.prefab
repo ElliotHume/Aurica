@@ -5454,7 +5454,7 @@ GameObject:
   - component: {fileID: 3392736301551290033}
   - component: {fileID: 3392736301551290039}
   m_Layer: 7
-  m_Name: Spell_RadiantBoundary
+  m_Name: Spell_Aura_RadiantBoundary
   m_TagString: Spell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5513,7 +5513,7 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
-  AttachPositionOffset: {x: 0, y: 1, z: 0}
+  PositionOffset: {x: 0.2, y: 1, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
 --- !u!135 &3392736301551290036

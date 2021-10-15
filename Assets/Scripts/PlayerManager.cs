@@ -153,28 +153,34 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             stream.SendNext(Health);
             stream.SendNext(Mana);
 
-            // Auxiliary data
+            // Status Effect data
             stream.SendNext(slowed);
             stream.SendNext(hastened);
             stream.SendNext(rooted);
             stream.SendNext(silenced);
             stream.SendNext(stunned);
+            stream.SendNext(weakened);
+            stream.SendNext(strengthened);
             stream.SendNext(fragile);
             stream.SendNext(tough);
+            stream.SendNext(manaRestorationChange);
         } else {
             // Network player, receive data
             // CRITICAL DATA
             this.Health = (float)stream.ReceiveNext();
             this.Mana = (float)stream.ReceiveNext();
 
-            // Auxiliary data
+            // Status Effect data
             this.slowed = (bool)stream.ReceiveNext();
             this.hastened = (bool)stream.ReceiveNext();
             this.rooted = (bool)stream.ReceiveNext();
             this.silenced = (bool)stream.ReceiveNext();
             this.stunned = (bool)stream.ReceiveNext();
+            this.weakened = (bool)stream.ReceiveNext();
+            this.strengthened = (bool)stream.ReceiveNext();
             this.fragile = (bool)stream.ReceiveNext();
             this.tough = (bool)stream.ReceiveNext();
+            this.manaRestorationChange = (bool)stream.ReceiveNext();
         }
     }
 
