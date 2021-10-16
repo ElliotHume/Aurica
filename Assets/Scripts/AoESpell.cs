@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class AoESpell : Spell {
     public float LastingDamage = 0f;
-    public bool OneShotEffect = true, LastingEffect = false, attachToTarget = false, canHitSelf = false, growBeforeStart = false, SpellStrengthChangesDuration = true;
+    public bool OneShotEffect = true, LastingEffect = false, attachToTarget = false, canHitSelf = false, growBeforeStart = false, SpellStrengthChangesDuration = true, SpellStrengthChangesScale = false;
     public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     public Vector3 PositionOffset = Vector3.zero;
@@ -16,11 +16,14 @@ public class AoESpell : Spell {
     private bool active = true;
 
     void Start() {
+        float spellStrength = GetSpellStrength();
         if (SpellStrengthChangesDuration) {
-            float spellStrength = GetSpellStrength();
             Duration *= spellStrength;
             DestroyTimeDelay *= spellStrength;
             StartTimeDelay *= spellStrength;
+        }
+        if (SpellStrengthChangesScale) {
+            transform.localScale *= spellStrength;
         }
         Duration *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
         DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
