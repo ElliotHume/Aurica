@@ -14267,13 +14267,16 @@ MonoBehaviour:
   LastingDamage: 10
   OneShotEffect: 0
   LastingEffect: 1
+  attachToTarget: 0
   canHitSelf: 0
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
+  SpellStrengthChangesScale: 0
   DestroyTimeDelay: 16
   StartTimeDelay: 0
   ScalingFactor: 0.1
   ScalingLimit: 1
+  PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 689328669110954031}
   - {fileID: 1173006846429725914}
@@ -14344,7 +14347,7 @@ MonoBehaviour:
   cleanse: 0
   cure: 0
   isContinuous: 1
-  canHitSelf: 0
+  canHitSelf: 1
   onlyHitSelf: 0
 --- !u!135 &1173006846591398228
 SphereCollider:

@@ -4944,7 +4944,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
-  Duration: 20
+  Duration: 15
   CastAnimationType: 5
   CastingAnchor: transform
   TurnToAimPoint: 1
@@ -4954,13 +4954,16 @@ MonoBehaviour:
   LastingDamage: 0
   OneShotEffect: 1
   LastingEffect: 0
+  attachToTarget: 0
   canHitSelf: 0
   growBeforeStart: 0
-  SpellStrengthChangesDuration: 1
-  DestroyTimeDelay: 23
+  SpellStrengthChangesDuration: 0
+  SpellStrengthChangesScale: 1
+  DestroyTimeDelay: 16
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  PositionOffset: {x: 0, y: 0.1, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
 --- !u!135 &6196599139418983870
@@ -5109,11 +5112,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacementDistance: 1
-  displacementSpeed: 2
+  displacementDistance: 4
+  displacementSpeed: 4
   displacementDirection: {x: 0, y: 0, z: 0}
   canHitSelf: 0
   isKnockback: 1
+  isFixed: 0
   isContinuous: 1
   clip: {fileID: 0}
 --- !u!1 &363986723511629047

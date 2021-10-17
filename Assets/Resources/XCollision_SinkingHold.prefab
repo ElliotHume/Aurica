@@ -9535,13 +9535,16 @@ MonoBehaviour:
   LastingDamage: 0
   OneShotEffect: 0
   LastingEffect: 1
+  attachToTarget: 0
   canHitSelf: 0
   growBeforeStart: 0
   SpellStrengthChangesDuration: 1
+  SpellStrengthChangesScale: 0
   DestroyTimeDelay: 27
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
 --- !u!135 &8960145997153294424
@@ -9629,7 +9632,7 @@ MonoBehaviour:
     water: 0
     earth: 0
     air: 0
-    nature: 0.5
+    nature: 0.75
   strengthen: 0
   strengthenDuration: 0
   strengthenDistribution:

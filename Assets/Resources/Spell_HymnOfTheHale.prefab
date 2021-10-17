@@ -18962,8 +18962,9 @@ MonoBehaviour:
   IsSelfTargeted: 0
   IsOpponentTargeted: 1
   OneShotEffect: 1
-  LastingEffect: 0
+  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 0
+  SpellStrengthChangesDuration: 1
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration: []
   PositionOffset: {x: 0, y: 0, z: 0}
@@ -19019,15 +19020,20 @@ MonoBehaviour:
   toughPercentage: 0
   changeManaRegen: 1
   changeDuration: 20
-  changePercentage: 120
+  changePercentage: 150
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 0
+  onlyHitSelf: 0
 --- !u!135 &1982071970303817082
 SphereCollider:
   m_ObjectHideFlags: 0

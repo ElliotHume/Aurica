@@ -154,13 +154,16 @@ MonoBehaviour:
   LastingDamage: 0
   OneShotEffect: 1
   LastingEffect: 1
+  attachToTarget: 0
   canHitSelf: 1
   growBeforeStart: 0
   SpellStrengthChangesDuration: 1
+  SpellStrengthChangesScale: 0
   DestroyTimeDelay: 31
   StartTimeDelay: 0
   ScalingFactor: -0.05
   ScalingLimit: 0.5
+  PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 2488807455239387533}
   - {fileID: 2489304616330660093}
