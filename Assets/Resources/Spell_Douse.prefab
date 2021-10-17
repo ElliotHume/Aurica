@@ -93,8 +93,8 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  FiringAngle: 20
-  Gravity: 20
+  FiringAngle: 15
+  Gravity: 25
   Target: {x: 0, y: 0, z: 0}
   CrosshairTargeted: 1
   CollisionOffset: 0
@@ -191,6 +191,7 @@ MonoBehaviour:
   displacementDirection: {x: 0, y: 0, z: 0}
   canHitSelf: 1
   isKnockback: 1
+  isFixed: 0
   isContinuous: 0
   clip: {fileID: 0}
 --- !u!114 &7283058024794623903

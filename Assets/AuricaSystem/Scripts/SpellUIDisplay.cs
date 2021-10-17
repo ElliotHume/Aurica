@@ -75,10 +75,9 @@ public class SpellUIDisplay : MonoBehaviour {
         targetDistDisplay.SetDistribution(spell.targetDistribution);
         targetDistDisplayValues.SetDistribution(spell.targetDistribution);
         // Debug.Log("IDEAL AURA:    "+spell.IdealAuraCalculation().ToString());
-        if (!isCasterAgnostic) {
-            spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f) + "%";
-            manaCostText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetManaCost());
-        } 
+        if (isCasterAgnostic) AuricaCaster.LocalCaster.CastSpellByObject(s);
+        spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f) + "%";
+        manaCostText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetManaCost()); 
         if (componentUIList != null) {
             componentUIList.ResetList();
             foreach ( var component in spell.keyComponents) {

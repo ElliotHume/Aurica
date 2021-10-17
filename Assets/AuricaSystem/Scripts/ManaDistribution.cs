@@ -178,7 +178,7 @@ public struct ManaDistribution {
             Mathf.Min(air, siphonDist.air),
             siphonDist.nature >= 0f ? Mathf.Min(Mathf.Max(0f, nature), siphonDist.nature) : Mathf.Max(Mathf.Min(0f, nature), siphonDist.nature)
         );
-        Debug.Log("Siphon Distribution "+siphon.ToString());
+        // Debug.Log("Siphon Distribution "+siphon.ToString());
         // Water, Earth and Divine add structure, Fire, Earth and Demonic reduce it
         structure += (0.3f * siphon.water) + (0.3f * siphon.earth) - (0.3f * siphon.fire) - (0.3f * siphon.air) + (0.5f * siphon.nature) - siphon.structure;
         // Water and Air add essence, Earth and Fire reduce it
@@ -192,7 +192,7 @@ public struct ManaDistribution {
         water -= siphon.water;
         earth -= siphon.earth;
         nature -= siphon.nature;
-        Debug.Log("Post-Siphon Distribution "+this.ToString());
+        // Debug.Log("Post-Siphon Distribution "+this.ToString());
     }
 
     public void ClampElementalValues() {

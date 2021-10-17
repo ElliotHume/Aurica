@@ -113,11 +113,13 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
         if ( isCollided ) return;
         Debug.Log("Collision with: "+ collision.gameObject);
         
-        // Prevent the projectile hitting the player who cast it.
-        PhotonView p = PhotonView.Get(collision.gameObject);
-        if (p != null) {
-            if (collision.gameObject.tag == "Player" && p.Owner.ActorNumber == photonView.Owner.ActorNumber) {
-                return;
+        // Prevent the projectile hitting the player who cast it if the flag is set.
+        if (collision.gameObject.tag == "Player") {
+            PhotonView p = PhotonView.Get(collision.gameObject);
+            if (p != null && true) {
+                if (p.Owner != null && p.Owner.ActorNumber == photonView.Owner.ActorNumber) {
+                    return;
+                }
             }
         }
 

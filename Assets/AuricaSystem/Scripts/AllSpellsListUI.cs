@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using AdVd.GlyphRecognition;
 
@@ -12,6 +13,7 @@ public class AllSpellsListUI : MonoBehaviour
     private float currentYPos;
     private RectTransform rect;
     private List<GameObject> instances = new List<GameObject>();
+    private string sortMode = "alphabetic";
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +29,7 @@ public class AllSpellsListUI : MonoBehaviour
     public void PopulateList() {
         //currentYPos = startYPos;
         //rect.sizeDelta = new Vector2(150, 80 * allSpellsList.Count);
-    foreach (AuricaSpell spell in allSpellsList) {
+        foreach (AuricaSpell spell in allSpellsList) {
             if (spell.keyComponents.Count == 0) continue;
             GameObject newButton = Instantiate(spellElementPrefab, transform.position, transform.rotation, transform);
             instances.Add(newButton);
@@ -43,5 +45,21 @@ public class AllSpellsListUI : MonoBehaviour
                 Destroy(item);
             }
         }
+    }
+
+    public void ChangeOrdering(string orderType) {
+        if (sortMode == orderType) return;
+        sortMode = orderType;
+
+        switch(orderType) {
+            case "alphabetic":
+                allSpellsList = allSpellsList.OrderBy((n) => n.name).ToList();
+                break;
+            case "spellStrength":
+                allSpellsList = allSpellsList.OrderBy((spell) => 2f-AuricaCaster.LocalCaster.GetSpellStrengthForSpell(spell)).ToList();
+                break;
+        }
+        WipeList();
+        PopulateList();
     }
 }

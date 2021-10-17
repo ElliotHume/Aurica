@@ -133,6 +133,26 @@ public class AuricaCaster : MonoBehaviourPun {
         return Cast();
     }
 
+    public AuricaSpell CastSpellByObject(AuricaSpell spell) {
+        ResetCast();
+        if (spell.keyComponents.Count == 0) return null;
+        foreach (AuricaSpellComponent component in spell.keyComponents) {
+            AddComponent(component);
+        }
+        return Cast();
+    }
+
+    public float GetSpellStrengthForSpell(AuricaSpell spell) {
+        if (spell.keyComponents.Count == 0) return 0f;
+        ResetCast();
+        foreach( AuricaSpellComponent component in spell.keyComponents) {
+            AddComponent(component);
+        }
+        GetSpellMatch(currentComponents, currentDistribution);
+        ResetCast();
+        return spellStrength;
+    }
+
     public AuricaSpell Cast() {
         AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
         AuricaSpell spell = pureSpell == null ? null :  pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
@@ -144,7 +164,7 @@ public class AuricaCaster : MonoBehaviourPun {
         AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
         AuricaSpell spell = pureSpell == null ? null : pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
         if (spell != null) {
-            Debug.Log("Add extra mana cost for pure spell: "+pureSpell.addedManaCost+"     pre-addition: "+currentManaCost);
+            // Debug.Log("Add extra mana cost for pure spell: "+pureSpell.addedManaCost+"     pre-addition: "+currentManaCost);
             currentManaCost += pureSpell.addedManaCost;
             return spell;
         }
@@ -168,7 +188,7 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void ResetCast() {
-        Debug.Log("Resetting Aurica Cast");
+        // Debug.Log("Resetting Aurica Cast");
         currentComponents.Clear();
         currentManaCost = 0f;
         currentDistribution = new ManaDistribution();
@@ -215,7 +235,7 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void CacheSpell(string key, string spell) {
-        Debug.Log("Caching spell: " + spell);
+        Debug.Log("Caching key "+key+" with spell: " + spell);
         if (cachedSpells.ContainsKey(key)) {
             cachedSpells[key] = new CachedSpell(spell);
         } else {

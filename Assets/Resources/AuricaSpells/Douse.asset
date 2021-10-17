@@ -16,16 +16,17 @@ MonoBehaviour:
   manaType: 6
   description: Throw a large ball of water that will knockback those it hits
   targetDistribution:
-    structure: 0
-    essence: 0
+    structure: 0.15
+    essence: 0.06
     fire: 0
     water: 1
-    earth: 0
+    earth: 0.03
     air: 0
     nature: 0
   keyComponents:
   - {fileID: 11400000, guid: 3ac906ae1eff3405f84ba9a716ee2556, type: 2}
+  - {fileID: 11400000, guid: 319d2d350905d8044ace545479d7eb70, type: 2}
   - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
-  errorThreshold: 2
+  errorThreshold: 1.75
   isAuric: 0
   linkedSpellResource: Spell_Douse
