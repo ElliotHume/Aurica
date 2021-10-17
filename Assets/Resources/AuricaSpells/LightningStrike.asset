@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: LightningStrike
+  m_EditorClassIdentifier: 
+  c_name: Lightning Strike
+  manaType: 8
+  description: Deal damage around the caster in a brief area effect. The caster will
+    remain unharmed.
+  targetDistribution:
+    structure: -0.05
+    essence: -0.1
+    fire: 0
+    water: 0.15
+    earth: 0
+    air: 0.86
+    nature: 0.45
+  keyComponents:
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  - {fileID: 11400000, guid: 2c16fa44aac434c128740b9c51ca6fb1, type: 2}
+  - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  - {fileID: 11400000, guid: b681523d843b54d9d9b7481fc00f587d, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_LightningStrike

@@ -731,8 +731,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void ManaDrain(float flat, float percentage) {
         if (photonView.IsMine) {
-            Debug.Log("Draining Mana by "+(flat + ((maxMana - Mana) * percentage)));
-            Mana -= flat + ((maxMana - Mana) * percentage);
+            Debug.Log("Draining Mana by - flat: "+flat+" & percentage: "+percentage+" = "+(Mana * percentage));
+            Mana -= flat + (Mana * percentage);
         }
     }
 

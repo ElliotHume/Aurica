@@ -15781,8 +15781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd15cbbeb80414648bab7c15830b8255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allWindows:
-  - {fileID: 0}
+  _allWindows: []
   _prefabManagementWindow: {fileID: 0}
   _objectPlacementSettingsWindow: {fileID: 0}
   _prefabsToCategoryDropSettingsWindow: {fileID: 0}
@@ -31995,7 +31994,7 @@ MonoBehaviour:
   redsidewinUI: {fileID: 1166636559}
   ToggleObjects: []
   LivesPerPlayer: 1
-  RespawnTimer: 10
+  RespawnTimer: 2
   MatchMusic: {fileID: 770329855}
 --- !u!114 &770329854
 MonoBehaviour:
@@ -53715,7 +53714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 550.00885
+      value: -0.000289917
       objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: FrozenTomb
+  m_EditorClassIdentifier: 
+  c_name: Frozen Tomb
+  manaType: 6
+  description: Freeze a target in place, after a time the ice will break and the
+    target will be freed. While the target is frozen they will take reduced damage.
+  targetDistribution:
+    structure: 0.1
+    essence: -0.2
+    fire: 0
+    water: 0.85
+    earth: 0
+    air: 0.1
+    nature: 0.085
+  keyComponents:
+  - {fileID: 11400000, guid: 2c16fa44aac434c128740b9c51ca6fb1, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  - {fileID: 11400000, guid: 1695c1f276952436ab72f5a2f31e1c4e, type: 2}
+  - {fileID: 11400000, guid: 7148f1af2d1fc1b4a8c598a4ab0d60c4, type: 2}
+  - {fileID: 11400000, guid: ddab4c958b760457d8a7b68e3f8cb208, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_FrozenTomb

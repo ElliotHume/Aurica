@@ -9213,7 +9213,6 @@ GameObject:
   - component: {fileID: 4718893882218331357}
   - component: {fileID: 4718893882218331358}
   - component: {fileID: 6027349267420820381}
-  - component: {fileID: 4718893882218331351}
   m_Layer: 6
   m_Name: Spell_MinorRestoration
   m_TagString: Spell
@@ -9474,19 +9473,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!135 &4718893882218331351
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4718893882218331354}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4718893882407581519
 GameObject:
   m_ObjectHideFlags: 0

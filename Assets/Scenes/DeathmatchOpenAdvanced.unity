@@ -18077,8 +18077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd15cbbeb80414648bab7c15830b8255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allWindows:
-  - {fileID: 0}
+  _allWindows: []
   _prefabManagementWindow: {fileID: 0}
   _objectPlacementSettingsWindow: {fileID: 0}
   _prefabsToCategoryDropSettingsWindow: {fileID: 0}
@@ -37898,7 +37897,7 @@ MonoBehaviour:
   ToggleObjects:
   - {fileID: 452295827}
   LivesPerPlayer: 1
-  RespawnTimer: 10
+  RespawnTimer: 2
   MatchMusic: {fileID: 770329855}
 --- !u!114 &770329854
 MonoBehaviour:
@@ -58185,7 +58184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 550
+      value: 550.00006
       objectReference: {fileID: 0}
     - target: {fileID: 1565939582, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -104733,14 +104732,14 @@ MonoBehaviour:
   keyE: 1
   keyR: 1
   keyF: 1
-  spell1: {fileID: 11400000, guid: 577bf4cef895ba04fabbb85367d3cab2, type: 2}
-  spell2: {fileID: 11400000, guid: e42e1348c9ea44863b3e766424f4ff9a, type: 2}
+  spell1: {fileID: 11400000, guid: b1d67ea752dab6541acba72227684e0b, type: 2}
+  spell2: {fileID: 11400000, guid: 6d748eccdb7b7ed4885ee15005bcc0cb, type: 2}
   spell3: {fileID: 0}
   spell4: {fileID: 11400000, guid: ce820255bf14d48b3a6bf772ac507420, type: 2}
   spellQ: {fileID: 11400000, guid: 9a466a07258104bafba2d37a5367cf74, type: 2}
   spellE: {fileID: 0}
   spellR: {fileID: 0}
-  spellF: {fileID: 11400000, guid: 8dc260362ca4f3a4999e75a01fd8271a, type: 2}
+  spellF: {fileID: 11400000, guid: 358e9df03dc6e4a7e803c12d9d689607, type: 2}
   spell1Text: 
   spell2Text: 
   spell3Text: attack, sphere, other, target

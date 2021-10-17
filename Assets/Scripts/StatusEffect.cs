@@ -56,6 +56,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     public bool isContinuous = false;
     public bool canHitSelf = false;
     public bool onlyHitSelf = false;
+    public bool isAffectedBySpellStrength = true;
 
     private bool isCollided = false;
     private Spell attachedSpell;
@@ -150,7 +151,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void Activate(PhotonView pv) {
         if (pv != null) {
-            float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
+            float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
             if (slow) pv.RPC("Slow", RpcTarget.All, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
@@ -181,7 +182,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (pv != null) {
             AffectedPlayers.Add(pv);
             Debug.Log("Activate continuous");
-            float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
+            float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
             if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
             if (changeManaRegen) pv.RPC("ContinuousManaRestoration", RpcTarget.All, changePercentage / 100f * multiplier);
@@ -197,7 +198,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     }
 
     void ApplyContinuous(PhotonView pv) {
-        float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
+        float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
         if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
         if (cure) pv.RPC("Cure", RpcTarget.All);
         if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * Time.deltaTime * multiplier, healPercentAmount/100f * Time.deltaTime * multiplier);
@@ -207,7 +208,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     void DeactivateContinuous(PhotonView pv, bool modify = true) {
         if (pv != null) {
             if (modify) AffectedPlayers.Remove(pv);
-            float multiplier = (attachedSpell != null) ? attachedSpell.GetSpellStrength() : 1f;
+            float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             if (weaken) pv.RPC("EndContinuousWeaken", RpcTarget.All, weakenDistribution.ToString());
             if (strengthen) pv.RPC("EndContinuousStrengthen", RpcTarget.All, strengthenDistribution.ToString());
             if (changeManaRegen) pv.RPC("EndContinuousManaRestoration", RpcTarget.All, changePercentage / 100f * multiplier);

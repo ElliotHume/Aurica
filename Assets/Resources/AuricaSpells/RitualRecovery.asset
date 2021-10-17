@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: RitualRecovery
+  m_EditorClassIdentifier: 
+  c_name: Ritual Recovery
+  manaType: 3
+  description: Create a ring of healing mana, all within the boundary will slowly
+    be healed. The caster will be continuously cured of negative status effects while
+    they are inside, but are healed for less than others are.
+  targetDistribution:
+    structure: -0.1
+    essence: 0.9
+    fire: 0
+    water: 0.12
+    earth: 0
+    air: 0.12
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: 453ad9fbc5057f34397dd8a564db3663, type: 2}
+  - {fileID: 11400000, guid: ec341d06fe0184444983a2205987618b, type: 2}
+  - {fileID: 11400000, guid: 3cb6d78aac23a4de3a0d2d431b55ff5b, type: 2}
+  - {fileID: 11400000, guid: 310184bc9d5bd47c088cfdc3f5e6cd99, type: 2}
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_RitualRecovery
