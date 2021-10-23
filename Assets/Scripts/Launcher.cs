@@ -14,10 +14,11 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public GameObject progressLabel;
 
     public InputField roomNameField;
+    public Text ArenaText;
 
 
     string gameVersion = "0.1";
-    string roomName = "default";
+    string roomName = "default", arena = "Default";
     string roomNamePlayerPrefKey = "RoomName";
 
     /// <summary>
@@ -83,18 +84,25 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             // #Critical
             // Load the Room Level.
-            roomName = roomName.ToUpper();
-            Debug.Log("Room name: "+roomName);
             string level = "DeathmatchOpenAdvanced";
-            if (roomName == "FREEPLAY") {
-                level = "Battlegrounds1";
-            } else if (roomName.Contains("FOREST")) {
-                level = "DeathmatchForest";
-            } else if (roomName.Contains("OPEN")) {
-                level = "DeathmatchOpenGround";
-            } else if (roomName.Contains("ADVANCED")) {
-                level = "Deathmatch";
+            switch (arena) {
+                case "FreePlay":
+                    level = "Battlegrounds1";
+                    break;
+                case "Default":
+                    level = "DeathmatchOpenAdvanced";
+                    break;
+                case "Multi-level":
+                    level = "Deathmatch";
+                    break;
+                case "Open Field":
+                    level = "DeathmatchOpenGround";
+                    break;
+                case "Forest":
+                    level = "DeathmatchForest";
+                    break;
             }
+            Debug.Log("Loading Scene: "+level+" Room name: "+roomName);
             PhotonNetwork.LoadLevel(level);
         }
     }
@@ -120,6 +128,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
     public void FreePlay() {
         roomName = "FreePlay";
+        arena = "FreePlay";
         Connect();
     }
 
@@ -127,5 +136,12 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (string.IsNullOrEmpty(name)) name = "default";
         roomName = name;
         PlayerPrefs.SetString(roomNamePlayerPrefKey, roomName);
+    }
+
+    public void SetArena(string arenaName) {
+        arena = arenaName;
+        ArenaText.gameObject.SetActive(true);
+        ArenaText.text = "Arena: "+arenaName;
+        Debug.Log("Arena set to: "+arena);
     }
 }
