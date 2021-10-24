@@ -348,6 +348,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         transform.position = newPosition;
     }
 
+    public void Teleport(Transform newPosition) {
+        if (!photonView.IsMine) return;
+        Debug.Log("Teleporting " + gameObject + "  to pos: " + newPosition.position + "with rotation");
+        transform.position = newPosition.position;
+        transform.rotation = newPosition.rotation;
+    }
+
     public void Sneak() {
         if (sneaking) return;
         particleManager.StopDefaultParticles();
@@ -545,6 +552,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             return;
         }
         Debug.Log("Spell Match: " + spell.c_name);
+
+        if (Mana - auricaCaster.GetManaCost() < 0f) {
+            Debug.Log("Insufficient Mana for spell!");
+            CastFizzle();
+            manaBar.BlinkText();
+            auricaCaster.ResetCast();
+            return;
+        }
+
         // Load spell resource
         GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
         Spell foundSpell = dataObject != null ? dataObject.GetComponent<Spell>() : null;
@@ -607,6 +623,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(5f) != null ? GetPlayerWithinAimTolerance(5f).transform : null;
                 if (aimTransform == null) {
                     CastFizzle();
+                    auricaCaster.ResetCast();
                     return;
                 }
                 GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, aimTransform.position, aimTransform.rotation);
@@ -639,7 +656,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                         if (ts != null) ts.SetTarget(target);
                         if (aoeSpell != null) aoeSpell.SetTarget(target);
                     }
-                    
                 }
             } else {
                 CastFizzle();

@@ -19,6 +19,7 @@ public class LoadoutObject : MonoBehaviour
         if (keyE) AuricaCaster.LocalCaster.CacheSpell("e", spellEText == "" ? spellE.ToString() : spellEText);
         if (keyR) AuricaCaster.LocalCaster.CacheSpell("r", spellRText == "" ? spellR.ToString() : spellRText);
         if (keyF) AuricaCaster.LocalCaster.CacheSpell("f", spellFText == "" ? spellF.ToString() : spellFText);
+        AuricaCaster.LocalCaster.ResetCast();
         OnBind.Invoke();
     }
 }

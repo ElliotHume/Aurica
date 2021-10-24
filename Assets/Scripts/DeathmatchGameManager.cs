@@ -166,13 +166,13 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public void SpawnLocalPlayer() {
         if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
-        localPlayer.Teleport(isBlueTeam ? BlueSideSpawnPoint.position : RedSideSpawnPoint.position);
+        localPlayer.Teleport(isBlueTeam ? BlueSideSpawnPoint : RedSideSpawnPoint);
         localPlayer.HardReset();
     }
 
     IEnumerator RespawnPlayer(PlayerManager player) {
         yield return new WaitForSeconds(RespawnTimer);
         player.Respawn();
-        player.Teleport(isBlueTeam ? BlueSideSpawnPoint.position : RedSideSpawnPoint.position);
+        player.Teleport(isBlueTeam ? BlueSideSpawnPoint : RedSideSpawnPoint);
     }
 }
