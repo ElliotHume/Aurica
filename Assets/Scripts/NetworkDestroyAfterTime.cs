@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class NetworkDestroyAfterTime : MonoBehaviour {
+public class NetworkDestroyAfterTime : MonoBehaviourPun {
 
     public float Lifetime;
     // Start is called before the first frame update
@@ -12,6 +12,6 @@ public class NetworkDestroyAfterTime : MonoBehaviour {
     }
 
     void XDestroy() {
-        PhotonNetwork.Destroy(gameObject);
+        if (photonView.IsMine) PhotonNetwork.Destroy(gameObject);
     }
 }

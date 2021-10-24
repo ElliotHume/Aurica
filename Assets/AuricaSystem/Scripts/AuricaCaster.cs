@@ -41,7 +41,7 @@ public class AuricaCaster : MonoBehaviourPun {
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
             cachedSpells.Add("1", new CachedSpell(PlayerPrefs.GetString("CachedSpell_1")));
         } else {
-            CacheSpell("1", "infernum, bolt");
+            CacheSpell("1", "mana, purify, self");
         }
 
         if (PlayerPrefs.HasKey("CachedSpell_2")) {

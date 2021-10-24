@@ -61,6 +61,14 @@ public class AoESpell : Spell {
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                } else {
+                    TargetDummy td = other.gameObject.GetComponent<TargetDummy>();
+                    if (td != null) {
+                        PhotonView pv = PhotonView.Get(td);
+                        if (pv != null) {
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        }
+                    }
                 }
             } else if (other.gameObject.tag == "Shield") {
                 ShieldSpell ss = other.gameObject.GetComponentInParent<ShieldSpell>();

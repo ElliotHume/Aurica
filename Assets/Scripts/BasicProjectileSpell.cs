@@ -134,6 +134,15 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                         collidedViewId = pv.ViewID;
                     }
+                } else {
+                    TargetDummy td = collision.gameObject.GetComponent<TargetDummy>();
+                    if (td != null) {
+                        PhotonView pv = PhotonView.Get(td);
+                        if (pv != null) {
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                            collidedViewId = pv.ViewID;
+                        }
+                    }
                 }
             } else if (collision.gameObject.tag == "Shield") {
                 ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();

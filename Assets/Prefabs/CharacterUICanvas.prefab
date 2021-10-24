@@ -401,7 +401,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4047682461476091343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,7 +434,10 @@ MonoBehaviour:
   playerNameText: {fileID: 4047682460589999518}
   playerHealthSlider: {fileID: 4047682461718389480}
   cam: {fileID: 0}
-  statusEffectBlocks: []
+  baseColor: {r: 0, g: 0, b: 0, a: 1}
+  statusEffectColor: {r: 1, g: 1, b: 1, a: 1}
+  DamagePopupPrefab: {fileID: 6262365607001080964, guid: 15d740baa7454fe4886c47f15b14b4da,
+    type: 3}
 --- !u!1 &4047682461718389483
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 4047682461718389480}
+  blinkingText: {fileID: 0}
 --- !u!1 &4047682462171574117
 GameObject:
   m_ObjectHideFlags: 0

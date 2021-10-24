@@ -136,6 +136,14 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                } else {
+                    TargetDummy td = collision.gameObject.GetComponent<TargetDummy>();
+                    if (td != null) {
+                        PhotonView pv = PhotonView.Get(td);
+                        if (pv != null) {
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        }
+                    }
                 }
             } else if (collision.gameObject.tag == "Shield") {
                 ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();

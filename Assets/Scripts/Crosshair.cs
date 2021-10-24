@@ -12,7 +12,8 @@ public class Crosshair : MonoBehaviour
     // Raycast will hit everything but spells
     public LayerMask WorldPointLayermask, PlayerVisibleLayermask;
 
-    
+    public Image HitMarker;
+    public float HitMarkerFadeMultiplier = 1f;
 
     // private Vector3 startPos;
     void Start() {
@@ -58,6 +59,23 @@ public class Crosshair : MonoBehaviour
         foreach( var hit in hits) {
             b = hit.gameObject.GetComponent<Button>();
             if (b != null) b.onClick.Invoke();
+        }
+    }
+
+    public void FlashHitMarker(bool major) {
+        StartCoroutine(FlashMarker(major));
+    }
+
+    IEnumerator FlashMarker(bool major) {
+        HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, 0f);
+        while (HitMarker.color.a < 1.0f) {
+            HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, HitMarker.color.a + (Time.deltaTime * HitMarkerFadeMultiplier));
+            yield return null;
+        }
+        HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, 1f);
+        while (HitMarker.color.a < 1.0f){
+            HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, HitMarker.color.a - (Time.deltaTime * HitMarkerFadeMultiplier));
+            yield return null;
         }
     }
 

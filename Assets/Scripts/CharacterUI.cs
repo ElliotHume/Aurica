@@ -118,4 +118,12 @@ public class CharacterUI : MonoBehaviour {
         baseColor = initialColor;
         playerNameText.color = baseColor;
     }
+
+    public void CreateDamagePopup(float damage) {
+        GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position+ (Vector3.up * 0.5f), transform.rotation, 0);
+        DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
+        if (dmgPopup != null) {
+            dmgPopup.ShowDamage(damage);
+        }
+    }
 }

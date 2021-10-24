@@ -415,6 +415,35 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void TakeDamage(float damage, ManaDistribution spellDistribution) {
+        float finalDamage = GetFinalDamage(damage, spellDistribution);
+        Health -= finalDamage;
+
+        // Play hit effects
+        DamageVignette.Instance.FlashDamage(finalDamage);
+        if (cameraWorker != null) cameraWorker.Shake(finalDamage / 100f, 0.198f);
+        if (HitSound != null && finalDamage > 3f) HitSound.Play();
+
+        // Create damage popup
+        if (finalDamage > 3f) characterUI.CreateDamagePopup(finalDamage);
+
+        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
+    }
+
+    IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
+        float damagePerSecond = damage / duration;
+
+        // Create damage popup now, becuase we dont want to do it for each tick.
+        characterUI.CreateDamagePopup(GetFinalDamage(damage, spellDistribution));
+
+        // Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
+        while (duration > 0f) {
+            TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
+            duration -= Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    float GetFinalDamage(float damage, ManaDistribution spellDistribution) {
         // Modify the damage if the player is fragile or tough
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= Mathf.Max(0, (1 - toughPercentage));
@@ -423,25 +452,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (isShielded) damage *= 0.25f;
 
         // Apply the damage
-        float finalDamage = aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
-        Health -= finalDamage;
-
-        // Play hit effects
-        DamageVignette.Instance.FlashDamage(finalDamage);
-        if (cameraWorker != null) cameraWorker.Shake(finalDamage / 100f, 0.198f);
-        if (HitSound != null && finalDamage > 3f) HitSound.Play();
-
-        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
-    }
-
-    IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
-        float damagePerSecond = damage / duration;
-        // Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
-        while (duration > 0f) {
-            TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
-            duration -= Time.deltaTime;
-            yield return new WaitForFixedUpdate();
-        }
+        return aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
     }
 
 
