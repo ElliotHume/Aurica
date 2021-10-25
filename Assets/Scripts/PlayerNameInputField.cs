@@ -30,8 +30,6 @@ public class PlayerNameInputField : MonoBehaviour
     /// MonoBehaviour method called on GameObject by Unity during initialization phase.
     /// </summary>
     void Start () {
-
-
         string defaultName = string.Empty;
         InputField _inputField = this.GetComponent<InputField>();
         if (_inputField!=null)
@@ -44,7 +42,7 @@ public class PlayerNameInputField : MonoBehaviour
         }
 
 
-        PhotonNetwork.NickName =  defaultName;
+        PhotonNetwork.NickName = defaultName;
     }
 
 
@@ -60,15 +58,7 @@ public class PlayerNameInputField : MonoBehaviour
     /// <param name="value">The name of the Player</param>
     public void SetPlayerName(string value)
     {
-        // #Important
-        if (string.IsNullOrEmpty(value))
-        {
-            Debug.LogError("Player Name is null or empty");
-            return;
-        }
         PhotonNetwork.NickName = value;
-
-
         PlayerPrefs.SetString(playerNamePrefKey,value);
     }
 

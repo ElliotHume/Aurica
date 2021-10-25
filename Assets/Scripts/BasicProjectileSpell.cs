@@ -133,6 +133,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     if (pv != null) {
                         pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                         collidedViewId = pv.ViewID;
+                        FlashHitMarker(true);
                     }
                 } else {
                     TargetDummy td = collision.gameObject.GetComponent<TargetDummy>();
@@ -141,6 +142,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         if (pv != null) {
                             pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
                             collidedViewId = pv.ViewID;
+                            FlashHitMarker(true);
                         }
                     }
                 }

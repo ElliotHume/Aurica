@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 8
   auricaSpell: {fileID: 11400000, guid: 60cc99053b031f24d982ff223a659df0, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -64,13 +64,16 @@ MonoBehaviour:
   LastingDamage: 0
   OneShotEffect: 1
   LastingEffect: 0
+  attachToTarget: 0
   canHitSelf: 0
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
+  SpellStrengthChangesScale: 0
   DestroyTimeDelay: 5
   StartTimeDelay: 0
   ScalingFactor: 5
   ScalingLimit: 3
+  PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 7722791258434799395}
   - {fileID: 7722791259440330364}

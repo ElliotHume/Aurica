@@ -49,7 +49,7 @@ public class AoESpell : Spell {
     }
 
     void OnTriggerEnter(Collider other) {
-        if (!OneShotEffect) return;
+        if (!OneShotEffect || Damage == 0f) return;
 
         // TODO: Call local collision response to generate collision VFX
         // ContactPoint hit = collision.GetContact(0);
@@ -60,13 +60,17 @@ public class AoESpell : Spell {
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        FlashHitMarker(true);
+                    }
                 } else {
                     TargetDummy td = other.gameObject.GetComponent<TargetDummy>();
                     if (td != null) {
                         PhotonView pv = PhotonView.Get(td);
                         if (pv != null) {
                             pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                            FlashHitMarker(true);
                         }
                     }
                 }
@@ -94,6 +98,12 @@ public class AoESpell : Spell {
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                    FlashHitMarker(false);
+                } else {
+                    TargetDummy td = other.gameObject.GetComponent<TargetDummy>();
+                    if (td != null) {
+                        FlashHitMarker(false);
+                    }
                 }
             } else if (other.gameObject.tag == "Shield") {
                 // Same as HitShield but with LastingDamage instead

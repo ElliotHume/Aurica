@@ -62,6 +62,14 @@ public class Spell : MonoBehaviourPun {
         return owner;
     }
 
+    protected void FlashHitMarker(bool majorDamage) {
+        if (owner == null) return;
+        PlayerManager pm = owner.GetComponent<PlayerManager>();
+        if (pm != null) {
+            pm.FlashHitMarker(majorDamage);
+        }
+    }
+
     [PunRPC]
     public void DestroySpell() {
         if (photonView.IsMine) PhotonNetwork.Destroy(gameObject);

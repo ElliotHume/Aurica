@@ -54,7 +54,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public bool dead = false;
 
-    public AudioSource CastingSound, DeathSound, HitSound;
+    public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound;
 
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
@@ -453,6 +453,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         // Apply the damage
         return aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
+    }
+
+    public void FlashHitMarker(bool majorDamage) {
+        crosshair.FlashHitMarker(majorDamage);
+        if (majorDamage && HitMarkerSound != null) HitMarkerSound.Play();
     }
 
 

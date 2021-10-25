@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -15,6 +16,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
     public InputField roomNameField;
     public Text ArenaText;
+    public BlinkingText UsernameHintText;
+
+    public UnityEvent OnStart;
 
 
     string gameVersion = "0.1";
@@ -41,6 +45,10 @@ public class Launcher : MonoBehaviourPunCallbacks {
                 if (string.IsNullOrEmpty(roomName)) roomName = "default";
             }
         }
+
+        // Double check that the cursor is not locked or hidden
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void Awake() {
@@ -113,6 +121,12 @@ public class Launcher : MonoBehaviourPunCallbacks {
     /// - if not yet connected, Connect this application instance to Photon Cloud Network
     /// </summary>
     public void Connect() {
+        if (PhotonNetwork.NickName == string.Empty) {
+            UsernameHintText.Fire();
+            return;
+        }
+
+        OnStart.Invoke();
         progressLabel.SetActive(true);
         controlPanel.SetActive(false);
         // we check if we are connected or not, we join if we are , else we initiate the connection to the server.

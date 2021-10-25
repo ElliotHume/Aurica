@@ -15,6 +15,8 @@ public class Crosshair : MonoBehaviour
     public Image HitMarker;
     public float HitMarkerFadeMultiplier = 1f;
 
+    bool hitMarkerVisible = false;
+
     // private Vector3 startPos;
     void Start() {
         Instance = this;
@@ -23,6 +25,14 @@ public class Crosshair : MonoBehaviour
     void Update() {
         if (Input.GetButtonDown("Fire1") && Cursor.lockState == CursorLockMode.Locked) {
             PressHitButtons();
+        }
+
+        if (hitMarkerVisible) {
+            HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, HitMarker.color.a - (Time.deltaTime * HitMarkerFadeMultiplier));
+        }
+        if (HitMarker.color.a <= 0f) {
+            HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, 0f);
+            hitMarkerVisible = false;
         }
     }
 
@@ -62,21 +72,9 @@ public class Crosshair : MonoBehaviour
         }
     }
 
-    public void FlashHitMarker(bool major) {
-        StartCoroutine(FlashMarker(major));
-    }
-
-    IEnumerator FlashMarker(bool major) {
-        HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, 0f);
-        while (HitMarker.color.a < 1.0f) {
-            HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, HitMarker.color.a + (Time.deltaTime * HitMarkerFadeMultiplier));
-            yield return null;
-        }
-        HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, 1f);
-        while (HitMarker.color.a < 1.0f){
-            HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, HitMarker.color.a - (Time.deltaTime * HitMarkerFadeMultiplier));
-            yield return null;
-        }
+    public void FlashHitMarker(bool majorDamage) {
+        HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, majorDamage ? 1f : 0.33f);
+        hitMarkerVisible = true;
     }
 
     void OnDrawGizmosSelected(){

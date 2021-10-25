@@ -19,7 +19,7 @@ public class BlinkingText : MonoBehaviour
     }
 
     IEnumerator Blink() {
-        for(int j = 0; j <= numberOfFlashes; j++) {
+        for(int j = 0; j < numberOfFlashes; j++) {
             text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
             while (text.color.a < 1.0f)
             {

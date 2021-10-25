@@ -135,13 +135,17 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                    if (pv != null) { 
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        FlashHitMarker(true);
+                    }
                 } else {
                     TargetDummy td = collision.gameObject.GetComponent<TargetDummy>();
                     if (td != null) {
                         PhotonView pv = PhotonView.Get(td);
                         if (pv != null) {
                             pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                            FlashHitMarker(true);
                         }
                     }
                 }
