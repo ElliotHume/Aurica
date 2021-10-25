@@ -126,4 +126,15 @@ public class CharacterUI : MonoBehaviour {
             dmgPopup.ShowDamage(damage);
         }
     }
+
+    public DamagePopup CreateAccumulatingDamagePopup(float damage) {
+        GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position+ (Vector3.up * 0.5f), transform.rotation, 0);
+        newPopup.transform.SetParent(gameObject.transform);
+        DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
+        if (dmgPopup != null) {
+            dmgPopup.AccumulatingDamagePopup(damage);
+        }
+        return dmgPopup;
+    }
+
 }

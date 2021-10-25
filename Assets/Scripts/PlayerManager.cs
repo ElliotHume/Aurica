@@ -54,7 +54,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public bool dead = false;
 
-    public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound;
+    public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound, HitMarkerAoESound;
 
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
@@ -72,6 +72,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private ShieldSpell currentShield;
     private CustomCameraWork cameraWorker;
     private AimpointAnchor aimPointAnchorManager;
+    private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
+    private DamagePopup accumulatingDamagePopup;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -243,6 +245,36 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             // Allowed to look at and craft spells while dead, but nothing else
             if (Health <= 0f) return;
 
+            // Compute AoE tick damage and total sum, if no new damage ticks come in for a while 
+            if (aoeDamageTotal == 0f && aoeDamageTick > 0f) {
+                // Add damage tick to the total and reset the tick
+                aoeDamageTotal += aoeDamageTick;
+                aoeDamageTick = 0f;
+
+                // Initiate an accumulating damage popup
+                accumulatingDamagePopup = characterUI.CreateAccumulatingDamagePopup(aoeDamageTotal);
+            } else if (aoeDamageTotal > 0f && aoeDamageTick > 0f) {
+                // Add damage tick to the total and reset the tick
+                aoeDamageTotal += aoeDamageTick;
+                aoeDamageTick = 0f;
+
+                // Update the accumulating damage popup
+                accumulatingDamagePopup.AccumulatingDamagePopup(aoeDamageTotal);
+
+                // Reset the tick timout timer
+                accumulatingDamageTimer = 0f;
+            } else if (aoeDamageTotal > 0f && aoeDamageTick == 0f && accumulatingDamageTimer < accumulatingDamageTimout) {
+                // If there is a running total but no new damage tick, start the timer to end the accumulating process
+                accumulatingDamageTimer += Time.deltaTime;
+            } else if (aoeDamageTotal > 0f && aoeDamageTick == 0f && accumulatingDamageTimer >= accumulatingDamageTimout) {
+                // Timout has been reached for new damage ticks, end the accumulation process and reset all variables
+                accumulatingDamagePopup.EndAccumulatingDamagePopup();
+                aoeDamageTotal = 0f;
+                aoeDamageTick = 0f;
+                accumulatingDamageTimer = 0f;
+            }
+
+
             if (spellCraftingDisplay != null && !spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
 
             // If there is healing to be done, do it
@@ -395,6 +427,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         materialManager.ResetOutline();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
 
     [PunRPC]
@@ -421,12 +470,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Play hit effects
         DamageVignette.Instance.FlashDamage(finalDamage);
         if (cameraWorker != null) cameraWorker.Shake(finalDamage / 100f, 0.198f);
-        if (HitSound != null && finalDamage > 3f) HitSound.Play();
+        if (HitSound != null && finalDamage > 1.5f) HitSound.Play();
 
         // Create damage popup
-        if (finalDamage > 3f) characterUI.CreateDamagePopup(finalDamage);
+        if (finalDamage > 1.5f) {
+            characterUI.CreateDamagePopup(finalDamage);
+        } else {
+            // For an AoE spell tick we do something different
+            aoeDamageTick += finalDamage;
+        }
 
-        if (damage > 1f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
+        if (finalDamage > 1.5f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
@@ -458,7 +512,35 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void FlashHitMarker(bool majorDamage) {
         crosshair.FlashHitMarker(majorDamage);
         if (majorDamage && HitMarkerSound != null) HitMarkerSound.Play();
+        if (!majorDamage && HitMarkerAoESound != null && !HitMarkerAoESound.isPlaying) HitMarkerAoESound.Play();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -569,6 +651,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
         Debug.Log("Spell Match: " + spell.c_name);
 
+        // Fail before animation if the player does not have sufficient mana.
         if (Mana - auricaCaster.GetManaCost() < 0f) {
             Debug.Log("Insufficient Mana for spell!");
             CastFizzle();
@@ -729,6 +812,27 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void EndCast() {
         particleManager.StopHandParticles(!sneaking);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /*  --------------------  STATUS EFFECTS ------------------------ */

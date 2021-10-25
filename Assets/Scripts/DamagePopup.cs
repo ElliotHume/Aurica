@@ -17,11 +17,18 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
     bool drift = false, damageSet = false, resized = false;
     float damage;
 
+
+    bool startAccumulatingDamage=false, endAccumulatingDamage=false;
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
             stream.SendNext(damage);
+            stream.SendNext(startAccumulatingDamage);
+            stream.SendNext(endAccumulatingDamage);
         } else {
             this.damage = (float)stream.ReceiveNext();
+            this.startAccumulatingDamage = (bool)stream.ReceiveNext();
+            this.endAccumulatingDamage = (bool)stream.ReceiveNext();
         }
     }
 
@@ -33,9 +40,16 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
 
     void Update() {
         if (!photonView.IsMine) {
+            if (startAccumulatingDamage) {
+                text.text = damage.ToString("F2");
+                damageSet = true;
+            }
             if (!damageSet && damage != 0f) {
                 text.text = damage.ToString("F2");
                 damageSet = true;
+                StartCoroutine(FadeOut());
+            }
+            if (endAccumulatingDamage) {
                 StartCoroutine(FadeOut());
             }
         }
@@ -43,7 +57,7 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         // Scale up if the camera is far away
         float distToCamera = Vector3.Distance(cam.position, transform.position);
         if (distToCamera >= 10f) {
-            float scale = 1f + distToCamera / 80f;
+            float scale = 1f + distToCamera / 50f;
             transform.localScale = startScale*scale;
             resized = true;
         } else if (resized) {
@@ -69,7 +83,7 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         }
 
         if (photonView.IsMine) {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             PhotonNetwork.Destroy(gameObject);
         }
     }
@@ -88,6 +102,30 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         // Start drifting upwards
         drift = true;
 
+
+        // Start the fade out after delay
+        StartCoroutine(FadeOut());
+    }
+
+    public void AccumulatingDamagePopup(float dmg) {
+        damageSet = true;
+        damage = dmg;
+
+        // Update text
+        text.text = damage.ToString("F2");
+        startAccumulatingDamage = true;
+    }
+
+    public void EndAccumulatingDamagePopup() {
+        endAccumulatingDamage = true;
+
+        // Start drifting upwards
+        drift = true;
+
+        // Unparent the object, we want it to appear in world space when it stops
+        Vector3 temp = gameObject.transform.position;
+        gameObject.transform.SetParent(null);
+        gameObject.transform.position = temp;
 
         // Start the fade out after delay
         StartCoroutine(FadeOut());
