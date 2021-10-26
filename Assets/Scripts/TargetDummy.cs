@@ -19,6 +19,7 @@ public class TargetDummy : MonoBehaviour
             DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
             if (dmgPopup != null) {
                 dmgPopup.ShowDamage(finalDamage);
+                dmgPopup.isSceneObject = true;
             }
         }
     

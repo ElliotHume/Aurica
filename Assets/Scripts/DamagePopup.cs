@@ -12,9 +12,12 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
     public float AntiGravity = 0.05f;
     public float FadeDelay = 2f, FadeMultiplier = 1f;
 
+    [HideInInspector]
+    public bool isSceneObject = false;
+
     Transform cam;
     Vector3 velocity = Vector3.zero, startScale;
-    bool drift = false, damageSet = false, resized = false;
+    bool drift = false, damageSet = false, resized = false, shrunk = false;
     float damage;
 
 
@@ -52,18 +55,30 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
             if (endAccumulatingDamage) {
                 StartCoroutine(FadeOut());
             }
+        } else {
+            if (!shrunk && !isSceneObject) {
+                Debug.Log(photonView.Owner);
+                transform.localScale = transform.localScale * 0.5f;
+                startScale = startScale * 0.5f;
+                shrunk = true;
+            } else if (shrunk && isSceneObject) {
+                startScale = startScale * 2f;
+                transform.localScale = startScale;
+                shrunk = false;
+            }
         }
 
         // Scale up if the camera is far away
-        float distToCamera = Vector3.Distance(cam.position, transform.position);
-        if (distToCamera >= 10f) {
-            float scale = 1f + distToCamera / 50f;
-            transform.localScale = startScale*scale;
-            resized = true;
-        } else if (resized) {
-            transform.localScale = startScale;
-            resized = false;
-        }
+            float distToCamera = Vector3.Distance(cam.position, transform.position);
+            if (distToCamera >= 10f) {
+                float scale = 1f + distToCamera / 50f;
+                transform.localScale = startScale*scale;
+                resized = true;
+            } else if (resized) {
+                transform.localScale = startScale;
+                resized = false;
+            }
+
 
         if (!drift || !photonView.IsMine) return;
         velocity += Physics.gravity * Time.deltaTime;
