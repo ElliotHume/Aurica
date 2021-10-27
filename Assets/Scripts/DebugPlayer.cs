@@ -14,7 +14,7 @@ public class DebugPlayer : MonoBehaviourPun
     void Update() {
         if (Input.GetKey(KeyCode.RightShift)) {
             if (Input.GetKeyDown("n")) {
-                CastDebugSpell("Spell_ManaBall_Fire");
+                CastDebugSpell("Spell_RitualRecovery");
             } else if (Input.GetKeyDown("m")) {
                 CastDebugSpell("Spell_ShadeSmoke");
             } else if (Input.GetKeyDown("b")) {
@@ -63,7 +63,7 @@ public class DebugPlayer : MonoBehaviourPun
     }
 
     public GameObject CastDebugSpell(string prefabName) {
-        return PhotonNetwork.Instantiate(prefabName, transform.position+ transform.forward*2f, transform.rotation);
+        return PhotonNetwork.Instantiate(prefabName, transform.position + transform.up + transform.forward, transform.rotation);
     }
 
     void OnCollisionEnter(Collision collision) {

@@ -11,7 +11,7 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(float health) {
         slider.value = health;
-        if (text != null) text.text = health.ToString("F0");
+        if (text != null) text.text = health.ToString(health >= 10 ? "F0" : "F2");
     }
 
     public void SetMaxHealth(float health) {
