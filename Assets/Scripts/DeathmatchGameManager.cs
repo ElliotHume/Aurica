@@ -130,6 +130,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
         blueSideLives = LivesPerPlayer;
         redSideLives = LivesPerPlayer;
+        blueSide.Clear();
+        redSide.Clear();
         blueLifeCounter.text = blueSideLives.ToString();
         redLifeCounter.text = redSideLives.ToString();
 

@@ -1,9 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Photon.Pun;
 
-using System.Collections;
 
 /// <summary>
 /// Player manager.
@@ -136,7 +137,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [HideInInspector]
     public bool manaRestorationChange;
-    private float manaRestorationDuration;
+    private float manaRestorationDuration, manaRestorationPercentage;
     Coroutine manaRestorationRoutine;
     bool manaRestorationRoutineRunning;
 
@@ -189,6 +190,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Start() {
         maxMana = Mana;
         maxHealth = Health;
+
+        ManaRegen *= GameManager.GLOBAL_PLAYER_MANA_REGEN_MULTIPLIER;
+        ManaRegenGrowthRate *= GameManager.GLOBAL_PLAYER_MANA_GROWTH_MULTIPLIER;
+
         defaultManaRegen = ManaRegen;
 
         // Follow the player character with the camera
@@ -448,7 +453,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson) {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || isShielded) return;
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
         // Spell spell = spellGO.GetComponent<Spell>();
         switch (SpellEffectType) {
@@ -485,10 +490,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
         float damagePerSecond = damage / duration;
-
-        // Create damage popup now, becuase we dont want to do it for each tick.
-        characterUI.CreateDamagePopup(GetFinalDamage(damage, spellDistribution));
-
         // Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
         while (duration > 0f) {
             TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
@@ -501,9 +502,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Modify the damage if the player is fragile or tough
         if (fragile) damage *= (1 + fragilePercentage);
         if (tough) damage *= Mathf.Max(0, (1 - toughPercentage));
-
-        // If you are shielded but a spell still contacts you (primarily AoE spells), take 0.25x damage.
-        if (isShielded) damage *= 0.25f;
 
         // Apply the damage
         return aura.GetDamage(damage, spellDistribution) * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
@@ -573,7 +571,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
 
         if (Input.GetKeyDown("\\")) {
-            Mana += 400;
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                Debug.LogWarning("Slowed: "+slowed+"\n Hastened: "+hastened+"\n Weakenesses: "+weaknesses.ToString()+"\n Strengths: "+strengths.ToString()+"\n Fragile: "+fragilePercentage+"\n Tough: "+toughPercentage+"\n Mana Altered: "+manaRestorationChange);
+            } else {
+                Mana += 400;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
@@ -837,6 +839,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     /*  --------------------  STATUS EFFECTS ------------------------ */
 
+    /**
+    * This is a list of all the identifiers of status effects. Identifiers are the names of spells that are applying status effects.
+    * If a status effect from the same Identifier has already been applied, do not apply another.
+    * This prevents stacking status effects by casting the same spell multiple times.
+    **/
+    List<string> appliedStatusEffects = new List<string>();
+
     // Heal - restore health by a flat value and/or a percentage of missing health
     [PunRPC]
     void Heal(float flat, float percentage) {
@@ -880,13 +889,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // Slow - Decrease animation speed
     [PunRPC]
-    void Slow(float duration, float percentage) {
-        if (photonView.IsMine && !slowed) {
+    void Slow(string Identifier, float duration, float percentage) {
+        if (photonView.IsMine) {
+            // If a status effect from the same Identifier has already been applied, do not apply another.
+            if (appliedStatusEffects.Contains(Identifier)) {
+                Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
+                return;
+            }
+            appliedStatusEffects.Add(Identifier);
+
             slowed = true;
-            slowRoutine = StartCoroutine(SlowRoutine(duration, percentage));
+            slowRoutine = StartCoroutine(SlowRoutine(Identifier, duration, percentage));
         }
     }
-    IEnumerator SlowRoutine(float duration, float percentage) {
+    IEnumerator SlowRoutine(string Identifier, float duration, float percentage) {
         slowRoutineRunning = true;
         animator.speed *= 1f - percentage;
         movementManager.ChangeMovementSpeed(1f - percentage);
@@ -895,18 +911,35 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         movementManager.ResetMovementSpeed();
         slowed = false;
         slowRoutineRunning = false;
+
+        // Remove the Identifier from the applied effects list
+        if (appliedStatusEffects.Contains(Identifier)) appliedStatusEffects.Remove(Identifier);
     }
     [PunRPC]
-    public void ContinuousSlow(float percentage) {
+    public void ContinuousSlow(string Identifier, float percentage) {
         if (photonView.IsMine) {
+            // If a status effect from the same Identifier has already been applied, do not apply another.
+            if (appliedStatusEffects.Contains(Identifier)) {
+                Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
+                return;
+            }
+            appliedStatusEffects.Add(Identifier);
+
             slowed = true;
             animator.speed *= 1f - percentage;
             movementManager.ChangeMovementSpeed(1f - percentage);
         }
     }
     [PunRPC]
-    public void EndContinuousSlow() {
+    public void EndContinuousSlow(string Identifier) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)){
+                appliedStatusEffects.Remove(Identifier);
+            } else {
+                // Don't remove the effect if it isn't being applied anymore
+                return;
+            }
+
             animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
             movementManager.ResetMovementSpeed();
             slowed = false;
@@ -920,13 +953,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // Hasten - Increase animation speed
     [PunRPC]
-    void Hasten(float duration, float percentage) {
-        if (photonView.IsMine && !hastened) {
+    void Hasten(string Identifier, float duration, float percentage) {
+        if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
             hastened = true;
-            hasteRoutine = StartCoroutine(HastenRoutine(duration, percentage));
+            hasteRoutine = StartCoroutine(HastenRoutine(Identifier, duration, percentage));
         }
     }
-    IEnumerator HastenRoutine(float duration, float percentage) {
+    IEnumerator HastenRoutine(string Identifier, float duration, float percentage) {
         hasteRoutineRunning = true;
         animator.speed *= 1f + percentage;
         movementManager.ChangeMovementSpeed(1f + percentage);
@@ -935,18 +971,30 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         movementManager.ResetMovementSpeed();
         hastened = false;
         hasteRoutineRunning = false;
+
+        if (appliedStatusEffects.Contains(Identifier)) appliedStatusEffects.Remove(Identifier);
     }
     [PunRPC]
-    public void ContinuousHasten(float percentage) {
+    public void ContinuousHasten(string Identifier, float percentage) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
             hastened = true;
             animator.speed *= 1f + percentage;
             movementManager.ChangeMovementSpeed(1f + percentage);
         }
     }
     [PunRPC]
-    public void EndContinuousHasten() {
+    public void EndContinuousHasten(string Identifier) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)){
+                appliedStatusEffects.Remove(Identifier);
+            } else {
+                // Don't remove the effect if it isn't being applied anymore
+                return;
+            }
+
             animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
             movementManager.ResetMovementSpeed();
             hastened = false;
@@ -1069,13 +1117,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // Weaken - Deal reduced damage of given mana types
     [PunRPC]
-    void Weaken(float duration, string weaknessString) {
+    void Weaken(string Identifier, float duration, string weaknessString) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
             ManaDistribution weaknessDist = new ManaDistribution(weaknessString);
-            weakenRoutine = StartCoroutine(WeakenRoutine(duration, weaknessDist));
+            weakenRoutine = StartCoroutine(WeakenRoutine(Identifier, duration, weaknessDist));
         }
     }
-    IEnumerator WeakenRoutine(float duration, ManaDistribution weaknessDist) {
+    IEnumerator WeakenRoutine(string Identifier, float duration, ManaDistribution weaknessDist) {
         weakenRoutineRunning = true;
         weakened = true;
         weaknesses += weaknessDist;
@@ -1083,10 +1134,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         weaknesses -= weaknessDist;
         if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
         weakenRoutineRunning = false;
+
+        if (appliedStatusEffects.Contains(Identifier)) appliedStatusEffects.Remove(Identifier);
     }
     [PunRPC]
-    public void ContinuousWeaken(string weakString) {
+    public void ContinuousWeaken(string Identifier, string weakString) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+            
             ManaDistribution weakDist = new ManaDistribution(weakString);
             weakened = true;
             weaknesses += weakDist;
@@ -1095,8 +1151,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     [PunRPC]
-    public void EndContinuousWeaken(string weakString) {
+    public void EndContinuousWeaken(string Identifier, string weakString) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)){
+                appliedStatusEffects.Remove(Identifier);
+            } else {
+                // Don't remove the effect if it isn't being applied anymore
+                return;
+            }
+
             ManaDistribution weakDist = new ManaDistribution(weakString);
             weaknesses -= weakDist;
             if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
@@ -1111,13 +1174,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // Strengthen - Deal increased damage of given mana types
     [PunRPC]
-    void Strengthen(float duration, string strengthString) {
+    void Strengthen(string Identifier, float duration, string strengthString) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) {
+                Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
+                return;
+            }
+            appliedStatusEffects.Add(Identifier);
+
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
-            strengthenRoutine = StartCoroutine(StrengthenRoutine(duration, strengthDist));
+            strengthenRoutine = StartCoroutine(StrengthenRoutine(Identifier, duration, strengthDist));
         }
     }
-    IEnumerator StrengthenRoutine(float duration, ManaDistribution strengthDist) {
+    IEnumerator StrengthenRoutine(string Identifier, float duration, ManaDistribution strengthDist) {
         strengthenRoutineRunning = true;
         strengthened = true;
         strengths += strengthDist;
@@ -1126,11 +1195,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         strengths -= strengthDist;
         if (strengths.GetAggregate() <= 0.1f) strengthened = false;
         strengthenRoutineRunning = false;
+
+        if (appliedStatusEffects.Contains(Identifier)) appliedStatusEffects.Remove(Identifier);
     }
 
     [PunRPC]
-    public void ContinuousStrengthen(string strengthString) {
+    public void ContinuousStrengthen(string Identifier, string strengthString) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) {
+                Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
+                return;
+            }
+            appliedStatusEffects.Add(Identifier);
+
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
             strengthened = true;
             strengths += strengthDist;
@@ -1139,8 +1216,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     [PunRPC]
-    public void EndContinuousStrengthen(string strengthString) {
+    public void EndContinuousStrengthen(string Identifier, string strengthString) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)){
+                appliedStatusEffects.Remove(Identifier);
+            } else {
+                // Don't remove the effect if it isn't being applied anymore
+                return;
+            }
+
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
             strengths -= strengthDist;
             if (strengths.GetAggregate() <= 0.1f) strengthened = false;
@@ -1155,31 +1239,46 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // Fragile - Take increased damage from all sources
     [PunRPC]
-    void Fragile(float duration, float percentage) {
-        if (photonView.IsMine && !fragile) {
+    void Fragile(string Identifier, float duration, float percentage) {
+        if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
             fragile = true;
             fragilePercentage = percentage;
-            fragileRoutine = StartCoroutine(FragileRoutine(duration));
+            fragileRoutine = StartCoroutine(FragileRoutine(Identifier, duration));
         }
     }
-    IEnumerator FragileRoutine(float duration) {
+    IEnumerator FragileRoutine(string Identifier, float duration) {
         fragileRoutineRunning = true;
         yield return new WaitForSeconds(duration);
         fragile = false;
         fragilePercentage = 0f;
         fragileRoutineRunning = false;
+
+        if (appliedStatusEffects.Contains(Identifier)) appliedStatusEffects.Remove(Identifier);
     }
     [PunRPC]
-    public void ContinuousFragile(float percentage) {
+    public void ContinuousFragile(string Identifier, float percentage) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
             fragile = true;
             fragilePercentage = percentage;
         }
     }
 
     [PunRPC]
-    public void EndContinuousFragile() {
+    public void EndContinuousFragile(string Identifier) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)){
+                appliedStatusEffects.Remove(Identifier);
+            } else {
+                // Don't remove the effect if it isn't being applied anymore
+                return;
+            }
+
             fragile = false;
             fragilePercentage = 0f;
         }
@@ -1192,12 +1291,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // Toughen - Take decreased damage from all sources
     [PunRPC]
-    void Tough(float duration, float percentage) {
-        if (photonView.IsMine && !tough) {
-            toughRoutine = StartCoroutine(ToughRoutine(duration, percentage));
+    void Tough(string Identifier, float duration, float percentage) {
+        if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
+            toughRoutine = StartCoroutine(ToughRoutine(Identifier, duration, percentage));
         }
     }
-    IEnumerator ToughRoutine(float duration, float percentage) {
+    IEnumerator ToughRoutine(string Identifier, float duration, float percentage) {
         toughRoutineRunning = true;
         tough = true;
         toughPercentage = percentage;
@@ -1205,17 +1307,29 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         tough = false;
         toughPercentage = 0f;
         toughRoutineRunning = false;
+
+        if (appliedStatusEffects.Contains(Identifier)) appliedStatusEffects.Remove(Identifier);
     }
     [PunRPC]
-    public void ContinuousTough(float percentage) {
+    public void ContinuousTough(string Identifier, float percentage) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
             tough = true;
             toughPercentage = percentage;
         }
     }
     [PunRPC]
-    public void EndContinuousTough() {
+    public void EndContinuousTough(string Identifier) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)){
+                appliedStatusEffects.Remove(Identifier);
+            } else {
+                // Don't remove the effect if it isn't being applied anymore
+                return;
+            }
+
             tough = false;
             toughPercentage = 0f;
         }
@@ -1228,37 +1342,56 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // ManaRestoration - change the mana regen rate by a multiplier value
     [PunRPC]
-    void ManaRestoration(float duration, float restorationPercentage) {
+    void ManaRestoration(string Identifier, float duration, float restorationPercentage) {
         if (photonView.IsMine) {
-            manaRestorationRoutine = StartCoroutine(ManaRestorationRoutine(duration, restorationPercentage));
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
+            manaRestorationRoutine = StartCoroutine(ManaRestorationRoutine(Identifier, duration, restorationPercentage));
         }
     }
-    IEnumerator ManaRestorationRoutine(float duration, float restorationPercentage) {
+    IEnumerator ManaRestorationRoutine(string Identifier, float duration, float restorationPercentage) {
         Debug.Log("Mana restoration mult: "+restorationPercentage+"     for: "+duration+" seconds.");
         manaRestorationRoutineRunning = true;
         manaRestorationChange = true;
         ManaRegen *= restorationPercentage;
+        manaRestorationPercentage = restorationPercentage;
         Debug.Log("New Mana Regen : " + ManaRegen);
         yield return new WaitForSeconds(duration);
         ManaRegen /= restorationPercentage;
         if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
         Debug.Log("New Mana Regen after end: " + ManaRegen);
         manaRestorationRoutineRunning = false;
+        manaRestorationPercentage = 0f;
+
+        if (appliedStatusEffects.Contains(Identifier)) appliedStatusEffects.Remove(Identifier);
     }
 
     [PunRPC]
-    public void ContinuousManaRestoration(float restorationPercentage) {
+    public void ContinuousManaRestoration(string Identifier, float restorationPercentage) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)) return;
+            appliedStatusEffects.Add(Identifier);
+
             manaRestorationChange = true;
+            manaRestorationPercentage = restorationPercentage;
             ManaRegen *= restorationPercentage;
             // Debug.Log("New Mana Regen : " + ManaRegen);
         }
     }
 
     [PunRPC]
-    public void EndContinuousManaRestoration(float restorationPercentage) {
+    public void EndContinuousManaRestoration(string Identifier, float restorationPercentage) {
         if (photonView.IsMine) {
+            if (appliedStatusEffects.Contains(Identifier)){
+                appliedStatusEffects.Remove(Identifier);
+            } else {
+                // Don't remove the effect if it isn't being applied anymore
+                return;
+            }
+
             ManaRegen /= restorationPercentage;
+            manaRestorationPercentage = 0f;
             if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
             //Debug.Log("New Mana Regen after end: " + ManaRegen);
         }
@@ -1353,6 +1486,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (manaRestorationChange) {
             if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
             ManaRegen = defaultManaRegen;
+            manaRestorationPercentage = 0f;
             manaRestorationChange = false;
         }
         if (camouflaged) {
@@ -1390,6 +1524,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (ManaRegen < defaultManaRegen) {
                 if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
                 ManaRegen = defaultManaRegen;
+                manaRestorationPercentage = 0f;
                 manaRestorationChange = false;
             }
         }

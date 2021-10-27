@@ -14,7 +14,7 @@ public class DebugPlayer : MonoBehaviourPun
     void Update() {
         if (Input.GetKey(KeyCode.RightShift)) {
             if (Input.GetKeyDown("n")) {
-                CastDebugSpell("Spell_RitualRecovery");
+                CastDebugSpell("Spell_BitingWind");
             } else if (Input.GetKeyDown("m")) {
                 CastDebugSpell("Spell_ShadeSmoke");
             } else if (Input.GetKeyDown("b")) {

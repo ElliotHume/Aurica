@@ -14612,6 +14612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -14638,8 +14639,8 @@ MonoBehaviour:
   strengthenDuration: 30
   strengthenDistribution:
     structure: 0
-    essence: 1
-    fire: 1.5
+    essence: 0.33
+    fire: 0.33
     water: 0
     earth: 0
     air: 0
@@ -14666,6 +14667,7 @@ MonoBehaviour:
   isContinuous: 0
   canHitSelf: 0
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
 --- !u!114 &8491580873689512395
 MonoBehaviour:
   m_ObjectHideFlags: 0

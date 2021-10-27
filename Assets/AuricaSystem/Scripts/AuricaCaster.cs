@@ -256,7 +256,7 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public float GetManaCost() {
-        return currentManaCost;
+        return currentManaCost * GameManager.GLOBAL_MANA_COST_MULTIPLIER;
     }
 
     public float GetSpellStrength() {

@@ -27,7 +27,7 @@ public class Aura : MonoBehaviourPun {
         InnateStrength = CalculateInnateStrengths();
 
         Debug.Log("AURA:  " + AuraDistribution.ToString());
-        player.SetMaxMana(AuraDistribution.GetAggregate() * 100f);
+        player.SetMaxMana(AuraDistribution.GetAggregate() * 100f * GameManager.GLOBAL_PLAYER_MAX_MANA_MULTIPLIER);
         player.ConfirmAura();
 
         if (photonView.IsMine) {

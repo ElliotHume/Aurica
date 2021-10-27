@@ -5046,6 +5046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -5072,9 +5073,9 @@ MonoBehaviour:
   strengthenDuration: 1
   strengthenDistribution:
     structure: 0
-    essence: 1
+    essence: 0.25
     fire: 0
-    water: 2
+    water: 0.5
     earth: 0
     air: 0
     nature: 0
@@ -5118,6 +5119,7 @@ MonoBehaviour:
   displacementDirection: {x: 0, y: 0, z: 0}
   canHitSelf: 0
   isKnockback: 1
+  isVacuum: 0
   isFixed: 0
   isContinuous: 1
   clip: {fileID: 0}
