@@ -9,6 +9,10 @@ public class AuricaCaster : MonoBehaviourPun {
     public Aura aura;
     public static AuricaCaster LocalCaster;
     public Dictionary<string, CachedSpell> cachedSpells;
+    public Dictionary<string, float> cachedSpellManas = new Dictionary<string, float>();
+
+    [HideInInspector]
+    public bool spellManasCached = false;
 
     // Lists of all components and spells
     private AuricaSpellComponent[] allComponents;
@@ -215,11 +219,13 @@ public class AuricaCaster : MonoBehaviourPun {
         componentString = componentString.Substring(0, componentString.Length - 2);
         Debug.Log("Caching spell: " + componentString);
 
+        CachedSpell cs = new CachedSpell(componentString);
         if (cachedSpells.ContainsKey(key)) {
-            cachedSpells[key] = new CachedSpell(componentString);
+            cachedSpells[key] = cs;
         } else {
-            cachedSpells.Add(key, new CachedSpell(componentString));
+            cachedSpells.Add(key, cs);
         }
+
         PlayerPrefs.SetString("CachedSpell_" + key, componentString);
         Debug.Log("Spell cached under key: CachedSpell_" + key + " with string -> " + componentString);
         AuricaSpell match = Cast();
@@ -232,19 +238,30 @@ public class AuricaCaster : MonoBehaviourPun {
             Debug.Log("No spell found for binding...");
             BindingUIPanel.LocalInstance.SetBind(key, null);
         }
+
+        if (cachedSpellManas.ContainsKey(key)) {
+            cachedSpellManas[key] = GetManaCost();
+        } else {
+            cachedSpellManas.Add(key, GetManaCost());
+        }
     }
 
     public void CacheSpell(string key, string spell) {
         Debug.Log("Caching key "+key+" with spell: " + spell);
+        CachedSpell cs = new CachedSpell(spell);
         if (cachedSpells.ContainsKey(key)) {
-            cachedSpells[key] = new CachedSpell(spell);
+            cachedSpells[key] = cs;
         } else {
-            cachedSpells.Add(key, new CachedSpell(spell));
+            cachedSpells.Add(key, cs);
+        }
+
+        if (cachedSpellManas.ContainsKey(key)) {
+            cachedSpellManas[key] = cs.CalculateManaCost(this);
+        } else {
+            cachedSpellManas.Add(key, cs.CalculateManaCost(this));
         }
         PlayerPrefs.SetString("CachedSpell_" + key, spell);
         AuricaSpell match = CastSpellByName(spell);
-
-
 
         // GAME SPECIFIC
         try {
@@ -285,6 +302,20 @@ public class AuricaCaster : MonoBehaviourPun {
         
         if (spellMatch == null) return null;
         return spellMatch;
+    }
+    
+
+    public void CacheSpellManas() {
+        cachedSpellManas.Clear();
+        foreach(string key in cachedSpells.Keys) {
+            cachedSpellManas.Add(key, cachedSpells[key].CalculateManaCost(this));
+        }
+        spellManasCached = true;
+    }
+
+    public bool CanCastCachedSpell(string key, float availableMana) {
+        if (!cachedSpellManas.ContainsKey(key)) CacheSpellManas();
+        return cachedSpellManas[key] <= availableMana;
     }
 
 }

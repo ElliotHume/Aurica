@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 
 public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
-    public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f;
+    public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f, SlowFallAccelerantScaling = 0.1f;
     public AudioSource footStepSource;
     public AudioClip[] footsteps;
     public AudioSource jumpSource;
@@ -23,9 +23,9 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting;
+    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting, slowFall;
     private Vector3 playerVelocity, impact, velocity;
-    private float movementSpeed;
+    private float movementSpeed, slowFallPercent, accelerant = 1f;
     private PlayerManager playerManager;
     private PlayerParticleManager particleManager;
     private CharacterMaterialManager materialManager;
@@ -128,7 +128,19 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!jumping && !casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
+        if (!casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
+
+        // If slowfalling and not grounded, apply upwards force to counteract gravity by a percentage amount
+        if (slowFall) {
+            if (Grounded) {
+                accelerant = 1f;
+            } else {
+                characterController.Move(transform.up * 2f * slowFallPercent * accelerant * Time.deltaTime);
+                accelerant += SlowFallAccelerantScaling * Time.deltaTime;
+            }
+
+            // Debug.Log("Accelerant scaling: "+SlowFallAccelerantScaling+"      accelerant: "+accelerant);
+        }
 
         // Apply impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
@@ -149,11 +161,12 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public bool CanCast() {
-        return !isStunned && !casting && Grounded && !isBeingDisplaced && !jumping;
+        return !isStunned && !casting && (Grounded || slowFall) && !isBeingDisplaced && (!jumping || slowFall);
     }
 
     public void EndCast() {
         casting = false;
+        jumping = false;
         animator.SetBool("Cast", casting);
     }
 
@@ -178,20 +191,20 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float timer = 0.3f;
 
         // Do it once so we are off the ground
-        Vector3 movement = transform.forward * v + transform.right * h;
+        Vector3 movement = (transform.forward * v + transform.right * h).normalized;
         movement.y += JumpHeight;
         characterController.Move(movement * Time.deltaTime * JumpSpeed);
 
         while (timer > 0f) {
-            movement = transform.forward * v + transform.right * h;
+            movement = (transform.forward * v + transform.right * h).normalized;
             movement.y += JumpHeight;
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
 
             timer -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        while (!characterController.isGrounded) {
-            movement = transform.forward * v + transform.right * h;
+        while (!Grounded) {
+            movement = (transform.forward * v + transform.right * h).normalized;
             characterController.Move(movement * Time.deltaTime * JumpSpeed);
             yield return new WaitForEndOfFrame();
         }
@@ -257,6 +270,13 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             isStunned = false;
             animator.speed = 1f * GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         }
+    }
+
+    public void SlowFall(bool sf, float percentage = 0f) {
+        if (sf) Debug.Log("Activate slow fall %"+percentage);
+        slowFall = sf;
+        slowFallPercent = percentage;
+        accelerant = 1f;
     }
 
 

@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy {
 
+    [HideInInspector]
     public string Identifier = "SceneObject";
 
     // Increase or decrease movement speed
@@ -51,6 +52,9 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     public bool camouflage = false;
     public float camouflageDuration = 0f;
+
+    public bool slowFall = false;
+    public float slowFallDuration, slowFallPercent = 0f;
 
     public bool cleanse = false;
     public bool cure = false;
@@ -181,6 +185,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount / 100f * multiplier);
             if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * multiplier, manaDrainPercentAmount / 100f * multiplier);
             if (camouflage) pv.RPC("Camouflage", RpcTarget.All, camouflageDuration * multiplier);
+            if (slowFall) pv.RPC("SlowFall", RpcTarget.All, Identifier, slowFallDuration * multiplier, slowFallPercent / 100f * multiplier);
         }
     }
 
@@ -200,6 +205,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (fragile) pv.RPC("ContinuousFragile", RpcTarget.All, Identifier, fragilePercentage / 100f * multiplier);
             if (tough) pv.RPC("ContinuousTough", RpcTarget.All, Identifier, toughPercentage / 100f * multiplier);
             if (camouflage) pv.RPC("ContinuousCamouflage", RpcTarget.All);
+            if (slowFall) pv.RPC("ContinuousSlowFall", RpcTarget.All, Identifier, slowFallPercent / 100f * multiplier);
         }
     }
 
@@ -226,6 +232,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (fragile) pv.RPC("EndContinuousFragile", RpcTarget.All, Identifier);
             if (tough) pv.RPC("EndContinuousTough", RpcTarget.All, Identifier);
             if (camouflage) pv.RPC("EndContinuousCamouflage", RpcTarget.All);
+            if (slowFall) pv.RPC("EndContinuousSlowFall", RpcTarget.All);
         }
     }
 }

@@ -51,6 +51,7 @@ public class CharacterUI : MonoBehaviour {
         if (target.tough) statusEffects.Add("TOUGH");
         if (target.strengthened) statusEffects.Add("STRONG");
         if (target.weakened) statusEffects.Add("WEAK");
+        if (target.slowFall) statusEffects.Add("SLOW FALL");
         if (target.manaRestorationChange) statusEffects.Add("ALTERED MANA");
 
         if (statusEffects.Count == 0) {

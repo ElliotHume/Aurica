@@ -46413,6 +46413,7 @@ MonoBehaviour:
   tough: 0
   manaRestorationChange: 0
   camouflaged: 0
+  slowFall: 0
 --- !u!114 &5644661780950305532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46426,6 +46427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aura: {fileID: -8918428056302383077}
+  spellManasCached: 0
 --- !u!143 &1753741204447941
 CharacterController:
   m_ObjectHideFlags: 0
@@ -46457,9 +46459,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSpeed: 4.5
-  JumpHeight: 1
-  JumpSpeed: 5
+  JumpHeight: 2
+  JumpSpeed: 3
   Mass: 6
+  SlowFallAccelerantScaling: 4.5
   footStepSource: {fileID: 1956686375671268785}
   footsteps:
   - {fileID: 8300000, guid: d2a677ce1271e2e4c99eaf5721d95f43, type: 3}

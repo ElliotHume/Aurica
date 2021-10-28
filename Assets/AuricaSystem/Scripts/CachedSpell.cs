@@ -17,4 +17,11 @@ public struct CachedSpell {
             caster.AddComponent(item);
         }
     }
+
+    public float CalculateManaCost(AuricaCaster caster) {
+        caster.CastSpellByName(componentsByName);
+        float manaCost = caster.GetManaCost();
+        caster.ResetCast();
+        return manaCost;
+    }
 }

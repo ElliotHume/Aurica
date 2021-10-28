@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel, spellListPanel;
 
     public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 2f;
-    public static float GLOBAL_SPELL_DAMAGE_MULTIPLIER = 1f;
+    public static float GLOBAL_SPELL_DAMAGE_MULTIPLIER = 0.8f;
     public static float GLOBAL_SPELL_DURATION_MULTIPLIER = 1f;
 
     public static float GLOBAL_SHIELD_HEALTH_MULTIPLIER = 1f;

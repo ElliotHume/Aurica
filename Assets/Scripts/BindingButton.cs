@@ -9,8 +9,10 @@ public class BindingButton : MonoBehaviour
     public TMP_Text SpellText;
     public Image SpellIcon;
     public string key;
+    public Color CannotCastColorTint;
 
     private AuricaSpell spell;
+    private bool canCast;
 
     public void SetButtonGraphics(AuricaSpell s) {
         if (s == null) {
@@ -22,5 +24,16 @@ public class BindingButton : MonoBehaviour
         spell = s;
         SpellText.text = spell.c_name;
         SpellIcon.sprite = ResourceManager.Instance.GetIcon(spell.manaType);
+    }
+
+    public void CanCast(bool flag) {
+        if (flag && !canCast) {
+            canCast = true;
+            SpellIcon.color = new Color(1f, 1f, 1f);
+        }
+        else if (!flag && canCast) {
+            canCast = false;
+            SpellIcon.color = CannotCastColorTint;
+        }
     }
 }

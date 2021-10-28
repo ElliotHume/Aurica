@@ -22,6 +22,14 @@ public class BindingUIPanel : MonoBehaviour
         dict.Add("4", bind4);
     }
 
+    void FixedUpdate() {
+        if (AuricaCaster.LocalCaster == null || !AuricaCaster.LocalCaster.spellManasCached) return;
+        float availableMana = PlayerManager.LocalInstance.Mana;
+        foreach(string key in dict.Keys) {
+            dict[key].CanCast(AuricaCaster.LocalCaster.CanCastCachedSpell(key, availableMana));
+        }
+    }
+
     public void Startup() {
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
             SetBind("e", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_e")));

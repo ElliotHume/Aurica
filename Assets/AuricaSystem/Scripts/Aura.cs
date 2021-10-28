@@ -29,6 +29,7 @@ public class Aura : MonoBehaviourPun {
         Debug.Log("AURA:  " + AuraDistribution.ToString());
         player.SetMaxMana(AuraDistribution.GetAggregate() * 100f * GameManager.GLOBAL_PLAYER_MAX_MANA_MULTIPLIER);
         player.ConfirmAura();
+        AuricaCaster.LocalCaster.CacheSpellManas();
 
         if (photonView.IsMine) {
             foreach (var item in FindObjectsOfType<AuraUIPanel>()) {
