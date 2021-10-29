@@ -5,10 +5,19 @@ using UnityEngine.Events;
 
 public class LoadoutObject : MonoBehaviour
 {
+    public string keybind;
     public bool key1,key2,key3,key4,keyQ,keyE,keyR,keyF;
     public AuricaSpell spell1, spell2, spell3, spell4, spellQ, spellE, spellR, spellF;
     public string spell1Text, spell2Text, spell3Text, spell4Text, spellQText, spellEText, spellRText, spellFText;
     public UnityEvent OnBind;
+
+    void Update() {
+        if (keybind != "") {
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(keybind)) {
+                BindLoadout();
+            }
+        }
+    }
 
     public void BindLoadout() {
         if (key1) AuricaCaster.LocalCaster.CacheSpell("1", spell1Text == "" ? spell1.ToString() : spell1Text);

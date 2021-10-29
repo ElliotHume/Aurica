@@ -849,6 +849,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void Heal(float flat, float percentage) {
         if (photonView.IsMine) {
+            Debug.Log("HEAL FOR: ["+flat+"] flat + ["+percentage+"] percent missing health");
             healing += flat + ((maxHealth - Health) * percentage);
         }
     }

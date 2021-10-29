@@ -10214,7 +10214,7 @@ Transform:
   m_GameObject: {fileID: 9216324553300928219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.235912, y: 2.44, z: -7.003351}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 3392736300630728850}
   - {fileID: 4364852465949505469}
@@ -10343,6 +10343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -10392,6 +10393,9 @@ MonoBehaviour:
   manaDrainPercentAmount: 40
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1

@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -208,12 +209,12 @@ MonoBehaviour:
   strengthen: 1
   strengthenDuration: 3
   strengthenDistribution:
-    structure: 0.2
+    structure: 0.1
     essence: 0.1
-    fire: 0.1
-    water: 0.1
-    earth: 0.1
-    air: 0.75
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0.3
     nature: 0.75
   fragile: 0
   fragileDuration: 0
@@ -232,11 +233,15 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 1
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
 --- !u!54 &2490384695920795059
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -57,7 +57,13 @@ public class ShieldSpell : Spell, IPunObservable {
         }
         if (photonView.IsMine) {
             foreach (string effect in networkedEffectsOnBreak) {
-                PhotonNetwork.Instantiate(effect, transform.position + transform.up, transform.rotation);
+                GameObject instance = PhotonNetwork.Instantiate(effect, transform.position + transform.up, transform.rotation);
+                Spell instanceSpell = instance.GetComponent<Spell>();
+                if (instanceSpell != null) {
+                    instanceSpell.SetSpellStrength(GetSpellStrength());
+                    instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
+                    instanceSpell.SetOwner(GetOwner());
+                }
             }
             PlayerManager owner = PlayerManager.LocalPlayerGameObject.GetComponent<PlayerManager>();
             if (owner != null) {

@@ -69,6 +69,7 @@ public class TargetedSpell : Spell {
             if (pv != null)
                 pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
         }
+        Debug.Log("TARGETED SPELL STRENGTH "+GetSpellStrength());
         if (statusEffect != null) statusEffect.ManualActivation(TargetGO);
         if (movementEffect != null) movementEffect.ManualActivation(TargetGO);
     }

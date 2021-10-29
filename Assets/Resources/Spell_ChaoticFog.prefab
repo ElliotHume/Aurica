@@ -14577,7 +14577,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862140893089670695}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26f513fb966187949a9ceeb6cde717c9, type: 3}
   m_Name: 
@@ -14691,12 +14691,12 @@ MonoBehaviour:
   attachToTarget: 0
   canHitSelf: 0
   growBeforeStart: 0
-  SpellStrengthChangesDuration: 0
-  SpellStrengthChangesScale: 0
+  SpellStrengthChangesDuration: 1
+  SpellStrengthChangesScale: 1
   DestroyTimeDelay: 15
   StartTimeDelay: 0
-  ScalingFactor: 0.1
-  ScalingLimit: 1
+  ScalingFactor: 0.2
+  ScalingLimit: 0.75
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 1862140892848206963}
@@ -14716,6 +14716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 1
   slowDuration: 1
   slowPercentage: 15
@@ -14765,11 +14766,15 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
 --- !u!135 &1862140893200602025
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -90,7 +90,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     public void ManualActivation(GameObject playerGO) {
         if (!photonView.IsMine) return;
-
+        if (attachedSpell == null) attachedSpell = GetComponent<Spell>();
         PlayerManager pm = playerGO.GetComponent<PlayerManager>();
         if (pm != null) {
             PhotonView pv = PhotonView.Get(pm);
@@ -162,6 +162,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     void Activate(PhotonView pv) {
         if (pv != null) {
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
+            Debug.Log(attachedSpell);
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
             if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, slowPercentage/100f * multiplier) ;

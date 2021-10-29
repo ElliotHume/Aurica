@@ -13922,7 +13922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 0
-  auricaSpell: {fileID: 11400000, guid: 07e04655c48bc4418960820182da7cb3, type: 2}
+  auricaSpell: {fileID: 11400000, guid: 127afc1d8f84542038efe3516fc53569, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: healing
@@ -13955,6 +13955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -14004,11 +14005,15 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 0
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
 --- !u!114 &8742591927773826204
 MonoBehaviour:
   m_ObjectHideFlags: 0

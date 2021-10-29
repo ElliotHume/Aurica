@@ -39,9 +39,6 @@ public class DebugPlayer : MonoBehaviourPun
         if (Input.GetKeyDown("/")) {
             gameObject.SetActive(false);
         }
-        if (Input.GetKeyDown(".")) {
-            GetComponent<LoadoutObject>().BindLoadout();
-        }
 
         if (moveAround) {
             if (movingForward) {
