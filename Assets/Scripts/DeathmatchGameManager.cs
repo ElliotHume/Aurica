@@ -13,21 +13,25 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public Transform BlueSideSpawnPoint, RedSideSpawnPoint;
     public Color blueNameColor = Color.blue, redNameColor = Color.red;
-    public Text blueLifeCounter, redLifeCounter;
+    public Text blueLifeCounter, redLifeCounter, blueSidePlayerCountText, redSidePlayerCountText;
     public Material blueSidePlayerMaterial, redSidePlayerMaterial;
-    public GameObject DeathMatchGamePanel, readyButton, resultsPanel, bluesidewinUI, redsidewinUI;
+    public GameObject DeathMatchGamePanel, readyButton, resultsPanel, bluesidewinUI, redsidewinUI, teamSelectPanel;
+    // public Button blueSideTeamSelectButton, redSideTeamSelectButton;
     public List<GameObject> ToggleObjects;
 
     public int LivesPerPlayer = 1;
     public float RespawnTimer;
-    public AudioSource MatchMusic;
+    public AudioSource MatchMusic, TeamSelectClip;
     int blueSideLives, redSideLives;
 
 
 
     List<PlayerManager> blueSide, redSide;
-    bool matchStarted = false, isBlueTeam = false;
+    bool matchStarted = false, isBlueTeam = false, matchStarter = false;
     PlayerManager localPlayer;
+
+    string blueSideNames = "", redSideNames = "";
+    int blueSidePlayerCount, redSidePlayerCount;
 
 
     // Start is called before the first frame update
@@ -72,17 +76,42 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         Debug.Log("Starting match -- blue lives: "+blueSideLives+"  red lives: "+redSideLives);
         Debug.Log("Local Player name: "+localPlayer.GetUniqueName());
         isBlueTeam = blueSideNames.Contains(localPlayer.GetUniqueName());
+        teamSelectPanel.SetActive(false);
 
         StartMatch();
     }
 
     public void SendGameStart() {
-        int index = 0, blueSideLifeCount = 0, redSideLifeCount = 0;
-        string blueSideNames = "", redSideNames = "";
+        matchStarter = true;
+        photonView.RPC("ShowTeamSelect", RpcTarget.All);
+        
+        StartCoroutine(StartGameTimer());
+    }
 
+    IEnumerator StartGameTimer() {
+        yield return new WaitForSeconds(7f);
+        while (blueSidePlayerCount == 0 || redSidePlayerCount == 0 ) {
+            Debug.Log("No players on one of the teams, rebalance teams until there is atleast one player on each team.");
+            yield return new WaitForSeconds(3f);
+        }
+        StartGame();
+    }
+
+    public void StartGame() {
+        int index = 0, blueSideLifeCount = 0, redSideLifeCount = 0;
+        
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
         List<PlayerManager> playerManagers = ps.OrderBy(x => Random.Range(0, 10)).ToList();
         foreach (var p in playerManagers) {
+            // If players have already selected a team, up the life count and then skip them.
+            if ( blueSideNames.Contains(p.GetUniqueName()) ){
+                blueSideLifeCount++;
+                continue;
+            } else if ( redSideNames.Contains(p.GetUniqueName()) ){
+                redSideLifeCount++;
+                continue;
+            }
+
             if (index % 2 == 1) {
                 // ODD player, add to blue side
                 blueSideNames += p.GetUniqueName();
@@ -95,12 +124,71 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
             index++;
         }
 
-        if (blueSideLifeCount < redSideLifeCount) blueSideLifeCount += 2;
-        if (redSideLifeCount < blueSideLifeCount) redSideLifeCount += 2;
+        if (blueSideLifeCount < redSideLifeCount) blueSideLifeCount += 2 * (redSideLifeCount - blueSideLifeCount);
+        if (redSideLifeCount < blueSideLifeCount) redSideLifeCount += 2 * (blueSideLifeCount - redSideLifeCount);
 
         Debug.Log("ASSIGN PLAYERS: \n   BLUE: "+blueSideNames+"\n   RED: "+redSideNames);
 
         photonView.RPC("AssignPlayers", RpcTarget.All, blueSideNames, redSideNames, blueSideLifeCount, redSideLifeCount);
+        teamSelectPanel.SetActive(false);
+    }
+
+    [PunRPC]
+    public void ShowTeamSelect() {
+        readyButton.SetActive(false);
+        teamSelectPanel.SetActive(true);
+        if (TeamSelectClip != null) TeamSelectClip.Play();
+    }
+
+    public void SelectTeam(bool isBlue) {
+        if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
+        photonView.RPC("SendTeamSelection", RpcTarget.All, localPlayer.GetUniqueName(), isBlue);
+    }
+
+    [PunRPC]
+    public void SendTeamSelection(string uniquePlayerCode, bool isBlue) {
+        if (!matchStarter) return;
+
+        Debug.Log("Player: ["+uniquePlayerCode+"] assign to "+ (isBlue ? "BLUE" : "RED"));
+
+        if (isBlue && !blueSideNames.Contains(uniquePlayerCode)) {
+            blueSideNames += uniquePlayerCode;
+            blueSidePlayerCount += 1;
+        } else if (!isBlue && !redSideNames.Contains(uniquePlayerCode)){
+            redSideNames += uniquePlayerCode;
+            redSidePlayerCount += 1;
+        }
+
+        blueSidePlayerCountText.text = "Players: "+blueSidePlayerCount;
+        redSidePlayerCountText.text = "Players: "+redSidePlayerCount;
+
+
+        // // Keep teams reasonably balanced [DISABLED FOR NOW]
+        // if (blueSidePlayerCount > redSidePlayerCount) {
+        //     blueSideTeamSelectButton.interactable = false;
+        // } else {
+        //     blueSideTeamSelectButton.interactable = true;
+        // }
+
+        // if (redSidePlayerCount > blueSidePlayerCount) {
+        //     redSideTeamSelectButton.interactable = false;
+        // } else {
+        //     redSideTeamSelectButton.interactable = true;
+        // }
+
+
+        photonView.RPC("SendTeamPlayerCount", RpcTarget.All, blueSidePlayerCount, redSidePlayerCount);
+    }
+
+    [PunRPC]
+    public void SendTeamPlayerCount(int blue, int red) {
+        if (matchStarter) return;
+
+        blueSidePlayerCount = blue;
+        redSidePlayerCount = red;
+
+        blueSidePlayerCountText.text = "Players: "+blueSidePlayerCount;
+        redSidePlayerCountText.text = "Players: "+redSidePlayerCount;
     }
 
     public void StartMatch() {
@@ -119,11 +207,11 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     public void EndMatch(int winningTeam) {
-        resultsPanel.SetActive(true);
+        if (winningTeam != 2) resultsPanel.SetActive(true);
         if (winningTeam == 0) {
             bluesidewinUI.SetActive(true);
             redsidewinUI.SetActive(false);
-        } else {
+        } else if (winningTeam == 1) {
             redsidewinUI.SetActive(true);
             bluesidewinUI.SetActive(false);
         }
@@ -132,8 +220,14 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         redSideLives = LivesPerPlayer;
         blueSide.Clear();
         redSide.Clear();
+        blueSideNames = "";
+        redSideNames = "";
         blueLifeCounter.text = blueSideLives.ToString();
         redLifeCounter.text = redSideLives.ToString();
+        blueSidePlayerCountText.text = "Players: 0";
+        redSidePlayerCountText.text = "Players: 0";
+        blueSidePlayerCount = 0;
+        redSidePlayerCount = 0;
 
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
 
@@ -176,5 +270,9 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         yield return new WaitForSeconds(RespawnTimer);
         player.Respawn();
         player.Teleport(isBlueTeam ? BlueSideSpawnPoint : RedSideSpawnPoint);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer) {
+        if (PhotonNetwork.IsMasterClient) photonView.RPC("EndMatch", RpcTarget.All, 2);
     }
 }

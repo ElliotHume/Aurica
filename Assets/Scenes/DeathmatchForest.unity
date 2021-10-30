@@ -31946,6 +31946,7 @@ GameObject:
   - component: {fileID: 770329853}
   - component: {fileID: 770329854}
   - component: {fileID: 770329855}
+  - component: {fileID: 770329856}
   m_Layer: 0
   m_Name: DeathmatchGameManager
   m_TagString: Untagged
@@ -31985,17 +31986,23 @@ MonoBehaviour:
   redNameColor: {r: 1, g: 0, b: 0, a: 1}
   blueLifeCounter: {fileID: 1166636564}
   redLifeCounter: {fileID: 1166636563}
-  blueSidePlayerMaterial: {fileID: 0}
-  redSidePlayerMaterial: {fileID: 0}
+  blueSidePlayerCountText: {fileID: 1166636569}
+  redSidePlayerCountText: {fileID: 1166636568}
+  blueSidePlayerMaterial: {fileID: 2100000, guid: ec4e3847523bb844499342c7de73a9b4,
+    type: 2}
+  redSidePlayerMaterial: {fileID: 2100000, guid: 3fbade09b83e6684c85f132da96a79bd,
+    type: 2}
   DeathMatchGamePanel: {fileID: 1166636565}
   readyButton: {fileID: 1166636562}
   resultsPanel: {fileID: 1166636561}
   bluesidewinUI: {fileID: 1166636560}
   redsidewinUI: {fileID: 1166636559}
+  teamSelectPanel: {fileID: 1166636567}
   ToggleObjects: []
   LivesPerPlayer: 1
   RespawnTimer: 2
   MatchMusic: {fileID: 770329855}
+  TeamSelectClip: {fileID: 770329856}
 --- !u!114 &770329854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32033,6 +32040,102 @@ AudioSource:
   m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &770329856
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770329851}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: c494d23a1c71d374a9354999f18472c1, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -53696,6 +53799,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1138143005, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 770329853}
+    - target: {fileID: 1138143005, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SelectTeam
+      objectReference: {fileID: 0}
     - target: {fileID: 1279285762, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -53714,7 +53825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000289917
+      value: 549.9999
       objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
@@ -53751,6 +53862,14 @@ PrefabInstance:
     - target: {fileID: 2016429663, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019318733, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 770329853}
+    - target: {fileID: 2019318733, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SelectTeam
       objectReference: {fileID: 0}
     - target: {fileID: 1024719715916506650, guid: 49d05c70d726ef843b55f895a94a3e24,
         type: 3}
@@ -54508,6 +54627,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1166636554}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166636567 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1127915117, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1166636568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 861801996, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1166636569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1597847951, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1167393333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84229,6 +84378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -84278,11 +84428,15 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
 --- !u!136 &1918489685
 CapsuleCollider:
   m_ObjectHideFlags: 0

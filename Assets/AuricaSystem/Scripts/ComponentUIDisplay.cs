@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ComponentUIDisplay : MonoBehaviour {
     public Text Title, Description;
@@ -10,6 +11,8 @@ public class ComponentUIDisplay : MonoBehaviour {
     public DistributionUIDisplayValues FluxDistDisplay;
     public AuricaSpellComponent component;
     public GameObject placeholder;
+
+    public UnityEvent onComponentCast;
     
     private ManaDistribution aura;
     private bool isHidden = true;
@@ -21,8 +24,10 @@ public class ComponentUIDisplay : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown("b")) {
-            if (component != null) AuricaCaster.LocalCaster.AddComponent(component);
+        if ((Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown("=")) {
+            if (component != null) {
+                onComponentCast.Invoke();
+            }
         }
     }
 

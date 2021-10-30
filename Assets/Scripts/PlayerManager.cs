@@ -577,7 +577,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown("\\")) {
             if (Input.GetKey(KeyCode.LeftShift)) {
-                Debug.LogWarning("Slowed: "+slowed+"\n Hastened: "+hastened+"\n Weakenesses: "+weaknesses.ToString()+"\n Strengths: "+strengths.ToString()+"\n Fragile: "+fragilePercentage+"\n Tough: "+toughPercentage+"\n Mana Altered: "+manaRestorationChange);
+                Debug.LogWarning("Slowed: "+slowed+"\n Hastened: "+hastened+"\n Weakenesses: "+weaknesses.ToString()+"\n Strengths: "+strengths.ToString()+"\n Fragile: "+fragilePercentage+"\n Tough: "+toughPercentage+"\n Mana Altered: "+manaRestorationPercentage);
             } else {
                 Mana += 400;
             }
@@ -1372,7 +1372,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         manaRestorationPercentage = restorationPercentage;
         // Debug.Log("New Mana Regen : " + ManaRegen);
         yield return new WaitForSeconds(duration);
-        ManaRegen /= restorationPercentage;
+        if (ManaRegen != defaultManaRegen) ManaRegen /= restorationPercentage;
         if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
         // Debug.Log("New Mana Regen after end: " + ManaRegen);
         manaRestorationRoutineRunning = false;
@@ -1404,7 +1404,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 return;
             }
 
-            ManaRegen /= restorationPercentage;
+            if (ManaRegen != defaultManaRegen) ManaRegen /= restorationPercentage;
             manaRestorationPercentage = 0f;
             if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
             //Debug.Log("New Mana Regen after end: " + ManaRegen);

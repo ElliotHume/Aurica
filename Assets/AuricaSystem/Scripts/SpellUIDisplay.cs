@@ -51,7 +51,6 @@ public class SpellUIDisplay : MonoBehaviour {
     }
 
     public void AddComponentFromComponentDisplay() {
-        // componentUIList.AddComponent(componentUIDisplay.component);
         AuricaCaster.LocalCaster.AddComponent(componentUIDisplay.component);
         CheckComponents();
     }
