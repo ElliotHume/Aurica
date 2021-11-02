@@ -19326,6 +19326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keybind: 
   key1: 1
   key2: 1
   key3: 1
@@ -19341,7 +19342,7 @@ MonoBehaviour:
   spellQ: {fileID: 11400000, guid: dcd52eb4ebdfe48b8a7a20259ac2b899, type: 2}
   spellE: {fileID: 0}
   spellR: {fileID: 0}
-  spellF: {fileID: 0}
+  spellF: {fileID: 11400000, guid: 2846785fb3a1c3743bd70887afacef13, type: 2}
   spell1Text: 
   spell2Text: 
   spell3Text: attack, sphere, other, target, chaotis
@@ -19349,7 +19350,7 @@ MonoBehaviour:
   spellQText: 
   spellEText: defend, shield, self, contain, chaotis
   spellRText: attack, sphere, other, propel, chaotis
-  spellFText: defend, wall, mana, sustain, chaotis
+  spellFText: 
   OnBind:
     m_PersistentCalls:
       m_Calls:
