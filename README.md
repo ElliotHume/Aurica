@@ -13,7 +13,7 @@ The Aurica System is inherently unbalanced, but there is ongoing work to balance
 ### Description
 Players face each other in multiplayer battles of skilled spell casting. The objective of each match is to reduce your opponent(s) shared pool of lives to zero before they do the same to you. To do this well the player must learn the strengths of their own pseudo-randomly generated Aura. A player's Aura is a distribution of mana types that interact with spell casting to make spells stronger or weaker depending on how the mana in the spell is balanced.
 
-There are a wealth of spell options to choose from in each battle. Currently there are 63 unique spells implemented and more being developed constantly. Part of the balance of the game is this large selection of spells, you can read more about this in the wiki.
+There are a wealth of spell options to choose from in each battle. Currently there are over 60 unique spells implemented and more being developed constantly. Part of the balance of the game is this large selection of spells, you can read more about this in the wiki.
 
 
 ### How to play
