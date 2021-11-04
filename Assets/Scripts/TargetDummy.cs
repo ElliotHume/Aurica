@@ -6,7 +6,7 @@ using Photon.Pun;
 public class TargetDummy : MonoBehaviour
 {
     [PunRPC]
-    void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson) {
+    void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID = "") {
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
 
         // Apply the damage
@@ -23,5 +23,6 @@ public class TargetDummy : MonoBehaviour
             }
         }
     
+        if (ownerID != "") Debug.Log("Target Dummy hit by ["+ownerID+"]");
     }
 }

@@ -107,7 +107,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
                     level = "DeathmatchOpenGround";
                     break;
                 case "Forest":
-                    level = "DeathmatchForest";
+                    level = "BattlegroundsDefault";
                     break;
             }
             Debug.Log("Loading Scene: "+level+" Room name: "+roomName);

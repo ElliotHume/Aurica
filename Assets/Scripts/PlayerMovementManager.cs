@@ -99,7 +99,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isBlocking && !isBeingDisplaced && !jumping) {
+        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isBlocking && !isBeingDisplaced && !jumping && Grounded) {
             animator.SetTrigger("Jump");
             jumping = true;
         }

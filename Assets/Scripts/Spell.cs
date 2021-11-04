@@ -34,6 +34,7 @@ public class Spell : MonoBehaviourPun {
 
     private float spellStrength = 1f;
     private GameObject owner;
+    private PlayerManager ownerPM;
     private ManaDistribution damageModifier;
 
     public virtual void SetSpellStrength(float newStrength) {
@@ -56,10 +57,15 @@ public class Spell : MonoBehaviourPun {
 
     public virtual void SetOwner(GameObject ownerGO) {
         owner = ownerGO;
+        ownerPM = ownerGO.GetComponent<PlayerManager>();
     }
 
     public GameObject GetOwner() {
         return owner;
+    }
+
+    public PlayerManager GetOwnerPM() {
+        return ownerPM;
     }
 
     protected void FlashHitMarker(bool majorDamage) {

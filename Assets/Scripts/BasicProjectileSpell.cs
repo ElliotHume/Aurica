@@ -128,10 +128,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
             Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
+                string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) {
-                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                         collidedViewId = pv.ViewID;
                         FlashHitMarker(true);
                     }
@@ -140,7 +141,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     if (td != null) {
                         PhotonView pv = PhotonView.Get(td);
                         if (pv != null) {
-                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                             collidedViewId = pv.ViewID;
                             FlashHitMarker(true);
                         }

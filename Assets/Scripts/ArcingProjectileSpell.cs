@@ -136,7 +136,8 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) { 
-                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                         FlashHitMarker(true);
                     }
                 } else {

@@ -229,6 +229,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         blueSidePlayerCount = 0;
         redSidePlayerCount = 0;
 
+        matchStarter = false;
+
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
 
         readyButton.SetActive(true);

@@ -75,6 +75,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private AimpointAnchor aimPointAnchorManager;
     private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     private DamagePopup accumulatingDamagePopup;
+    private string lastPlayerToDamageSelf;
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -372,6 +373,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         GameManager.Instance.playerDeath(this);
         if (DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.playerDeath(this);
+        if (FreeForAllGameManager.Instance != null){
+            FreeForAllGameManager.Instance.playerDeath(this);
+            if (photonView.IsMine) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
+        } 
     }
 
     public void Respawn() {
@@ -457,8 +462,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     /* ------------------------ SPELL COLLISION HANDLING ----------------------- */
 
     [PunRPC]
-    void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson) {
+    void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID="") {
         if (!photonView.IsMine || isShielded) return;
+        if (ownerID != "") {
+            lastPlayerToDamageSelf = ownerID;
+            Debug.Log("Took damage from "+ownerID);
+        }
+        
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
         // Spell spell = spellGO.GetComponent<Spell>();
         switch (SpellEffectType) {

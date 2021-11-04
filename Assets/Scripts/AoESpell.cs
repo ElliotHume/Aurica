@@ -61,7 +61,8 @@ public class AoESpell : Spell {
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) {
-                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                        string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                         FlashHitMarker(true);
                     }
                 } else {
@@ -97,7 +98,8 @@ public class AoESpell : Spell {
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                    string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                    if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                     FlashHitMarker(false);
                 } else {
                     TargetDummy td = other.gameObject.GetComponent<TargetDummy>();
