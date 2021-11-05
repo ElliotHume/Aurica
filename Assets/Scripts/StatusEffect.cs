@@ -63,6 +63,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     public bool canHitSelf = false;
     public bool onlyHitSelf = false;
     public bool isAffectedBySpellStrength = true;
+    public bool isManualTriggerOnly = false;
 
     private bool isCollided = false;
     private Spell attachedSpell;
@@ -98,9 +99,29 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         }
     }
 
+    public void ManualContinuousActivation(GameObject playerGO) {
+        if (!photonView.IsMine) return;
+        if (attachedSpell == null) attachedSpell = GetComponent<Spell>();
+        PlayerManager pm = playerGO.GetComponent<PlayerManager>();
+        if (pm != null) {
+            PhotonView pv = PhotonView.Get(pm);
+            ActivateContinuous(pv);
+        }
+    }
+
+    public void ManualContinuousDeactivation(GameObject playerGO) {
+        if (!photonView.IsMine) return;
+        if (attachedSpell == null) attachedSpell = GetComponent<Spell>();
+        PlayerManager pm = playerGO.GetComponent<PlayerManager>();
+        if (pm != null) {
+            PhotonView pv = PhotonView.Get(pm);
+            DeactivateContinuous(pv);
+        }
+    }
+
 
     void OnCollisionEnter(Collision collision) {
-        if (photonView.IsMine && !isCollided) {
+        if (photonView.IsMine && !isCollided && !isManualTriggerOnly) {
             if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
@@ -112,7 +133,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     }
 
     void OnTriggerEnter(Collider collision) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isManualTriggerOnly) {
             if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
@@ -128,7 +149,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     }
 
     void OnTriggerStay(Collider collision) {
-        if (photonView.IsMine && isContinuous) {
+        if (photonView.IsMine && isContinuous && !isManualTriggerOnly) {
             if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
@@ -140,7 +161,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     }
 
     void OnTriggerExit(Collider collision) {
-        if (photonView.IsMine && isContinuous) {
+        if (photonView.IsMine && isContinuous && !isManualTriggerOnly) {
             if (collision.gameObject.tag == "Player" && (collision.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf) && !(onlyHitSelf && collision.gameObject != PlayerManager.LocalPlayerGameObject)) {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {

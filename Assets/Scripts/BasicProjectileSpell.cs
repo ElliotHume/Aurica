@@ -237,7 +237,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         if (AimAssistedProjectile) {
             GameObject crossHairHit = crosshair.GetPlayerHit(1f);
             SetAimAssistTarget(crossHairHit);
-            if (PerfectHomingProjectile && crossHairHit != null && HomingTarget == null && (crossHairHit.transform.position-transform.position).magnitude <= HomingDetectionSphereRadius) {
+            if (PerfectHomingProjectile && crossHairHit != null && (crossHairHit.transform.position-transform.position).magnitude <= HomingDetectionSphereRadius) {
                 // Debug.Log("Set homing target to aim targeted player.");
                 SetHomingTarget(crossHairHit);
             }
