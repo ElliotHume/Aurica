@@ -106,7 +106,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
                 case "Open Field":
                     level = "DeathmatchOpenGround";
                     break;
-                case "Forest":
+                case "Free for all":
                     level = "BattlegroundsDefault";
                     break;
             }
