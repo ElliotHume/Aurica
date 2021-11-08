@@ -14,9 +14,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     public bool hasten;
     public float hastenDuration, hastenPercentage = 0f;
 
-    // Prevent all movement, including movement spells
+    // Prevent character movement
     public bool root;
     public float rootDuration;
+
+    // Prevent being displaced
+    public bool ground;
+    public float groundDuration;
 
     // Prevent all spellcasts
     public bool silence;
@@ -189,6 +193,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
             if (hasten) pv.RPC("Hasten", RpcTarget.All, Identifier, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
             if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
+            if (ground) pv.RPC("Ground", RpcTarget.All, groundDuration * multiplier);
             if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
             if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
             if (weaken) pv.RPC("Weaken", RpcTarget.All, Identifier, weakenDuration * multiplier, weakenDistribution.ToString());
@@ -222,6 +227,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (slow) pv.RPC("ContinuousSlow", RpcTarget.All, Identifier, slowPercentage / 100f * multiplier);
             if (hasten) pv.RPC("ContinuousHasten", RpcTarget.All, Identifier, hastenPercentage / 100f * multiplier);
             if (root) pv.RPC("ContinuousRoot", RpcTarget.All);
+            if (ground) pv.RPC("ContinuousGround", RpcTarget.All);
             if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
             if (stun) pv.RPC("ContinuousStun", RpcTarget.All);
             if (fragile) pv.RPC("ContinuousFragile", RpcTarget.All, Identifier, fragilePercentage / 100f * multiplier);
@@ -249,6 +255,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (slow) pv.RPC("EndContinuousSlow", RpcTarget.All, Identifier);
             if (hasten) pv.RPC("EndContinuousHasten", RpcTarget.All, Identifier);
             if (root) pv.RPC("EndContinuousRoot", RpcTarget.All);
+            if (ground) pv.RPC("EndContinuousGround", RpcTarget.All);
             if (silence) pv.RPC("EndContinuousSilence", RpcTarget.All);
             if (stun) pv.RPC("EndContinuousStun", RpcTarget.All);
             if (fragile) pv.RPC("EndContinuousFragile", RpcTarget.All, Identifier);

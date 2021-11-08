@@ -5,6 +5,46 @@ using Photon.Pun;
 
 public class TargetDummy : MonoBehaviour
 {
+    private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
+    private DamagePopup accumulatingDamagePopup;
+
+    void Update() {
+        // Compute AoE tick damage and total sum, if no new damage ticks come in for a while 
+        if (aoeDamageTotal == 0f && aoeDamageTick > 0f) {
+            // Add damage tick to the total and reset the tick
+            aoeDamageTotal += aoeDamageTick;
+            aoeDamageTick = 0f;
+
+            // Initiate an accumulating damage popup
+            GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position+ (Vector3.up*2.75f), transform.rotation, 0);
+            newPopup.transform.SetParent(gameObject.transform);
+            DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
+            if (dmgPopup != null) {
+                dmgPopup.AccumulatingDamagePopup(aoeDamageTotal);
+                accumulatingDamagePopup = dmgPopup;
+            }
+        } else if (aoeDamageTotal > 0f && aoeDamageTick > 0f) {
+            // Add damage tick to the total and reset the tick
+            aoeDamageTotal += aoeDamageTick;
+            aoeDamageTick = 0f;
+
+            // Update the accumulating damage popup
+            accumulatingDamagePopup.AccumulatingDamagePopup(aoeDamageTotal);
+
+            // Reset the tick timout timer
+            accumulatingDamageTimer = 0f;
+        } else if (aoeDamageTotal > 0f && aoeDamageTick == 0f && accumulatingDamageTimer < accumulatingDamageTimout) {
+            // If there is a running total but no new damage tick, start the timer to end the accumulating process
+            accumulatingDamageTimer += Time.deltaTime;
+        } else if (aoeDamageTotal > 0f && aoeDamageTick == 0f && accumulatingDamageTimer >= accumulatingDamageTimout) {
+            // Timout has been reached for new damage ticks, end the accumulation process and reset all variables
+            accumulatingDamagePopup.EndAccumulatingDamagePopup();
+            aoeDamageTotal = 0f;
+            aoeDamageTick = 0f;
+            accumulatingDamageTimer = 0f;
+        }
+    }
+
     [PunRPC]
     void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID = "") {
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
@@ -13,7 +53,7 @@ public class TargetDummy : MonoBehaviour
         float finalDamage = Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
 
         // Create damage popup
-        if (finalDamage > 3f) {
+        if (finalDamage > 1.5f) {
             GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position + (Vector3.up*2.75f), transform.rotation, 0);
 
             DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
@@ -21,6 +61,8 @@ public class TargetDummy : MonoBehaviour
                 dmgPopup.ShowDamage(finalDamage);
                 dmgPopup.isSceneObject = true;
             }
+        } else {
+            aoeDamageTick += finalDamage;
         }
     
         if (ownerID != "") Debug.Log("Target Dummy hit by ["+ownerID+"]");

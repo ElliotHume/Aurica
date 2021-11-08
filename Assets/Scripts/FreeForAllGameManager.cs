@@ -18,7 +18,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
     public Text scoreText, timerText;
     public List<GameObject> ToggleObjects;
 
-    public float PointsForKill = 1f, PointLimit=8f, TimerSeconds=180f;
+    public float PointsForKill = 1f, PointsForObjective=2f, PointLimit=8f, TimerSeconds=180f;
     public float RespawnTimer = 8f;
     public AudioSource MatchMusic;
 
@@ -130,10 +130,24 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    public void ObjectiveScore(string playerName) {
+        if (!matchStarted) return;
+        photonView.RPC("SendScore", RpcTarget.All, playerName, playerScores[playerName]+PointsForObjective);
+    }
+
     [PunRPC]
-    public void SendScore(string playerID, float score){
-        Debug.Log("Set player ["+playerID+"] score to: "+score);
-        playerScores[playerID] = score;
+    public void SendScore(string playerID, float remoteScore){
+        Debug.Log("Set player ["+playerID+"] score to: "+remoteScore);
+        if (playerID == localPlayer.GetUniqueName()) {
+            // Don't set your score if it's lower than what you currently have.
+            if (remoteScore < score) return;
+            score = remoteScore;
+            playerScores[playerID] = remoteScore;
+            scoreText.text = "Score: "+score;
+        } else {
+            playerScores[playerID] = remoteScore;
+        }
+        
     }
 
 
@@ -196,9 +210,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
         
         if (winners.Count > 1) {
-            WinnerText.text = "Tied Winners: "+System.String.Join(", ", winners);
+            WinnerText.text = "Tied Winners: "+System.String.Join(", ", winners)+" - "+winningScore+"pts";
         } else {
-            WinnerText.text = "Winner: "+winners[0];
+            WinnerText.text = "Winner: "+winners[0]+" - "+winningScore+"pts";
         }
 
         List<string> secondPlace = new List<string>();
@@ -218,9 +232,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
             
             if (secondPlace.Count > 1) {
-                SecondPlaceText.text = "Tied second place: "+System.String.Join(", ", secondPlace);
+                SecondPlaceText.text = "Tied second place: "+System.String.Join(", ", secondPlace)+" - "+secondPlaceScore+"pts";
             } else {
-                SecondPlaceText.text = "Second place: "+secondPlace[0];
+                SecondPlaceText.text = "Second place: "+secondPlace[0]+" - "+secondPlaceScore+"pts";
             }
         } else {
             SecondPlaceText.gameObject.SetActive(false);
@@ -243,9 +257,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
             
             if (thirdPlace.Count > 1) {
-                ThirdPlaceText.text = "Tied third place: "+System.String.Join(", ", thirdPlace);
+                ThirdPlaceText.text = "Tied third place: "+System.String.Join(", ", thirdPlace)+" - "+thirdPlaceScore+"pts";
             } else {
-                ThirdPlaceText.text = "Third place: "+thirdPlace[0];
+                ThirdPlaceText.text = "Third place: "+thirdPlace[0]+" - "+thirdPlaceScore+"pts";
             }
         } else {
             ThirdPlaceText.gameObject.SetActive(false);

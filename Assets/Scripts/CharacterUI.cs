@@ -45,6 +45,7 @@ public class CharacterUI : MonoBehaviour {
         if (target.stunned) statusEffects.Add("STUNNED");
         if (target.silenced) statusEffects.Add("SILENCED");
         if (target.rooted) statusEffects.Add("ROOTED");
+        if (target.grounded) statusEffects.Add("GROUNDED");
         if (target.slowed) statusEffects.Add("SLOWED");
         if (target.hastened) statusEffects.Add("HASTE");
         if (target.fragile) statusEffects.Add("FRAGILE");

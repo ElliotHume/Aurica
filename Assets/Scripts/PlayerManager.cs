@@ -91,11 +91,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     Coroutine hasteRoutine;
     bool hasteRoutineRunning;
 
-    // Prevent all movement, including movement spells
+    // Prevent moving, not including displacement
     [HideInInspector]
     public bool rooted;
     Coroutine rootRoutine;
     bool rootRoutineRunning;
+
+    // Prevent displacement
+    [HideInInspector]
+    public bool grounded;
+    Coroutine groundedRoutine;
+    bool groundedRoutineRunning;
 
     // Prevent all spellcasts
     [HideInInspector]
@@ -1051,12 +1057,47 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    
+    
+    
+    // Grounded - Cannot be displaced
+    [PunRPC]
+    void Ground(float duration) {
+        if (photonView.IsMine) {
+            groundedRoutine = StartCoroutine(GroundedRoutine(duration));
+        }
+    }
+    IEnumerator GroundedRoutine(float duration) {
+        groundedRoutineRunning = true;
+        grounded = true;
+        movementManager.Ground(true);
+        yield return new WaitForSeconds(duration);
+        grounded = false;
+        groundedRoutineRunning = false;
+        movementManager.Ground(false);
+    }
+    [PunRPC]
+    public void ContinuousGround() {
+        if (photonView.IsMine) {
+            grounded = true;
+            movementManager.Ground(true);
+        }
+    }
+    [PunRPC]
+    public void EndContinuousGround() {
+        if (photonView.IsMine) {
+            grounded = false;
+            movementManager.Ground(false);
+        }
+    }
 
 
 
 
 
-    // Stunned - Prevent all movement and spellcasting
+
+
+    // Stunned - Prevent moving and spellcasting, basically a stacked root and silence
     [PunRPC]
     void Stun(float duration) {
         if (photonView.IsMine && !stunned) {
@@ -1537,6 +1578,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             movementManager.Root(false);
             rooted = false;
         }
+        if (grounded) {
+            if (groundedRoutineRunning) StopCoroutine(rootRoutine);
+            movementManager.Ground(false);
+            grounded = false;
+        }
         if (silenced) {
             if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
             silenced = false;
@@ -1604,6 +1650,25 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             movementManager.ResetMovementSpeed();
             slowed = false;
             appliedSlowEffects.Clear();
+        }
+        if (rooted) {
+            if (rootRoutineRunning) StopCoroutine(rootRoutine);
+            movementManager.Root(false);
+            rooted = false;
+        }
+        if (grounded) {
+            if (groundedRoutineRunning) StopCoroutine(rootRoutine);
+            movementManager.Ground(false);
+            grounded = false;
+        }
+        if (silenced) {
+            if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
+            silenced = false;
+        }
+        if (stunned) {
+            if (stunRoutineRunning) StopCoroutine(stunRoutine);
+            movementManager.Stun(false);
+            stunned = false;
         }
         if (fragile) {
             if (fragileRoutineRunning) StopCoroutine(fragileRoutine);

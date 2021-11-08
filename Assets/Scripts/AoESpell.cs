@@ -83,6 +83,15 @@ public class AoESpell : Spell {
                 } else {
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                 }
+            } else if (other.gameObject.tag == "DamageableObject") {
+                DamageableObject dmgobj = other.gameObject.GetComponent<DamageableObject>();
+                if (dmgobj != null) {
+                    PhotonView pv = PhotonView.Get(dmgobj);
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
+                        FlashHitMarker(true);
+                    }
+                }
             }
         }
     }
@@ -96,15 +105,19 @@ public class AoESpell : Spell {
         if (photonView.IsMine) {
             if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerGameObject || canHitSelf)) {
                 PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
+                string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
-                    string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
                     if (pv != null) pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                     FlashHitMarker(false);
                 } else {
                     TargetDummy td = other.gameObject.GetComponent<TargetDummy>();
                     if (td != null) {
-                        FlashHitMarker(false);
+                        PhotonView pv = PhotonView.Get(td);
+                        if (pv != null) {
+                            pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                            FlashHitMarker(false);
+                        }
                     }
                 }
             } else if (other.gameObject.tag == "Shield") {
@@ -115,6 +128,15 @@ public class AoESpell : Spell {
                     if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());
                 } else {
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
+                }
+            } else if (other.gameObject.tag == "DamageableObject") {
+                DamageableObject dmgobj = other.gameObject.GetComponent<DamageableObject>();
+                if (dmgobj != null) {
+                    PhotonView pv = PhotonView.Get(dmgobj);
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
+                        FlashHitMarker(true);
+                    }
                 }
             }
         }

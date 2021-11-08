@@ -23,7 +23,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting, slowFall;
+    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting, slowFall, groundedStatusEffect;
     private Vector3 playerVelocity, impact, velocity;
     private float movementSpeed, slowFallPercent, accelerant = 1f;
     private PlayerManager playerManager;
@@ -99,7 +99,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isBlocking && !isBeingDisplaced && !jumping && Grounded) {
+        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isBlocking && !isBeingDisplaced && !jumping && Grounded && !groundedStatusEffect) {
             animator.SetTrigger("Jump");
             jumping = true;
         }
@@ -146,7 +146,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 
         // Consume the impact energy each cycle:
-        impact = Grounded ? Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime) : Vector3.Lerp(impact, Vector3.zero, 2.5f * Time.deltaTime);
+        float impactConsumptionMultiplier = (Grounded ? 5f : 2.5f) * (groundedStatusEffect ? 2f : 1f);
+        impact = Vector3.Lerp(impact, Vector3.zero, impactConsumptionMultiplier * Time.deltaTime);
 
         // Calculate velocity for lag compensation
         velocity = transform.position - oldPosition;
@@ -226,7 +227,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
     public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
         // TODO: Animation system
-        if (isBeingDisplaced) return;
+        if (isBeingDisplaced || groundedStatusEffect) return;
         AddImpact(direction, distance * speed, isWorldSpaceDirection);
     }
 
@@ -277,6 +278,10 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         slowFall = sf;
         slowFallPercent = percentage;
         accelerant = 1f;
+    }
+
+    public void Ground(bool sf) {
+        groundedStatusEffect = sf;
     }
 
 

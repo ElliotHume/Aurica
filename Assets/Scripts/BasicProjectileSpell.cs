@@ -165,6 +165,16 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         pv.RPC("SpellCollision", RpcTarget.All);
                     }
                 }
+            } else if (collision.gameObject.tag == "DamageableObject") {
+                DamageableObject dmgobj = collision.gameObject.GetComponent<DamageableObject>();
+                if (dmgobj != null) {
+                    PhotonView pv = PhotonView.Get(dmgobj);
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
+                        collidedViewId = pv.ViewID;
+                        FlashHitMarker(true);
+                    }
+                }
             }
             NetworkCollisionBehaviour(hit.point, hit.normal);
         }
