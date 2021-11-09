@@ -382,7 +382,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (FreeForAllGameManager.Instance != null){
             FreeForAllGameManager.Instance.playerDeath(this);
             if (photonView.IsMine) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
-        } 
+        }
+
+        ObjectiveSphere[] objectiveSpheres = FindObjectsOfType<ObjectiveSphere>();
+        foreach( ObjectiveSphere os in objectiveSpheres) os.DropIfHolding(this); 
     }
 
     public void Respawn() {

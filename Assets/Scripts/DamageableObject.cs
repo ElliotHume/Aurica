@@ -8,6 +8,7 @@ public class DamageableObject : MonoBehaviourPun
 {
     public float damageThreshold = 10f;
     public UnityEvent OnDamage, OnDamageThresholdReached;
+    public bool isActive = false;
 
     private float health;
     private bool hasPopped = false;
@@ -60,7 +61,7 @@ public class DamageableObject : MonoBehaviourPun
 
     [PunRPC]
     void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID = "") {
-        if (hasPopped) return;
+        if (hasPopped || !isActive) return;
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
 
         // Apply the damage
@@ -84,7 +85,7 @@ public class DamageableObject : MonoBehaviourPun
         if (health <= 0f) {
             OnDamageThresholdReached.Invoke();
             hasPopped = true;
-        } else {
+        } else if (finalDamage > 1.5f) {
             OnDamage.Invoke();
         }
     }
@@ -92,5 +93,9 @@ public class DamageableObject : MonoBehaviourPun
     public void ResetHealthPool() {
         health = damageThreshold;
         hasPopped = false;
+    }
+
+    public void ToggleActive(bool state) {
+        isActive = state;
     }
 }

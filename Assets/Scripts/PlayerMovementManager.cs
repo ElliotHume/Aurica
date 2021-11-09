@@ -278,6 +278,19 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         slowFall = sf;
         slowFallPercent = percentage;
         accelerant = 1f;
+
+        // // DOESNT WORK - RE: tried to stop massive gravity after slowfall effect ends
+        // if (!sf) {
+        //     // Reset velocity and acceleration for all rigidbodies of the player.
+        //     Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
+        //     Debug.Log("LIST OF RIGIDBODIES LENGTH: "+rbs.Length);
+        //     foreach(Rigidbody rb in rbs) {
+        //         rb.velocity = Vector3.zero;
+        //         rb.angularVelocity = Vector3.zero;
+        //         rb.Sleep();
+        //         rb.WakeUp();
+        //     }
+        // }
     }
 
     public void Ground(bool sf) {

@@ -86,6 +86,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         SpawnLocalPlayer();
 
+        ObjectiveSphere[] objectiveSpheres = FindObjectsOfType<ObjectiveSphere>();
+        foreach( ObjectiveSphere os in objectiveSpheres) os.Reset(); 
+
         matchStarted = true;
 
         // Start the timer if we are the master client

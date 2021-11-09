@@ -60,6 +60,10 @@ public class ObjectiveSphere : MonoBehaviourPun
         holdingPlayerManager = null;
     }
 
+    public void DropIfHolding(PlayerManager player) {
+        if (player == holdingPlayerManager) Reset();
+    }
+
     public void DelayedReset() {
         isHeld = false;
         Invoke("Reset", 1f);
