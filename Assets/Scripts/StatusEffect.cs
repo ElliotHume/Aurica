@@ -114,7 +114,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     }
 
     public void ManualContinuousDeactivation(GameObject playerGO) {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || playerGO == null) return;
         if (attachedSpell == null) attachedSpell = GetComponent<Spell>();
         PlayerManager pm = playerGO.GetComponent<PlayerManager>();
         if (pm != null) {

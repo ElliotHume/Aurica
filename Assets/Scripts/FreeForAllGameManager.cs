@@ -51,6 +51,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         FreeForAllGamePanel.SetActive(true);
 
         playerScores = new Dictionary<string, float>();
+
+        var ts = TimeSpan.FromSeconds(TimerSeconds);
+        timerText.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
     }
 
     void FixedUpdate() {

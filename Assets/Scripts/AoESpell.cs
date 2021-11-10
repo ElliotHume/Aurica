@@ -135,7 +135,7 @@ public class AoESpell : Spell {
                     PhotonView pv = PhotonView.Get(dmgobj);
                     if (pv != null) {
                         pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
-                        FlashHitMarker(true);
+                        FlashHitMarker(false);
                     }
                 }
             }
