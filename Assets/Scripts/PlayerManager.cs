@@ -869,7 +869,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Heal(float flat, float percentage) {
         if (photonView.IsMine) {
             Debug.Log("HEAL FOR: ["+flat+"] flat + ["+percentage+"] percent missing health");
-            healing += flat + ((maxHealth - Health) * percentage);
+            healing += (flat + ((maxHealth - Health) * percentage)) * GameManager.GLOBAL_SPELL_HEALING_MULTIPLIER;
         }
     }
 
@@ -1511,13 +1511,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void SlowFall(string Identifier, float duration, float percentage) {
         if (photonView.IsMine) {
-            Debug.Log(System.String.Join(", ", appliedSlowFallEffects));
             if (appliedSlowFallEffects.Contains(Identifier)){
                 Debug.Log("Nullify duplicate {SLOW FALL} from ["+Identifier+"].");
                 return;
             } 
             appliedSlowFallEffects.Add(Identifier);
-            Debug.Log("Apply slow fall");
 
             slowFallRoutine = StartCoroutine(SlowFallRoutine(Identifier, duration, percentage));
         }

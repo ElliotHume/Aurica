@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class TargetDummy : MonoBehaviour
+public class TargetDummy : MonoBehaviourPun
 {
     private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     private DamagePopup accumulatingDamagePopup;
 
     void Update() {
+        if (!photonView.IsMine) return;
         // Compute AoE tick damage and total sum, if no new damage ticks come in for a while 
         if (aoeDamageTotal == 0f && aoeDamageTick > 0f) {
             // Add damage tick to the total and reset the tick
@@ -47,6 +48,7 @@ public class TargetDummy : MonoBehaviour
 
     [PunRPC]
     void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID = "") {
+        if (!photonView.IsMine) return;
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
 
         // Apply the damage

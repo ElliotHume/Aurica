@@ -18,7 +18,7 @@ public class DialogueManager : MonoBehaviour
     void Update() {
         if (TurnCanvasToPlayer) {
             Canvas canvas = GetComponent<Canvas>();
-            if (canvas != null) {
+            if (canvas != null && Camera.main != null) {
                 gameObject.transform.rotation = Camera.main.transform.rotation;
             }
         }

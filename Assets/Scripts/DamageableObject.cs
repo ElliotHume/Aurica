@@ -67,18 +67,21 @@ public class DamageableObject : MonoBehaviourPun
         // Apply the damage
         float finalDamage = Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
 
-        // Create damage popup
-        if (finalDamage > 1.5f) {
-            GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position + (Vector3.up*2.75f), transform.rotation, 0);
+        if (photonView.IsMine) {
+            // Create damage popup
+            if (finalDamage > 1.5f) {
+                GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position + (Vector3.up*2.75f), transform.rotation, 0);
 
-            DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
-            if (dmgPopup != null) {
-                dmgPopup.ShowDamage(finalDamage);
-                dmgPopup.isSceneObject = true;
+                DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
+                if (dmgPopup != null) {
+                    dmgPopup.ShowDamage(finalDamage);
+                    dmgPopup.isSceneObject = true;
+                }
+            } else {
+                aoeDamageTick += finalDamage;
             }
-        } else {
-            aoeDamageTick += finalDamage;
         }
+        
 
         health -= finalDamage;
             

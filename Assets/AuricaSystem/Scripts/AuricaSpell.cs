@@ -82,8 +82,6 @@ public class AuricaSpell : ScriptableObject {
     }
 
     public ManaDistribution IdealAuraCalculation() {
-        // List<float> basicDist = new List<float>();
-        // List<float> auricDist = new List<float>();
         ManaDistribution basicDist = new ManaDistribution();
         ManaDistribution auricDist = new ManaDistribution();
         foreach(AuricaSpellComponent component in keyComponents) {
@@ -91,13 +89,13 @@ public class AuricaSpell : ScriptableObject {
             auricDist += component.auricDistribution;
         }
         
-        float structure = auricDist.structure != 0 ? (targetDistribution.structure - basicDist.structure) / auricDist.structure : 0;
-        float essence = auricDist.essence != 0 ? (targetDistribution.essence - basicDist.essence) / auricDist.essence : 0;
-        float fire = auricDist.fire != 0 ? (targetDistribution.fire - basicDist.fire) / auricDist.fire : 0;
-        float water = auricDist.water != 0 ? (targetDistribution.water - basicDist.water) / auricDist.water : 0;
-        float earth = auricDist.earth != 0 ? (targetDistribution.earth - basicDist.earth) / auricDist.earth : 0;
-        float air = auricDist.air != 0 ? (targetDistribution.air - basicDist.air) / auricDist.air : 0;
-        float nature = auricDist.nature != 0 ? (targetDistribution.nature - basicDist.nature) / auricDist.nature : 0;
+        float structure = Mathf.Clamp(auricDist.structure != 0 ? (targetDistribution.structure - basicDist.structure) / auricDist.structure : 0, -1, 1);
+        float essence = Mathf.Clamp(auricDist.essence != 0 ? (targetDistribution.essence - basicDist.essence) / auricDist.essence : 0, -1, 1);
+        float fire = Mathf.Clamp(auricDist.fire != 0 ? (targetDistribution.fire - basicDist.fire) / auricDist.fire : 0, 0, 1);
+        float water = Mathf.Clamp(auricDist.water != 0 ? (targetDistribution.water - basicDist.water) / auricDist.water : 0, 0, 1);
+        float earth = Mathf.Clamp(auricDist.earth != 0 ? (targetDistribution.earth - basicDist.earth) / auricDist.earth : 0, 0, 1);
+        float air = Mathf.Clamp(auricDist.air != 0 ? (targetDistribution.air - basicDist.air) / auricDist.air : 0, 0, 1);
+        float nature = Mathf.Clamp(auricDist.nature != 0 ? (targetDistribution.nature - basicDist.nature) / auricDist.nature : 0, -1, 1);
 
         return new ManaDistribution(structure, essence, fire, water, earth, air, nature);
     }

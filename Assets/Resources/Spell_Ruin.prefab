@@ -5864,10 +5864,10 @@ GameObject:
   - component: {fileID: 2145504470292448947}
   - component: {fileID: 2146521409045957691}
   - component: {fileID: 2044390947256351281}
-  - component: {fileID: 2146521409045957686}
   - component: {fileID: 2146521409045957685}
   - component: {fileID: 2146521409045957684}
   - component: {fileID: 2146521409045957687}
+  - component: {fileID: 82875864}
   m_Layer: 6
   m_Name: Spell_Ruin
   m_TagString: Spell
@@ -5923,7 +5923,7 @@ MonoBehaviour:
   attachToTarget: 0
   canHitSelf: 1
   growBeforeStart: 0
-  SpellStrengthChangesDuration: 1
+  SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 0
   DestroyTimeDelay: 15
   StartTimeDelay: 0
@@ -5958,19 +5958,6 @@ MonoBehaviour:
   Speed: 10
   AirDrag: 0.1
   UseGravity: 1
---- !u!135 &2146521409045957686
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2147167379267178801}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2146521409045957685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6025,6 +6012,20 @@ MonoBehaviour:
   Delay: 0
   MaximumStress: 0.6
   Range: 45
+--- !u!136 &82875864
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147167379267178801}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3
+  m_Height: 6.5792847
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2896423, z: 0}
 --- !u!1 &2147177392936677101
 GameObject:
   m_ObjectHideFlags: 0

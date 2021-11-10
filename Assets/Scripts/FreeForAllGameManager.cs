@@ -54,6 +54,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         var ts = TimeSpan.FromSeconds(TimerSeconds);
         timerText.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
+        scoreText.text = "Point victory: "+PointLimit;
     }
 
     void FixedUpdate() {
