@@ -99,6 +99,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) StartCoroutine(StartTimer());
 
         readyButton.SetActive(false);
+        scoreText.text = "Score: 0";
 
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
 

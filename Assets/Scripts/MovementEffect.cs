@@ -78,7 +78,7 @@ public class MovementEffect : MonoBehaviourPun {
     void Activate(PlayerManager pm) {
         PhotonView pv = PhotonView.Get(pm);
         if (pv != null) {
-            float multiplier = (attachedSpell != null) ? (0.75f + (attachedSpell.GetSpellStrength() * 0.66f)) : 1f;
+            float multiplier = (attachedSpell != null) ? (0.66f + (attachedSpell.GetSpellStrength() * 0.75f)) : 1f;
             pv.RPC("Displace", RpcTarget.All, displacementDirection, displacementDistance * multiplier, displacementSpeed, isKnockback || isVacuum || isFixed);
             if (clip != null) clip.Play();
         }
