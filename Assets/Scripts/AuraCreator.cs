@@ -2,23 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AuraCreator : MonoBehaviour
 {
-    public DistributionUIDisplayValues auraValues;
+    public float POWER_THRESHOLD = 3.25f, FLUX = 0.4f, WEAKNESS_MULTIPLIER = 0.66f;
+
+    public DistributionUIDisplayValues questionnaireSectionAuraValues;
     public Dropdown question1, question2, question3, question4, question5, question6, question7, question8, question9, question10, question11, question12, question13;
+
+    public TMP_InputField Structure, Essence, Fire, Water, Earth, Air, Nature;
     private Dictionary<string, ManaDistribution> answerOffsets;
     private List<string> answers;
     private List<Dropdown> questions;
 
-    private ManaDistribution finalOffsets;
+    private ManaDistribution offsets, finalOffsets;
 
     // Start is called before the first frame update
     void Start() {
         answers = new List<string>();
         answerOffsets = new Dictionary<string, ManaDistribution>();
         questions = new List<Dropdown>();
-        finalOffsets = new ManaDistribution();
+        offsets = new ManaDistribution();
 
         questions.Add(question1);
         questions.Add(question2);
@@ -107,7 +112,7 @@ public class AuraCreator : MonoBehaviour
 
         answerOffsets.Add("7: sadness", new ManaDistribution(0, 0.05f, 0, 0, 0, 0, 0));
         answerOffsets.Add("7: fright", new ManaDistribution(0, 0, 0, 0, 0.05f, 0, 0));
-        answerOffsets.Add("7: anger", new ManaDistribution(0, 0, 0, 0.05f, 0, 0, 0));
+        answerOffsets.Add("7: anger", new ManaDistribution(0, 0, 0.05f, 0, 0, 0, 0));
         answerOffsets.Add("7: curiosity", new ManaDistribution(0.05f, 0, 0, 0, 0, 0, 0));
         answerOffsets.Add("7: confusion", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.05f));
         answerOffsets.Add("7: surprise", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.05f));
@@ -176,22 +181,22 @@ public class AuraCreator : MonoBehaviour
 
     public void RefreshAnswers() {
         answers.Clear();
-        finalOffsets = new ManaDistribution();
+        offsets = new ManaDistribution();
 
         string answerText;
         int index = 1;
         foreach (Dropdown question in questions) {
-            if (question == null) continue;
+            if (question == null && question.gameObject.activeInHierarchy) continue;
             answerText = (""+index+": "+question.options[question.value].text).ToLower();
-            finalOffsets += answerOffsets[answerText];
+            offsets += answerOffsets[answerText];
 
             // Special cases
             switch (answerText) {
                 case "13: wizard":
-                    if (finalOffsets.nature > 0) {
-                        finalOffsets -= new ManaDistribution(0,0,0,0,0,0, Mathf.Max(0.2f, finalOffsets.nature));
-                    } else if (finalOffsets.nature < 0) {
-                        finalOffsets += new ManaDistribution(0,0,0,0,0,0, Mathf.Max(0.2f, -finalOffsets.nature));
+                    if (offsets.nature > 0) {
+                        offsets -= new ManaDistribution(0,0,0,0,0,0, Mathf.Max(0.2f, offsets.nature));
+                    } else if (offsets.nature < 0) {
+                        offsets += new ManaDistribution(0,0,0,0,0,0, Mathf.Max(0.2f, -offsets.nature));
                     }
                     break;
             }
@@ -200,7 +205,48 @@ public class AuraCreator : MonoBehaviour
             index++;
         }
 
-        Debug.Log("Final Offsets: "+finalOffsets.ToString());
-        auraValues.SetDistribution(finalOffsets);
+        Debug.Log("Final Offsets: "+offsets.ToString());
+        questionnaireSectionAuraValues.SetDistribution(offsets);
+    }
+
+    public void PopulateOffsetsFromQuestionnaire() {
+        finalOffsets = offsets;
+        RefreshFinalOffsetTexts();
+    }
+
+    public void RefreshFinalOffsetTexts() {
+        Structure.text = finalOffsets.structure.ToString();
+        Essence.text = finalOffsets.essence.ToString();
+        Fire.text = finalOffsets.fire.ToString();
+        Water.text = finalOffsets.water.ToString();
+        Earth.text = finalOffsets.earth.ToString();
+        Air.text = finalOffsets.air.ToString();
+        Nature.text = finalOffsets.nature.ToString();
+    }
+
+    public void SetStructure(string value) {
+        finalOffsets.structure = float.Parse(value);
+    }
+    public void SetEssence(string value) {
+        finalOffsets.essence = float.Parse(value);
+    }
+    public void SetFire(string value) {
+        finalOffsets.fire = float.Parse(value);
+    }
+    public void SetWater(string value) {
+        finalOffsets.water = float.Parse(value);
+    }
+    public void SetEarth(string value) {
+        finalOffsets.earth = float.Parse(value);
+    }
+    public void SetAir(string value) {
+        finalOffsets.air = float.Parse(value);
+    }
+    public void SetNature(string value) {
+        finalOffsets.nature = float.Parse(value);
+    }
+
+    public void GenerateAura() {
+        
     }
 }
