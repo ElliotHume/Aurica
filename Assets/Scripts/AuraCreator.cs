@@ -8,10 +8,11 @@ public class AuraCreator : MonoBehaviour
 {
     public float POWER_THRESHOLD = 3.25f, FLUX = 0.4f, WEAKNESS_MULTIPLIER = 0.66f;
 
-    public DistributionUIDisplayValues questionnaireSectionAuraValues;
+    public DistributionUIDisplayValues questionnaireSectionAuraValues, auraGenerationSectionValues;
     public Dropdown question1, question2, question3, question4, question5, question6, question7, question8, question9, question10, question11, question12, question13;
 
-    public TMP_InputField Structure, Essence, Fire, Water, Earth, Air, Nature;
+    public TMP_InputField Structure, Essence, Fire, Water, Earth, Air, Nature, AuraText, AuraJson;
+    public TMP_Text aggregatePowerText;
     private Dictionary<string, ManaDistribution> answerOffsets;
     private List<string> answers;
     private List<Dropdown> questions;
@@ -247,6 +248,66 @@ public class AuraCreator : MonoBehaviour
     }
 
     public void GenerateAura() {
-        
+        float structure=0f, essence=0f, fire=0f, water=0f, earth=0f, air=0f, nature=0f;
+        float aggregatePower = 0f;
+        bool offsetAccurate = false;
+
+        while (aggregatePower < POWER_THRESHOLD || !offsetAccurate) {
+            // Roll random values and add offsets
+            structure = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.structure) * 100f) / 100f, -1.1f, 1.1f);
+            essence = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.essence) * 100f) / 100f, -1.1f, 1.1f);
+            fire = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.fire) * 100f) / 100f, 1.1f);
+            water = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.water) * 100f) / 100f, 1.1f);
+            earth = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.earth) * 100f) / 100f, 1.1f);
+            air = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.air) * 100f) / 100f, 1.1f);
+            nature = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.nature) * 100f) / 100f, -1.1f, 1.1f);
+
+            // Create an elemental weakness by multiplying the lowest rolled element by WEAKNESS_MULTIPLIER
+            // Unless this roll passes a 2.5% chance, in which case, do not create a weakness
+            if (Random.Range(0f, 1f) >= 0.025f) {
+                float[] manaList = new float[] {fire, water, earth, air};
+                int smallestValueIndex = System.Array.IndexOf(manaList, Mathf.Min(manaList));
+                float[] offsetList = new float[] {finalOffsets.fire, finalOffsets.water, finalOffsets.earth, finalOffsets.air};
+                int greatestOffsetIndex = System.Array.IndexOf(offsetList, Mathf.Max(offsetList));
+            
+                if (smallestValueIndex != greatestOffsetIndex) {
+                    if (smallestValueIndex == 0) { fire = Mathf.Max(0.1f, fire * WEAKNESS_MULTIPLIER);
+                    } else if (smallestValueIndex == 1) { water = Mathf.Max(0.1f, water * WEAKNESS_MULTIPLIER);
+                    } else if (smallestValueIndex == 2) { earth = Mathf.Max(0.1f, earth * WEAKNESS_MULTIPLIER);
+                    } else if (smallestValueIndex == 3) { air = Mathf.Max(0.1f, air * WEAKNESS_MULTIPLIER);
+                    }
+                } else {
+                    if (smallestValueIndex == 0) { water = Mathf.Max(0.1f, water * WEAKNESS_MULTIPLIER);
+                    } else if (smallestValueIndex == 1) { fire = Mathf.Max(0.1f, fire * WEAKNESS_MULTIPLIER);
+                    } else if (smallestValueIndex == 2) { air = Mathf.Max(0.1f, air * WEAKNESS_MULTIPLIER);
+                    } else if (smallestValueIndex == 3) { earth = Mathf.Max(0.1f, earth * WEAKNESS_MULTIPLIER);
+                    }
+                }
+            }
+
+            structure = Mathf.Round(structure * 100f) / 100f;
+            essence = Mathf.Round(essence * 100f) / 100f;
+            fire = Mathf.Round(fire * 100f) / 100f;
+            water = Mathf.Round(water * 100f) / 100f;
+            earth = Mathf.Round(earth * 100f) / 100f;
+            air = Mathf.Round(air * 100f) / 100f;
+            nature = Mathf.Round(nature * 100f) / 100f;
+
+            // Calculate aggregate power
+            aggregatePower = Mathf.Abs(structure) + Mathf.Abs(essence) + fire + water + earth + air + Mathf.Abs(nature);
+
+            // Ensure that the predispositions are generally followed.
+            // If the predisposition for an aligned mana is for positive make sure the roll is not negative (and vice versa)
+            // and that the absolute value is atleast half of the absolute predisposition offset.
+            offsetAccurate = ( finalOffsets.structure * structure >= 0.0 && Mathf.Abs(structure) >= Mathf.Abs(finalOffsets.structure)/2f ) && ( finalOffsets.essence * essence >= 0.0 && Mathf.Abs(essence) >= Mathf.Abs(finalOffsets.essence)/2f) && (finalOffsets.nature * nature >= 0.0 && Mathf.Abs(nature) >= Mathf.Abs(finalOffsets.nature)/2f);
+        }
+
+        ManaDistribution finalAura = new ManaDistribution(structure, essence, fire, water, earth, air, nature);
+        Debug.Log("GENERATED AURA: ["+finalAura.ToString()+"]");
+
+        auraGenerationSectionValues.SetDistribution(finalAura);
+        aggregatePowerText.text = "Aggregate power: "+aggregatePower.ToString();
+        AuraText.text = "["+finalAura.ToString()+"]";
+        AuraJson.text = finalAura.GetJson();
     }
 }
