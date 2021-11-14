@@ -90,7 +90,10 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     IEnumerator StartGameTimer() {
         yield return new WaitForSeconds(7f);
-        while (blueSidePlayerCount == 0 || redSidePlayerCount == 0 ) {
+        PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
+        int totalPlayerCount = ps.Length;
+        // Don't start until all of the players have chosen a side, and neither team is empty
+        while ((blueSidePlayerCount == 0 || redSidePlayerCount == 0) || (redSidePlayerCount + blueSidePlayerCount < totalPlayerCount)) {
             Debug.Log("No players on one of the teams, rebalance teams until there is atleast one player on each team.");
             yield return new WaitForSeconds(3f);
         }
@@ -207,6 +210,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     public void EndMatch(int winningTeam) {
+        if (!matchStarted) return;
+
         if (winningTeam != 2) resultsPanel.SetActive(true);
         if (winningTeam == 0) {
             bluesidewinUI.SetActive(true);
@@ -243,7 +248,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     }
 
     public void playerDeath(PlayerManager player) {
-        if (matchStarted) {
+        if (PhotonNetwork.IsMasterClient &&matchStarted) {
             if (blueSide.Contains(player)) {
                 blueSideLives -= 1;
                 blueLifeCounter.text = blueSideLives.ToString();

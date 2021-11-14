@@ -20,7 +20,25 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     private string AuraText;
 
     void Start() {
-        
+        // If the player is already logged in we want to skip the login process.
+        CheckIfLoggedIn();
+    }
+
+    void CheckIfLoggedIn() {
+        // Call the playfab API, if no error is returned then we are logged in.
+        try {
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest(), IsLoggedIn, IsNotLoggedIn);
+        } catch {
+            // Do nothing, if an error is caught it means we are not logged in.
+        }
+    }
+
+    void IsLoggedIn(GetUserDataResult result) {
+        OnLogin.Invoke();
+    }
+
+    void IsNotLoggedIn(PlayFabError error) {
+        // Do nothing, player is not logged in
     }
 
     public void RegisterButton() {
@@ -68,7 +86,6 @@ public class PlayfabLauncherManager : MonoBehaviourPun
         MessageText.text = "Password reset email sent!";
     }
 
-    
 
     public void GetAura() {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);

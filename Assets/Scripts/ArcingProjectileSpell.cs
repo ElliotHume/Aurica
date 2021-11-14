@@ -145,7 +145,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                     if (td != null) {
                         PhotonView pv = PhotonView.Get(td);
                         if (pv != null) {
-                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
                             FlashHitMarker(true);
                         }
                     }
@@ -157,6 +157,15 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                     if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());
                 } else {
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
+                }
+            } else if (collision.gameObject.tag == "DamageableObject") {
+                DamageableObject dmgobj = collision.gameObject.GetComponent<DamageableObject>();
+                if (dmgobj != null) {
+                    PhotonView pv = PhotonView.Get(dmgobj);
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
+                        FlashHitMarker(false);
+                    }
                 }
             }
             foreach (string effect in NetworkedEffectsOnCollision) {

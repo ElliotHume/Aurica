@@ -14,7 +14,7 @@ public class TargetedSpell : Spell {
     private StatusEffect statusEffect;
     private MovementEffect movementEffect;
 
-    private bool hasActivated = false;
+    private bool hasActivated = false, durationEnded = false;
 
     void Awake() {
         statusEffect = GetComponent<StatusEffect>();
@@ -45,7 +45,7 @@ public class TargetedSpell : Spell {
             Lasting();
         }
 
-        if (FollowsTarget && TargetGO != null) {
+        if (FollowsTarget && TargetGO != null && !durationEnded) {
             transform.position = TargetGO.transform.position + PositionOffset;
         }
     }
@@ -66,8 +66,9 @@ public class TargetedSpell : Spell {
         hasActivated = true;
         if (Damage > 0f && TargetPM != null) {
             PhotonView pv = PhotonView.Get(TargetPM);
+            string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
             if (pv != null)
-                pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
         }
         Debug.Log("TARGETED SPELL STRENGTH "+GetSpellStrength());
         if (statusEffect != null) statusEffect.ManualActivation(TargetGO);
@@ -83,6 +84,7 @@ public class TargetedSpell : Spell {
     }
 
     void DisableParticlesAfterDuration() {
+        durationEnded = true;
         foreach (var effect in DeactivateObjectsAfterDuration) {
             if (effect != null) effect.SetActive(false);
         }

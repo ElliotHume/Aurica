@@ -52,7 +52,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: trap
-  Duration: 5
+  Duration: 5.6
   CastAnimationType: 6
   CastingAnchor: front
   TurnToAimPoint: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
   UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 1
   SpellStrengthChangesDuration: 0
-  DestroyTimeDelay: 8
+  DestroyTimeDelay: 6
   DeactivateObjectsAfterDuration: []
   PositionOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &1095877662436566299
@@ -92,7 +92,7 @@ MonoBehaviour:
   silence: 0
   silenceDuration: 0
   stun: 1
-  stunDuration: 5.6
+  stunDuration: 5.8
   weaken: 0
   weakenDuration: 0
   weakenDistribution:
@@ -118,7 +118,7 @@ MonoBehaviour:
   fragilePercentage: 0
   tough: 1
   toughDuration: 5.6
-  toughPercentage: 60
+  toughPercentage: 90
   changeManaRegen: 0
   changeDuration: 0
   changePercentage: 0

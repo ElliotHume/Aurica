@@ -63,7 +63,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (isConnecting) {
             // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
             RoomOptions roomOptions = new RoomOptions();
-            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinOrCreateRoom(roomName.ToLower(), roomOptions, TypedLobby.Default);
             isConnecting = false;
         }
     }
@@ -132,7 +132,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
             PhotonNetwork.GameVersion = gameVersion;
         } else {
             RoomOptions roomOptions = new RoomOptions();
-            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinOrCreateRoom(roomName.ToLower(), roomOptions, TypedLobby.Default);
         }
     }
 

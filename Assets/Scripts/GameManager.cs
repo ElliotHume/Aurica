@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsConnected) {
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position, transform.rotation, 0);
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, transform.position + (UnityEngine.Random.insideUnitSphere * 5f), transform.rotation, 0);
                 } else {
                     // Go back to the launcher, as the connection has failed at some point (or you are loading the game from the wrong scene)
                     Cursor.lockState = CursorLockMode.None;
@@ -124,8 +124,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Public Methods
 
 
-    public void LeaveRoom()
-    {
+    public void LeaveRoom() {
         PhotonNetwork.LeaveRoom();
         Cursor.lockState = CursorLockMode.None;
     }

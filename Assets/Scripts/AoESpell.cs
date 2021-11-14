@@ -70,7 +70,7 @@ public class AoESpell : Spell {
                     if (td != null) {
                         PhotonView pv = PhotonView.Get(td);
                         if (pv != null) {
-                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson());
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
                             FlashHitMarker(true);
                         }
                     }

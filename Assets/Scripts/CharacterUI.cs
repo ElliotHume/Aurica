@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 
 public class CharacterUI : MonoBehaviour {
 
     [Tooltip("UI Text to display Player's Name")]
     [SerializeField]
-    private Text playerNameText;
+    private TMP_Text playerNameText;
 
     [Tooltip("UI Slider to display Player's Health")]
     [SerializeField]
     private Slider playerHealthSlider;
     public Transform cam;
 
-    public Color baseColor = Color.black, statusEffectColor = Color.white;
+    public Color baseColor = Color.white, statusEffectColor = Color.yellow;
 
 
     private PlayerManager target;
