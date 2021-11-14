@@ -16,7 +16,6 @@ public class Launcher : MonoBehaviourPunCallbacks {
 
     public InputField roomNameField;
     public Text ArenaText;
-    public BlinkingText UsernameHintText;
 
     public UnityEvent OnStart;
 
@@ -35,8 +34,6 @@ public class Launcher : MonoBehaviourPunCallbacks {
     // Start is called before the first frame update
     void Start() {
         // Connect();
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
 
         if (roomNameField != null) {
             if (PlayerPrefs.HasKey(roomNamePlayerPrefKey)) {
@@ -122,7 +119,6 @@ public class Launcher : MonoBehaviourPunCallbacks {
     /// </summary>
     public void Connect() {
         if (PhotonNetwork.NickName == string.Empty) {
-            UsernameHintText.Fire();
             return;
         }
 
