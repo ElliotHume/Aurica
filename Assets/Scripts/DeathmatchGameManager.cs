@@ -275,6 +275,6 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {
-        if (PhotonNetwork.IsMasterClient) photonView.RPC("EndMatch", RpcTarget.All, 2);
+        if (PhotonNetwork.IsMasterClient && matchStarted) photonView.RPC("EndMatch", RpcTarget.All, 2);
     }
 }

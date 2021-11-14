@@ -6,7 +6,7 @@ using TMPro;
 
 public class AuraCreator : MonoBehaviour
 {
-    public float POWER_THRESHOLD = 3.25f, FLUX = 0.4f, WEAKNESS_MULTIPLIER = 0.66f;
+    public float POWER_THRESHOLD = 3.25f, FLUX = 0.1f, WEAKNESS_MULTIPLIER = 0.66f;
 
     public DistributionUIDisplayValues questionnaireSectionAuraValues, auraGenerationSectionValues;
     public Dropdown question1, question2, question3, question4, question5, question6, question7, question8, question9, question10, question11, question12, question13;
@@ -17,7 +17,7 @@ public class AuraCreator : MonoBehaviour
     private List<string> answers;
     private List<Dropdown> questions;
 
-    private ManaDistribution offsets, finalOffsets;
+    private ManaDistribution offsets, finalOffsets, finalAura;
 
     // Start is called before the first frame update
     void Start() {
@@ -302,12 +302,17 @@ public class AuraCreator : MonoBehaviour
             offsetAccurate = ( finalOffsets.structure * structure >= 0.0 && Mathf.Abs(structure) >= Mathf.Abs(finalOffsets.structure)/2f ) && ( finalOffsets.essence * essence >= 0.0 && Mathf.Abs(essence) >= Mathf.Abs(finalOffsets.essence)/2f) && (finalOffsets.nature * nature >= 0.0 && Mathf.Abs(nature) >= Mathf.Abs(finalOffsets.nature)/2f);
         }
 
-        ManaDistribution finalAura = new ManaDistribution(structure, essence, fire, water, earth, air, nature);
+        finalAura = new ManaDistribution(structure, essence, fire, water, earth, air, nature);
         Debug.Log("GENERATED AURA: ["+finalAura.ToString()+"]");
 
         auraGenerationSectionValues.SetDistribution(finalAura);
         aggregatePowerText.text = "Aggregate power: "+aggregatePower.ToString();
         AuraText.text = "["+finalAura.ToString()+"]";
         AuraJson.text = finalAura.GetJson();
+    }
+
+    public ManaDistribution GetRandomAura() {
+        GenerateAura();
+        return finalAura;
     }
 }

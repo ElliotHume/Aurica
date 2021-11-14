@@ -13,16 +13,22 @@ public class Aura : MonoBehaviourPun {
 
     void Start() {
         player = GetComponent<PlayerManager>();
-        playerName = player.photonView.Owner.NickName;
-        Debug.Log("Trying to load aura file: " + playerName + "-aura");
-        TextAsset auraFile = Resources.Load<TextAsset>("Auras/" + playerName + "-aura");
+        if (PlayerPrefs.HasKey("Aura")) {
+            Debug.Log("Found aura in PlayerPrefs");
+            AuraDistribution = new ManaDistribution(PlayerPrefs.GetString("Aura"));
+        } else {
+            playerName = player.photonView.Owner.NickName;
+            Debug.Log("Trying to load aura file: " + playerName + "-aura");
+            TextAsset auraFile = Resources.Load<TextAsset>("Auras/" + playerName + "-aura");
 
-        // No personal aura was found, use default
-        if (auraFile == null) auraFile = Resources.Load<TextAsset>("Auras/default-aura");
+            // No personal aura was found, use default
+            if (auraFile == null) auraFile = Resources.Load<TextAsset>("Auras/default-aura");
 
-        if (auraFile != null) {
-            AuraDistribution = JsonUtility.FromJson<ManaDistribution>(auraFile.text);
+            if (auraFile != null) {
+                AuraDistribution = JsonUtility.FromJson<ManaDistribution>(auraFile.text);
+            }
         }
+        
 
         InnateStrength = CalculateInnateStrengths();
 

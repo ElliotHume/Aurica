@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -10,7 +12,10 @@ public class PlayfabLauncherManager : MonoBehaviourPun
 {
 
     public TMP_Text MessageText;
-    public TMP_InputField EmailField, PasswordField;
+    public InputField UsernameField, EmailField, PasswordField, ResetPasswordEmailField;
+    public AuraCreator auraCreator;
+
+    public UnityEvent OnLogin;
 
     private string AuraText;
 
@@ -25,9 +30,10 @@ public class PlayfabLauncherManager : MonoBehaviourPun
         }
 
         var request = new RegisterPlayFabUserRequest {
+            Username = UsernameField.text,
             Email = EmailField.text,
             Password = PasswordField.text,
-            RequireBothUsernameAndEmail = false
+            TitleId = "FAEE6"
         };
         PlayFabClientAPI.RegisterPlayFabUser(request, OnRegisterSuccess, OnError);
     }
@@ -37,11 +43,12 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     }
 
     public void LoginButton() {
-        var request = new LoginWithEmailAddressRequest {
-            Email = EmailField.text,
-            Password = PasswordField.text
+        var request = new LoginWithPlayFabRequest {
+            Username = UsernameField.text,
+            Password = PasswordField.text,
+            TitleId = "FAEE6"
         };
-        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnError);
+        PlayFabClientAPI.LoginWithPlayFab(request, OnLoginSuccess, OnError);
     }
 
     void OnLoginSuccess(LoginResult result) {
@@ -50,11 +57,15 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     }
 
     public void ResetPasswordButton () {
-
+        var request = new SendAccountRecoveryEmailRequest {
+            Email = ResetPasswordEmailField.text,
+            TitleId = "FAEE6"
+        };
+        PlayFabClientAPI.SendAccountRecoveryEmail(request, OnPasswordReset, OnError);
     }
 
     void OnPasswordReset(SendAccountRecoveryEmailResult result) {
-
+        MessageText.text = "Password reset email sent!";
     }
 
     
@@ -67,33 +78,47 @@ public class PlayfabLauncherManager : MonoBehaviourPun
         Debug.Log("Recieved player data");
 
         if (result.Data != null && result.Data.ContainsKey("Aura")) {
-
+            PlayerPrefs.SetString("Aura", result.Data["Aura"].Value);
+            OnLogin.Invoke();
         } else {
-            string playerName = PhotonNetwork.NickName;
+            string playerName = UsernameField.text;
             Debug.Log("Trying to load aura file: " + playerName + "-aura");
             TextAsset auraFile = Resources.Load<TextAsset>("Auras/" + playerName + "-aura");
-
-            // No personal aura was found, use default
-            if (auraFile == null) auraFile = Resources.Load<TextAsset>("Auras/default-aura");
 
             if (auraFile != null) {
                 ManaDistribution AuraDistribution = JsonUtility.FromJson<ManaDistribution>(auraFile.text);
                 AuraText = AuraDistribution.ToString();
+
+                SaveAura(AuraText);
+                PlayerPrefs.SetString("Aura", AuraText);
+                OnLogin.Invoke();
+            }
+
+            // No personal aura was found, generate a random aura and save it.
+            // This user can then later do the questionnaire and an admin will set their aura in the database.
+            if (auraFile == null) {
+                ManaDistribution AuraDistribution = auraCreator.GetRandomAura();
+                AuraText = AuraDistribution.ToString();
+                SaveAura(AuraText);
+                PlayerPrefs.SetString("Aura", AuraText);
+                OnLogin.Invoke();
+                Debug.Log("Randomly Rolled aura: "+AuraText);
             }
         }
     }
 
-    public void SaveAura() {
+    public void SaveAura(string AuraText) {
         var request = new UpdateUserDataRequest {
             Data = new Dictionary<string, string> {
-                {"Aura", ""}
+                {"Aura", AuraText}
             }
         };
         PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
     }
 
     void OnDataSend(UpdateUserDataResult result) {
-
+        MessageText.text = "Personal Aura saved to cloud services: ["+AuraText+"]";
+        Debug.Log("Player Aura Sent to Cloud : "+AuraText);
     }
 
     void OnError(PlayFabError error) {
