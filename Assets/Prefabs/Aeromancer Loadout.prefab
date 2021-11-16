@@ -5169,6 +5169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883160ca88d530d4685ae2cb3af238ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keybind: 
   key1: 1
   key2: 1
   key3: 1
@@ -5180,15 +5181,15 @@ MonoBehaviour:
   spell1: {fileID: 11400000, guid: 358e9df03dc6e4a7e803c12d9d689607, type: 2}
   spell2: {fileID: 11400000, guid: 2cb9c762dcfd237429fc205bd204a3b9, type: 2}
   spell3: {fileID: 0}
-  spell4: {fileID: 0}
+  spell4: {fileID: 11400000, guid: f0a11c4d9c7122b439347e3e0fbdadd0, type: 2}
   spellQ: {fileID: 11400000, guid: 449ef7560995d8247ac9dab4599bcccb, type: 2}
   spellE: {fileID: 11400000, guid: 05bfe659fddf1a1439d1b0a5714a1865, type: 2}
   spellR: {fileID: 0}
   spellF: {fileID: 11400000, guid: e93cd03b9eaeede4cb51a6ab28bdc241, type: 2}
   spell1Text: 
   spell2Text: 
-  spell3Text: attack, sphere, other, target, aerai
-  spell4Text: summon, wall, form, sustain, aerai
+  spell3Text: attack, sphere, other, target
+  spell4Text: 
   spellQText: 
   spellEText: 
   spellRText: attack, sphere, other, propel, aerai

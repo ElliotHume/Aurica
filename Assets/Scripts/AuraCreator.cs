@@ -9,6 +9,7 @@ public class AuraCreator : MonoBehaviour
     public float POWER_THRESHOLD = 3.25f, FLUX = 0.1f, WEAKNESS_MULTIPLIER = 0.66f;
 
     public DistributionUIDisplayValues questionnaireSectionAuraValues, auraGenerationSectionValues;
+    public DistributionUIDisplay auraGenerationSectionDisplay;
     public Dropdown question1, question2, question3, question4, question5, question6, question7, question8, question9, question10, question11, question12, question13;
 
     public TMP_InputField Structure, Essence, Fire, Water, Earth, Air, Nature, AuraText, AuraJson;
@@ -41,12 +42,13 @@ public class AuraCreator : MonoBehaviour
         questions.Add(question13);
 
         answerOffsets.Add("1: inner peace", new ManaDistribution(0, 0, 0, 0.05f, 0, 0, 0));
-        answerOffsets.Add("1: status among peers", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.05f));
-        answerOffsets.Add("1: power above all others", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.05f));
+        answerOffsets.Add("1: societal status", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.05f));
+        answerOffsets.Add("1: power", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.05f));
         answerOffsets.Add("1: invulnerability", new ManaDistribution(0, 0, 0, 0, 0.05f, 0, 0));
         answerOffsets.Add("1: structured progress", new ManaDistribution(0.05f, 0, 0, 0, 0, 0, 0));
         answerOffsets.Add("1: freedom of movement", new ManaDistribution(0, 0, 0, 0, 0, 0.05f, 0));
         answerOffsets.Add("1: unbounded choice", new ManaDistribution(-0.05f, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("1: uncompromising willpower", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.05f));
         answerOffsets.Add("1: passion manifested", new ManaDistribution(0, 0, 0.05f, 0, 0, 0, 0));
         answerOffsets.Add("1: ingenuity", new ManaDistribution(-0.05f, 0, 0, 0, 0, 0, 0));
         answerOffsets.Add("1: fairness and balance", new ManaDistribution(0, -0.05f, 0, 0, 0, 0, 0));
@@ -70,16 +72,16 @@ public class AuraCreator : MonoBehaviour
         answerOffsets.Add("2: mindfulness", new ManaDistribution(0, 0, 0, 0.1f, 0, 0, 0));
         answerOffsets.Add("2: awareness", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.1f));
 
-        answerOffsets.Add("3: lasting health", new ManaDistribution(0, 0.1f, 0, 0, 0, 0, 0));
-        answerOffsets.Add("3: inner peace", new ManaDistribution(0, 0, 0, 0.1f, 0, 0, 0));
-        answerOffsets.Add("3: right unfairness", new ManaDistribution(0, -0.1f, 0, 0, 0, 0, 0));
-        answerOffsets.Add("3: full comprehension", new ManaDistribution(0.1f, 0, 0, 0, 0, 0, 0));
-        answerOffsets.Add("3: break obligations", new ManaDistribution(-0.1f, 0, 0, 0, 0, 0, 0));
-        answerOffsets.Add("3: defend things", new ManaDistribution(0, 0, 0, 0, 0.1f, 0, 0));
-        answerOffsets.Add("3: provide guidance", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.1f));
-        answerOffsets.Add("3: gain wealth at a cost", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.1f));
-        answerOffsets.Add("3: passion power", new ManaDistribution(0, 0, 0.1f, 0, 0, 0, 0));
-        answerOffsets.Add("3: move freely", new ManaDistribution(0, 0, 0, 0, 0, 0.1f, 0));
+        answerOffsets.Add("3: lasting perfect health", new ManaDistribution(0, 0.1f, 0, 0, 0, 0, 0));
+        answerOffsets.Add("3: complete inner peace", new ManaDistribution(0, 0, 0, 0.1f, 0, 0, 0));
+        answerOffsets.Add("3: right unfairness within a local scale", new ManaDistribution(0, -0.1f, 0, 0, 0, 0, 0));
+        answerOffsets.Add("3: fully comprehend anything you can see", new ManaDistribution(0.1f, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("3: break any and all obligations for yourself and those around you, with greatly lessened consequences", new ManaDistribution(-0.1f, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("3: defend anything with a physical form from all harm, within a local scale", new ManaDistribution(0, 0, 0, 0, 0.1f, 0, 0));
+        answerOffsets.Add("3: to always be able to provide relevant and good guidance", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.1f));
+        answerOffsets.Add("3: gain massive wealth, at the cost of having your memories fade away at the age of 80", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.1f));
+        answerOffsets.Add("3: a power that grows stronger as your passion increases", new ManaDistribution(0, 0, 0.1f, 0, 0, 0, 0));
+        answerOffsets.Add("3: move freely, no physical constraints can hold you", new ManaDistribution(0, 0, 0, 0, 0, 0.1f, 0));
         answerOffsets.Add("3: unlimited imagination", new ManaDistribution(-0.05f, 0, 0, 0, 0, 0, 0));
 
         answerOffsets.Add("4: yes", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.1f));
@@ -89,7 +91,10 @@ public class AuraCreator : MonoBehaviour
         answerOffsets.Add("5: 1", new ManaDistribution(0, 0.4f, 0, 0, 0, 0, 0));
         answerOffsets.Add("5: 2", new ManaDistribution(0, 0.25f, 0, 0, 0, 0, 0));
         answerOffsets.Add("5: 3", new ManaDistribution(0, 0.1f, 0, 0, 0, 0, 0));
-        answerOffsets.Add("5: 4-7", new ManaDistribution(0, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("5: 4", new ManaDistribution(0, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("5: 5", new ManaDistribution(0, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("5: 6", new ManaDistribution(0, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("5: 7", new ManaDistribution(0, 0, 0, 0, 0, 0, 0));
         answerOffsets.Add("5: 8", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.1f));
         answerOffsets.Add("5: 9", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.25f));
         answerOffsets.Add("5: 10", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.4f));
@@ -165,19 +170,17 @@ public class AuraCreator : MonoBehaviour
         answerOffsets.Add("12: divine", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.1f));
         answerOffsets.Add("12: demonic", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.1f));
 
-        answerOffsets.Add("13: wizard", new ManaDistribution(0, 0, 0, 0, 0, 0, 0)); // Special case
-        answerOffsets.Add("13: sorcerer", new ManaDistribution(0, 0, 0, 0, 0, 0, 0)); // Special case
-        answerOffsets.Add("13: elementalist", new ManaDistribution(0, 0, 0.075f, 0.075f, 0.075f, 0.075f, 0));
-        answerOffsets.Add("13: architect", new ManaDistribution(0.2f, 0, 0, 0, 0, 0, 0));
-        answerOffsets.Add("13: witch", new ManaDistribution(-0.2f, 0, 0, 0, 0, 0, 0));
-        answerOffsets.Add("13: white mage", new ManaDistribution(0, 0.2f, 0, 0, 0, 0, 0));
-        answerOffsets.Add("13: black mage", new ManaDistribution(0, -0.2f, 0, 0, 0, 0, 0));
-        answerOffsets.Add("13: infernomancer", new ManaDistribution(0, 0, 0.2f, 0, 0, 0, 0));
-        answerOffsets.Add("13: aquamancer", new ManaDistribution(0, 0, 0, 0.2f, 0, 0, 0));
-        answerOffsets.Add("13: terramancer", new ManaDistribution(0, 0, 0, 0, 0.2f, 0, 0));
-        answerOffsets.Add("13: aeromancer", new ManaDistribution(0, 0, 0, 0, 0, 0.2f, 0));
-        answerOffsets.Add("13: nephilim", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.2f));
-        answerOffsets.Add("13: warlock", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.2f));
+        answerOffsets.Add("13: elementalist - student of all natural elements (fire, water, earth, air)", new ManaDistribution(0, 0, 0.075f, 0.075f, 0.075f, 0.075f, 0));
+        answerOffsets.Add("13: architect - structure mana and spells into great works of progression", new ManaDistribution(0.2f, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("13: witch - deal in curses and blessings, with a taste for the bizarre", new ManaDistribution(-0.2f, 0, 0, 0, 0, 0, 0));
+        answerOffsets.Add("13: white mage - imbued with life mana, their healing and physical abilities are unmatched", new ManaDistribution(0, 0.2f, 0, 0, 0, 0, 0));
+        answerOffsets.Add("13: black mage - a death mage, not a necromancer, black mages deal in fairness and balance", new ManaDistribution(0, -0.2f, 0, 0, 0, 0, 0));
+        answerOffsets.Add("13: infernomancer - incredible combat power with the use of expert fire and light spells", new ManaDistribution(0, 0, 0.2f, 0, 0, 0, 0));
+        answerOffsets.Add("13: aquamancer - learning the way of water grants inner strength and flawless manual control", new ManaDistribution(0, 0, 0, 0.2f, 0, 0, 0));
+        answerOffsets.Add("13: terramancer - no other mage could best the defensive power of an expert earth mage", new ManaDistribution(0, 0, 0, 0, 0.2f, 0, 0));
+        answerOffsets.Add("13: aeromancer - masters of aeromancy can move as freely and quickly as the harshest winds", new ManaDistribution(0, 0, 0, 0, 0, 0.2f, 0));
+        answerOffsets.Add("13: nephilim - divine blood allows the nephilim to grant highly powerful blessings", new ManaDistribution(0, 0, 0, 0, 0, 0, 0.2f));
+        answerOffsets.Add("13: warlock - make pacts with other magical beings for massive power, at ever lowering cost", new ManaDistribution(0, 0, 0, 0, 0, 0, -0.2f));
     }
 
     public void RefreshAnswers() {
@@ -189,18 +192,13 @@ public class AuraCreator : MonoBehaviour
         foreach (Dropdown question in questions) {
             if (question == null && question.gameObject.activeInHierarchy) continue;
             answerText = (""+index+": "+question.options[question.value].text).ToLower();
-            offsets += answerOffsets[answerText];
-
-            // Special cases
-            switch (answerText) {
-                case "13: wizard":
-                    if (offsets.nature > 0) {
-                        offsets -= new ManaDistribution(0,0,0,0,0,0, Mathf.Max(0.2f, offsets.nature));
-                    } else if (offsets.nature < 0) {
-                        offsets += new ManaDistribution(0,0,0,0,0,0, Mathf.Max(0.2f, -offsets.nature));
-                    }
-                    break;
+            try {
+                // Debug.Log("ANSWER: "+answerText+"     CURRENT OFFSETS: "+offsets.ToString()+"    ADD DIST: "+answerOffsets[answerText].ToString()+"     POST-ADD DIST: "+(offsets + answerOffsets[answerText]).ToString());
+                offsets = offsets + answerOffsets[answerText];
+            } catch {
+                Debug.LogError("ANSWER HAS NO VALID OPTION -> "+answerText);
             }
+            
 
             answers.Add(answerText);
             index++;
@@ -216,6 +214,7 @@ public class AuraCreator : MonoBehaviour
     }
 
     public void RefreshFinalOffsetTexts() {
+        if (Structure == null) return;
         Structure.text = finalOffsets.structure.ToString();
         Essence.text = finalOffsets.essence.ToString();
         Fire.text = finalOffsets.fire.ToString();
@@ -306,12 +305,30 @@ public class AuraCreator : MonoBehaviour
         Debug.Log("GENERATED AURA: ["+finalAura.ToString()+"]");
 
         auraGenerationSectionValues.SetDistribution(finalAura);
-        aggregatePowerText.text = "Aggregate power: "+aggregatePower.ToString();
-        AuraText.text = "["+finalAura.ToString()+"]";
-        AuraJson.text = finalAura.GetJson();
+        if (auraGenerationSectionDisplay != null) auraGenerationSectionDisplay.SetDistribution(finalAura);
+
+        aggregatePowerText.text = "Max Mana Pool: "+(aggregatePower * 100f).ToString();
+        if (AuraText != null) AuraText.text = "["+finalAura.ToString()+"]";
+        if (AuraJson != null) AuraJson.text = finalAura.GetJson();
+    }
+
+    public void GenerateAuraFromQuestionnaire() {
+        RefreshAnswers();
+        finalOffsets = offsets;
+        GenerateAura();
+    }
+
+    public void GenerateAuraRandomly() {
+        finalOffsets = new ManaDistribution();
+        GenerateAura();
+    }
+
+    public ManaDistribution GetFinalAura() {
+        return finalAura;
     }
 
     public ManaDistribution GetRandomAura() {
+        finalOffsets = new ManaDistribution();
         GenerateAura();
         return finalAura;
     }

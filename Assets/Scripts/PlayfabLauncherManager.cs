@@ -14,6 +14,7 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     public TMP_Text MessageText;
     public InputField UsernameField, EmailField, PasswordField, ResetPasswordEmailField;
     public AuraCreator auraCreator;
+    public GameObject questionnairePanel;
 
     public UnityEvent OnLogin;
 
@@ -114,12 +115,7 @@ public class PlayfabLauncherManager : MonoBehaviourPun
             // No personal aura was found, generate a random aura and save it.
             // This user can then later do the questionnaire and an admin will set their aura in the database.
             if (auraFile == null) {
-                ManaDistribution AuraDistribution = auraCreator.GetRandomAura();
-                AuraText = AuraDistribution.ToString();
-                SaveAura(AuraText);
-                PlayerPrefs.SetString("Aura", AuraText);
-                OnLogin.Invoke();
-                Debug.Log("Randomly Rolled aura: "+AuraText);
+                questionnairePanel.SetActive(true);
             }
         }
     }
@@ -136,6 +132,15 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     void OnDataSend(UpdateUserDataResult result) {
         MessageText.text = "Personal Aura saved to cloud services: ["+AuraText+"]";
         Debug.Log("Player Aura Sent to Cloud : "+AuraText);
+    }
+
+    public void SaveQuestionnaireAuraResults() {
+        ManaDistribution AuraDistribution = auraCreator.GetFinalAura();
+        Debug.Log("Rolled aura: "+AuraText);
+        AuraText = AuraDistribution.ToString();
+        SaveAura(AuraText);
+        PlayerPrefs.SetString("Aura", AuraText);
+        OnLogin.Invoke();
     }
 
     void OnError(PlayFabError error) {
