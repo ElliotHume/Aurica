@@ -14,13 +14,15 @@ public class CharacterUI : MonoBehaviour {
     [Tooltip("UI Slider to display Player's Health")]
     [SerializeField]
     private Slider playerHealthSlider;
+
+    public GameObject boostIndicator;
     public Transform cam;
 
     public Color baseColor = Color.white, statusEffectColor = Color.yellow;
 
 
     private PlayerManager target;
-    private bool hidden = false;
+    private bool hidden = false, showingBoost = true;
     private Color initialColor;
     
 
@@ -55,6 +57,14 @@ public class CharacterUI : MonoBehaviour {
         if (target.weakened) statusEffects.Add("WEAK");
         if (target.slowFall) statusEffects.Add("SLOW FALL");
         if (target.manaRestorationChange) statusEffects.Add("ALTERED MANA");
+
+        if (target.hasBoost && !showingBoost) {
+            boostIndicator.SetActive(true);
+            showingBoost = true;
+        } else if (!target.hasBoost && showingBoost) {
+            boostIndicator.SetActive(false);
+            showingBoost = false;
+        }
 
         if (statusEffects.Count == 0) {
             ResetStatusEffects();

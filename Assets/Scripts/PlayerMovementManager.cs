@@ -5,10 +5,13 @@ using Photon.Pun;
 
 public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f, SlowFallAccelerantScaling = 0.1f;
+    public Vector3 GroundBoostVector, JumpBoostVector;
+    public float BoostDistance=200f, BoostSpeed=1f;
     public AudioSource footStepSource;
     public AudioClip[] footsteps;
     public AudioSource jumpSource;
     public AudioClip[] jumpingSounds;
+    public AudioSource boostSound;
 
     [Header("Player Grounded")]
     [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -223,6 +226,12 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 
         animator.SetBool("FreeFall", !Grounded);
+    }
+
+    public void Boost() {
+        Vector3 boostDirection = jumping ? JumpBoostVector : GroundBoostVector;
+        Displace(boostDirection, BoostDistance, BoostSpeed, false);
+        if (boostSound != null) boostSound.Play();
     }
 
     public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {

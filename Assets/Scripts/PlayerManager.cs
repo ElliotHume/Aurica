@@ -55,6 +55,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public bool dead = false;
 
+    [HideInInspector]
+    public bool hasBoost = true;
+    [HideInInspector]
+    public float BoostCooldown = 100f;
+    public float boostCooldownMultiplier = 5f;
+
     public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound, HitMarkerAoESound;
 
     private Animator animator;
@@ -63,7 +69,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, sneaking = false;
     private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
     private PlayerMovementManager movementManager;
-    private HealthBar healthBar, manaBar;
+    private HealthBar healthBar, manaBar, boostCooldownBar1, boostCooldownBar2;
+    private GameObject boostIndicator1, boostIndicator2;
+    private bool hasBoostCharge1, hasBoostCharge2;
+    private float boostCharge1, boostCharge2;
     private Crosshair crosshair;
     private float maxMana, maxHealth, defaultManaRegen;
     private Spell cachedSpellComponent;
@@ -76,6 +85,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     private DamagePopup accumulatingDamagePopup;
     private string lastPlayerToDamageSelf;
+    
 
 
     /* ----------------- STATUS EFFECTS ---------------------- */
@@ -203,6 +213,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         maxMana = Mana;
         maxHealth = Health;
 
+        boostCharge1 = BoostCooldown;
+        boostCharge2 = BoostCooldown;
+
         ManaRegen *= GameManager.GLOBAL_PLAYER_MANA_REGEN_MULTIPLIER;
         ManaRegenGrowthRate *= GameManager.GLOBAL_PLAYER_MANA_GROWTH_MULTIPLIER;
 
@@ -242,6 +255,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
+        boostCooldownBar1 = GameObject.Find("BoostCooldownBar1").GetComponent<HealthBar>();
+        boostIndicator1 = GameObject.Find("BoostIndicator1");
+        boostCooldownBar2 = GameObject.Find("BoostCooldownBar2").GetComponent<HealthBar>();
+        boostIndicator2 = GameObject.Find("BoostIndicator2");
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
 
         aimPointAnchorManager = aimPointAnchor.GetComponent<AimpointAnchor>();
@@ -324,9 +341,39 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             if (Mana < 0f) Mana = 0f;
 
+            // Reduce cooldown for boost charges
+            if (boostCharge1 < BoostCooldown) {
+                boostCharge1 += Time.deltaTime * boostCooldownMultiplier;
+                if (hasBoostCharge1) {
+                    boostIndicator1.SetActive(false);
+                }
+                hasBoostCharge1 = false;
+            } else if (!hasBoostCharge1) {
+                boostIndicator1.SetActive(true);
+                hasBoostCharge1 = true;
+            }
+
+            if (boostCharge2 < BoostCooldown) {
+                boostCharge2 += Time.deltaTime * boostCooldownMultiplier;
+                if (hasBoostCharge2) {
+                    boostIndicator2.SetActive(false);
+                }
+                hasBoostCharge2 = false;
+            } else if (!hasBoostCharge2) {
+                boostIndicator2.SetActive(true);
+                hasBoostCharge2 = true;
+            }
+
+            hasBoost = hasBoostCharge1 || hasBoostCharge2;
+
+
             // Display health and mana values
             healthBar.SetHealth(Health);
             manaBar.SetHealth(Mana);
+
+            // Display Boost cooldowns
+            boostCooldownBar1.SetHealth(boostCharge1);
+            boostCooldownBar2.SetHealth(boostCharge2);
         }
     }
 
@@ -591,6 +638,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 CastAuricaSpell(auricaCaster.CastBindSlot("r"));
             } else if (Input.GetKeyDown("f")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("f"));
+            }
+        }
+
+        // Use Boost
+        if (Input.GetKeyDown("h") || Input.GetKeyDown("c")) {
+            if (hasBoost) {
+                movementManager.Boost();
+                PhotonNetwork.Instantiate("XCollision_Boost", transform.position, transform.rotation);
+                if (hasBoostCharge1) {
+                    boostCharge1 = 0f;
+                } else if (hasBoostCharge2) {
+                    boostCharge2 = 0f;
+                }
             }
         }
 
