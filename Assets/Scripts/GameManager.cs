@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // Bring up spell list menu
-        if (Input.GetKeyDown("c")) {
+        if (Input.GetKeyDown("z")) {
             spellListPanel.SetActive(!spellListPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
