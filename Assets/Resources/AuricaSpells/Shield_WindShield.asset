@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: EarthShield
+  m_Name: Shield_WindShield
   m_EditorClassIdentifier: 
-  c_name: Earth Shield
-  manaType: 7
-  description: Create a shield of strongly magnetized rocks. Has a very large health
-    pool and provides complete resistance to earth spells
+  c_name: Wind Shield
+  manaType: 8
+  description: Create a shield of wind that will propel the caster forward when it
+    breaks
   targetDistribution:
     structure: 0.2
-    essence: 0
-    fire: 0.1
+    essence: 0.1
+    fire: 0
     water: 0
-    earth: 1
-    air: 0
-    nature: 0
+    earth: 0
+    air: 1
+    nature: 0.25
   keyComponents:
-  - {fileID: 11400000, guid: ddab4c958b760457d8a7b68e3f8cb208, type: 2}
-  - {fileID: 11400000, guid: 3f79dc01f24dc49b7b7d35a67e0eaaf5, type: 2}
   - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
   - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  - {fileID: 11400000, guid: b681523d843b54d9d9b7481fc00f587d, type: 2}
+  - {fileID: 11400000, guid: 3ac906ae1eff3405f84ba9a716ee2556, type: 2}
   errorThreshold: 2
   isAuric: 0
-  linkedSpellResource: Spell_EarthShield
+  linkedSpellResource: Spell_Shield_WindShield

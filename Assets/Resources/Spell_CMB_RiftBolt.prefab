@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2844137161160017898}
   - component: {fileID: 2844137161160017897}
   - component: {fileID: 2844137161160017896}
+  - component: {fileID: 7029953290388890038}
   m_Layer: 6
   m_Name: Spell_CMB_RiftBolt
   m_TagString: Spell
@@ -161,6 +162,80 @@ MonoBehaviour:
   sceneViewId: 66
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7029953290388890038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2844137161160017900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Identifier: SceneObject
+  slow: 0
+  slowDuration: 0
+  slowPercentage: 0
+  hasten: 0
+  hastenDuration: 0
+  hastenPercentage: 0
+  root: 0
+  rootDuration: 0
+  ground: 0
+  groundDuration: 0
+  silence: 0
+  silenceDuration: 0
+  stun: 0
+  stunDuration: 0
+  weaken: 0
+  weakenDuration: 0
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 0
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  fragile: 0
+  fragileDuration: 0
+  fragilePercentage: 0
+  tough: 0
+  toughDuration: 0
+  toughPercentage: 0
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
+  healing: 0
+  healFlatAmount: 0
+  healPercentAmount: 0
+  manaDrain: 1
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 8
+  camouflage: 0
+  camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
+  cleanse: 0
+  cure: 0
+  isContinuous: 0
+  canHitSelf: 0
+  onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &2844518516275889388
 GameObject:
   m_ObjectHideFlags: 0

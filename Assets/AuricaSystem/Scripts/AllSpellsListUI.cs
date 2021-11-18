@@ -20,7 +20,7 @@ public class AllSpellsListUI : MonoBehaviour
     {
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
         allSpellsList = new List<AuricaSpell>(allSpells);
-        // allSpellsList.Sort((a, b) => a.manaType.CompareTo(b.manaType) == 0 ? a.c_name.CompareTo(b.c_name) : a.manaType.CompareTo(b.manaType));
+        allSpellsList.Sort((a, b) => a.c_name.CompareTo(b.c_name));
         rect = GetComponent<RectTransform>();
         PopulateList();
         spellListPanelGameObject.SetActive(false);
@@ -53,7 +53,7 @@ public class AllSpellsListUI : MonoBehaviour
 
         switch(orderType) {
             case "alphabetic":
-                allSpellsList = allSpellsList.OrderBy((n) => n.name).ToList();
+                allSpellsList = allSpellsList.OrderBy((n) => n.c_name).ToList();
                 break;
             case "spellStrength":
                 allSpellsList = allSpellsList.OrderBy((spell) => 2f-AuricaCaster.LocalCaster.GetSpellStrengthForSpell(spell)).ToList();

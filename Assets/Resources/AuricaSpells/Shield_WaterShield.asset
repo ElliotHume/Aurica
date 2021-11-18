@@ -10,25 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: WindShield
+  m_Name: Shield_WaterShield
   m_EditorClassIdentifier: 
-  c_name: Wind Shield
-  manaType: 8
-  description: Create a shield of wind that will propel the caster forward when it
-    breaks
+  c_name: Water Shield
+  manaType: 6
+  description: Create a shield of flowing water around the caster, has a moderate
+    health pool but provides great resistance to most fire and air spells, and complete
+    resistance to water spells
   targetDistribution:
-    structure: 0.2
+    structure: 0.35
     essence: 0.1
     fire: 0
-    water: 0
+    water: 1
     earth: 0
-    air: 1
-    nature: 0.25
+    air: 0
+    nature: 0
   keyComponents:
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
   - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
   - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
-  - {fileID: 11400000, guid: b681523d843b54d9d9b7481fc00f587d, type: 2}
-  - {fileID: 11400000, guid: 3ac906ae1eff3405f84ba9a716ee2556, type: 2}
   errorThreshold: 2
   isAuric: 0
-  linkedSpellResource: Spell_WindShield
+  linkedSpellResource: Spell_Shield_WaterShield

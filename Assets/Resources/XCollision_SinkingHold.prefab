@@ -9620,6 +9620,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -9670,6 +9672,7 @@ MonoBehaviour:
   canHitSelf: 1
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &8960145997470099036
 GameObject:
   m_ObjectHideFlags: 0

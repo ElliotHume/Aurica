@@ -112,8 +112,6 @@ public class AuricaCaster : MonoBehaviourPun {
     public void AddComponent(AuricaSpellComponent newComponent) {
         if (currentComponents.Count >= 10) {
             currentManaCost += 10f;
-        } else if (currentComponents.Count > 12) {
-            currentManaCost += 20f;
         }
         currentComponents.Add(newComponent);
         currentManaCost += newComponent.GetManaCost(aura.GetAura());
@@ -134,7 +132,7 @@ public class AuricaCaster : MonoBehaviourPun {
         foreach (string item in splitComponents) {
             AddComponent(item);
         }
-        return Cast();
+        return CastFinal();
     }
 
     public AuricaSpell CastSpellByObject(AuricaSpell spell) {
@@ -143,7 +141,7 @@ public class AuricaCaster : MonoBehaviourPun {
         foreach (AuricaSpellComponent component in spell.keyComponents) {
             AddComponent(component);
         }
-        return Cast();
+        return CastFinal();
     }
 
     public float GetSpellStrengthForSpell(AuricaSpell spell) {

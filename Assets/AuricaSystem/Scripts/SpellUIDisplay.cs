@@ -47,6 +47,10 @@ public class SpellUIDisplay : MonoBehaviour {
                 AuricaCaster.LocalCaster.CastBindSlot("f");
                 CheckComponents();
             }
+
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                AddComponentFromComponentDisplay();
+            }
         }
     }
 

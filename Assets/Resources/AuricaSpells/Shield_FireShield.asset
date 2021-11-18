@@ -10,26 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: WaterShield
+  m_Name: Shield_FireShield
   m_EditorClassIdentifier: 
-  c_name: Water Shield
-  manaType: 6
-  description: Create a shield of flowing water around the caster, has a moderate
-    health pool but provides great resistance to most fire and air spells, and complete
-    resistance to water spells
+  c_name: Fire Shield
+  manaType: 5
+  description: Create a shield of fire that will break quickly, but sends out a wave
+    of fire when it breaks
   targetDistribution:
-    structure: 0.35
-    essence: 0.1
-    fire: 0
-    water: 1
+    structure: -0.2
+    essence: 0
+    fire: 1
+    water: 0
     earth: 0
-    air: 0
-    nature: 0
+    air: 0.2
+    nature: -0.1
   keyComponents:
-  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
-  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
   - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
   - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
   errorThreshold: 2
   isAuric: 0
-  linkedSpellResource: Spell_WaterShield
+  linkedSpellResource: Spell_Shield_FireShield

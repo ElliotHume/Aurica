@@ -664,7 +664,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             if (!isChannelling) {
-                if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.CastFinal());
+                if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.Cast());
             } else {
                 StopBlocking();
                 auricaCaster.ResetCast();
