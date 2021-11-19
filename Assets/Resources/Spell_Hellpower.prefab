@@ -5538,7 +5538,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 5000
+        scalar: 2000
         minScalar: 5000
         maxCurve:
           serializedVersion: 2
@@ -5596,7 +5596,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 2500
+        scalar: 1500
         minScalar: 2500
         maxCurve:
           serializedVersion: 2
@@ -5654,7 +5654,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 2500
+        scalar: 1500
         minScalar: 2500
         maxCurve:
           serializedVersion: 2
@@ -15548,6 +15548,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -15589,12 +15591,16 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!114 &9085698444767215686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15777,9 +15783,9 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      minMaxState: 0
+      scalar: 1
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16366,7 +16372,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4000
+      scalar: 1000
       minScalar: 10
       maxCurve:
         serializedVersion: 2

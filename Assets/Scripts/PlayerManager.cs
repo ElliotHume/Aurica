@@ -178,6 +178,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             stream.SendNext(Health);
             stream.SendNext(Mana);
 
+            // Boost data
+            stream.SendNext(hasBoost);
+
             // Status Effect data
             stream.SendNext(slowed);
             stream.SendNext(hastened);
@@ -194,6 +197,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             // CRITICAL DATA
             this.Health = (float)stream.ReceiveNext();
             this.Mana = (float)stream.ReceiveNext();
+
+            // Boost data
+            this.hasBoost = (bool)stream.ReceiveNext();
 
             // Status Effect data
             this.slowed = (bool)stream.ReceiveNext();

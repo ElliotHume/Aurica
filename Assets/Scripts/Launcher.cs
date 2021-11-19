@@ -89,13 +89,13 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             // #Critical
             // Load the Room Level.
-            string level = "DeathmatchOpenAdvanced";
+            string level = "BattlegroundsDefault";
             switch (arena) {
                 case "FreePlay":
                     level = "Battlegrounds1";
                     break;
-                case "Default":
-                    level = "DeathmatchOpenAdvanced";
+                case "Default Free for All":
+                    level = "BattlegroundsDefault";
                     break;
                 case "Multi-level":
                     level = "Deathmatch";
@@ -103,8 +103,8 @@ public class Launcher : MonoBehaviourPunCallbacks {
                 case "Open Field":
                     level = "DeathmatchOpenGround";
                     break;
-                case "Free for all":
-                    level = "BattlegroundsDefault";
+                case "Default Deathmatch":
+                    level = "DeathmatchOpenAdvanced";
                     break;
             }
             Debug.Log("Loading Scene: "+level+" Room name: "+roomName);

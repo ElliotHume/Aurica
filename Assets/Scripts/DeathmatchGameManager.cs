@@ -52,8 +52,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     [PunRPC]
     public void AssignPlayers(string blueSideNames, string redSideNames, int blueSideLifeCount, int redSideLifeCount) {
         if (matchStarted) return;
-        blueSideLives = blueSideLifeCount * LivesPerPlayer;
-        redSideLives = redSideLifeCount * LivesPerPlayer;
+        blueSideLives = blueSideLifeCount * LivesPerPlayer + 1;
+        redSideLives = redSideLifeCount * LivesPerPlayer + 1;
 
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
         foreach( PlayerManager player in ps ) {

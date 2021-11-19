@@ -173,7 +173,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  GraphTimeMultiplier: 4
+  GraphTimeMultiplier: 15
   IsLoop: 0
 --- !u!1 &966014130
 GameObject:
@@ -348,7 +348,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  GraphTimeMultiplier: 4
+  GraphTimeMultiplier: 15
   IsLoop: 0
 --- !u!1 &1265864159
 GameObject:
@@ -523,7 +523,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  GraphTimeMultiplier: 4
+  GraphTimeMultiplier: 15
   IsLoop: 0
 --- !u!1 &1712965761
 GameObject:
@@ -698,7 +698,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  GraphTimeMultiplier: 4
+  GraphTimeMultiplier: 15
   IsLoop: 0
 --- !u!1 &451843298501248972
 GameObject:
@@ -811,7 +811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isParticleSystem: 0
   m_inputMaterial: {fileID: 2100000, guid: e46b30e3a61543741ac5265cec0ab525, type: 2}
-  m_timeToReduce: 3
+  m_timeToReduce: 15
   m_reduceFactor: 0.4
   m_upFactor: 0
 --- !u!114 &6586594435288462893
@@ -870,7 +870,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451843298624338530}
   serializedVersion: 7
-  lengthInSec: 4
+  lengthInSec: 15
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -1430,7 +1430,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 10000
+    maxNumParticles: 2500
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -1695,7 +1695,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2500
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5815,7 +5815,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isParticleSystem: 0
   m_inputMaterial: {fileID: 2100000, guid: e46b30e3a61543741ac5265cec0ab525, type: 2}
-  m_timeToReduce: 3
+  m_timeToReduce: 15
   m_reduceFactor: 0.4
   m_upFactor: 0
 --- !u!114 &6586594435288462892
@@ -5911,7 +5911,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451843299192281671}
   serializedVersion: 7
-  lengthInSec: 4
+  lengthInSec: 15
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -6736,7 +6736,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 250
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15516,7 +15516,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fcecc37f9fd6266469c1bedf9d8eb325, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15747,7 +15746,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_activeObj:
   - {fileID: 451843299639225339}
-  m_delayTime: 4
+  m_delayTime: 15
 --- !u!114 &6586594435193596740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15765,7 +15764,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
-  Duration: 6
+  Duration: 15
   CastAnimationType: 5
   CastingAnchor: transform
   TurnToAimPoint: 1
@@ -15780,7 +15779,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 5
+  DestroyTimeDelay: 15.2
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -15867,6 +15866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -15875,6 +15875,8 @@ MonoBehaviour:
   hastenPercentage: 100
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -15916,11 +15918,16 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!114 &451843300108431117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15933,6 +15940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -15941,6 +15949,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -15982,11 +15992,16 @@ MonoBehaviour:
   manaDrainPercentAmount: 20
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 0
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!114 &2583589898296109917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16004,6 +16019,7 @@ MonoBehaviour:
   displacementDirection: {x: 0, y: 0, z: 0}
   canHitSelf: 0
   isKnockback: 1
+  isVacuum: 0
   isFixed: 0
   isContinuous: 1
   clip: {fileID: 0}
@@ -20836,7 +20852,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 0a6860b05bada884593ec6dbaca61996, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20922,7 +20937,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451843300391539077}
   serializedVersion: 7
-  lengthInSec: 4
+  lengthInSec: 15
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -21747,7 +21762,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2500
+      scalar: 1000
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -25797,13 +25812,13 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451843300449076253}
   serializedVersion: 7
-  lengthInSec: 1
+  lengthInSec: 15
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -26622,7 +26637,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 4
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -26725,66 +26740,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 1
-    m_Bursts:
-    - serializedVersion: 2
-      time: 0
-      countCurve:
-        serializedVersion: 2
-        minMaxState: 0
-        scalar: 4
-        minScalar: 30
-        maxCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        minCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      cycleCount: 1
-      repeatInterval: 0.01
-      probability: 1
+    m_BurstCount: 0
+    m_Bursts: []
   SizeModule:
     enabled: 0
     curve:
