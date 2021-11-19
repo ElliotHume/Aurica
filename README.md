@@ -8,6 +8,8 @@
 This game is not intended for mass-market or publishing. This game is a testing grounds for developing the Aurica System, which is the game system for spell casting. The game has progressed through multiple prototypes due to the creators desire to play the game with others and share the game system in an way that players can get engaged in.
 The Aurica System is inherently unbalanced, but there is ongoing work to balance different factors of unfairness so that every player has an avenue of progress and gameplay that is competitively valid, you can read more on this in the wiki of the Aurica System.
 
+Due to this prototyping process the code is not very well architectured, I am very aware of this. If the game shows promise once I open it up to more players I will go through with a mass architecture refactoring.
+
 ----
 
 ### Description
@@ -19,27 +21,11 @@ There are a wealth of spell options to choose from in each battle. Currently the
 ### How to play
 To get started, download the most recent pre-release build from the releases tab here in GitHub.
 
-If you would like to take the questionnaire for Aura generation (or just take a look at it) you can find it [HERE](https://forms.gle/xeFyuSyNT5nxRr5k9). This form does not automatically update the game, your Aura will appear in the next release of the game as soon as I can process the questionnaire answers and roll your Aura.
+Once you have downloaded the game, you will be prompted to register an account. After you have created an account with a username and email you will be presented with the option to take the Aura questionnaire, which will influence how your Aura is rolled. You can also choose to skip this step and roll a completely random Aura.
 
-Once you have downloaded the game, you will see a box at the bottom of the title screen that says "Enter name...". This box is where you will put the username that is linked to your Aura (if you have one) or a name from the list below that has a preset Aura.
+Once you are logged in and have gone through the Aura generation, you will be moved onto the main menu. To get started, hit the "Free Play" button, which will put you in a  lobby where you can get a feel for the controls and choose a spell loadout to play with. There is a basic tutorial if you go through the gateway that is in front (and slightly to the right) of where you spawned in.
 
-**Preset Aura Usernames:**
-- Infernomancer
-- Aquamancer
-- Terramancer
-- Aeromancer
-- (more coming soon...)
-
-Then, hit the "Free Play" button, which will put you in a shared room where you can get a feel for the controls and choose a spell loadout to play with. There is a basic tutorial if you go through the gateway that is in front (and slightly to the right) of where you spawned in.
-
-If you want to face a friend in a match, return to the main menu and type in an agreed upon room name and hit the "Join Room" button. This will put you in the default battlegrounds, but you can change this by including a specific substring in the room name that (sorry for the awful UX there, I'm working on it).
-
-**Different Arenas:**
-Include this in your room name and it will change the arena for the match.
-- "advanced" - a much more advanced arena, this arena has multiple levels of elevation and many obstacles. I would recommend this arena for higher player numbers (2v2 or 3v3).
-- "open" - an arena with minimal obstructions, good for beginners and 1-on-1 duels.
-- "forest" - like the open arena, but with more obstacles.
-
+If you want to face a friend in a match, return to the main menu and type in an agreed upon room name and hit the "Join Room" button. This will put you in the default battlegrounds, but you can change this by including a specific substring in the room name that (sorry for the awful UX there, I'm working on it). You can select the arena using the button beside the "Join Room" button. The default arena is a free for all mode with an objective ball in the middle (that you take and dunk at the spawnpoints), but there are also team deathmatch arenas available.
 
 
 ## [Learn more about the game in the Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52) (Work in progress...)
