@@ -8,7 +8,7 @@
 This game is not intended for mass-market or publishing. This game is a testing grounds for developing the Aurica System, which is the game system for spell casting. The game has progressed through multiple prototypes due to the creators desire to play the game with others and share the game system in an way that players can get engaged in.
 The Aurica System is inherently unbalanced, but there is ongoing work to balance different factors of unfairness so that every player has an avenue of progress and gameplay that is competitively valid, you can read more on this in the wiki of the Aurica System.
 
-Due to this prototyping process the code is not very well architectured, I am very aware of this. If the game shows promise once I open it up to more players I will go through with a mass architecture refactoring.
+Due to the multi-stage prototyping process the code is not very well architectured, I am very aware of this. If the game shows promise once I open it up to more players I will go through with a mass architecture refactoring.
 
 ----
 
