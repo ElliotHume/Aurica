@@ -26,7 +26,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private Animator animator;
     private CharacterController characterController;
     private Dictionary<int, string> castAnimationTypes;
-    private bool isRooted, isStunned, isBlocking, isBeingDisplaced, jumping, running = true, casting, slowFall, groundedStatusEffect;
+    private bool isRooted, isStunned, isChannelling, isBeingDisplaced, jumping, running = true, casting, slowFall, groundedStatusEffect;
     private Vector3 playerVelocity, impact, velocity;
     private float movementSpeed, slowFallPercent, accelerant = 1f;
     private PlayerManager playerManager;
@@ -102,7 +102,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isBlocking && !isBeingDisplaced && !jumping && Grounded && !groundedStatusEffect) {
+        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isChannelling && !isBeingDisplaced && !jumping && Grounded && !groundedStatusEffect) {
             animator.SetTrigger("Jump");
             jumping = true;
         }
@@ -121,7 +121,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             running = true;
         }
 
-        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isBlocking && !isBeingDisplaced);
+        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isChannelling && !isBeingDisplaced);
         animator.SetBool("Running", running);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
@@ -131,7 +131,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!casting && !isBlocking && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
+        if (!casting && !isChannelling && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
 
         // If slowfalling and not grounded, apply upwards force to counteract gravity by a percentage amount
         if (slowFall) {
@@ -258,14 +258,20 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         movementSpeed = running ? PlayerSpeed : PlayerSpeed / 3f;
     }
 
-    public void StartBlock() {
-        isBlocking = true;
-        animator.SetBool("Blocking", isBlocking);
+    public void StartChannelling(int animationType, bool block = false) {
+        isChannelling = true;
+        animator.SetBool("Channelling", isChannelling);
+        animator.SetBool("Blocking", block);
+
+        if (!block) {
+            PlayCastingAnimation(animationType);
+        }
     }
 
-    public void StopBlock() {
-        isBlocking = false;
-        animator.SetBool("Blocking", isBlocking);
+    public void StopChannelling() {
+        isChannelling = false;
+        animator.SetBool("Channelling", isChannelling);
+        animator.SetBool("Blocking", isChannelling);
     }
 
     public void Root(bool rooted) {

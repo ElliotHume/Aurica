@@ -335,7 +335,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     if (cachedSpellComponent == null) cachedSpellComponent = channelledSpell.GetComponent<Spell>();
                     Mana -= cachedSpellComponent.ManaChannelCost * Time.deltaTime;
                 } else {
-                    StopBlocking();
+                    StopChannelling();
+                    CastFizzle();
                 }
             }
 
@@ -414,7 +415,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             SpellCraftingUIDisplay sp = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();
             if (sp != null) sp.ClearSpell();
         }
-        StopBlocking();
+        StopChannelling();
 
         // TODO: Clear any status effects
         Cleanse();
@@ -672,7 +673,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (!isChannelling) {
                 if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.Cast());
             } else {
-                StopBlocking();
+                StopChannelling();
                 auricaCaster.ResetCast();
             }
         }
@@ -714,14 +715,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         return crosshair.GetPlayerHit(tolerance);
     }
 
-    void StopBlocking() {
-        movementManager.StopBlock();
-        ChannelSpell(false);
+    void StopChannelling() {
+        movementManager.StopChannelling();
+        EndChannel();
     }
 
     [PunRPC]
     public void BreakShield() {
-        StopBlocking();
+        StopChannelling();
     }
 
     void CastFizzle() {
@@ -731,7 +732,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void CastAuricaSpell(AuricaSpell spell) {
         if (!photonView.IsMine) return;
         if (isChannelling) {
-            StopBlocking();
+            StopChannelling();
             auricaCaster.ResetCast();
             return;
         }
@@ -797,9 +798,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             particleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
             if (CastingSound != null) CastingSound.Play();
         } else {
-            // If the spell is channelled, channel it immediately
+            // If the spell is channelled, channel it immediately if its a shield, else start the channelling animation
             currentChannelledSpell = spell.linkedSpellResource;
-            ChannelSpell();
+            ShieldSpell shield = dataObject.GetComponent<ShieldSpell>(); 
+            if (shield != null) {
+                ChannelShield();
+            } else {
+                movementManager.PlayCastingAnimation(foundSpell.CastAnimationType);
+                particleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
+                if (CastingSound != null) CastingSound.Play();
+            }
+            
         }
 
         if (spellCraftingDisplay != null) {
@@ -857,9 +866,56 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         currentSpellCast = null;
     }
 
-    void ChannelSpell(bool start = true) {
+    void ChannelSpell() {
         if (photonView.IsMine) {
-            if (start && !isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
+            if (!isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
+                if (Mana - auricaCaster.GetManaCost() > 0f) {
+                    Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(5f) != null ? GetPlayerWithinAimTolerance(5f).transform : null;
+                    if (aimTransform == null) {
+                        CastFizzle();
+                        auricaCaster.ResetCast();
+                        return;
+                    }
+                    isChannelling = true;
+                    channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, aimTransform.position, aimTransform.rotation);
+                    Mana -= auricaCaster.GetManaCost();
+
+                    Spell foundSpell = channelledSpell.GetComponent<Spell>();
+                    if (foundSpell != null) {
+                        foundSpell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                        foundSpell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
+                        foundSpell.SetOwner(gameObject);
+                        Mana += foundSpell.ManaRefund;
+                    }
+
+                    ChannelledSpell channelSpell = channelledSpell.GetComponent<ChannelledSpell>();
+                    if (channelledSpell != null) {
+                        if (currentSpellIsSelfTargeted) {
+                            currentSpellIsSelfTargeted = false;
+                            channelSpell.SetTarget(gameObject);
+                        } else if (currentSpellIsOpponentTargeted) {
+                            currentSpellIsOpponentTargeted = false;
+                            GameObject target = GetPlayerWithinAimTolerance(5f);
+                            if (target != null) {
+                                channelSpell.SetTarget(target);
+                            }
+                        }
+                    }
+
+                    movementManager.StartChannelling(foundSpell.CastAnimationType, false);
+
+                    
+                } else {
+                    CastFizzle();
+                }
+                auricaCaster.ResetCast();
+            }
+        }
+    }
+
+    void ChannelShield() {
+        if (photonView.IsMine) {
+            if (!isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
                 if (Mana - auricaCaster.GetManaCost() > 0f) {
                     isChannelling = true;
                     channelledSpell = PhotonNetwork.Instantiate(currentChannelledSpell, currentCastingTransform.position, currentCastingTransform.rotation);
@@ -879,26 +935,34 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                         if (currentShield.SpellEffectType == "shield") isShielded = true;
                     }
 
-                    movementManager.StartBlock();
+                    movementManager.StartChannelling(foundSpell.CastAnimationType, currentShield != null);
                 } else {
                     CastFizzle();
                 }
                 auricaCaster.ResetCast();
-            } else if ((!start && isChannelling) || silenced || stunned) {
-                isChannelling = false;
-                isShielded = false;
-                try {
-                    if (currentShield != null) {
-                        currentShield.Break();
-                    } else if (channelledSpell != null) {
-                        PhotonNetwork.Destroy(channelledSpell);
-                    }
-                } catch {
-                    // Do nothing, likely has already been cleaned up
-                }
-                channelledSpell = null;
             }
         }
+    }
+
+    public void EndChannel() {
+        if (!photonView.IsMine) return;
+        isChannelling = false;
+        isShielded = false;
+        try {
+            if (currentShield != null) {
+                currentShield.Break();
+            } else if (channelledSpell != null) {
+                ChannelledSpell spellChannel = channelledSpell.GetComponent<ChannelledSpell>();
+                if (spellChannel != null) {
+                    spellChannel.EndChannel();
+                } else {
+                    PhotonNetwork.Destroy(channelledSpell);
+                }
+            }
+        } catch {
+            // Do nothing, likely has already been cleaned up
+        }
+        channelledSpell = null;
     }
 
     public void EndCast() {
@@ -1171,7 +1235,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Stun(float duration) {
         if (photonView.IsMine && !stunned) {
             stunned = true;
-            ChannelSpell(false);
+            EndChannel();
             slowRoutine = StartCoroutine(StunRoutine(duration));
         }
     }
@@ -1186,7 +1250,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void ContinuousStun() {
         if (photonView.IsMine) {
-            ChannelSpell(false);
+            EndChannel();
             stunned = true;
             movementManager.Stun(true);
         }
@@ -1209,7 +1273,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Silence(float duration) {
         if (photonView.IsMine && !silenced) {
             silenced = true;
-            ChannelSpell(false);
+            EndChannel();
             silenceRoutine = StartCoroutine(SilenceRoutine(duration));
         }
     }
@@ -1222,7 +1286,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void ContinuousSilence() {
         if (photonView.IsMine) {
-            ChannelSpell(false);
+            EndChannel();
             silenced = true;
         }
     }
