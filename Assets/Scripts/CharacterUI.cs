@@ -15,7 +15,7 @@ public class CharacterUI : MonoBehaviour {
     [SerializeField]
     private Slider playerHealthSlider;
 
-    public GameObject boostIndicator;
+    public GameObject boostIndicator, boostIndicatorContainer;
     public Transform cam;
 
     public Color baseColor = Color.white, statusEffectColor = Color.yellow;
@@ -112,6 +112,7 @@ public class CharacterUI : MonoBehaviour {
         if (hidden) return;
         playerNameText.gameObject.SetActive(false);
         playerHealthSlider.gameObject.SetActive(false);
+        boostIndicatorContainer.SetActive(false);
         hidden = true;
     }
 
@@ -119,6 +120,7 @@ public class CharacterUI : MonoBehaviour {
         if (!hidden) return;
         playerNameText.gameObject.SetActive(true);
         playerHealthSlider.gameObject.SetActive(true);
+        boostIndicatorContainer.SetActive(true);
         hidden = false;
     }
 
