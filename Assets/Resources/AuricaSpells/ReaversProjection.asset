@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: ReaversProjection
+  m_EditorClassIdentifier: 
+  c_name: Reaver's Projection
+  manaType: 4
+  description: Channel an aura of deathly mana around the caster. The spell will
+    grow stronger as the channel is held.
+  targetDistribution:
+    structure: 0.15
+    essence: -0.88
+    fire: 0.07
+    water: 0
+    earth: 0.12
+    air: 0
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: 9665561dfbacb4175b289685ee628d66, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
+  - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
+  - {fileID: 11400000, guid: 8707cd8dfb1e0714b95707d9a7299cac, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  errorThreshold: 3
+  isAuric: 0
+  linkedSpellResource: Spell_ReaversProjection

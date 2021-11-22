@@ -8,8 +8,8 @@ public class ChannelledSpell : Spell {
     // AoE fields
     public bool isAoE = true;
     public float LastingDamage = 0f;
-    public bool attachToTarget = false, moveTowardsAimpoint = false, canHitSelf = false, growBeforeStart = false, SpellStrengthChangesScale = false;
-    public float StartTimeDelay = 0f, DestroyTimeDelay = 3f, MoveSpeed = 5f;
+    public bool attachToTarget = false, moveTowardsAimpoint = false, canHitSelf = false, growBeforeStart = false, DamageScaling = false, SpellStrengthChangesScale = false;
+    public float StartTimeDelay = 0f, DestroyTimeDelay = 3f, MoveSpeed = 5f, DamageScalingRate = 1f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     public Vector3 PositionOffset = Vector3.zero;
     public GameObject[] DeactivateObjectsAfterChannel;
@@ -61,6 +61,12 @@ public class ChannelledSpell : Spell {
         if ((active || growBeforeStart) && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
             transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
             if (ScalingLimit != 0f) amountOfScalingApplied += Mathf.Abs(ScalingFactor * Time.deltaTime);
+            Debug.Log("SCALING "+amountOfScalingApplied);
+        }
+
+        if (active && DamageScaling) {
+            LastingDamage += Time.deltaTime * DamageScalingRate;
+            Debug.Log("Lasting damage: "+LastingDamage);
         }
 
         if (active && spawnsEffects) {
