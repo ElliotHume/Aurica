@@ -951,6 +951,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         try {
             if (currentShield != null) {
                 currentShield.Break();
+                currentShield = null;
             } else if (channelledSpell != null) {
                 ChannelledSpell spellChannel = channelledSpell.GetComponent<ChannelledSpell>();
                 if (spellChannel != null) {
@@ -959,8 +960,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     PhotonNetwork.Destroy(channelledSpell);
                 }
             }
-        } catch {
-            // Do nothing, likely has already been cleaned up
+        } catch (System.Exception e){
+            Debug.LogError("ERROR STOPPING CHANNEL: "+e);
         }
         channelledSpell = null;
     }

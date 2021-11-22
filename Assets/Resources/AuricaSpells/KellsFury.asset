@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
-  m_Name: FireStorm
+  m_Name: KellsFury
   m_EditorClassIdentifier: 
-  c_name: Fire Storm
+  c_name: Kell's Fury
   manaType: 5
-  description: Create a concentrated area of fire that will harm anything it touches.
+  description: Channel the power of the avatar of fire, creating a very powerful
+    area of fire mana that will slowly follow where the caster directs.
   targetDistribution:
-    structure: -0.3
-    essence: -0.2
+    structure: -0.1
+    essence: -0.45
     fire: 1
     water: 0
     earth: 0
     air: 0
-    nature: -0.2
+    nature: 0.2
   keyComponents:
   - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
   - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
@@ -30,4 +31,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
   errorThreshold: 2
   isAuric: 0
-  linkedSpellResource: Spell_FireStorm
+  linkedSpellResource: Spell_KellsFury

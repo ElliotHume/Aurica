@@ -23,6 +23,7 @@ public class ChannelledSpell : Spell {
     public string[] NetworkedSpawnEffects;
     public float SpawnEffectsDelay = 0.5f, TimeBetweenSpawnEffects = 1f;
     public int MaxNumberOfEffectsSpawned = 0;
+    public float RandomSpawnSphereSize = 0f;
 
     private float effectStartTimer = 0f, effectTimer = 0f;
     private int numberOfEffectsSpawned = 0;
@@ -71,7 +72,7 @@ public class ChannelledSpell : Spell {
                     spawnEffectsStarted = true;
                 }
             } else {
-                if (MaxNumberOfEffectsSpawned != 0 && numberOfEffectsSpawned == MaxNumberOfEffectsSpawned) return;
+                if (MaxNumberOfEffectsSpawned != 0 && numberOfEffectsSpawned >= MaxNumberOfEffectsSpawned) return;
 
                 effectTimer += Time.deltaTime;
                 if (effectTimer >= TimeBetweenSpawnEffects) {
@@ -84,9 +85,14 @@ public class ChannelledSpell : Spell {
     }
 
     public void EndChannel() {
-        DisableParticlesAfterChannel();
-        DisableCollisions();
         Invoke("DestroySelf", DestroyTimeDelay);
+        DisableCollisions();
+        photonView.RPC("StopParticles", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void StopParticles() {
+        DisableParticlesAfterChannel();
     }
 
     void OnTriggerStay(Collider other) {
@@ -132,8 +138,12 @@ public class ChannelledSpell : Spell {
 
     void SpawnNetworkEffects() {
         foreach(string effect in NetworkedSpawnEffects) {
-            GameObject instance = PhotonNetwork.Instantiate(effect, transform.position, transform.rotation);
-            instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
+            Vector3 spawnPoint = transform.position;
+            Quaternion spawnRotation = transform.rotation;
+            if (RandomSpawnSphereSize > 0f) {
+                spawnPoint += Random.insideUnitSphere * RandomSpawnSphereSize;
+            }
+            GameObject instance = PhotonNetwork.Instantiate(effect, spawnPoint, spawnRotation);
             Spell instanceSpell = instance.GetComponent<Spell>();
             if (instanceSpell != null) {
                 instanceSpell.SetSpellStrength(GetSpellStrength());
@@ -149,6 +159,8 @@ public class ChannelledSpell : Spell {
 
         if (attachToTarget) {
             transform.parent = targetGO.transform;
+            transform.localPosition = PositionOffset;
+            transform.localRotation = Quaternion.identity;
         }
     }
 
@@ -158,12 +170,15 @@ public class ChannelledSpell : Spell {
 
     void DisableCollisions() {
         active = false;
-        GetComponent<Collider>().enabled = false;
+        Collider coll = GetComponent<Collider>();
+        if (coll != null) coll.enabled = false;
     }
 
     void Enable() {
         active = true;
-        GetComponent<Collider>().enabled = true;
+        Collider coll = GetComponent<Collider>();
+        if (coll != null) coll.enabled = true;
+
         foreach(var effect in EffectsOnDelayedStartup) {
             effect.Play();
         }
@@ -179,6 +194,13 @@ public class ChannelledSpell : Spell {
         ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
         foreach (var effect in particles) {
             if (effect != null) effect.Stop();
+        }
+    }
+
+    void OnDrawGizmosSelected() {
+        if (RandomSpawnSphereSize > 0f) {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, RandomSpawnSphereSize);
         }
     }
 }
