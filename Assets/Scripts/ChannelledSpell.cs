@@ -8,7 +8,7 @@ public class ChannelledSpell : Spell {
     // AoE fields
     public bool isAoE = true;
     public float LastingDamage = 0f;
-    public bool attachToTarget = false, moveTowardsAimpoint = false, canHitSelf = false, growBeforeStart = false, DamageScaling = false, SpellStrengthChangesScale = false, SpellStrengthChangesScalingSpeed=false;
+    public bool attachToTarget = false, moveTowardsAimpoint = false, turnTowardsAimpoint = false, canHitSelf = false, growBeforeStart = false, DamageScaling = false, SpellStrengthChangesScale = false, SpellStrengthChangesScalingSpeed=false;
     public float StartTimeDelay = 0f, DestroyTimeDelay = 3f, MoveSpeed = 5f, DamageScalingRate = 1f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     public Vector3 PositionOffset = Vector3.zero;
@@ -47,7 +47,7 @@ public class ChannelledSpell : Spell {
 
         if (!attachToTarget && PositionOffset != Vector3.zero) transform.position += PositionOffset;
 
-        if (moveTowardsAimpoint) {
+        if (moveTowardsAimpoint || turnTowardsAimpoint) {
             crosshair = Crosshair.Instance;
         }
     }
@@ -57,6 +57,11 @@ public class ChannelledSpell : Spell {
         if (moveTowardsAimpoint) {
             transform.position = Vector3.MoveTowards(transform.position, crosshair.GetWorldPoint(), MoveSpeed * Time.deltaTime);
         }
+        if (turnTowardsAimpoint) {
+            Vector3 direction = crosshair.GetWorldPoint() - transform.position;
+            Quaternion toRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, MoveSpeed * Time.deltaTime);
+        }
     }
 
     void FixedUpdate() {
@@ -64,12 +69,10 @@ public class ChannelledSpell : Spell {
         if ((active || growBeforeStart) && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
             transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
             if (ScalingLimit != 0f) amountOfScalingApplied += Mathf.Abs(ScalingFactor * Time.deltaTime);
-            Debug.Log("SCALING "+amountOfScalingApplied);
         }
 
         if (active && DamageScaling) {
             LastingDamage += Time.deltaTime * DamageScalingRate;
-            Debug.Log("Lasting damage: "+LastingDamage);
         }
 
         if (active && spawnsEffects) {
@@ -197,6 +200,7 @@ public class ChannelledSpell : Spell {
     }
 
     void DisableParticlesAfterChannel() {
+        transform.parent = null;
         foreach (var effect in DeactivateObjectsAfterChannel) {
             if (effect != null) effect.SetActive(false);
         }

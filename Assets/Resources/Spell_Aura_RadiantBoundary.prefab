@@ -10256,12 +10256,14 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 1
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 16
+  DestroyTimeDelay: 18
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
   PositionOffset: {x: -0.2, y: 1, z: 0}
-  DeactivateObjectsAfterDuration: []
+  DeactivateObjectsAfterDuration:
+  - {fileID: 4364852465949505464}
+  - {fileID: 4364852466773174361}
   EffectsOnDelayedStartup: []
 --- !u!135 &3392736301551290036
 SphereCollider:

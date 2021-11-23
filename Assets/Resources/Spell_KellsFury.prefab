@@ -68,12 +68,16 @@ MonoBehaviour:
   LastingDamage: 100
   attachToTarget: 0
   moveTowardsAimpoint: 1
+  turnTowardsAimpoint: 0
   canHitSelf: 1
   growBeforeStart: 0
+  DamageScaling: 0
   SpellStrengthChangesScale: 1
+  SpellStrengthChangesScalingSpeed: 0
   StartTimeDelay: 0
   DestroyTimeDelay: 6
   MoveSpeed: 5
+  DamageScalingRate: 1
   ScalingFactor: 0
   ScalingLimit: 0
   PositionOffset: {x: 0, y: 0, z: 0}
@@ -85,6 +89,7 @@ MonoBehaviour:
   SpawnEffectsDelay: 0
   TimeBetweenSpawnEffects: 0
   MaxNumberOfEffectsSpawned: 0
+  RandomSpawnSphereSize: 0
 --- !u!114 &801957174953629026
 MonoBehaviour:
   m_ObjectHideFlags: 0
