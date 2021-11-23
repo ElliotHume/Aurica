@@ -54,10 +54,10 @@ public class ChannelledSpell : Spell {
 
     void Update() {
         if (!photonView.IsMine) return;
-        if (moveTowardsAimpoint) {
+        if (active && moveTowardsAimpoint) {
             transform.position = Vector3.MoveTowards(transform.position, crosshair.GetWorldPoint(), MoveSpeed * Time.deltaTime);
         }
-        if (turnTowardsAimpoint) {
+        if (active && turnTowardsAimpoint) {
             Vector3 direction = crosshair.GetWorldPoint() - transform.position;
             Quaternion toRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, MoveSpeed * Time.deltaTime);
@@ -99,6 +99,8 @@ public class ChannelledSpell : Spell {
     public void EndChannel() {
         Invoke("DestroySelf", DestroyTimeDelay);
         DisableCollisions();
+        transform.parent = null;
+        active = false;
         photonView.RPC("StopParticles", RpcTarget.All);
     }
 
@@ -201,6 +203,7 @@ public class ChannelledSpell : Spell {
 
     void DisableParticlesAfterChannel() {
         transform.parent = null;
+        active=false;
         foreach (var effect in DeactivateObjectsAfterChannel) {
             if (effect != null) effect.SetActive(false);
         }

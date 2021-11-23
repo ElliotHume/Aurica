@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: AbjurationOfForm
+  m_EditorClassIdentifier: 
+  c_name: Abjuration of Form
+  manaType: 1
+  description: Throw a ball of ordered magic that will do a small amount of damage.
+  targetDistribution:
+    structure: 0.9
+    essence: 0.1
+    fire: 0
+    water: 0.2
+    earth: 0.15
+    air: 0.05
+    nature: 0.075
+  keyComponents:
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
+  - {fileID: 11400000, guid: 453ad9fbc5057f34397dd8a564db3663, type: 2}
+  - {fileID: 11400000, guid: 07f8bdef0352d48e6a0e79b2222f3b53, type: 2}
+  - {fileID: 11400000, guid: f94546944b5a04d9382b1a98f95a6ca9, type: 2}
+  - {fileID: 11400000, guid: 34aad9eb47bd04175a5c68a00fb64e41, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  - {fileID: 11400000, guid: 1695c1f276952436ab72f5a2f31e1c4e, type: 2}
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_AbjurationOfForm
