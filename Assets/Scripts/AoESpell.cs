@@ -36,7 +36,7 @@ public class AoESpell : Spell {
             DisableCollisions();
             Invoke("Enable", StartTimeDelay);
         }
-        Invoke("DisableParticlesAfterDuration", Duration+StartTimeDelay);
+        Invoke("EndSpell", Duration+StartTimeDelay);
 
         if (!attachToTarget && PositionOffset != Vector3.zero) transform.position += PositionOffset;
     }
@@ -171,9 +171,22 @@ public class AoESpell : Spell {
         }
     }
 
+    void EndSpell() {
+        photonView.RPC("StopParticles", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void StopParticles() {
+        DisableParticlesAfterDuration();
+    }
+
     void DisableParticlesAfterDuration() {
         foreach (var effect in DeactivateObjectsAfterDuration) {
             if (effect != null) effect.SetActive(false);
+        }
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (var effect in particles) {
+            if (effect != null) effect.Stop();
         }
     }
 }

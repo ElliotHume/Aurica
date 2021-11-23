@@ -42,7 +42,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687915408}
   serializedVersion: 7
-  lengthInSec: 10
+  lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
@@ -117,7 +117,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1171,7 +1171,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -1179,15 +1179,15 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.21176471, g: 0.41568628, b: 1, a: 0.003921569}
-        key1: {r: 0.4745098, g: 0.10980392, b: 1, a: 0.23921569}
-        key2: {r: 0.49019608, g: 0, b: 1, a: 0.99215686}
+        key0: {r: 1, g: 1, b: 1, a: 0.99215686}
+        key1: {r: 1, g: 1, b: 1, a: 0}
+        key2: {r: 0.49019608, g: 0, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 25562
+        ctime0: 0
         ctime1: 65535
         ctime2: 65535
         ctime3: 0
@@ -1195,9 +1195,9 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
-        atime1: 25047
-        atime2: 42203
+        atime0: 53585
+        atime1: 65535
+        atime2: 65535
         atime3: 65535
         atime4: 0
         atime5: 0
@@ -1205,7 +1205,7 @@ ParticleSystem:
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 4
+        m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -10392,7 +10392,7 @@ MonoBehaviour:
   healPercentAmount: 0
   manaDrain: 1
   manaDrainFlatAmount: 40
-  manaDrainPercentAmount: 40
+  manaDrainPercentAmount: 20
   camouflage: 0
   camouflageDuration: 0
   slowFall: 0

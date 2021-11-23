@@ -8,7 +8,7 @@ public class ChannelledSpell : Spell {
     // AoE fields
     public bool isAoE = true;
     public float LastingDamage = 0f;
-    public bool attachToTarget = false, moveTowardsAimpoint = false, canHitSelf = false, growBeforeStart = false, DamageScaling = false, SpellStrengthChangesScale = false;
+    public bool attachToTarget = false, moveTowardsAimpoint = false, canHitSelf = false, growBeforeStart = false, DamageScaling = false, SpellStrengthChangesScale = false, SpellStrengthChangesScalingSpeed=false;
     public float StartTimeDelay = 0f, DestroyTimeDelay = 3f, MoveSpeed = 5f, DamageScalingRate = 1f;
     public float ScalingFactor = 0f, ScalingLimit = 0f;
     public Vector3 PositionOffset = Vector3.zero;
@@ -34,6 +34,9 @@ public class ChannelledSpell : Spell {
         float spellStrength = GetSpellStrength();
         if (SpellStrengthChangesScale) {
             transform.localScale *= spellStrength;
+        }
+        if (SpellStrengthChangesScalingSpeed) {
+            ScalingFactor *= Mathf.Max(0.66f, 0.1f + GetSpellStrength());
         }
 
         if (StartTimeDelay > 0f) {

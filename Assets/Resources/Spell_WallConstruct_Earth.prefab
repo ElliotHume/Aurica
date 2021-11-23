@@ -309,19 +309,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &1500297447003348525
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1475721527577279}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8276867, y: 1.5795243, z: 0.8280005}
-  m_Center: {x: 0, y: -0.000000059591727, z: 0.00021791458}
 --- !u!1001 &1475721527719203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408,3 +395,16 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1475721527719203}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1500297447003348525
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475721527577279}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8276867, y: 1.5795243, z: 0.8280005}
+  m_Center: {x: 0, y: -0.000000059591727, z: 0.00021791458}

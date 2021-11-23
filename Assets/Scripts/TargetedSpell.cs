@@ -30,7 +30,7 @@ public class TargetedSpell : Spell {
             if (OneShotEffect && TargetGO != null) OneShot();
             Invoke("DestroySelf", DestroyTimeDelay);
         }
-        Invoke("DisableParticlesAfterDuration", Duration);
+        Invoke("EndSpell", Duration);
     }
 
     // Update is called once per frame
@@ -83,10 +83,23 @@ public class TargetedSpell : Spell {
         PhotonNetwork.Destroy(gameObject);
     }
 
+    void EndSpell() {
+        photonView.RPC("StopParticles", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void StopParticles() {
+        DisableParticlesAfterDuration();
+    }
+
     void DisableParticlesAfterDuration() {
         durationEnded = true;
         foreach (var effect in DeactivateObjectsAfterDuration) {
             if (effect != null) effect.SetActive(false);
+        }
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (var effect in particles) {
+            if (effect != null) effect.Stop();
         }
     }
 }
