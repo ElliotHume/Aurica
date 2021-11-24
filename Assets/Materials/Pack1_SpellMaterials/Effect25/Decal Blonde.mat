@@ -7,12 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Particles
-  m_Shader: {fileID: 4800000, guid: 4775e5a8f344d6348adf934e722da85d, type: 3}
-  m_ShaderKeywords: BlendAdd Clip_OFF FrameBlend_OFF FresnelFade_OFF SoftParticles_OFF
-    VertLight_OFF
-  m_LightmapFlags: 1
-  m_EnableInstancingVariants: 0
+  m_Name: Decal Blonde
+  m_Shader: {fileID: 4800000, guid: 32ed75d04da1d2348baeac9738ccd729, type: 3}
+  m_ShaderKeywords: USE_FRAME_BLENDING _BLENDMODE_BLEND
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -21,6 +20,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CutoutTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -36,15 +39,27 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DistortTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b662268751189264dba6818c71ee99cc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8964dd16ec1ba3e46a7d846bf263957b, type: 3}
+        m_Scale: {x: 0.125, y: 0.125}
+        m_Offset: {x: 0.5, y: 0.75}
+    - _Mask:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -56,40 +71,41 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - CullMode: 2
-    - DstMode: 1
-    - SrcMode: 5
+    - _AlphaPow: 0
+    - _BlendMode: 1
     - _BumpScale: 1
-    - _CoreStrength: 6
-    - _CutOutLightCore: 1
-    - _Cutoff: 0.02
-    - _Cutout: 0.15
+    - _Cutoff: 0
+    - _Cutout: 0
+    - _CutoutAlphaMul: 1
     - _DetailNormalMapScale: 1
+    - _DistortScale: 0.1
+    - _DistortSpeed: 1
     - _DstBlend: 0
-    - _FresnelStr: 1
-    - _GlossMapScale: 1
-    - _Glossiness: 0
-    - _GlossyReflections: 1
-    - _InvFade: 3000
+    - _DstMode: 10
+    - _Glossiness: 0.5
+    - _MaskPow: 0
     - _Metallic: 0
-    - _Mode: 1
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
+    - _Scale: 0
+    - _Speed: 0
     - _SrcBlend: 1
-    - _TintStrength: 6
+    - _SrcMode: 5
     - _UVSec: 0
+    - _UseAlphaPow: 0
+    - _UseCutout: 0
+    - _UseCutoutTex: 0
+    - _UseCutoutThreshold: 0
+    - _UseFrameBlending: 1
+    - _UseNoiseDistortion: 0
+    - _UseWorldSpaceUV: 0
+    - _ZTest1: 5
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _CoreColor: {r: 0.47794116, g: 0.5679513, b: 1, a: 1}
+    - _CutoutColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _TintColor: {r: 1, g: 0.7786823, b: 0.495283, a: 0.25882354}
+    - _TintColor: {r: 1, g: 0.76495415, b: 0.4575472, a: 0.12156863}
   m_BuildTextureStacks: []

@@ -60,8 +60,8 @@ Material:
     - _Distortion: -100
     - _FPOW: 1
     - _FresnelDistort: -500
-    - _FresnelPow: 3
-    - _FresnelR0: 0
+    - _FresnelPow: 1
+    - _FresnelR0: 10
     - _Height: 0
     - _InvFade: 5
     - _R0: 0
@@ -78,10 +78,11 @@ Material:
     - _ZWriteMode: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _CutoutColor: {r: 0.46107265, g: 2.4117646, b: 0.63596225, a: 1}
-    - _FresnelColor: {r: 0.17099412, g: 1, b: 0.10294128, a: 1}
+    - _CutoutColor: {r: 3.2198951, g: 2.9143746, b: 0, a: 1}
+    - _FresnelColor: {r: 1, g: 0.6448035, b: 0.10196078, a: 1}
     - _FresnelDistort: {r: 8, g: 12, b: 1, a: 1500}
     - _HeightUVScrollDistort: {r: 8, g: 12, b: 0, a: 0}
     - _MainColor: {r: 0.9338235, g: 1, b: 0.94249487, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVScrollDistort: {r: 8, g: 12, b: 1, a: 1500}
+  m_BuildTextureStacks: []
