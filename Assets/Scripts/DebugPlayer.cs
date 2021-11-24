@@ -16,13 +16,13 @@ public class DebugPlayer : MonoBehaviourPun
             if (Input.GetKeyDown("n")) {
                 CastDebugSpell("Spell_BitingWind");
             } else if (Input.GetKeyDown("m")) {
-                CastDebugSpell("Spell_ShadeSmoke");
+                CastDebugSpell("Spell_CMB_ShadeSmoke");
             } else if (Input.GetKeyDown("b")) {
                 CastDebugSpell("Spell_AuricBolt");
             } else if (Input.GetKeyDown("v")) {
-                CastDebugSpell("Spell_Condense");
+                CastDebugSpell("Spell_CMB_Condense");
             } else if (Input.GetKeyDown("l")) {
-                CastDebugSpell("Spell_EarthBound");
+                CastDebugSpell("Spell_Judgement");
             } else if (Input.GetKeyDown("j")) {
                 CastDebugSpell("Spell_ManaRealm_Chaos");
             }

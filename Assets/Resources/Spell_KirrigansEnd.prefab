@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -86,6 +87,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -123,15 +126,20 @@ MonoBehaviour:
   healFlatAmount: 0
   healPercentAmount: 0
   manaDrain: 1
-  manaDrainFlatAmount: 0
+  manaDrainFlatAmount: 20
   manaDrainPercentAmount: 20
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 0
   canHitSelf: 0
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!114 &2441772403570627654
 MonoBehaviour:
   m_ObjectHideFlags: 0

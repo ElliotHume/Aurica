@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Demonic Wall
   manaType: 10
-  description: Raise a wall of demonic energy that will harm others caught within,
-    and toughen the caster.
+  description: '[PURE SPELL VARIANT] Raise a wall of demonic energy that will harm
+    others caught within, and toughen the caster.'
   targetDistribution:
     structure: -0.2
     essence: 0
@@ -24,7 +24,12 @@ MonoBehaviour:
     earth: 0
     air: 0
     nature: -1
-  keyComponents: []
+  keyComponents:
+  - {fileID: 11400000, guid: c4acee6ed94e9bb48b4f937cd6910d1b, type: 2}
+  - {fileID: 11400000, guid: 3cf948b2b89c1d141a59b48da8203c3a, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 1e6fd499fedae463c8e2e416884ececc, type: 2}
+  - {fileID: 11400000, guid: 3b94403fe60b4433f8914e88089b077a, type: 2}
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_BattleWall_Demonic

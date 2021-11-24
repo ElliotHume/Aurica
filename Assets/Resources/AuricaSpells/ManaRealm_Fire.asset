@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Fire Realm
   manaType: 5
-  description: Create a concentrated area of fire that will harm anything it touches.
+  description: '[PURE SPELL VARIANT] Create a concentrated area of fire that will
+    harm anything it touches.'
   targetDistribution:
     structure: -0.3
     essence: -0.2
@@ -23,7 +24,12 @@ MonoBehaviour:
     earth: 0
     air: 0
     nature: -0.2
-  keyComponents: []
+  keyComponents:
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_ManaRealm_Fire

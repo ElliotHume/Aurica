@@ -188,13 +188,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (pv != null) {
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             Debug.Log(attachedSpell);
+            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
             if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
             if (hasten) pv.RPC("Hasten", RpcTarget.All, Identifier, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
             if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
             if (ground) pv.RPC("Ground", RpcTarget.All, groundDuration * multiplier);
-            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
             if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
             if (weaken) pv.RPC("Weaken", RpcTarget.All, Identifier, weakenDuration * multiplier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("Strengthen", RpcTarget.All, Identifier, strengthenDuration * multiplier, strengthenDistribution.ToString());
@@ -207,7 +207,6 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
                 } else {
                     pv.RPC("ManaRestoration", RpcTarget.All, Identifier, changeDuration * multiplier, changePercentage / 100f * multiplier);
                 }
-                
             }
             if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount / 100f * multiplier);
             if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * multiplier, manaDrainPercentAmount / 100f * multiplier);
@@ -221,6 +220,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             AffectedPlayers.Add(pv);
             Debug.Log("Activate continuous");
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
+            if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, Identifier, strengthenDistribution.ToString());
             if (changeManaRegen) pv.RPC("ContinuousManaRestoration", RpcTarget.All, Identifier, changePercentage / 100f * multiplier);
@@ -228,7 +228,6 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (hasten) pv.RPC("ContinuousHasten", RpcTarget.All, Identifier, hastenPercentage / 100f * multiplier);
             if (root) pv.RPC("ContinuousRoot", RpcTarget.All);
             if (ground) pv.RPC("ContinuousGround", RpcTarget.All);
-            if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
             if (stun) pv.RPC("ContinuousStun", RpcTarget.All);
             if (fragile) pv.RPC("ContinuousFragile", RpcTarget.All, Identifier, fragilePercentage / 100f * multiplier);
             if (tough) pv.RPC("ContinuousTough", RpcTarget.All, Identifier, toughPercentage / 100f * multiplier);
@@ -249,6 +248,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (pv != null) {
             if (modify) AffectedPlayers.Remove(pv);
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
+            if (silence) pv.RPC("EndContinuousSilence", RpcTarget.All);
             if (weaken) pv.RPC("EndContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("EndContinuousStrengthen", RpcTarget.All, Identifier, strengthenDistribution.ToString());
             if (changeManaRegen) pv.RPC("EndContinuousManaRestoration", RpcTarget.All, Identifier, changePercentage / 100f * multiplier);
@@ -256,7 +256,6 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (hasten) pv.RPC("EndContinuousHasten", RpcTarget.All, Identifier);
             if (root) pv.RPC("EndContinuousRoot", RpcTarget.All);
             if (ground) pv.RPC("EndContinuousGround", RpcTarget.All);
-            if (silence) pv.RPC("EndContinuousSilence", RpcTarget.All);
             if (stun) pv.RPC("EndContinuousStun", RpcTarget.All);
             if (fragile) pv.RPC("EndContinuousFragile", RpcTarget.All, Identifier);
             if (tough) pv.RPC("EndContinuousTough", RpcTarget.All, Identifier);

@@ -650,7 +650,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         // Use Boost
         if (Input.GetKeyDown("h") || Input.GetKeyDown("c")) {
-            if (hasBoost) {
+            if (hasBoost && !stunned && !silenced && !isShielded) {
                 movementManager.Boost();
                 PhotonNetwork.Instantiate("XCollision_Boost", transform.position, transform.rotation);
                 if (hasBoostCharge1) {
@@ -999,7 +999,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void Heal(float flat, float percentage) {
         if (photonView.IsMine) {
-            Debug.Log("HEAL FOR: ["+flat+"] flat + ["+percentage+"] percent missing health");
+            // Debug.Log("HEAL FOR: ["+flat+"] flat + ["+percentage+"] percent missing health");
             healing += (flat + ((maxHealth - Health) * percentage)) * GameManager.GLOBAL_SPELL_HEALING_MULTIPLIER;
         }
     }
@@ -1026,7 +1026,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void ManaDrain(float flat, float percentage) {
         if (photonView.IsMine) {
-            Debug.Log("Draining Mana by - flat: "+flat+" & percentage: "+percentage+" = "+(Mana * percentage));
+            // Debug.Log("Draining Mana by - flat: "+flat+" & percentage: "+percentage+" = "+(Mana * percentage));
             Mana -= flat + (Mana * percentage);
         }
     }
@@ -1042,7 +1042,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void Slow(string Identifier, float duration, float percentage) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
             if (appliedSlowEffects.Contains(Identifier)) {
                 Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
@@ -1108,7 +1108,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void Hasten(string Identifier, float duration, float percentage) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             if (appliedHasteEffects.Contains(Identifier)) return;
             appliedHasteEffects.Add(Identifier);
 
@@ -1163,7 +1163,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Rooted - Prevent movement, including movement spells
     [PunRPC]
     void Root(float duration) {
-        if (photonView.IsMine && !rooted) {
+        if (photonView.IsMine && !rooted && !isShielded) {
             rooted = true;
             rootRoutine = StartCoroutine(RootRoutine(duration));
         }
@@ -1197,7 +1197,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Grounded - Cannot be displaced
     [PunRPC]
     void Ground(float duration) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             groundedRoutine = StartCoroutine(GroundedRoutine(duration));
         }
     }
@@ -1234,7 +1234,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Stunned - Prevent moving and spellcasting, basically a stacked root and silence
     [PunRPC]
     void Stun(float duration) {
-        if (photonView.IsMine && !stunned) {
+        if (photonView.IsMine && !stunned && !isShielded) {
             stunned = true;
             EndChannel();
             slowRoutine = StartCoroutine(StunRoutine(duration));
@@ -1272,7 +1272,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Silence - Prevent spellcasting
     [PunRPC]
     void Silence(float duration) {
-        if (photonView.IsMine && !silenced) {
+        if (photonView.IsMine && !silenced && !isShielded) {
             silenced = true;
             EndChannel();
             silenceRoutine = StartCoroutine(SilenceRoutine(duration));
@@ -1309,7 +1309,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void Weaken(string Identifier, float duration, string weaknessString) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             if (appliedWeakenEffects.Contains(Identifier)) return;
             appliedWeakenEffects.Add(Identifier);
 
@@ -1368,7 +1368,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void Strengthen(string Identifier, float duration, string strengthString) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             if (appliedStrengthenEffects.Contains(Identifier)) {
                 Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
                 return;
@@ -1435,7 +1435,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void Fragile(string Identifier, float duration, float percentage) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             if (appliedFragileEffects.Contains(Identifier)) return;
             appliedFragileEffects.Add(Identifier);
 
@@ -1489,7 +1489,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void Tough(string Identifier, float duration, float percentage) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             if (appliedToughEffects.Contains(Identifier)) return;
             appliedToughEffects.Add(Identifier);
 
@@ -1542,7 +1542,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     void ManaRestoration(string Identifier, float duration, float restorationPercentage) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             if (appliedManaRestorationChangeEffects.Contains(Identifier)) return;
             appliedManaRestorationChangeEffects.Add(Identifier);
 

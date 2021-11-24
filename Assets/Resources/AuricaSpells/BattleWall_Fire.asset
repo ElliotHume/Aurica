@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Fire Wall
   manaType: 5
-  description: Raise a wall of fire that will harm others caught within, and provide
-    minor buffs to the caster.
+  description: '[PURE SPELL VARIANT] Raise a wall of fire that will harm others caught
+    within, and provide minor buffs to the caster.'
   targetDistribution:
     structure: -0.2
     essence: 0
@@ -24,7 +24,12 @@ MonoBehaviour:
     earth: 0
     air: 0
     nature: -0.2
-  keyComponents: []
+  keyComponents:
+  - {fileID: 11400000, guid: c4acee6ed94e9bb48b4f937cd6910d1b, type: 2}
+  - {fileID: 11400000, guid: 3cf948b2b89c1d141a59b48da8203c3a, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 1e6fd499fedae463c8e2e416884ececc, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_BattleWall_Fire

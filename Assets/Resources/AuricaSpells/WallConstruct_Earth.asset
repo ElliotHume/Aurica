@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Earth Wall
   manaType: 7
-  description: Raise a wall of earth.
+  description: '[PURE SPELL VARIANT] Raise a wall of earth.'
   targetDistribution:
     structure: 0.5
     essence: 0
@@ -23,7 +23,12 @@ MonoBehaviour:
     earth: 1
     air: 0
     nature: 0
-  keyComponents: []
+  keyComponents:
+  - {fileID: 11400000, guid: d82da2bc39437474b8c9d066190ac6c2, type: 2}
+  - {fileID: 11400000, guid: 3cf948b2b89c1d141a59b48da8203c3a, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  - {fileID: 11400000, guid: 1e6fd499fedae463c8e2e416884ececc, type: 2}
+  - {fileID: 11400000, guid: 3f79dc01f24dc49b7b7d35a67e0eaaf5, type: 2}
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_WallConstruct_Earth

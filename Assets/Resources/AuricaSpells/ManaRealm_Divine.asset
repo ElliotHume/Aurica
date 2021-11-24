@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Divine Realm
   manaType: 9
-  description: Create a concentrated area of divine mana that will harm anything
-    it touches. The divine realm also makes mages fragile.
+  description: '[PURE SPELL VARIANT] Create a concentrated area of divine mana that
+    will harm anything it touches. The divine realm also makes mages fragile.'
   targetDistribution:
     structure: -0.2
     essence: -0.1
@@ -24,7 +24,12 @@ MonoBehaviour:
     earth: 0
     air: 0.2
     nature: 1
-  keyComponents: []
+  keyComponents:
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_ManaRealm_Divine
