@@ -14211,7 +14211,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 23f91b7208f83a44c827c76c304e55d2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -19000,7 +19000,7 @@ Transform:
   m_GameObject: {fileID: 6938530438542363346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 6944087939675983832}
   - {fileID: 6944190295878299242}
@@ -19030,7 +19030,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 10
   SpellEffectType: shield
-  Duration: 1
+  Duration: 3
   CastAnimationType: 1
   CastingAnchor: transform
   TurnToAimPoint: 0
@@ -19038,7 +19038,8 @@ MonoBehaviour:
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
   Health: 80
-  spawnEffectsOnBreak: []
+  spawnEffectsOnBreak:
+  - {fileID: 3648293031141056047, guid: 72a0618e394e6664893cdfd40f652891, type: 3}
   networkedEffectsOnBreak: []
   networkedEffectsOnHit: []
   ShieldDistribution:
@@ -19071,7 +19072,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6939512357159097500}
   - {fileID: 6939512357159097498}
-  sceneViewId: 0
+  sceneViewId: 14
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6939512357159097498
@@ -23974,7 +23975,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 11be133b056286b44aff01674c669fae, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1.7
   Loop: 1
   Mute: 0

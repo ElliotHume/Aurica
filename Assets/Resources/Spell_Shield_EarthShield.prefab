@@ -25262,7 +25262,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 10
   SpellEffectType: shield
-  Duration: 1
+  Duration: 3
   CastAnimationType: 1
   CastingAnchor: transform
   TurnToAimPoint: 0
@@ -25270,7 +25270,8 @@ MonoBehaviour:
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
   Health: 200
-  spawnEffectsOnBreak: []
+  spawnEffectsOnBreak:
+  - {fileID: 2177185110377417233, guid: 28fc06be54a01bf49982d3397603776c, type: 3}
   networkedEffectsOnBreak: []
   networkedEffectsOnHit: []
   ShieldDistribution:
