@@ -11,6 +11,9 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public static DeathmatchGameManager Instance;
 
+
+    public float RewardsForWin = 0.01f, RewardsForLoss = 0.002f, DecreasedRewardsForWin = 0.002f, DecreasedRewardsForLoss = 0.001f;
+    public int PlayerThresholdForEnhancedRewards = 4;
     public Transform BlueSideSpawnPoint, RedSideSpawnPoint;
     public Color blueNameColor = Color.blue, redNameColor = Color.red;
     public Text blueLifeCounter, redLifeCounter, blueSidePlayerCountText, redSidePlayerCountText;

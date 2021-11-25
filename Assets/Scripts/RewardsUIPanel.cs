@@ -13,7 +13,8 @@ public class RewardsUIPanel : MonoBehaviour {
     public DistributionUIDisplay distributionDisplay;
     public DistributionUIDisplayValues distributionDisplayValues;
     public Text structureText, essenceText, fireText, waterText, earthText, airText, natureText;
-    public List<GameObject> toggleObjectsWhenPointsAvailable, toggleObjectsWhenPointsSpent;
+    public GameObject advicePanel;
+    public List<Button> toggleButtonsWhenPointsAvailable, toggleButtonsWhenPointsSpent;
 
     private ManaDistribution currentAura, addedDistribution;
     private float rewardPoints, usedRewardPoints;
@@ -33,8 +34,8 @@ public class RewardsUIPanel : MonoBehaviour {
         distributionDisplay.SetDistribution(currentAura+addedDistribution);
         distributionDisplayValues.SetDistribution(currentAura+addedDistribution);
 
-        foreach (var obj in toggleObjectsWhenPointsAvailable) obj.SetActive(rewardPoints > 0f);
-        foreach (var obj in toggleObjectsWhenPointsSpent) obj.SetActive(usedRewardPoints > 0f);
+        foreach (var obj in toggleButtonsWhenPointsAvailable) obj.interactable = (rewardPoints > 0f);
+        foreach (var obj in toggleButtonsWhenPointsSpent) obj.interactable = (usedRewardPoints > 0f);
 
         if (addedDistribution.structure == 0f) {
             structureText.color = baseValueColor;
@@ -121,11 +122,13 @@ public class RewardsUIPanel : MonoBehaviour {
                 break;
         }
         usedRewardPoints = addedDistribution.GetAggregate();
+        // Debug.Log("Used reward points: "+usedRewardPoints+"      dist: "+addedDistribution.ToString());
         Rerender();
     }
 
     public void ClosePanel() {
         Reset();
+        advicePanel.SetActive(false);
         gameObject.SetActive(false);
     }
 

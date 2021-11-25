@@ -50,7 +50,7 @@ public struct ManaDistribution {
     }
 
     public float GetAggregate() {
-        return Mathf.Abs(structure) + Mathf.Abs(essence) + fire + water + earth + air + Mathf.Abs(nature);
+        return Mathf.Abs(structure) + Mathf.Abs(essence) + Mathf.Abs(fire) + Mathf.Abs(water) + Mathf.Abs(earth) + Mathf.Abs(air) + Mathf.Abs(nature);
     }
 
     public bool IsEmpty() {

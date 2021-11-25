@@ -12,7 +12,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public static FreeForAllGameManager Instance;
 
-    public float RewardsForWin = 0.01f, RewardsForLoss = 0.002f;
+    public float RewardsForWin = 0.012f, RewardsForLoss = 0.003f;
+    public int PlayerThresholdForEnhancedRewards = 4;
+    public float DecreasedRewardsForWin = 0.004f, DecreasedRewardsForLoss = 0.001f;
     public List<Transform> Spawnpoints;
     public Color enemyColor = Color.red;
     public GameObject FreeForAllGamePanel, readyButton, resultsPanel;
@@ -25,7 +27,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public Dictionary<string, float> playerScores;
 
-    public Text VictoryText, DefeatText, ReasonText, WinnerText, SecondPlaceText, ThirdPlaceText;
+    public Text VictoryText, DefeatText, ReasonText, RewardsText, WinnerText, SecondPlaceText, ThirdPlaceText;
 
     float timer;
 
@@ -221,14 +223,27 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
         }
         // DETERMINE IF WE ARE THE WINNER, AND GIVE ACCORIDING REWARDS
+        float rewardsEarned = 0f;
         if (winners.Contains(localPlayer.GetUniqueName())) {
             VictoryText.gameObject.SetActive(true);
             DefeatText.gameObject.SetActive(false);
-            if (RewardsManager.Instance != null && playerScores.Count > 1 && reason != 2) RewardsManager.Instance.AddRewards(RewardsForWin);
+            if (RewardsManager.Instance != null && reason != 2 && playerScores.Count > 1){
+                rewardsEarned = playerScores.Count >= PlayerThresholdForEnhancedRewards ? RewardsForWin : DecreasedRewardsForWin;
+                RewardsManager.Instance.AddRewards(rewardsEarned);
+            } 
         } else {
             VictoryText.gameObject.SetActive(false);
             DefeatText.gameObject.SetActive(true);
-            if (RewardsManager.Instance != null && playerScores.Count > 1 && reason != 2) RewardsManager.Instance.AddRewards(RewardsForLoss);
+            if (RewardsManager.Instance != null && reason != 2 && playerScores.Count > 1) {
+                rewardsEarned = playerScores.Count >= PlayerThresholdForEnhancedRewards ? RewardsForLoss : DecreasedRewardsForLoss;
+                RewardsManager.Instance.AddRewards(rewardsEarned);
+            } 
+        }
+
+        if (playerScores.Count >= PlayerThresholdForEnhancedRewards) {
+            RewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+rewardsEarned.ToString();
+        } else {
+            RewardsText.text = "\nCultivation Earned: "+rewardsEarned.ToString();
         }
         
         if (winners.Count > 1) {
