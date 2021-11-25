@@ -12,6 +12,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public static FreeForAllGameManager Instance;
 
+    public float RewardsForWin = 0.01f, RewardsForLoss = 0.002f;
     public List<Transform> Spawnpoints;
     public Color enemyColor = Color.red;
     public GameObject FreeForAllGamePanel, readyButton, resultsPanel;
@@ -182,6 +183,16 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void EndMatch(int reason) {
         if (!matchStarted) return;
 
+        readyButton.SetActive(true);
+
+        SpawnLocalPlayer();
+
+        matchStarted = false;
+        score = 0f;
+        scoreText.text = "Score: "+score;
+        foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
+        if (MatchMusic != null) MatchMusic.Stop();
+
         //Display the results
         resultsPanel.SetActive(true);
 
@@ -209,12 +220,15 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
                 winners.Add(key);
             }
         }
+        // DETERMINE IF WE ARE THE WINNER, AND GIVE ACCORIDING REWARDS
         if (winners.Contains(localPlayer.GetUniqueName())) {
             VictoryText.gameObject.SetActive(true);
             DefeatText.gameObject.SetActive(false);
+            if (RewardsManager.Instance != null && playerScores.Count > 1 && reason != 2) RewardsManager.Instance.AddRewards(RewardsForWin);
         } else {
             VictoryText.gameObject.SetActive(false);
             DefeatText.gameObject.SetActive(true);
+            if (RewardsManager.Instance != null && playerScores.Count > 1 && reason != 2) RewardsManager.Instance.AddRewards(RewardsForLoss);
         }
         
         if (winners.Count > 1) {
@@ -272,19 +286,6 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         } else {
             ThirdPlaceText.gameObject.SetActive(false);
         }
-        
-
-        PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
-
-        readyButton.SetActive(true);
-
-        SpawnLocalPlayer();
-
-        matchStarted = false;
-        score = 0f;
-        scoreText.text = "Score: "+score;
         playerScores.Clear();
-        foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
-        if (MatchMusic != null) MatchMusic.Stop();
     }
 }

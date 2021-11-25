@@ -95,8 +95,12 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     void OnDataRecieved (GetUserDataResult result) {
         Debug.Log("Recieved player data");
 
-        if (result.Data != null && result.Data.ContainsKey("Aura")) {
-            PlayerPrefs.SetString("Aura", result.Data["Aura"].Value);
+        if (result.Data != null && (result.Data.ContainsKey("Aura") || result.Data.ContainsKey("ModifiedAura"))) {
+            if (result.Data.ContainsKey("ModifiedAura")) {
+                PlayerPrefs.SetString("Aura", result.Data["ModifiedAura"].Value);
+            } else if (result.Data.ContainsKey("Aura")) {
+                PlayerPrefs.SetString("Aura", result.Data["Aura"].Value);
+            }
             OnLogin.Invoke();
         } else {
             string playerName = UsernameField.text;

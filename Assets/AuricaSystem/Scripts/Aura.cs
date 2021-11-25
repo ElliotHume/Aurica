@@ -38,8 +38,28 @@ public class Aura : MonoBehaviourPun {
         AuricaCaster.LocalCaster.CacheSpellManas();
 
         if (photonView.IsMine) {
-            foreach (var item in FindObjectsOfType<AuraUIPanel>()) {
-                item.SetAura(this);
+            if (AuraUIPanel.Instance != null) {
+                AuraUIPanel.Instance.gameObject.SetActive(true);
+                AuraUIPanel.Instance.SetAura(this);
+            }
+        }
+    }
+
+    public void SetAura(ManaDistribution newAura) {
+        AuraDistribution = newAura;
+        PlayerPrefs.SetString("Aura", newAura.ToString());
+
+        InnateStrength = CalculateInnateStrengths();
+
+        Debug.Log("NEW AURA SET:  " + AuraDistribution.ToString());
+        player.SetMaxMana(AuraDistribution.GetAggregate() * 100f * GameManager.GLOBAL_PLAYER_MAX_MANA_MULTIPLIER);
+        player.ConfirmAura();
+        AuricaCaster.LocalCaster.CacheSpellManas();
+
+        if (photonView.IsMine) {
+            if (AuraUIPanel.Instance != null) {
+                AuraUIPanel.Instance.gameObject.SetActive(true);
+                AuraUIPanel.Instance.SetAura(this);
             }
         }
     }

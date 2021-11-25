@@ -28,12 +28,18 @@ public class DistributionUIDisplayValues : MonoBehaviour {
     }
 
     public void SetDistribution(ManaDistribution mana) {
-        structure.text = (mana.structure * multiplier).ToString("F2") + suffix;
-        essence.text = (mana.essence * multiplier).ToString("F2") + suffix;
-        fire.text = (mana.fire * multiplier).ToString("F2") + suffix;
-        water.text = (mana.water * multiplier).ToString("F2") + suffix;
-        earth.text = (mana.earth * multiplier).ToString("F2") + suffix;
-        air.text = (mana.air * multiplier).ToString("F2") + suffix;
-        nature.text = (mana.nature * multiplier).ToString("F2") + suffix;
+        structure.text = GetShorterString(mana.structure);
+        essence.text = GetShorterString(mana.essence);
+        fire.text = GetShorterString(mana.fire);
+        water.text = GetShorterString(mana.water);
+        earth.text = GetShorterString(mana.earth);
+        air.text = GetShorterString(mana.air);
+        nature.text = GetShorterString(mana.nature);
+    }
+
+    string GetShorterString(float mana) {
+        int comparisonLength = mana > 0f ? 5 : 6; 
+        bool useExtraPrecision = (mana * multiplier).ToString().Length >= comparisonLength;
+        return (mana * multiplier).ToString(useExtraPrecision ? "F3" : "F2") + suffix;
     }
 }

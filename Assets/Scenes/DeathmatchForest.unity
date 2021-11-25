@@ -34103,7 +34103,6 @@ GameObject:
   m_Component:
   - component: {fileID: 818667658}
   - component: {fileID: 818667657}
-  - component: {fileID: 818667659}
   - component: {fileID: 818667660}
   m_Layer: 0
   m_Name: Game Manager
@@ -34147,23 +34146,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &818667659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818667656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb0dc77ef93b607489926f0d7b44a94e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowsThatUnlockCursor:
-  - {fileID: 1166636558}
-  - {fileID: 1166636555}
-  - {fileID: 1166636556}
-  - {fileID: 1166636566}
 --- !u!114 &818667660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48217,6 +48199,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -53825,7 +53808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531024960, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 549.9999
+      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 1565939583, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
       propertyPath: m_AnchorMax.x
@@ -84387,6 +84370,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -84437,6 +84422,7 @@ MonoBehaviour:
   canHitSelf: 1
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!136 &1918489685
 CapsuleCollider:
   m_ObjectHideFlags: 0

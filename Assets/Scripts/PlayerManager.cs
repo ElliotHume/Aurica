@@ -61,6 +61,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public float BoostCooldown = 100f;
     public float boostCooldownMultiplier = 5f;
 
+    [HideInInspector]
+    public Aura aura;
+
     public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound, HitMarkerAoESound;
 
     private Animator animator;
@@ -77,7 +80,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private float maxMana, maxHealth, defaultManaRegen;
     private Spell cachedSpellComponent;
     private CharacterUI characterUI;
-    private Aura aura;
     private AuricaCaster auricaCaster;
     private ShieldSpell currentShield;
     private CustomCameraWork cameraWorker;
@@ -589,6 +591,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         crosshair.FlashHitMarker(majorDamage);
         if (majorDamage && HitMarkerSound != null) HitMarkerSound.Play();
         if (!majorDamage && HitMarkerAoESound != null && !HitMarkerAoESound.isPlaying) HitMarkerAoESound.Play();
+    }
+
+    public void PlayCultivationEffect() {
+        PhotonNetwork.Instantiate("XCollision_Cultivate", transform.position, transform.rotation);
     }
 
 
