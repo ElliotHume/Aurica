@@ -31980,6 +31980,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b337b289455416080286029b179ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RewardsForWin: 0.01
+  RewardsForLoss: 0.002
+  PlayerThresholdForEnhancedRewards: 4
+  DecreasedRewardsForWin: 0.002
+  DecreasedRewardsForLoss: 0.001
   BlueSideSpawnPoint: {fileID: 1888961611}
   RedSideSpawnPoint: {fileID: 225389340}
   blueNameColor: {r: 0, g: 0, b: 1, a: 1}
@@ -31988,6 +31993,7 @@ MonoBehaviour:
   redLifeCounter: {fileID: 1166636563}
   blueSidePlayerCountText: {fileID: 1166636569}
   redSidePlayerCountText: {fileID: 1166636568}
+  rewardsText: {fileID: 1166636572}
   blueSidePlayerMaterial: {fileID: 2100000, guid: ec4e3847523bb844499342c7de73a9b4,
     type: 2}
   redSidePlayerMaterial: {fileID: 2100000, guid: 3fbade09b83e6684c85f132da96a79bd,
@@ -31997,6 +32003,8 @@ MonoBehaviour:
   resultsPanel: {fileID: 1166636561}
   bluesidewinUI: {fileID: 1166636560}
   redsidewinUI: {fileID: 1166636559}
+  victoryText: {fileID: 1166636571}
+  defeatText: {fileID: 1166636570}
   teamSelectPanel: {fileID: 1166636567}
   ToggleObjects: []
   LivesPerPlayer: 1
@@ -54631,6 +54639,30 @@ MonoBehaviour:
 --- !u!114 &1166636569 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1597847951, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1166636570 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2136492219, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166636571 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 851857149, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1166636572 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1237690410, guid: 49d05c70d726ef843b55f895a94a3e24,
     type: 3}
   m_PrefabInstance: {fileID: 1166636554}
   m_PrefabAsset: {fileID: 0}

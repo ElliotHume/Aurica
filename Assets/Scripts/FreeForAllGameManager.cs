@@ -240,11 +240,16 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             } 
         }
 
-        if (playerScores.Count >= PlayerThresholdForEnhancedRewards) {
-            RewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+rewardsEarned.ToString();
+        if (reason != 2) {
+            if (playerScores.Count >= PlayerThresholdForEnhancedRewards) {
+                RewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+rewardsEarned.ToString();
+            } else {
+                RewardsText.text = "\nCultivation Earned: "+rewardsEarned.ToString();
+            }
         } else {
-            RewardsText.text = "\nCultivation Earned: "+rewardsEarned.ToString();
+            RewardsText.text = "\nABANDON - No Cultivation Earned";
         }
+        
         
         if (winners.Count > 1) {
             WinnerText.text = "Tied Winners: "+System.String.Join(", ", winners)+" - "+winningScore+"pts";

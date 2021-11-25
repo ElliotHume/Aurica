@@ -12,13 +12,14 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     public static DeathmatchGameManager Instance;
 
 
-    public float RewardsForWin = 0.01f, RewardsForLoss = 0.002f, DecreasedRewardsForWin = 0.002f, DecreasedRewardsForLoss = 0.001f;
+    public float RewardsForWin = 0.01f, RewardsForLoss = 0.002f;
     public int PlayerThresholdForEnhancedRewards = 4;
+    public float DecreasedRewardsForWin = 0.002f, DecreasedRewardsForLoss = 0.001f;
     public Transform BlueSideSpawnPoint, RedSideSpawnPoint;
     public Color blueNameColor = Color.blue, redNameColor = Color.red;
-    public Text blueLifeCounter, redLifeCounter, blueSidePlayerCountText, redSidePlayerCountText;
+    public Text blueLifeCounter, redLifeCounter, blueSidePlayerCountText, redSidePlayerCountText, rewardsText;
     public Material blueSidePlayerMaterial, redSidePlayerMaterial;
-    public GameObject DeathMatchGamePanel, readyButton, resultsPanel, bluesidewinUI, redsidewinUI, teamSelectPanel;
+    public GameObject DeathMatchGamePanel, readyButton, resultsPanel, bluesidewinUI, redsidewinUI, victoryText, defeatText, teamSelectPanel;
     // public Button blueSideTeamSelectButton, redSideTeamSelectButton;
     public List<GameObject> ToggleObjects;
 
@@ -53,19 +54,19 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     }
 
     [PunRPC]
-    public void AssignPlayers(string blueSideNames, string redSideNames, int blueSideLifeCount, int redSideLifeCount) {
+    public void AssignPlayers(string receivedBlueSideNames, string receivedRedSideNames, int blueSideLifeCount, int redSideLifeCount) {
         if (matchStarted) return;
         blueSideLives = blueSideLifeCount * LivesPerPlayer + 1;
         redSideLives = redSideLifeCount * LivesPerPlayer + 1;
 
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
         foreach( PlayerManager player in ps ) {
-            if (blueSideNames.Contains(player.GetUniqueName())) {
+            if (receivedBlueSideNames.Contains(player.GetUniqueName())) {
                 blueSide.Add(player);
                 player.SetNameColor(blueNameColor);
                 if (blueSidePlayerMaterial != null) player.SetPlayerMaterial(blueSidePlayerMaterial);
                 player.SetPlayerOutline(blueNameColor);
-            } else if (redSideNames.Contains(player.GetUniqueName())) {
+            } else if (receivedRedSideNames.Contains(player.GetUniqueName())) {
                 redSide.Add(player);
                 player.SetNameColor(redNameColor);
                 if (redSidePlayerMaterial != null) player.SetPlayerMaterial(redSidePlayerMaterial);
@@ -78,8 +79,11 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
         Debug.Log("Starting match -- blue lives: "+blueSideLives+"  red lives: "+redSideLives);
         Debug.Log("Local Player name: "+localPlayer.GetUniqueName());
-        isBlueTeam = blueSideNames.Contains(localPlayer.GetUniqueName());
+        isBlueTeam = receivedBlueSideNames.Contains(localPlayer.GetUniqueName());
         teamSelectPanel.SetActive(false);
+
+        blueSideNames = receivedBlueSideNames;
+        redSideNames = receivedRedSideNames;
 
         StartMatch();
     }
@@ -97,7 +101,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         int totalPlayerCount = ps.Length;
         // Don't start until all of the players have chosen a side, and neither team is empty
         while ((blueSidePlayerCount == 0 || redSidePlayerCount == 0) || (redSidePlayerCount + blueSidePlayerCount < totalPlayerCount)) {
-            Debug.Log("No players on one of the teams, rebalance teams until there is atleast one player on each team.");
+            Debug.Log("Rebalance teams until there is atleast one player on each team, and all players have chosen a side.");
             yield return new WaitForSeconds(3f);
         }
         StartGame();
@@ -215,14 +219,57 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     public void EndMatch(int winningTeam) {
         if (!matchStarted) return;
 
-        if (winningTeam != 2) resultsPanel.SetActive(true);
-        if (winningTeam == 0) {
-            bluesidewinUI.SetActive(true);
-            redsidewinUI.SetActive(false);
-        } else if (winningTeam == 1) {
-            redsidewinUI.SetActive(true);
-            bluesidewinUI.SetActive(false);
+        if (winningTeam != 2) {
+            resultsPanel.SetActive(true);
+            if (winningTeam == 0) {
+                bluesidewinUI.SetActive(true);
+                redsidewinUI.SetActive(false);
+                if (isBlueTeam) {
+                    victoryText.SetActive(true);
+                    defeatText.SetActive(false);
+                } else {
+                    victoryText.SetActive(false);
+                    defeatText.SetActive(true);
+                }
+            } else if (winningTeam == 1) {
+                redsidewinUI.SetActive(true);
+                bluesidewinUI.SetActive(false);
+                if (!isBlueTeam) {
+                    victoryText.SetActive(true);
+                    defeatText.SetActive(false);
+                } else {
+                    victoryText.SetActive(false);
+                    defeatText.SetActive(true);
+                }
+            }
+
+            // Distribute rewards
+            float rewardsEarned = 0f;
+            bool enhancedRewards = (blueSide.Count + redSide.Count) >= PlayerThresholdForEnhancedRewards;
+            if (isBlueTeam) {
+                if (winningTeam == 0) {
+                    rewardsEarned = enhancedRewards ? RewardsForWin : DecreasedRewardsForWin;
+                } else {
+                    rewardsEarned = enhancedRewards ? RewardsForLoss : DecreasedRewardsForLoss;
+                }
+            } else {
+                if (winningTeam == 1) {
+                    rewardsEarned = enhancedRewards ? RewardsForWin : DecreasedRewardsForWin;
+                } else {
+                    rewardsEarned = enhancedRewards ? RewardsForLoss : DecreasedRewardsForLoss;
+                }
+            }
+            RewardsManager.Instance.AddRewards(rewardsEarned);
+            if (enhancedRewards) {
+                rewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+rewardsEarned.ToString();
+            } else {
+                rewardsText.text = "\nCultivation Earned: "+rewardsEarned.ToString();
+            }
+
+        } else {
+            rewardsText.text = "\nABANDON - No Cultivation Earned";
         }
+        
 
         blueSideLives = LivesPerPlayer;
         redSideLives = LivesPerPlayer;
@@ -251,24 +298,35 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     }
 
     public void playerDeath(PlayerManager player) {
-        if (PhotonNetwork.IsMasterClient &&matchStarted) {
-            if (blueSide.Contains(player)) {
+        StartCoroutine(RespawnPlayer(player));
+    }
+
+    public void localPlayerDeath(string playerID) {
+        photonView.RPC("SendKillEvent", RpcTarget.All, playerID);
+    }
+
+    [PunRPC]
+    public void SendKillEvent(string playerID) {
+        if (matchStarted) {
+            if (blueSideNames.Contains(playerID)) {
                 blueSideLives -= 1;
                 blueLifeCounter.text = blueSideLives.ToString();
-            } else if (redSide.Contains(player)) {
+            } else if (redSideNames.Contains(playerID)) {
                 redSideLives -= 1;
                 redLifeCounter.text = redSideLives.ToString();
             }
 
-            if (blueSideLives <= 0) {
-                photonView.RPC("EndMatch", RpcTarget.All, 1);
-            }
-            if (redSideLives <= 0) {
-                photonView.RPC("EndMatch", RpcTarget.All, 0);
+            if (PhotonNetwork.IsMasterClient) {
+                if (blueSideLives <= 0) {
+                    photonView.RPC("EndMatch", RpcTarget.All, 1);
+                }
+                if (redSideLives <= 0) {
+                    photonView.RPC("EndMatch", RpcTarget.All, 0);
+                }
             }
         }
-        StartCoroutine(RespawnPlayer(player));
     }
+
 
     public void SpawnLocalPlayer() {
         if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;

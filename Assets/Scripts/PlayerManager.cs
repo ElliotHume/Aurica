@@ -434,8 +434,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (DeathSound != null) DeathSound.Play();
 
         GameManager.Instance.playerDeath(this);
-        if (DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.playerDeath(this);
-        if (FreeForAllGameManager.Instance != null){
+        if (DeathmatchGameManager.Instance != null) {
+            DeathmatchGameManager.Instance.playerDeath(this);
+            if (photonView.IsMine) DeathmatchGameManager.Instance.localPlayerDeath(GetUniqueName());
+        }
+        if (FreeForAllGameManager.Instance != null) {
             FreeForAllGameManager.Instance.playerDeath(this);
             if (photonView.IsMine) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
         }
