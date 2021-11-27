@@ -101,6 +101,10 @@ public class PlayfabLauncherManager : MonoBehaviourPun
             } else if (result.Data.ContainsKey("Aura")) {
                 PlayerPrefs.SetString("Aura", result.Data["Aura"].Value);
             }
+            if (result.Data.ContainsKey("ExtraMana")) {
+                Debug.Log("Player has extra mana: "+result.Data["ExtraMana"].Value);
+                PlayerPrefs.SetString("ExtraMana", result.Data["ExtraMana"].Value);
+            }
             OnLogin.Invoke();
         } else {
             string playerName = UsernameField.text;

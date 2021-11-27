@@ -7,6 +7,7 @@ public class Aura : MonoBehaviourPun {
 
     public bool usePercentStrength = true;
 
+    private float MaximumMana;
     private ManaDistribution AuraDistribution, InnateStrength;
     private PlayerManager player;
     private string playerName;
@@ -33,7 +34,9 @@ public class Aura : MonoBehaviourPun {
         InnateStrength = CalculateInnateStrengths();
 
         Debug.Log("AURA:  " + AuraDistribution.ToString());
-        player.SetMaxMana(AuraDistribution.GetAggregate() * 100f * GameManager.GLOBAL_PLAYER_MAX_MANA_MULTIPLIER);
+        float extraMana = PlayerPrefs.HasKey("ExtraMana") ? (Mathf.Round(float.Parse(PlayerPrefs.GetString("ExtraMana")) * 1000f) / 1000f) : 0f;
+        MaximumMana = ((AuraDistribution.GetAggregate() * 100f) + extraMana) * GameManager.GLOBAL_PLAYER_MAX_MANA_MULTIPLIER;
+        player.SetMaxMana(MaximumMana);
         player.ConfirmAura();
         AuricaCaster.LocalCaster.CacheSpellManas();
 
@@ -52,7 +55,9 @@ public class Aura : MonoBehaviourPun {
         InnateStrength = CalculateInnateStrengths();
 
         Debug.Log("NEW AURA SET:  " + AuraDistribution.ToString());
-        player.SetMaxMana(AuraDistribution.GetAggregate() * 100f * GameManager.GLOBAL_PLAYER_MAX_MANA_MULTIPLIER);
+        float extraMana = PlayerPrefs.HasKey("ExtraMana") ? (Mathf.Round(float.Parse(PlayerPrefs.GetString("ExtraMana")) * 1000f) / 1000f) : 0f;
+        MaximumMana = ((AuraDistribution.GetAggregate() * 100f) + extraMana) * GameManager.GLOBAL_PLAYER_MAX_MANA_MULTIPLIER;
+        player.SetMaxMana(MaximumMana);
         player.ConfirmAura();
         AuricaCaster.LocalCaster.CacheSpellManas();
 
@@ -129,6 +134,10 @@ public class Aura : MonoBehaviourPun {
 
     public ManaDistribution GetAura() {
         return AuraDistribution;
+    }
+
+    public float GetMaximumMana() {
+        return MaximumMana;
     }
 
     public ManaDistribution GetInnateStrength() {

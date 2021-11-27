@@ -12,12 +12,13 @@ public class RewardsUIPanel : MonoBehaviour {
     public Text rewardPointsText;
     public DistributionUIDisplay distributionDisplay;
     public DistributionUIDisplayValues distributionDisplayValues;
-    public Text structureText, essenceText, fireText, waterText, earthText, airText, natureText;
+    public Text structureText, essenceText, fireText, waterText, earthText, airText, natureText, baseManaText, addedManaText;
+    public Button addManaButton, decreaseManaButton;
     public GameObject advicePanel;
     public List<Button> toggleButtonsWhenPointsAvailable, toggleButtonsWhenPointsSpent;
 
     private ManaDistribution currentAura, addedDistribution;
-    private float rewardPoints, usedRewardPoints;
+    private float rewardPoints, usedRewardPoints, addedMana, usedRewardPointsForMana;
 
     // Start is called before the first frame update
     void Start() {
@@ -29,13 +30,34 @@ public class RewardsUIPanel : MonoBehaviour {
 
     public void Rerender() {
         currentAura = new ManaDistribution(PlayerPrefs.GetString("Aura"));
-        float points = Mathf.Round((rewardPoints-usedRewardPoints) * 1000f) / 1000f;
+        float points = Mathf.Round((rewardPoints-usedRewardPoints-usedRewardPointsForMana) * 1000f) / 1000f;
         rewardPointsText.text = "Available Cultivation Points: "+(points).ToString();
         distributionDisplay.SetDistribution(currentAura+addedDistribution);
         distributionDisplayValues.SetDistribution(currentAura+addedDistribution);
 
         foreach (var obj in toggleButtonsWhenPointsAvailable) obj.interactable = (rewardPoints > 0f);
-        foreach (var obj in toggleButtonsWhenPointsSpent) obj.interactable = (usedRewardPoints > 0f);
+        foreach (var obj in toggleButtonsWhenPointsSpent) obj.interactable = (usedRewardPoints > 0f || usedRewardPointsForMana > 0f);
+
+        baseManaText.text = PlayerManager.LocalInstance.aura.GetMaximumMana().ToString();
+        
+        if (PlayerManager.LocalInstance.aura.GetMaximumMana() >= RewardsManager.MAXIMUM_TOTAL_MANA_THRESHOLD) {
+            addManaButton.interactable = false;
+            decreaseManaButton.interactable = false;
+        } else {
+            if (PlayerManager.LocalInstance.aura.GetMaximumMana() + addedMana >= RewardsManager.MAXIMUM_TOTAL_MANA_THRESHOLD) {
+                addManaButton.interactable = false;
+            } else {
+                addManaButton.interactable = true;
+            }
+        }
+        
+
+        addedManaText.text = "+ "+addedMana.ToString();
+        if (addedMana > 0) {
+            addedManaText.color = modifiedValueColor;
+        } else {
+            addedManaText.color = baseValueColor;
+        }
 
         if (addedDistribution.structure == 0f) {
             structureText.color = baseValueColor;
@@ -76,7 +98,7 @@ public class RewardsUIPanel : MonoBehaviour {
     }
 
     public void ModifyDistribution(string key) {
-        if (usedRewardPoints >= rewardPoints) return;
+        if (usedRewardPoints + usedRewardPointsForMana >= rewardPoints) return;
         switch (key) {
             case "order":
                 addedDistribution.structure += changePerButtonPress;
@@ -126,6 +148,20 @@ public class RewardsUIPanel : MonoBehaviour {
         Rerender();
     }
 
+    public void AddMana() {
+        if ((usedRewardPoints + usedRewardPointsForMana) >= rewardPoints) return;
+        addedMana = Mathf.Round((addedMana + (changePerButtonPress * 1000f)) * 1000f) / 1000f;
+        usedRewardPointsForMana += changePerButtonPress;
+        Rerender();
+    }
+
+    public void RemoveExtraMana() {
+        if (addedMana == 0f || usedRewardPointsForMana < changePerButtonPress) return;
+        addedMana = Mathf.Round((addedMana - (changePerButtonPress * 1000f)) * 1000f) / 1000f;
+        usedRewardPointsForMana -= changePerButtonPress;
+        Rerender();
+    }
+
     public void ClosePanel() {
         Reset();
         advicePanel.SetActive(false);
@@ -134,13 +170,15 @@ public class RewardsUIPanel : MonoBehaviour {
 
     public void Reset() {
         addedDistribution = new ManaDistribution();
+        addedMana = 0;
         rewardPoints = RewardsManager.Instance.rewardPoints;
         usedRewardPoints = 0f;
+        usedRewardPointsForMana = 0f;
         Rerender();
     }
 
     public void SubmitAuraChanges() {
-        RewardsManager.Instance.SpendRewardsPoints(addedDistribution, usedRewardPoints);
+        RewardsManager.Instance.SpendRewardsPoints(addedDistribution, addedMana, Mathf.Round((usedRewardPoints+usedRewardPointsForMana) * 1000f) / 1000f);
         Reset();
         Rerender();
     }
