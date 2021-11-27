@@ -55,6 +55,7 @@ public class RewardsManager : MonoBehaviour {
 
     void OnDataSend(UpdateUserDataResult result) {
         Debug.Log("Reward points Sent to Cloud : "+rewardPoints);
+        PlayerManager.LocalInstance.PlayCultivationEffect();
         GetRewards();
     }
 

@@ -1283,7 +1283,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Silence(float duration) {
         if (photonView.IsMine && !silenced && !isShielded) {
             silenced = true;
-            EndChannel();
+            StopChannelling();
             silenceRoutine = StartCoroutine(SilenceRoutine(duration));
         }
     }
@@ -1296,7 +1296,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void ContinuousSilence() {
         if (photonView.IsMine) {
-            EndChannel();
+            StopChannelling();
             silenced = true;
         }
     }

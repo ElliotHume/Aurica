@@ -16,7 +16,7 @@ public class DebugPlayer : MonoBehaviourPun
             if (Input.GetKeyDown("n")) {
                 CastDebugSpell("Spell_BitingWind");
             } else if (Input.GetKeyDown("m")) {
-                CastDebugSpell("Spell_CMB_ShadeSmoke");
+                CastDebugSpell("XCollision_AngelWisp");
             } else if (Input.GetKeyDown("b")) {
                 CastDebugSpell("Spell_AuricBolt");
             } else if (Input.GetKeyDown("v")) {
