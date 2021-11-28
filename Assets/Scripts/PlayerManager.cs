@@ -411,6 +411,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         healthBar.SetHealth(Health);
         manaBar.SetHealth(Mana);
 
+        boostCharge1 = BoostCooldown;
+        boostCharge2 = BoostCooldown;
+
         // Reset any spell casts
         auricaCaster.ResetCast();
         if (spellCraftingDisplay != null) {

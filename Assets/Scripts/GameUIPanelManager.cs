@@ -21,16 +21,17 @@ public class GameUIPanelManager : MonoBehaviour {
 
         // Bring up the spell crafting menu
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
-            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
-            if (!spellCraftingPanel.activeInHierarchy) {
-                auraPanel.SetActive(false);
+            if (infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy) {
                 if (infoPanel != null) infoPanel.SetActive(false);
                 if (spellListPanel != null) spellListPanel.SetActive(false);
+                if (auraPanel != null) auraPanel.SetActive(false);
                 if (cultivationPanel.activeInHierarchy) {
                     cultivationPanel.GetComponent<RewardsUIPanel>().ClosePanel();
                 }
+                return;
             }
+            spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
 
         // Bring up spell list menu
