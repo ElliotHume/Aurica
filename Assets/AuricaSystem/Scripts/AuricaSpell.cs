@@ -100,6 +100,24 @@ public class AuricaSpell : ScriptableObject {
         return new ManaDistribution(structure, essence, fire, water, earth, air, nature);
     }
 
+    public ManaDistribution GetCombinedAuricDistribution() {
+        ManaDistribution sum = new ManaDistribution();
+        if (keyComponents.Count == 0) return sum;
+        foreach (var component in keyComponents) {
+            if (component.hasAuricDistribution) sum += component.auricDistribution;
+        }
+        return sum;
+    }
+
+    public ManaDistribution GetCombinedBasicDistribution() {
+        ManaDistribution sum = new ManaDistribution();
+        if (keyComponents.Count == 0) return sum;
+        foreach (var component in keyComponents) {
+            if (component.hasBasicDistribution) sum += component.basicDistribution;
+        }
+        return sum;
+    }
+
     public override string ToString() {
         string componentString = "";
         foreach(AuricaSpellComponent c in keyComponents) {

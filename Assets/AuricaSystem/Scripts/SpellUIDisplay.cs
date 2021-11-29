@@ -77,7 +77,11 @@ public class SpellUIDisplay : MonoBehaviour {
         description.text = spell.description;
         targetDistDisplay.SetDistribution(spell.targetDistribution);
         targetDistDisplayValues.SetDistribution(spell.targetDistribution);
-        if (Input.GetKey(KeyCode.RightShift)) Debug.LogWarning("IDEAL AURA:    "+spell.IdealAuraCalculation().ToString());
+        if (Input.GetKey(KeyCode.RightShift)) {
+            Debug.Log("IDEAL AURA:    "+spell.IdealAuraCalculation().ToString());
+            Debug.Log("COMBINED AURIC DISTRIBUTION:    "+spell.GetCombinedAuricDistribution().ToString());
+            Debug.Log("COMBINED BASIC DISTRIBUTION:    "+spell.GetCombinedBasicDistribution().ToString());
+        }
         if (isCasterAgnostic) AuricaCaster.LocalCaster.CastSpellByObject(s);
         spellEfficacyText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetSpellStrength() * 100f) + "%";
         manaCostText.text = string.Format("{0:N2}", AuricaCaster.LocalCaster.GetManaCost()); 
