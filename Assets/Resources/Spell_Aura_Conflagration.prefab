@@ -9650,7 +9650,7 @@ Transform:
   m_GameObject: {fileID: 522876751538129049}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.505264, y: 3.97, z: 11.559394}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 6319179523684372176}
   - {fileID: 7097613484288147300}
@@ -9684,7 +9684,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
-  LastingDamage: 60
+  LastingDamage: 80
   OneShotEffect: 0
   LastingEffect: 1
   attachToTarget: 1
@@ -9779,6 +9779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -9787,6 +9788,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -9828,12 +9831,16 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 0
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &6319179523518730980
 GameObject:
   m_ObjectHideFlags: 0

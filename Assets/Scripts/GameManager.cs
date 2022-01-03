@@ -20,6 +20,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     * - Then run command on the app from terminal when in the corrrect folder:
     *       codesign --deep -s - -f Aurica.app
     */
+
+    /*
+    * GOOD LOD SETTINGS
+    * Level 1 - transition height: 0.4
+    * Level 2 - transition height: 0.2 - regard curvature
+    * Level 3 - transition height: 0.05 - regard curvature
+    */
+    
     public static GameManager Instance;
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;

@@ -658,6 +658,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             } else if (Input.GetKeyDown("f")) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("f"));
             }
+        } else if (isChannelling && (Input.GetKeyDown("1") || Input.GetKeyDown("2") || Input.GetKeyDown("3") || Input.GetKeyDown("4") || Input.GetKeyDown("e") || Input.GetKeyDown("q") || Input.GetKeyDown("r") || Input.GetKeyDown("f"))) {
+            StopChannelling();
+            auricaCaster.ResetCast();
         }
 
         // Use Boost
@@ -1025,6 +1028,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
         if (photonView.IsMine) {
+            StopChannelling();
             movementManager.Displace(direction, distance, speed, isWorldSpaceDirection);
         }
     }
@@ -1248,7 +1252,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Stun(float duration) {
         if (photonView.IsMine && !stunned && !isShielded) {
             stunned = true;
-            EndChannel();
+            StopChannelling();
             slowRoutine = StartCoroutine(StunRoutine(duration));
         }
     }
@@ -1263,7 +1267,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void ContinuousStun() {
         if (photonView.IsMine) {
-            EndChannel();
+            StopChannelling();
             stunned = true;
             movementManager.Stun(true);
         }

@@ -103,6 +103,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
                 case "Open Field":
                     level = "DeathmatchOpenGround";
                     break;
+                case "AdventureMode":
+                    level = "AdventureMode";
+                    break;
                 case "Default Deathmatch":
                     level = "DeathmatchOpenAdvanced";
                     break;
@@ -139,6 +142,12 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public void FreePlay() {
         roomName = "FreePlay";
         arena = "FreePlay";
+        Connect();
+    }
+
+    public void AdventureMode() {
+        roomName = "AdventureMode";
+        arena = "AdventureMode";
         Connect();
     }
 
