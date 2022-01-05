@@ -8,12 +8,11 @@ using Photon.Pun;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class MobAI : MonoBehaviourPunCallbacks {
-
-    public float health = 100f;
+public class MobAI : Enemy, IPunObservable {
     float maxHealth;
 
     public LayerMask whatIsGround, whatIsPlayer, sightBlockingMask;
+    public EnemyCharacterUI enemyUI;
     public AudioSource hitSound;
     GameObject closestPlayer;
     Vector3 playerPos;
@@ -21,6 +20,8 @@ public class MobAI : MonoBehaviourPunCallbacks {
     Animator anim;
     private Vector3 networkPosition, oldPosition, velocity;
     private Quaternion networkRotation;
+    private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
+    private DamagePopup accumulatingDamagePopup;
 
 
     // Patrolling
@@ -31,6 +32,9 @@ public class MobAI : MonoBehaviourPunCallbacks {
 
     //Attacking
     public float attackCooldown = 4f;
+    public string attackPrefabID = "Spell_Slash";
+    public Vector3 attackOffset = Vector3.zero;
+    public GameObject attackParticlesParent;
     bool alreadyAttacked;
 
     //States
@@ -38,7 +42,7 @@ public class MobAI : MonoBehaviourPunCallbacks {
     bool targetInSightRange, targetInAttackRange, canSeeTarget, idling, walking = false, inCombat = false, slowed = false;
 
     // Enemy Specific
-    public ManaDistribution manaResistances;
+    public ManaDistribution aura;
     public UnityEvent onDeath;
 
 
@@ -46,18 +50,17 @@ public class MobAI : MonoBehaviourPunCallbacks {
         if (stream.IsWriting) {
             // We own this player: send the others our data
             // CRITICAL DATA
-            stream.SendNext(health);
+            stream.SendNext(Health);
             stream.SendNext(inCombat);
 
             stream.SendNext(currentNavAgentDestination);
 
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-
         } else {
             // Network player, receive data
             // CRITICAL DATA
-            this.health = (float)stream.ReceiveNext();
+            this.Health = (float)stream.ReceiveNext();
             this.inCombat = (bool)stream.ReceiveNext();
 
             this.networkNavAgentDestination = (Vector3)stream.ReceiveNext();
@@ -77,7 +80,7 @@ public class MobAI : MonoBehaviourPunCallbacks {
         anim = GetComponent<Animator>();
         startPoint = transform.position;
         agent.speed = walkingSpeed;
-        maxHealth = health;
+        maxHealth = Health;
         oldPosition = transform.position;
     }
 
@@ -99,7 +102,6 @@ public class MobAI : MonoBehaviourPunCallbacks {
     }
 
     void Update() {
-        Debug.Log("Network Position"+networkPosition);
         velocity = transform.position - oldPosition;
         oldPosition = transform.position;
 
@@ -108,15 +110,45 @@ public class MobAI : MonoBehaviourPunCallbacks {
             if (networkNavAgentDestination == Vector3.zero) {
                 agent.ResetPath();
                 currentNavAgentDestination = Vector3.zero;
-                Debug.Log("Network Reset Path");
+                // Debug.Log("Network Reset Path");
             } else if (currentNavAgentDestination != networkNavAgentDestination) {
                 agent.SetDestination(networkNavAgentDestination);
                 currentNavAgentDestination = networkNavAgentDestination;
-                Debug.Log("Network Set Path: "+networkNavAgentDestination);
+                // Debug.Log("Network Set Path: "+networkNavAgentDestination);
             }
-            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * (inCombat ? runningSpeed : walkingSpeed) * 1.5f );
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
+            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * (inCombat ? runningSpeed : walkingSpeed) );
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 350);
             return;
+        }
+
+        // AOE damage popup calculator
+        // Compute AoE tick damage and total sum, if no new damage ticks come in for a while 
+        if (aoeDamageTotal == 0f && aoeDamageTick > 0f) {
+            // Add damage tick to the total and reset the tick
+            aoeDamageTotal += aoeDamageTick;
+            aoeDamageTick = 0f;
+
+            // Initiate an accumulating damage popup
+            accumulatingDamagePopup = enemyUI.CreateAccumulatingDamagePopup(aoeDamageTotal);
+        } else if (aoeDamageTotal > 0f && aoeDamageTick > 0f) {
+            // Add damage tick to the total and reset the tick
+            aoeDamageTotal += aoeDamageTick;
+            aoeDamageTick = 0f;
+
+            // Update the accumulating damage popup
+            accumulatingDamagePopup.AccumulatingDamagePopup(aoeDamageTotal);
+
+            // Reset the tick timout timer
+            accumulatingDamageTimer = 0f;
+        } else if (aoeDamageTotal > 0f && aoeDamageTick == 0f && accumulatingDamageTimer < accumulatingDamageTimout) {
+            // If there is a running total but no new damage tick, start the timer to end the accumulating process
+            accumulatingDamageTimer += Time.deltaTime;
+        } else if (aoeDamageTotal > 0f && aoeDamageTick == 0f && accumulatingDamageTimer >= accumulatingDamageTimout) {
+            // Timout has been reached for new damage ticks, end the accumulation process and reset all variables
+            accumulatingDamagePopup.EndAccumulatingDamagePopup();
+            aoeDamageTotal = 0f;
+            aoeDamageTick = 0f;
+            accumulatingDamageTimer = 0f;
         }
     }
 
@@ -149,7 +181,7 @@ public class MobAI : MonoBehaviourPunCallbacks {
         anim.SetBool("InCombat", inCombat);
 
         // Thinking logic
-        if (health > 0f) {
+        if (Health > 0f) {
             if (!inCombat) {
                 if (!targetInSightRange || (targetInSightRange && !canSeeTarget)) {
                     if (doesPatrol) Patrolling();
@@ -230,15 +262,38 @@ public class MobAI : MonoBehaviourPunCallbacks {
         if (!alreadyAttacked) {
             anim.SetBool("Attack", true);
             alreadyAttacked = true;
+            // Start attack particles
+            if (attackParticlesParent != null) {
+                ParticleSystem[] particles = attackParticlesParent.GetComponentsInChildren<ParticleSystem>();
+                foreach (var effect in particles) {
+                    if (effect != null) effect.Play();
+                }
+            }
+            
+        }
+    }
 
-            // Attack actions(s)
-            //if (weapon != null) weapon.Attack();
+    public void CreateAttack() {
+        GameObject newSpell = PhotonNetwork.Instantiate(attackPrefabID, transform.position + attackOffset, transform.rotation);
+        Spell spell = newSpell.GetComponent<Spell>();
+        if (spell != null) {
+            spell.SetSpellDamageModifier(aura);
+            spell.SetOwner(gameObject, false);
+        } else {
+            Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
         }
     }
 
     public void CompleteAttack() {
         Debug.Log("Complete Attack");
         anim.SetBool("Attack", false);
+        // Stop attack particles
+        if (attackParticlesParent != null) {
+            ParticleSystem[] particles = attackParticlesParent.GetComponentsInChildren<ParticleSystem>();
+            foreach (var effect in particles) {
+                if (effect != null) effect.Stop();
+            }
+        }
         Invoke(nameof(ResetAttack), attackCooldown);
     }
 
@@ -252,6 +307,7 @@ public class MobAI : MonoBehaviourPunCallbacks {
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
         switch (SpellEffectType) {
             case "dot":
+                if (hitSound) hitSound.Play();
                 StartCoroutine(TakeDirectDoTDamage(Damage, Duration, spellDistribution));
                 break;
             default:
@@ -263,23 +319,45 @@ public class MobAI : MonoBehaviourPunCallbacks {
     }
 
     public void TakeDamage(float damage, ManaDistribution damageDistribution) {
-        if (damage >= 5) {
-            if (hitSound) {
-                hitSound.pitch = Mathf.Lerp(2f,1f,health/maxHealth);
-                hitSound.Play();
-            }
-            Slow(1f);
-        }
-
+        float finalDamage = GetAdjustedDamage(damage, damageDistribution);
         inCombat = true;
         agent.speed = runningSpeed;
-        health -= damage;
-        if (health <= 0f) {
+        Health -= finalDamage;
+
+        if (finalDamage >= 1.5f) {
+            if (hitSound) hitSound.Play();
+            if (enemyUI != null) {
+                enemyUI.CreateDamagePopup(finalDamage);
+            }
+            Slow(1f);
+        } else {
+            // For an AoE spell tick we do something different
+            aoeDamageTick += finalDamage;
+        }
+
+        if (Health <= 0f) {
             Die();
         }
     }
 
+    public float GetAdjustedDamage(float damage, ManaDistribution damageDist) {
+        List<float> percents = damageDist.GetAsPercentages();
+        List<float> auraPercents = aura.ToList();
+        if (percents.Count == 0) return damage;
+        for (var i = 0; i < 7; i++) {
+            percents[i] = percents[i] * damage * (1f - auraPercents[i]);
+        }
+
+        float sum = 0;
+        foreach (var element in percents) {
+            sum += element;
+        }
+
+        return sum;
+    }
+
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
+        // Play hit sounds
         float damagePerSecond = damage / duration;
         // Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
         while (duration > 0f) {

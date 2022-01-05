@@ -16,7 +16,7 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
     public bool isSceneObject = false;
 
     Transform cam;
-    Vector3 velocity = Vector3.zero, startScale;
+    Vector3 velocity = Vector3.zero, startScale = Vector3.one;
     bool drift = false, damageSet = false, resized = false, shrunk = false;
     float damage;
 
@@ -37,8 +37,6 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
 
     void Start() {
         cam = Camera.main.transform;
-
-        startScale = new Vector3(1f, 1f, 1f);
     }
 
     void Update() {
@@ -58,8 +56,8 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         } else {
             if (!shrunk && !isSceneObject) {
                 Debug.Log(photonView.Owner);
-                transform.localScale = transform.localScale * 0.5f;
                 startScale = startScale * 0.5f;
+                transform.localScale = startScale;
                 shrunk = true;
             } else if (shrunk && isSceneObject) {
                 startScale = startScale * 2f;
@@ -69,20 +67,25 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         }
 
         // Scale up if the camera is far away
-            float distToCamera = Vector3.Distance(cam.position, transform.position);
-            if (distToCamera >= 10f) {
-                float scale = 1f + distToCamera / 50f;
-                transform.localScale = startScale*scale;
-                resized = true;
-            } else if (resized) {
-                transform.localScale = startScale;
-                resized = false;
-            }
+        float distToCamera = Vector3.Distance(cam.position, transform.position);
+        if (distToCamera >= 10f) {
+            float scale = 1f + distToCamera / 50f;
+            transform.localScale = startScale*scale;
+            resized = true;
+        } else if (resized) {
+            transform.localScale = startScale;
+            resized = false;
+        }
 
 
         if (!drift || !photonView.IsMine) return;
         velocity += Physics.gravity * Time.deltaTime;
         transform.position -= velocity * AntiGravity * Time.deltaTime;
+    }
+
+    public void AttachTo(GameObject parentGO) {
+        transform.SetParent(parentGO.transform);
+        startScale = transform.localScale;
     }
     
     void LateUpdate() {

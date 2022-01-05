@@ -36,6 +36,7 @@ public class Spell : MonoBehaviourPun {
     private GameObject owner;
     private PlayerManager ownerPM;
     private ManaDistribution damageModifier;
+    private bool canHitOwner = true;
 
     public virtual void SetSpellStrength(float newStrength) {
         // Debug.Log("New Spell Strength: "+newStrength);
@@ -55,9 +56,14 @@ public class Spell : MonoBehaviourPun {
         return damageModifier;
     }
 
-    public virtual void SetOwner(GameObject ownerGO) {
+    public virtual void SetOwner(GameObject ownerGO, bool _canHitOwner = true) {
         owner = ownerGO;
         ownerPM = ownerGO.GetComponent<PlayerManager>();
+        canHitOwner = _canHitOwner;
+    }
+
+    public bool GetCanHitOwner() {
+        return canHitOwner;
     }
 
     public GameObject GetOwner() {

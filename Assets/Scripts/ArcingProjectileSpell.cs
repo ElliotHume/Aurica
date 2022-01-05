@@ -167,6 +167,16 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                         FlashHitMarker(false);
                     }
                 }
+            } else if (collision.gameObject.tag == "Enemy") {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                if (enemy != null) {
+                    PhotonView pv = PhotonView.Get(enemy);
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                        FlashHitMarker(false);
+                    }
+                }
             }
             foreach (string effect in NetworkedEffectsOnCollision) {
                 GameObject instance = PhotonNetwork.Instantiate(effect, hit.point + hit.normal * CollisionOffset, new Quaternion());
