@@ -13,7 +13,7 @@ public class MobAI : Enemy, IPunObservable {
 
     public LayerMask whatIsGround, whatIsPlayer, sightBlockingMask;
     public EnemyCharacterUI enemyUI;
-    public AudioSource hitSound;
+    public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound;
     GameObject closestPlayer;
     Vector3 playerPos;
     NavMeshAgent agent;
@@ -26,7 +26,7 @@ public class MobAI : Enemy, IPunObservable {
 
     // Patrolling
     public bool doesPatrol = true;
-    Vector3 walkPoint, startPoint, currentNavAgentDestination, networkNavAgentDestination;
+    Vector3 walkPoint, startPoint;
     bool walkPointSet;
     public float walkPointRange = 10f, idleTime = 6f;
 
@@ -39,7 +39,7 @@ public class MobAI : Enemy, IPunObservable {
 
     //States
     public float sightRange = 10f, attackRange = 3f, walkingSpeed = 2f, runningSpeed = 4f;
-    bool targetInSightRange, targetInAttackRange, canSeeTarget, idling, walking = false, inCombat = false, slowed = false;
+    bool targetInSightRange, targetInAttackRange, canSeeTarget, idling, walking = false, inCombat = false, slowed = false, dead = false;
 
     // Enemy Specific
     public ManaDistribution aura;
@@ -53,20 +53,21 @@ public class MobAI : Enemy, IPunObservable {
             stream.SendNext(Health);
             stream.SendNext(inCombat);
 
-            stream.SendNext(currentNavAgentDestination);
-
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
         } else {
             // Network player, receive data
             // CRITICAL DATA
             this.Health = (float)stream.ReceiveNext();
-            this.inCombat = (bool)stream.ReceiveNext();
-
-            this.networkNavAgentDestination = (Vector3)stream.ReceiveNext();
+            bool networkCombat = (bool)stream.ReceiveNext();
 
             this.networkPosition = (Vector3)stream.ReceiveNext();
             this.networkRotation = (Quaternion)stream.ReceiveNext();
+
+            if (networkCombat && !inCombat) {
+                inCombat = true;
+                if (aggroSound != null) aggroSound.Play();
+            }
 
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
@@ -107,16 +108,7 @@ public class MobAI : Enemy, IPunObservable {
 
         // Remote movement compensation
         if (!photonView.IsMine) {
-            if (networkNavAgentDestination == Vector3.zero) {
-                agent.ResetPath();
-                currentNavAgentDestination = Vector3.zero;
-                // Debug.Log("Network Reset Path");
-            } else if (currentNavAgentDestination != networkNavAgentDestination) {
-                agent.SetDestination(networkNavAgentDestination);
-                currentNavAgentDestination = networkNavAgentDestination;
-                // Debug.Log("Network Set Path: "+networkNavAgentDestination);
-            }
-            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * (inCombat ? runningSpeed : walkingSpeed) );
+            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * runningSpeed * 3f);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 350);
             return;
         }
@@ -188,6 +180,7 @@ public class MobAI : Enemy, IPunObservable {
                 } else {
                     inCombat = true;
                     agent.speed = runningSpeed;
+                    if (aggroSound != null) aggroSound.Play();
                     ChaseTarget();
                 }
             } else {
@@ -197,9 +190,12 @@ public class MobAI : Enemy, IPunObservable {
                     AttackTarget();
                 }
             }
-        } else if (agent.hasPath) {
-            agent.ResetPath();
-            currentNavAgentDestination = Vector3.zero;
+        } else  {
+            if (!dead) Die();
+            if (agent.hasPath) {
+                agent.ResetPath();
+                agent.isStopped = true;
+            }
         }
     }
 
@@ -215,7 +211,7 @@ public class MobAI : Enemy, IPunObservable {
         } else {
             walking = true;
             agent.SetDestination(walkPoint);
-            currentNavAgentDestination = walkPoint;
+            
         }
 
         // If target is at the set walkpoint, find a new walkpoint
@@ -227,22 +223,19 @@ public class MobAI : Enemy, IPunObservable {
     void Idle() {
         // Stop moving, and after a time, look for a new walkpoint
         agent.ResetPath();
-        currentNavAgentDestination = Vector3.zero;
         Invoke(nameof(SearchWalkPoint), idleTime);
     }
 
     void ChaseTarget() {
-        // Walk towards target
-        walking = true;
-
         // Find closest point on navmesh from the player controllers center, check if it is reachable
         NavMeshHit hit;
         NavMeshPath path = new NavMeshPath();
-        if (NavMesh.SamplePosition(playerPos, out hit, 2f, NavMesh.AllAreas)){
+        if (NavMesh.SamplePosition(playerPos, out hit, 1.5f, NavMesh.AllAreas)){
             agent.CalculatePath(hit.position, path);
             if (path.status == NavMeshPathStatus.PathComplete) {
+                // Walk towards target
                 agent.SetDestination(hit.position);
-                currentNavAgentDestination = hit.position;
+                walking = true;
             } else {
                 OutOfReach();
             }
@@ -255,7 +248,6 @@ public class MobAI : Enemy, IPunObservable {
         // Stop moving and look at the target
         walking = false;
         agent.ResetPath();
-        currentNavAgentDestination = Vector3.zero;
         transform.LookAt(new Vector3 (playerPos.x, transform.position.y, playerPos.z));
 
         // If you are not currently attacking, attack target
@@ -269,11 +261,12 @@ public class MobAI : Enemy, IPunObservable {
                     if (effect != null) effect.Play();
                 }
             }
-            
+            if (attackWindupSound != null) attackWindupSound.Play();
         }
     }
 
     public void CreateAttack() {
+        if (!photonView.IsMine) return;
         GameObject newSpell = PhotonNetwork.Instantiate(attackPrefabID, transform.position + attackOffset, transform.rotation);
         Spell spell = newSpell.GetComponent<Spell>();
         if (spell != null) {
@@ -307,7 +300,7 @@ public class MobAI : Enemy, IPunObservable {
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
         switch (SpellEffectType) {
             case "dot":
-                if (hitSound) hitSound.Play();
+                if (hurtSound) hurtSound.Play();
                 StartCoroutine(TakeDirectDoTDamage(Damage, Duration, spellDistribution));
                 break;
             default:
@@ -320,12 +313,13 @@ public class MobAI : Enemy, IPunObservable {
 
     public void TakeDamage(float damage, ManaDistribution damageDistribution) {
         float finalDamage = GetAdjustedDamage(damage, damageDistribution);
+        if (!inCombat && aggroSound != null) aggroSound.Play();
         inCombat = true;
         agent.speed = runningSpeed;
         Health -= finalDamage;
 
         if (finalDamage >= 1.5f) {
-            if (hitSound) hitSound.Play();
+            if (hurtSound) hurtSound.Play();
             if (enemyUI != null) {
                 enemyUI.CreateDamagePopup(finalDamage);
             }
@@ -335,7 +329,7 @@ public class MobAI : Enemy, IPunObservable {
             aoeDamageTick += finalDamage;
         }
 
-        if (Health <= 0f) {
+        if (Health <= 0f && !dead) {
             Die();
         }
     }
@@ -368,12 +362,20 @@ public class MobAI : Enemy, IPunObservable {
     }
 
     public void OutOfReach() {
+        Debug.Log("Out of range");
         if (targetInAttackRange) {
             AttackTarget();
-        } else {
+        } else if (walking) {
             walking = false;
-            agent.ResetPath();
-            currentNavAgentDestination = Vector3.zero;
+            NavMeshHit hit;
+            NavMeshPath path = new NavMeshPath();
+            if (NavMesh.SamplePosition(transform.position, out hit, 1f, NavMesh.AllAreas)){
+                agent.CalculatePath(hit.position, path);
+                if (path.status == NavMeshPathStatus.PathComplete) {
+                    // Walk towards target
+                    agent.SetDestination(hit.position);
+                }
+            }
         }
     }
 
@@ -392,9 +394,17 @@ public class MobAI : Enemy, IPunObservable {
     public void Die() {
         anim.Play("Dead");
         walking = false;
+        dead = true;
         onDeath.Invoke();
+        if (breathingSound != null) breathingSound.Stop();
         GetComponent<CapsuleCollider>().enabled = false;
-        Destroy(gameObject, 30f);
+        if (photonView.IsMine) {
+            Invoke("DestroySelf", 30f);
+        }
+    }
+
+    void DestroySelf() {
+        PhotonNetwork.Destroy(gameObject);
     }
 
     void SearchWalkPoint() {
