@@ -269,6 +269,12 @@ public class MobAI : Enemy, IPunObservable {
         } else {
             Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
         }
+        BasicProjectileSpell bps = newSpell.GetComponent<BasicProjectileSpell>();
+        if (bps != null) {
+            bps.SetEnemyAttack();
+            bps.SetAimAssistTarget(closestPlayer);
+            bps.SetHomingTarget(closestPlayer);
+        }
     }
 
     public void CompleteAttack() {

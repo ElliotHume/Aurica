@@ -28,7 +28,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     private Vector3 startPosition;
     private Vector3 travelDistance = Vector3.zero;
     private Quaternion startRotation;
-    private bool isCollided = false, networkCollided = false;
+    private bool isCollided = false, networkCollided = false, enemyAttack = false;
     private GameObject HomingTarget, AimAssistTarget;
     private Transform homingTargetT, aimAssistTargetT;
     private Vector3 randomTimeOffset, playerOffset = new Vector3(0f, 1f, 0f);
@@ -255,7 +255,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
 
         // If aim assisted, get the player that is being aimed at from the crosshair and set them as the target
-        if (AimAssistedProjectile) {
+        if (AimAssistedProjectile && !enemyAttack) {
             GameObject crossHairHit = crosshair.GetPlayerHit(1f);
             SetAimAssistTarget(crossHairHit);
             if (PerfectHomingProjectile && crossHairHit != null && (crossHairHit.transform.position-transform.position).magnitude <= HomingDetectionSphereRadius) {
@@ -289,8 +289,12 @@ public class BasicProjectileSpell : Spell, IPunObservable
         // }
 
         var frameMoveOffsetWorld = Vector3.zero;
-        if (HomingTarget == null) {
-            if (AimAssistTarget != null) {
+        if (PerfectHomingProjectile && HomingTarget == null) {
+            var forwardVec = ((homingTargetT.position + playerOffset) - transform.position).normalized;
+            var currentForwardVector = (forwardVec + randomOffset) * Speed * Time.deltaTime;
+            frameMoveOffsetWorld = currentForwardVector;
+        } else {
+            if (AimAssistedProjectile && AimAssistTarget != null) {
                 startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation((aimAssistTargetT.position + playerOffset) - transform.position), (AimAssistTurningSpeed + TrackingTurnSpeed) * Time.deltaTime);
             } else if (TrackingProjectile) {
                 startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation(crosshair.GetWorldPoint() - transform.position), TrackingTurnSpeed * Time.deltaTime);
@@ -298,10 +302,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
             
             var currentForwardVector = (Vector3.forward + randomOffset) * Speed * Time.deltaTime;
             frameMoveOffsetWorld = startRotation * currentForwardVector;
-        } else {
-            var forwardVec = ((homingTargetT.position + playerOffset) - transform.position).normalized;
-            var currentForwardVector = (forwardVec + randomOffset) * Speed * Time.deltaTime;
-            frameMoveOffsetWorld = currentForwardVector;
         }
 
         if (TrackingProjectile) transform.rotation = startRotation;
@@ -340,6 +340,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
         AimAssistTarget = go;
         aimAssistTargetT = go.transform;
+    }
+
+    public void SetEnemyAttack() {
+        enemyAttack = true;
     }
 
 

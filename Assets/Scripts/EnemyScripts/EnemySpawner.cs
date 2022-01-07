@@ -29,7 +29,6 @@ public class EnemySpawner : MonoBehaviourPun {
 
         if (radiusTrigger != 0f && !hasSpawned) {
             bool targetInRadius = Physics.CheckSphere(transform.position, radiusTrigger, triggerLayer);
-            Debug.Log(targetInRadius);
             if (targetInRadius && !respawnInitiated) Spawn();
         }
         
