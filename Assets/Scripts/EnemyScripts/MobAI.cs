@@ -9,8 +9,6 @@ using Photon.Pun;
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class MobAI : Enemy, IPunObservable {
-    float maxHealth;
-
     public LayerMask whatIsGround, whatIsPlayer, sightBlockingMask;
     public EnemyCharacterUI enemyUI;
     public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound;
@@ -24,16 +22,11 @@ public class MobAI : Enemy, IPunObservable {
     private DamagePopup accumulatingDamagePopup;
 
 
-    // Patrolling
-    public bool doesPatrol = true;
-    Vector3 walkPoint, startPoint;
-    bool walkPointSet;
-    public float walkPointRange = 10f, idleTime = 6f;
-
     //Attacking
     public float attackCooldown = 4f;
     public string attackPrefabID = "Spell_Slash";
     public Vector3 attackOffset = Vector3.zero;
+    public bool turnAttackToLookAtTarget = true;
     public GameObject attackParticlesParent;
     bool alreadyAttacked;
 
@@ -267,7 +260,8 @@ public class MobAI : Enemy, IPunObservable {
 
     public void CreateAttack() {
         if (!photonView.IsMine) return;
-        GameObject newSpell = PhotonNetwork.Instantiate(attackPrefabID, transform.position + attackOffset, transform.rotation);
+        GameObject newSpell = PhotonNetwork.Instantiate(attackPrefabID, transform.position + (transform.right * attackOffset.x) +(transform.forward * attackOffset.z) + (transform.up * attackOffset.y), transform.rotation);
+        if (turnAttackToLookAtTarget) newSpell.transform.LookAt(playerPos);
         Spell spell = newSpell.GetComponent<Spell>();
         if (spell != null) {
             spell.SetSpellDamageModifier(aura);

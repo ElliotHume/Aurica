@@ -536,7 +536,7 @@ Transform:
   m_GameObject: {fileID: 4039011318565195075}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: -0.028, z: 0}
-  m_LocalScale: {x: 0.28994277, y: 0.2899428, z: 0.28994277}
+  m_LocalScale: {x: 0.17566472, y: 0.17566474, z: 0.17566472}
   m_Children: []
   m_Father: {fileID: 4039011319206927366}
   m_RootOrder: 1
@@ -10408,7 +10408,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4039011320345807102}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: -1}
-  m_LocalPosition: {x: -0.046, y: 0.007, z: 0.023}
+  m_LocalPosition: {x: -0.046, y: 0.007, z: -0.018}
   m_LocalScale: {x: 0.06260735, y: 0.062607355, z: 0.06260735}
   m_Children: []
   m_Father: {fileID: 6785343041151938188}
@@ -19878,7 +19878,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6782575244737953720}
-  m_LocalRotation: {x: -0.0005947596, y: 0.8631337, z: -0.000535641, w: -0.50497484}
+  m_LocalRotation: {x: -0.0005943053, y: 0.86313546, z: -0.00053191156, w: -0.5049719}
   m_LocalPosition: {x: 18.3, y: 0.2, z: 20.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -19913,6 +19913,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Ghoul
   Health: 100
+  doesPatrol: 1
+  walkPointRange: 10
+  idleTime: 9
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -19927,15 +19930,13 @@ MonoBehaviour:
   attackWindupSound: {fileID: 4039011320189134733}
   aggroSound: {fileID: 4039011320134538365}
   breathingSound: {fileID: 4039011319312917566}
-  doesPatrol: 1
-  walkPointRange: 10
-  idleTime: 9
   attackCooldown: 1
-  attackPrefabID: Spell_Slash
+  attackPrefabID: Spell_NPC_Slash
   attackOffset: {x: 0, y: 0, z: 0}
+  turnAttackToLookAtTarget: 1
   attackParticlesParent: {fileID: 4039011319286605128}
   sightRange: 10
-  attackRange: 3
+  attackRange: 2
   walkingSpeed: 1.5
   runningSpeed: 4.5
   aura:

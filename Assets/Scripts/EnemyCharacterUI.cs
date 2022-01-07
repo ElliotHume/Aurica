@@ -31,7 +31,10 @@ public class EnemyCharacterUI : MonoBehaviour {
     }
 
     void Start() {
-        if (target != null && target.c_name != "") enemyNameText.text = target.c_name;
+        if (target != null){
+            if (target.c_name != "") enemyNameText.text = target.c_name;
+            enemyHealthSlider.maxValue = target.Health;
+        } 
     }
 
     void FixedUpdate() {
