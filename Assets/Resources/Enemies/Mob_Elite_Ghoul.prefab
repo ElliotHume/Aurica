@@ -1792,9 +1792,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Elite Ghoul
   Health: 200
-  doesPatrol: 1
-  walkPointRange: 10
-  idleTime: 9
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -1809,15 +1806,13 @@ MonoBehaviour:
   attackWindupSound: {fileID: 7048346519966691534}
   aggroSound: {fileID: 7048346520021140286}
   breathingSound: {fileID: 7048346518695424893}
-  attackCooldown: 1
-  attackPrefabID: Spell_NPC_Elite_Slash
-  attackOffset: {x: 0, y: 1, z: 0}
-  turnAttackToLookAtTarget: 0
-  attackParticlesParent: {fileID: 7048346518717346315}
   sightRange: 10
   attackRange: 3
   walkingSpeed: 2
   runningSpeed: 5
+  doesPatrol: 1
+  walkPointRange: 10
+  idleTime: 9
   aura:
     structure: 0
     essence: 0
@@ -1853,6 +1848,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  slowed: 0
+  hastened: 0
+  rooted: 0
+  silenced: 0
+  stunned: 0
+  weakened: 0
+  strengthened: 0
+  fragile: 0
+  tough: 0
+  attackCooldown: 1
+  attackPrefabID: Spell_NPC_Elite_Slash
+  attackOffset: {x: 0, y: 1, z: 0}
+  turnAttackToLookAtTarget: 0
+  attackParticlesParent: {fileID: 7048346518717346315}
 --- !u!95 &480257672599350497
 Animator:
   serializedVersion: 3

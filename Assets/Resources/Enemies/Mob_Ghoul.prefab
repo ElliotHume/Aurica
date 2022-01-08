@@ -19913,9 +19913,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Ghoul
   Health: 100
-  doesPatrol: 1
-  walkPointRange: 10
-  idleTime: 9
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -19930,15 +19927,13 @@ MonoBehaviour:
   attackWindupSound: {fileID: 4039011320189134733}
   aggroSound: {fileID: 4039011320134538365}
   breathingSound: {fileID: 4039011319312917566}
-  attackCooldown: 1
-  attackPrefabID: Spell_NPC_Slash
-  attackOffset: {x: 0, y: 0, z: 0}
-  turnAttackToLookAtTarget: 1
-  attackParticlesParent: {fileID: 4039011319286605128}
   sightRange: 10
   attackRange: 2
   walkingSpeed: 1.5
   runningSpeed: 4.5
+  doesPatrol: 1
+  walkPointRange: 10
+  idleTime: 9
   aura:
     structure: 0
     essence: 0
@@ -19974,6 +19969,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  slowed: 0
+  hastened: 0
+  rooted: 0
+  silenced: 0
+  stunned: 0
+  weakened: 0
+  strengthened: 0
+  fragile: 0
+  tough: 0
+  attackCooldown: 1
+  attackPrefabID: Spell_NPC_Slash
+  attackOffset: {x: 0, y: 0, z: 0}
+  turnAttackToLookAtTarget: 1
+  attackParticlesParent: {fileID: 4039011319286605128}
 --- !u!95 &6879113717283208098
 Animator:
   serializedVersion: 3

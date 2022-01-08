@@ -9,19 +9,6 @@ using Photon.Pun;
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class MobAI : Enemy, IPunObservable {
-    public LayerMask whatIsGround, whatIsPlayer, sightBlockingMask;
-    public EnemyCharacterUI enemyUI;
-    public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound;
-    GameObject closestPlayer;
-    Vector3 playerPos;
-    NavMeshAgent agent;
-    Animator anim;
-    private Vector3 networkPosition, oldPosition, velocity;
-    private Quaternion networkRotation;
-    private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
-    private DamagePopup accumulatingDamagePopup;
-
-
     //Attacking
     public float attackCooldown = 4f;
     public string attackPrefabID = "Spell_Slash";
@@ -29,15 +16,6 @@ public class MobAI : Enemy, IPunObservable {
     public bool turnAttackToLookAtTarget = true;
     public GameObject attackParticlesParent;
     bool alreadyAttacked;
-
-    //States
-    public float sightRange = 10f, attackRange = 3f, walkingSpeed = 2f, runningSpeed = 4f;
-    bool targetInSightRange, targetInAttackRange, canSeeTarget, idling, walking = false, inCombat = false, slowed = false, dead = false;
-
-    // Enemy Specific
-    public ManaDistribution aura;
-    public UnityEvent onDeath;
-
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -71,7 +49,7 @@ public class MobAI : Enemy, IPunObservable {
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         startPoint = transform.position;
         agent.speed = walkingSpeed;
         maxHealth = Health;
@@ -161,9 +139,9 @@ public class MobAI : Enemy, IPunObservable {
 
         // Debug.Log("InSightRange: "+targetInSightRange+"    InAttackRange: "+targetInAttackRange+"     CanSeeTarget: "+canSeeTarget);
 
-        // Set animation variable(s)
-        anim.SetBool("Moving", walking);
-        anim.SetBool("InCombat", inCombat);
+        // Set animatoration variable(s)
+        animator.SetBool("Moving", walking && !rooted && !stunned);
+        animator.SetBool("InCombat", inCombat);
 
         // Thinking logic
         if (Health > 0f) {
@@ -172,7 +150,7 @@ public class MobAI : Enemy, IPunObservable {
                     if (doesPatrol) Patrolling();
                 } else {
                     inCombat = true;
-                    agent.speed = runningSpeed;
+                    if (!slowed && !hastened && !rooted && !stunned) agent.speed = runningSpeed;
                     if (aggroSound != null) aggroSound.Play();
                     ChaseTarget();
                 }
@@ -201,10 +179,9 @@ public class MobAI : Enemy, IPunObservable {
                 idling = true;
                 Idle();
             }
-        } else {
+        } else if (!rooted && !stunned) {
             walking = true;
             agent.SetDestination(walkPoint);
-            
         }
 
         // If target is at the set walkpoint, find a new walkpoint
@@ -225,7 +202,7 @@ public class MobAI : Enemy, IPunObservable {
         NavMeshPath path = new NavMeshPath();
         if (NavMesh.SamplePosition(playerPos, out hit, 1.5f, NavMesh.AllAreas)){
             agent.CalculatePath(hit.position, path);
-            if (path.status == NavMeshPathStatus.PathComplete) {
+            if (path.status == NavMeshPathStatus.PathComplete || rooted || stunned) {
                 // Walk towards target
                 agent.SetDestination(hit.position);
                 walking = true;
@@ -245,7 +222,7 @@ public class MobAI : Enemy, IPunObservable {
 
         // If you are not currently attacking, attack target
         if (!alreadyAttacked) {
-            anim.SetBool("Attack", true);
+            animator.SetBool("Attack", true);
             alreadyAttacked = true;
             // Start attack particles
             if (attackParticlesParent != null) {
@@ -259,12 +236,12 @@ public class MobAI : Enemy, IPunObservable {
     }
 
     public void CreateAttack() {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || silenced || stunned) return;
         GameObject newSpell = PhotonNetwork.Instantiate(attackPrefabID, transform.position + (transform.right * attackOffset.x) +(transform.forward * attackOffset.z) + (transform.up * attackOffset.y), transform.rotation);
         if (turnAttackToLookAtTarget) newSpell.transform.LookAt(playerPos);
         Spell spell = newSpell.GetComponent<Spell>();
         if (spell != null) {
-            spell.SetSpellDamageModifier(aura);
+            spell.SetSpellDamageModifier(aura + strengths - weaknesses);
             spell.SetOwner(gameObject, false);
         } else {
             Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
@@ -275,11 +252,15 @@ public class MobAI : Enemy, IPunObservable {
             bps.SetAimAssistTarget(closestPlayer);
             bps.SetHomingTarget(closestPlayer);
         }
+        StatusEffect se = newSpell.GetComponent<StatusEffect>();
+        if (se != null) {
+            se.SetOwner(gameObject);
+        }
     }
 
     public void CompleteAttack() {
         Debug.Log("Complete Attack");
-        anim.SetBool("Attack", false);
+        animator.SetBool("Attack", false);
         // Stop attack particles
         if (attackParticlesParent != null) {
             ParticleSystem[] particles = attackParticlesParent.GetComponentsInChildren<ParticleSystem>();
@@ -294,72 +275,7 @@ public class MobAI : Enemy, IPunObservable {
         alreadyAttacked = false;
     }
 
-    [PunRPC]
-    void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID="") {
-        if (!photonView.IsMine) return;
-        ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
-        switch (SpellEffectType) {
-            case "dot":
-                if (hurtSound) hurtSound.Play();
-                StartCoroutine(TakeDirectDoTDamage(Damage, Duration, spellDistribution));
-                break;
-            default:
-                // Debug.Log("Default Spell effect --> Take direct damage");
-                TakeDamage(Damage, spellDistribution);
-                break;
-        }
-        // Debug.Log("Current Health: "+Health);
-    }
-
-    public void TakeDamage(float damage, ManaDistribution damageDistribution) {
-        float finalDamage = GetAdjustedDamage(damage, damageDistribution);
-        if (!inCombat && aggroSound != null) aggroSound.Play();
-        inCombat = true;
-        agent.speed = runningSpeed;
-        Health -= finalDamage;
-
-        if (finalDamage >= 1.5f) {
-            if (hurtSound) hurtSound.Play();
-            if (enemyUI != null) {
-                enemyUI.CreateDamagePopup(finalDamage);
-            }
-            Slow(1f);
-        } else {
-            // For an AoE spell tick we do something different
-            aoeDamageTick += finalDamage;
-        }
-
-        if (Health <= 0f && !dead) {
-            Die();
-        }
-    }
-
-    public float GetAdjustedDamage(float damage, ManaDistribution damageDist) {
-        List<float> percents = damageDist.GetAsPercentages();
-        List<float> auraPercents = aura.ToList();
-        if (percents.Count == 0) return damage;
-        for (var i = 0; i < 7; i++) {
-            percents[i] = percents[i] * damage * (1f - auraPercents[i]);
-        }
-
-        float sum = 0;
-        foreach (var element in percents) {
-            sum += element;
-        }
-
-        return sum;
-    }
-
-    IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
-        // Play hit sounds
-        float damagePerSecond = damage / duration;
-        // Debug.Log("Take dot damage: "+damage+" duration: "+duration+ "     resistance total: " + aura.GetDamage(damage, spellDistribution) / damage);
-        while (duration > 0f) {
-            TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
-            duration -= Time.deltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-    }
+    
 
     public void OutOfReach() {
         Debug.Log("Out of range");
@@ -379,20 +295,8 @@ public class MobAI : Enemy, IPunObservable {
         }
     }
 
-    void ResumeMovement() {
-        agent.speed = inCombat ? runningSpeed : walkingSpeed;
-        slowed = false;
-    }
-
-    public void Slow(float duration){
-        if (!slowed) {
-            agent.speed /= 5f;
-            Invoke(nameof(ResumeMovement), duration);
-        }
-    }
-
     public void Die() {
-        anim.Play("Dead");
+        animator.Play("Dead");
         walking = false;
         dead = true;
         onDeath.Invoke();

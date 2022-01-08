@@ -393,9 +393,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Elite Reborn Ghoul
   Health: 100
-  doesPatrol: 0
-  walkPointRange: 10
-  idleTime: 9
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -410,15 +407,13 @@ MonoBehaviour:
   attackWindupSound: {fileID: 7741069430403743484}
   aggroSound: {fileID: 7741069430441413900}
   breathingSound: {fileID: 7741069431665835343}
-  attackCooldown: 1
-  attackPrefabID: Spell_NPC_Elite_DeathlyMark
-  attackOffset: {x: 0, y: 1.5, z: 1}
-  turnAttackToLookAtTarget: 1
-  attackParticlesParent: {fileID: 7741069431708728377}
   sightRange: 20
   attackRange: 20
   walkingSpeed: 1.5
   runningSpeed: 4.5
+  doesPatrol: 0
+  walkPointRange: 10
+  idleTime: 9
   aura:
     structure: 0
     essence: 0.75
@@ -454,6 +449,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  slowed: 0
+  hastened: 0
+  rooted: 0
+  silenced: 0
+  stunned: 0
+  weakened: 0
+  strengthened: 0
+  fragile: 0
+  tough: 0
+  attackCooldown: 1
+  attackPrefabID: Spell_NPC_Elite_DeathlyMark
+  attackOffset: {x: 0, y: 1.5, z: 1}
+  turnAttackToLookAtTarget: 1
+  attackParticlesParent: {fileID: 7741069431708728377}
 --- !u!95 &871230740070703827
 Animator:
   serializedVersion: 3

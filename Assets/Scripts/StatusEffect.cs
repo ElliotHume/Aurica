@@ -71,7 +71,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     private bool isCollided = false;
     private Spell attachedSpell;
-
+    private GameObject owner;
     private List<PhotonView> AffectedPlayers;
 
     void Start() {
@@ -93,6 +93,10 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         photonView.RemoveCallbackTarget(this);
     }
 
+    public void SetOwner(GameObject ownerGO) {
+        owner = ownerGO;
+    }
+
     public void ManualActivation(GameObject playerGO) {
         if (!photonView.IsMine) return;
         if (attachedSpell == null) attachedSpell = GetComponent<Spell>();
@@ -100,7 +104,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (pm != null) {
             PhotonView pv = PhotonView.Get(pm);
             Activate(pv);
-        }
+        } else {
+            Enemy enemy = playerGO.GetComponent<Enemy>();
+            if (enemy != null) {
+                PhotonView pv = PhotonView.Get(enemy);
+                Activate(pv);
+            }
+        }    
     }
 
     public void ManualContinuousActivation(GameObject playerGO) {
@@ -110,7 +120,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (pm != null) {
             PhotonView pv = PhotonView.Get(pm);
             ActivateContinuous(pv);
-        }
+        } else {
+            Enemy enemy = playerGO.GetComponent<Enemy>();
+            if (enemy != null) {
+                PhotonView pv = PhotonView.Get(enemy);
+                ActivateContinuous(pv);
+            }
+        }   
     }
 
     public void ManualContinuousDeactivation(GameObject playerGO) {
@@ -120,7 +136,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (pm != null) {
             PhotonView pv = PhotonView.Get(pm);
             DeactivateContinuous(pv);
-        }
+        } else {
+            Enemy enemy = playerGO.GetComponent<Enemy>();
+            if (enemy != null) {
+                PhotonView pv = PhotonView.Get(enemy);
+                DeactivateContinuous(pv);
+            }
+        }   
     }
 
 
@@ -130,6 +152,12 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
+                    Activate(pv);
+                }
+            } else if (collision.gameObject.tag == "Enemy" && collision.gameObject != owner) {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                if (enemy != null) {
+                    PhotonView pv = PhotonView.Get(enemy);
                     Activate(pv);
                 }
             }
@@ -148,6 +176,16 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
                         ActivateContinuous(pv);
                     }
                 }
+            } else if (collision.gameObject.tag == "Enemy" && collision.gameObject != owner) {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                if (enemy != null) {
+                    PhotonView pv = PhotonView.Get(enemy);
+                    if (!isContinuous) {
+                        Activate(pv);
+                    } else {
+                        ActivateContinuous(pv);
+                    }
+                }
             }
         }
     }
@@ -158,6 +196,12 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
+                    ApplyContinuous(pv);
+                }
+            } else if (collision.gameObject.tag == "Enemy" && collision.gameObject != owner) {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                if (enemy != null) {
+                    PhotonView pv = PhotonView.Get(enemy);
                     ApplyContinuous(pv);
                 }
             }
@@ -173,7 +217,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
                     DeactivateContinuous(pv);
                 }
             }
-        }
+        } else if (collision.gameObject.tag == "Enemy" && collision.gameObject != owner) {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                if (enemy != null) {
+                    PhotonView pv = PhotonView.Get(enemy);
+                    DeactivateContinuous(pv);
+                }
+            }
     }
 
     public void OnPreNetDestroy(PhotonView rootView) {

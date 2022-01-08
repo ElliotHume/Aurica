@@ -4409,9 +4409,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Elite Troll
   Health: 200
-  doesPatrol: 0
-  walkPointRange: 10
-  idleTime: 9
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -4426,15 +4423,13 @@ MonoBehaviour:
   attackWindupSound: {fileID: 7127741782508015506}
   aggroSound: {fileID: 7127741782688587555}
   breathingSound: {fileID: 7127741784376959051}
-  attackCooldown: 1
-  attackPrefabID: Spell_NPC_Elite_BloodyCrater
-  attackOffset: {x: 0, y: 0, z: 2}
-  turnAttackToLookAtTarget: 0
-  attackParticlesParent: {fileID: 0}
   sightRange: 10
   attackRange: 4
   walkingSpeed: 2
   runningSpeed: 4
+  doesPatrol: 0
+  walkPointRange: 10
+  idleTime: 9
   aura:
     structure: 0.15
     essence: 0
@@ -4470,6 +4465,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  slowed: 0
+  hastened: 0
+  rooted: 0
+  silenced: 0
+  stunned: 0
+  weakened: 0
+  strengthened: 0
+  fragile: 0
+  tough: 0
+  attackCooldown: 1
+  attackPrefabID: Spell_NPC_Elite_BloodyCrater
+  attackOffset: {x: 0, y: 0, z: 2}
+  turnAttackToLookAtTarget: 0
+  attackParticlesParent: {fileID: 0}
 --- !u!95 &7187708330931683267
 Animator:
   serializedVersion: 3

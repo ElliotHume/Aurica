@@ -2703,9 +2703,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Glacial Ghoul
   Health: 150
-  doesPatrol: 0
-  walkPointRange: 10
-  idleTime: 9
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -2720,15 +2717,13 @@ MonoBehaviour:
   attackWindupSound: {fileID: 8478681900063603382}
   aggroSound: {fileID: 8478681900101273926}
   breathingSound: {fileID: 8478681901460699397}
-  attackCooldown: 3
-  attackPrefabID: Spell_NPC_FreezingCrash
-  attackOffset: {x: 0, y: 0, z: 3}
-  turnAttackToLookAtTarget: 0
-  attackParticlesParent: {fileID: 8478681901503658099}
   sightRange: 8
   attackRange: 2
   walkingSpeed: 1
   runningSpeed: 3
+  doesPatrol: 0
+  walkPointRange: 10
+  idleTime: 9
   aura:
     structure: -0.2
     essence: 0
@@ -2764,6 +2759,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  slowed: 0
+  hastened: 0
+  rooted: 0
+  silenced: 0
+  stunned: 0
+  weakened: 0
+  strengthened: 0
+  fragile: 0
+  tough: 0
+  attackCooldown: 3
+  attackPrefabID: Spell_NPC_FreezingCrash
+  attackOffset: {x: 0, y: 0, z: 3}
+  turnAttackToLookAtTarget: 0
+  attackParticlesParent: {fileID: 8478681901503658099}
 --- !u!95 &1355762003177252505
 Animator:
   serializedVersion: 3

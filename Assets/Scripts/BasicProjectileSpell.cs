@@ -289,7 +289,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         // }
 
         var frameMoveOffsetWorld = Vector3.zero;
-        if (PerfectHomingProjectile && HomingTarget == null) {
+        if (PerfectHomingProjectile && HomingTarget != null) {
             var forwardVec = ((homingTargetT.position + playerOffset) - transform.position).normalized;
             var currentForwardVector = (forwardVec + randomOffset) * Speed * Time.deltaTime;
             frameMoveOffsetWorld = currentForwardVector;

@@ -48,6 +48,29 @@ public class EnemyCharacterUI : MonoBehaviour {
         if (enemyHealthSlider != null) {
             enemyHealthSlider.value = target.Health;
         }
+
+        List<string> statusEffects = new List<string>();
+        if (target.stunned) statusEffects.Add("STUNNED");
+        if (target.silenced) statusEffects.Add("SILENCED");
+        if (target.rooted) statusEffects.Add("ROOTED");
+        if (target.slowed) statusEffects.Add("SLOWED");
+        if (target.hastened) statusEffects.Add("HASTE");
+        if (target.fragile) statusEffects.Add("FRAGILE");
+        if (target.tough) statusEffects.Add("TOUGH");
+        if (target.strengthened) statusEffects.Add("STRONG");
+        if (target.weakened) statusEffects.Add("WEAK");
+
+        if (statusEffects.Count == 0) {
+            ResetStatusEffects();
+            return;
+        }
+
+        string combinedStatusEffects = "";
+        foreach(string status in statusEffects) {
+            combinedStatusEffects += " & "+status;
+        }
+        combinedStatusEffects = combinedStatusEffects.Substring(2) + "...";
+        SetStatusEffect(combinedStatusEffects);
     }
 
     void LateUpdate() {
@@ -63,6 +86,20 @@ public class EnemyCharacterUI : MonoBehaviour {
         // Cache references for efficiency
         target = _target;
         if (enemyNameText != null) enemyNameText.text = target.c_name;
+    }
+
+    public void SetStatusEffect(string status) {
+        if (enemyNameText != null) {
+            enemyNameText.text = status;
+            enemyNameText.color = statusEffectColor;
+        }
+    }
+
+    public void ResetStatusEffects() {
+        if (enemyNameText != null) {
+            enemyNameText.text = target.c_name;
+            enemyNameText.color = baseColor;
+        }
     }
 
     public void Hide() {
