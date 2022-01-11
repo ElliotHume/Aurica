@@ -31,7 +31,7 @@ public class RewardsUIPanel : MonoBehaviour {
     public void Rerender() {
         currentAura = new ManaDistribution(PlayerPrefs.GetString("Aura"));
         float points = Mathf.Round((rewardPoints-usedRewardPoints-usedRewardPointsForMana) * 1000f) / 1000f;
-        rewardPointsText.text = "Available Cultivation Points: "+(points).ToString();
+        rewardPointsText.text = "Available Cultivation Points: "+(Mathf.Round(points * 1000f)).ToString();
         distributionDisplay.SetDistribution(currentAura+addedDistribution);
         distributionDisplayValues.SetDistribution(currentAura+addedDistribution);
 

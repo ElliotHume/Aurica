@@ -56,12 +56,12 @@ public class RewardsManager : MonoBehaviour {
         rewardPoints = existingRewards+points;
         PlayFabClientAPI.UpdateUserData(request, OnRewardsDataSend, OnError);
         fetched = false;
+        NotificationText.Instance.ShowCultivationPoints(points);
         GetRewards();
     }
 
     void OnRewardsDataSend(UpdateUserDataResult result) {
         Debug.Log("Reward points Sent to Cloud : "+rewardPoints);
-        PlayerManager.LocalInstance.PlayCultivationEffect();
         GetRewards();
     }
 

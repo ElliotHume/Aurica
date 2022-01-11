@@ -188,7 +188,6 @@ public class Enemy : MonoBehaviourPunCallbacks {
         } else {
             agent.isStopped = stunned;
         }
-        Debug.Log("ROOT ENEMY: "+agent.isStopped);
     }
 
     public void Stun(bool stunned) {

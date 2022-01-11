@@ -1707,80 +1707,84 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Cleanse
     [PunRPC]
     void Cleanse() {
-        if (slowed) {
-            if (slowRoutineRunning) StopCoroutine(slowRoutine);
-            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-            movementManager.ResetMovementSpeed();
-            appliedSlowEffects.Clear();
-            slowed = false;
-        }
-        if (hastened) {
-            if (hasteRoutineRunning) StopCoroutine(hasteRoutine);
-            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-            movementManager.ResetMovementSpeed();
-            appliedHasteEffects.Clear();
-            hastened = false;
-        }
-        if (rooted) {
-            if (rootRoutineRunning) StopCoroutine(rootRoutine);
-            movementManager.Root(false);
-            rooted = false;
-        }
-        if (grounded) {
-            if (groundedRoutineRunning) StopCoroutine(rootRoutine);
-            movementManager.Ground(false);
-            grounded = false;
-        }
-        if (silenced) {
-            if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
-            silenced = false;
-        }
-        if (stunned) {
-            if (stunRoutineRunning) StopCoroutine(stunRoutine);
-            movementManager.Stun(false);
-            stunned = false;
-        }
-        if (fragile) {
-            if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
-            fragilePercentage = 0f;
-            appliedFragileEffects.Clear();
-            fragile = false;
-        }
-        if (tough) {
-            if (toughRoutineRunning) StopCoroutine(toughRoutine);
-            toughPercentage = 0f;
-            appliedToughEffects.Clear();
-            tough = false;
-        }
-        if (weakened) {
-            if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
-            weaknesses = new ManaDistribution();
-            appliedWeakenEffects.Clear();
-            weakened = false;
-        }
-        if (strengthened) {
-            if (strengthenRoutineRunning) StopCoroutine(strengthenRoutine);
-            strengths = new ManaDistribution();
-            appliedStrengthenEffects.Clear();
-            strengthened = false;
-        }
-        if (manaRestorationChange) {
-            if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
-            ManaRegen = defaultManaRegen;
-            manaRestorationPercentage = 0f;
-            appliedManaRestorationChangeEffects.Clear();
-            manaRestorationChange = false;
-        }
-        if (camouflaged) {
-            if (camouflagedRoutineRunning) StopCoroutine(camouflageRoutine);
-            materialManager.ResetMaterial();
-            camouflaged = false;
-        }
-        if (slowFall) {
-            if (slowFallRoutineRunning) StopCoroutine(slowFallRoutine);
-            movementManager.SlowFall(false);
-            appliedSlowFallEffects.Clear();
-            slowFall = false;
+        try {
+            if (slowed) {
+                if (slowRoutineRunning) StopCoroutine(slowRoutine);
+                animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+                movementManager.ResetMovementSpeed();
+                appliedSlowEffects.Clear();
+                slowed = false;
+            }
+            if (hastened) {
+                if (hasteRoutineRunning) StopCoroutine(hasteRoutine);
+                animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+                movementManager.ResetMovementSpeed();
+                appliedHasteEffects.Clear();
+                hastened = false;
+            }
+            if (rooted) {
+                if (rootRoutineRunning) StopCoroutine(rootRoutine);
+                movementManager.Root(false);
+                rooted = false;
+            }
+            if (grounded) {
+                if (groundedRoutineRunning) StopCoroutine(rootRoutine);
+                movementManager.Ground(false);
+                grounded = false;
+            }
+            if (silenced) {
+                if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
+                silenced = false;
+            }
+            if (stunned) {
+                if (stunRoutineRunning) StopCoroutine(stunRoutine);
+                movementManager.Stun(false);
+                stunned = false;
+            }
+            if (fragile) {
+                if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
+                fragilePercentage = 0f;
+                appliedFragileEffects.Clear();
+                fragile = false;
+            }
+            if (tough) {
+                if (toughRoutineRunning) StopCoroutine(toughRoutine);
+                toughPercentage = 0f;
+                appliedToughEffects.Clear();
+                tough = false;
+            }
+            if (weakened) {
+                if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
+                weaknesses = new ManaDistribution();
+                appliedWeakenEffects.Clear();
+                weakened = false;
+            }
+            if (strengthened) {
+                if (strengthenRoutineRunning) StopCoroutine(strengthenRoutine);
+                strengths = new ManaDistribution();
+                appliedStrengthenEffects.Clear();
+                strengthened = false;
+            }
+            if (manaRestorationChange) {
+                if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
+                ManaRegen = defaultManaRegen;
+                manaRestorationPercentage = 0f;
+                appliedManaRestorationChangeEffects.Clear();
+                manaRestorationChange = false;
+            }
+            if (camouflaged) {
+                if (camouflagedRoutineRunning) StopCoroutine(camouflageRoutine);
+                materialManager.ResetMaterial();
+                camouflaged = false;
+            }
+            if (slowFall) {
+                if (slowFallRoutineRunning) StopCoroutine(slowFallRoutine);
+                movementManager.SlowFall(false);
+                appliedSlowFallEffects.Clear();
+                slowFall = false;
+            }
+        } catch {
+            // Do nothing
         }
     }
 

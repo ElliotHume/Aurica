@@ -260,10 +260,11 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
                 }
             }
             RewardsManager.Instance.AddRewards(rewardsEarned);
+            PlayerManager.LocalInstance.PlayCultivationEffect();
             if (enhancedRewards) {
-                rewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+rewardsEarned.ToString();
+                rewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+(Mathf.Round(rewardsEarned * 1000f)).ToString();
             } else {
-                rewardsText.text = "\nCultivation Earned: "+rewardsEarned.ToString();
+                rewardsText.text = "\nCultivation Earned: "+(Mathf.Round(rewardsEarned * 1000f)).ToString();
             }
 
         } else {

@@ -94,7 +94,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         // The spell has collided with a non-player object, move it to the networked position on the assumption that the hit object is stationary.
                         transform.position = networkPosition;
                     }
-                    Debug.Log("Collision registered on remote client, call local collision functions");
                     transform.rotation = networkRotation;
                     LocalCollisionBehaviour(transform.position, -transform.forward);
                     if (!ContinuesPastCollision) isCollided = true;
@@ -106,7 +105,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     void OnCollisionEnter(Collision collision) {
         if ( isCollided ) return;
-        Debug.Log("Collision with: "+collision.gameObject);
         
         // Prevent the projectile hitting the player who cast it if the flag is set.
         if (!CanHitSelf && collision.gameObject.tag == "Player") {
@@ -117,6 +115,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 }
             }
         }
+
+        if (enemyAttack && collision.gameObject == GetOwner()) return;
 
         ContactPoint hit = collision.GetContact(0);
         if (!ContinuesPastCollision) isCollided = true;
@@ -295,7 +295,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
             frameMoveOffsetWorld = currentForwardVector;
         } else {
             if (AimAssistedProjectile && AimAssistTarget != null) {
-                startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation((aimAssistTargetT.position + playerOffset) - transform.position), (AimAssistTurningSpeed + TrackingTurnSpeed) * Time.deltaTime);
+                startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation((aimAssistTargetT.position + playerOffset * aimAssistTargetT.localScale.y) - transform.position), (AimAssistTurningSpeed + TrackingTurnSpeed) * Time.deltaTime);
             } else if (TrackingProjectile) {
                 startRotation = Quaternion.RotateTowards(startRotation, Quaternion.LookRotation(crosshair.GetWorldPoint() - transform.position), TrackingTurnSpeed * Time.deltaTime);
             }

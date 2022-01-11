@@ -230,6 +230,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (RewardsManager.Instance != null && reason != 2 && playerScores.Count > 1){
                 rewardsEarned = playerScores.Count >= PlayerThresholdForEnhancedRewards ? RewardsForWin : DecreasedRewardsForWin;
                 RewardsManager.Instance.AddRewards(rewardsEarned);
+                PlayerManager.LocalInstance.PlayCultivationEffect();
             } 
         } else {
             VictoryText.gameObject.SetActive(false);
@@ -237,14 +238,15 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (RewardsManager.Instance != null && reason != 2 && playerScores.Count > 1) {
                 rewardsEarned = playerScores.Count >= PlayerThresholdForEnhancedRewards ? RewardsForLoss : DecreasedRewardsForLoss;
                 RewardsManager.Instance.AddRewards(rewardsEarned);
+                PlayerManager.LocalInstance.PlayCultivationEffect();
             } 
         }
 
         if (reason != 2) {
             if (playerScores.Count >= PlayerThresholdForEnhancedRewards) {
-                RewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+rewardsEarned.ToString();
+                RewardsText.text = "ENHANCED REWARDS!\nCultivation Earned: "+(Mathf.Round(rewardsEarned * 1000f)).ToString();
             } else {
-                RewardsText.text = "\nCultivation Earned: "+rewardsEarned.ToString();
+                RewardsText.text = "\nCultivation Earned: "+(Mathf.Round(rewardsEarned * 1000f)).ToString();
             }
         } else {
             RewardsText.text = "\nABANDON - No Cultivation Earned";

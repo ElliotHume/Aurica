@@ -10,12 +10,21 @@ using Photon.Pun;
 [RequireComponent(typeof(NavMeshAgent))]
 public class MobAI : Enemy, IPunObservable {
     //Attacking
+    
     public float attackCooldown = 4f;
     public string attackPrefabID = "Spell_Slash";
     public Vector3 attackOffset = Vector3.zero;
     public bool turnAttackToLookAtTarget = true;
     public GameObject attackParticlesParent;
-    bool alreadyAttacked;
+
+    public string unreachableAttackID;
+    public float unreachableAttackRange = 10f;
+    public Vector3 unreachableAttackOffset = Vector3.zero;
+    public bool turnUnreachableAttackToLookAtTarget = true;
+    bool targetInUnreachableAttackRange = false;
+
+
+    bool alreadyAttacked = false, targetUnreachable = false, attackStartedAsUnreachable = false;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -65,7 +74,7 @@ public class MobAI : Enemy, IPunObservable {
         foreach (GameObject go in gos) {
             Vector3 diff = go.transform.position - position;
             float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance) {
+            if (curDistance < distance && go.GetComponents<TargetDummy>().Length == 0) {
                 closest = go;
                 distance = curDistance;
             }
@@ -128,8 +137,11 @@ public class MobAI : Enemy, IPunObservable {
         // Check if target is in attack range
         targetInAttackRange = Vector3.Distance(transform.position, playerPos) <= attackRange;
 
+        // Check if target is in attack range
+        targetInUnreachableAttackRange = Vector3.Distance(transform.position, playerPos) <= unreachableAttackRange;
+
         // If in sight range, check if the target is obscured
-        if (targetInSightRange || targetInAttackRange) {
+        if (targetInSightRange || targetInAttackRange || targetInUnreachableAttackRange) {
             RaycastHit raycastHit;
             if( Physics.SphereCast(transform.position+transform.up, 0.5f, (playerPos - (transform.position+transform.up)), out raycastHit, 100f, sightBlockingMask) ) {
                 // Debug.Log("Can see: "+raycastHit.transform.gameObject);
@@ -143,6 +155,9 @@ public class MobAI : Enemy, IPunObservable {
         animator.SetBool("Moving", walking && !rooted && !stunned);
         animator.SetBool("InCombat", inCombat);
 
+        // Dont do anything if stunned
+        if (stunned) return;
+
         // Thinking logic
         if (Health > 0f) {
             if (!inCombat) {
@@ -155,13 +170,14 @@ public class MobAI : Enemy, IPunObservable {
                     ChaseTarget();
                 }
             } else {
-                if ((!targetInAttackRange && !alreadyAttacked) || (targetInAttackRange && !canSeeTarget && !alreadyAttacked)) {
+                if ((!targetInAttackRange && !alreadyAttacked) || (targetInAttackRange && !canSeeTarget && !alreadyAttacked) || (targetUnreachable && !targetInAttackRange)) {
                     ChaseTarget();
                 } else {
+                    targetUnreachable = false;
                     AttackTarget();
                 }
             }
-        } else  {
+        } else {
             if (!dead) Die();
             if (agent.hasPath) {
                 agent.ResetPath();
@@ -200,10 +216,11 @@ public class MobAI : Enemy, IPunObservable {
         // Find closest point on navmesh from the player controllers center, check if it is reachable
         NavMeshHit hit;
         NavMeshPath path = new NavMeshPath();
-        if (NavMesh.SamplePosition(playerPos, out hit, 1.5f, NavMesh.AllAreas)){
+        if (NavMesh.SamplePosition(playerPos, out hit, 3f, NavMesh.AllAreas)){
             agent.CalculatePath(hit.position, path);
-            if (path.status == NavMeshPathStatus.PathComplete || rooted || stunned) {
+            if (path.status == NavMeshPathStatus.PathComplete && !rooted) {
                 // Walk towards target
+                targetUnreachable = false;
                 agent.SetDestination(hit.position);
                 walking = true;
             } else {
@@ -224,6 +241,7 @@ public class MobAI : Enemy, IPunObservable {
         if (!alreadyAttacked) {
             animator.SetBool("Attack", true);
             alreadyAttacked = true;
+            attackStartedAsUnreachable = targetUnreachable;
             // Start attack particles
             if (attackParticlesParent != null) {
                 ParticleSystem[] particles = attackParticlesParent.GetComponentsInChildren<ParticleSystem>();
@@ -237,8 +255,15 @@ public class MobAI : Enemy, IPunObservable {
 
     public void CreateAttack() {
         if (!photonView.IsMine || silenced || stunned) return;
-        GameObject newSpell = PhotonNetwork.Instantiate(attackPrefabID, transform.position + (transform.right * attackOffset.x) +(transform.forward * attackOffset.z) + (transform.up * attackOffset.y), transform.rotation);
-        if (turnAttackToLookAtTarget) newSpell.transform.LookAt(playerPos);
+        GameObject newSpell;
+        if (!attackStartedAsUnreachable) {
+            newSpell = PhotonNetwork.Instantiate("Enemies/EnemySpells/"+attackPrefabID, transform.position + (transform.right * attackOffset.x) +(transform.forward * attackOffset.z) + (transform.up * attackOffset.y), transform.rotation);
+            if (turnAttackToLookAtTarget) newSpell.transform.LookAt(playerPos);
+        } else {
+            newSpell = PhotonNetwork.Instantiate("Enemies/EnemySpells/"+unreachableAttackID, transform.position + (transform.right * unreachableAttackOffset.x) +(transform.forward * unreachableAttackOffset.z) + (transform.up * unreachableAttackOffset.y), transform.rotation);
+            if (turnUnreachableAttackToLookAtTarget) newSpell.transform.LookAt(playerPos);
+        }
+        
         Spell spell = newSpell.GetComponent<Spell>();
         if (spell != null) {
             spell.SetSpellDamageModifier(aura + strengths - weaknesses);
@@ -246,6 +271,19 @@ public class MobAI : Enemy, IPunObservable {
         } else {
             Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
         }
+
+        if (spell.IsSelfTargeted) {
+            TargetedSpell targetedSpell = newSpell.GetComponent<TargetedSpell>();
+            if (targetedSpell != null) targetedSpell.SetTarget(gameObject);
+            AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
+            if (aoeSpell != null) aoeSpell.SetTarget(gameObject);
+        } else if (spell.IsOpponentTargeted) {
+            TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
+            if (ts != null) ts.SetTarget(closestPlayer);
+            AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
+            if (aoeSpell != null) aoeSpell.SetTarget(closestPlayer);
+        }
+
         BasicProjectileSpell bps = newSpell.GetComponent<BasicProjectileSpell>();
         if (bps != null) {
             bps.SetEnemyAttack();
@@ -259,7 +297,6 @@ public class MobAI : Enemy, IPunObservable {
     }
 
     public void CompleteAttack() {
-        Debug.Log("Complete Attack");
         animator.SetBool("Attack", false);
         // Stop attack particles
         if (attackParticlesParent != null) {
@@ -278,8 +315,10 @@ public class MobAI : Enemy, IPunObservable {
     
 
     public void OutOfReach() {
-        Debug.Log("Out of range");
         if (targetInAttackRange) {
+            AttackTarget();
+        } else if (unreachableAttackID != "" && targetInUnreachableAttackRange && canSeeTarget) {
+            targetUnreachable = true;
             AttackTarget();
         } else if (walking) {
             walking = false;
@@ -288,7 +327,6 @@ public class MobAI : Enemy, IPunObservable {
             if (NavMesh.SamplePosition(transform.position, out hit, 1f, NavMesh.AllAreas)){
                 agent.CalculatePath(hit.position, path);
                 if (path.status == NavMeshPathStatus.PathComplete) {
-                    // Walk towards target
                     agent.SetDestination(hit.position);
                 }
             }
@@ -337,5 +375,11 @@ public class MobAI : Enemy, IPunObservable {
         // Draw a red sphere for the attack range
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        if (unreachableAttackID != "") {
+            // Draw a blue sphere for the attack range
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, unreachableAttackRange);
+        }
     }
 }
