@@ -11,6 +11,7 @@ public class TargetedSpell : Spell {
 
     private GameObject TargetGO;
     private PlayerManager TargetPM;
+    private Enemy TargetEM;
     private StatusEffect statusEffect;
     private MovementEffect movementEffect;
 
@@ -53,6 +54,7 @@ public class TargetedSpell : Spell {
     public void SetTarget(GameObject targetGO) {
         TargetGO = targetGO;
         TargetPM = targetGO.GetComponent<PlayerManager>();
+        TargetEM = targetGO.GetComponent<Enemy>();
 
         transform.position = targetGO.transform.position + PositionOffset;
         transform.rotation = targetGO.transform.rotation;
@@ -70,7 +72,12 @@ public class TargetedSpell : Spell {
             if (pv != null)
                 pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
         }
-        Debug.Log("TARGETED SPELL STRENGTH "+GetSpellStrength());
+        if (Damage > 0f && TargetEM != null) {
+            PhotonView pv = PhotonView.Get(TargetEM);
+            string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+            if (pv != null)
+                pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+        }
         if (statusEffect != null) statusEffect.ManualActivation(TargetGO);
         if (movementEffect != null) movementEffect.ManualActivation(TargetGO);
     }

@@ -1574,7 +1574,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Debug.Log("New Mana Regen : " + ManaRegen);
         yield return new WaitForSeconds(duration);
         if (ManaRegen != defaultManaRegen) ManaRegen /= restorationPercentage;
-        if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
+        if (Mathf.Approximately(ManaRegen, defaultManaRegen)) manaRestorationChange = false;
         // Debug.Log("New Mana Regen after end: " + ManaRegen);
         manaRestorationRoutineRunning = false;
         manaRestorationPercentage = 0f;

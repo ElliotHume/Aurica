@@ -18,7 +18,7 @@ public class MobAI : Enemy, IPunObservable {
     public GameObject attackParticlesParent;
 
     public string unreachableAttackID;
-    public float unreachableAttackRange = 10f;
+    public float unreachableAttackRange = 80f;
     public Vector3 unreachableAttackOffset = Vector3.zero;
     public bool turnUnreachableAttackToLookAtTarget = true;
     bool targetInUnreachableAttackRange = false;
@@ -249,8 +249,12 @@ public class MobAI : Enemy, IPunObservable {
                     if (effect != null) effect.Play();
                 }
             }
-            if (attackWindupSound != null) attackWindupSound.Play();
+            
         }
+    }
+    
+    public void PlayAttackSound() {
+        if (attackWindupSound != null) attackWindupSound.Play();
     }
 
     public void CreateAttack() {
@@ -334,13 +338,13 @@ public class MobAI : Enemy, IPunObservable {
     }
 
     public void Die() {
-        animator.Play("Dead");
         walking = false;
         dead = true;
         onDeath.Invoke();
         if (breathingSound != null) breathingSound.Stop();
         GetComponent<CapsuleCollider>().enabled = false;
         if (photonView.IsMine) {
+            animator.Play("Dead");
             Invoke("DestroySelf", 30f);
         }
     }

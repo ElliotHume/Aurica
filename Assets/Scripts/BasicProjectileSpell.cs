@@ -23,6 +23,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public bool ExplodeOnReachMaxDistance = false;
     public GameObject[] EffectsOnCollision;
     public string[] NetworkedEffectsOnCollision;
+    public bool CollisionEffectsUseHitNormal = true;
     public GameObject[] DeactivateObjectsOnCollision;
 
     private Vector3 startPosition;
@@ -104,7 +105,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void OnCollisionEnter(Collision collision) {
-        if ( isCollided ) return;
+        if ( isCollided || !photonView.IsMine ) return;
         
         // Prevent the projectile hitting the player who cast it if the flag is set.
         if (!CanHitSelf && collision.gameObject.tag == "Player") {
@@ -202,12 +203,13 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void LocalCollisionBehaviour(Vector3 hitpoint, Vector3 hitNormal) {
+        Vector3 normal = CollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
         foreach (var effect in DeactivateObjectsOnCollision) {
             if (effect != null) effect.SetActive(false);
         }
         foreach (var effect in EffectsOnCollision) {
-            GameObject instance = Instantiate(effect, hitpoint + hitNormal * CollisionOffset, new Quaternion());
-            instance.transform.LookAt(hitpoint + hitNormal + hitNormal * CollisionOffset);
+            GameObject instance = Instantiate(effect, hitpoint + normal * CollisionOffset, new Quaternion());
+            instance.transform.LookAt(hitpoint + normal + normal * CollisionOffset);
             Destroy(instance, CollisionDestroyTimeDelay);
         }
         GetComponent<Collider>().enabled = false;
@@ -216,9 +218,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void NetworkCollisionBehaviour(Vector3 hitPoint, Vector3 hitNormal) {
+        Vector3 normal = CollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
         foreach(string effect in NetworkedEffectsOnCollision) {
-            GameObject instance = PhotonNetwork.Instantiate(effect, hitPoint + hitNormal * CollisionOffset, transform.rotation);
-            instance.transform.LookAt(hitPoint + hitNormal + hitNormal * CollisionOffset);
+            GameObject instance = PhotonNetwork.Instantiate(effect, hitPoint + normal * CollisionOffset, transform.rotation);
+            instance.transform.LookAt(hitPoint + normal + normal * CollisionOffset);
             instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
             Spell instanceSpell = instance.GetComponent<Spell>();
             if (instanceSpell != null) {

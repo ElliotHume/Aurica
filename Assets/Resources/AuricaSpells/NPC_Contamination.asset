@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: NPC_Contamination
+  m_EditorClassIdentifier: 
+  c_name: Contamination
+  manaType: 2
+  description: A chaotic area attack used by monsters with chaotic magic.
+  targetDistribution:
+    structure: -1
+    essence: 0.1
+    fire: 0.1
+    water: 0
+    earth: 0
+    air: 0.1
+    nature: 0
+  keyComponents: []
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_NPC_Contamination
