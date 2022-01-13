@@ -50,7 +50,7 @@ public class RewardsManager : MonoBehaviour {
         float existingRewards = rewardPoints; 
         var request = new UpdateUserDataRequest {
             Data = new Dictionary<string, string> {
-                {"RewardPoints", (existingRewards+points).ToString()}
+                {"RewardPoints", (Mathf.Round((existingRewards+points) * 10000f) / 10000f).ToString()}
             }
         };
         rewardPoints = existingRewards+points;

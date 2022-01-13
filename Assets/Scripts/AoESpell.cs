@@ -152,6 +152,7 @@ public class AoESpell : Spell {
                 Enemy enemy = other.gameObject.GetComponent<Enemy>();
                 string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
                 if (enemy != null) {
+                    enemy.SetLocalPlayerParticipation();
                     PhotonView pv = PhotonView.Get(enemy);
                     if (pv != null) {
                         pv.RPC("OnSpellCollide", RpcTarget.All, LastingDamage * 0.002f * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);

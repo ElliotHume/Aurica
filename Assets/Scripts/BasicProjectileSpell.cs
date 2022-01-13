@@ -182,6 +182,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 if (enemy != null) {
                     PhotonView pv = PhotonView.Get(enemy);
                     if (pv != null) {
+                        enemy.SetLocalPlayerParticipation();
                         pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                         collidedViewId = pv.ViewID;
                         FlashHitMarker(true);

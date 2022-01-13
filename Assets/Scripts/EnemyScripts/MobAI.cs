@@ -9,20 +9,21 @@ using Photon.Pun;
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class MobAI : Enemy, IPunObservable {
+
     //Attacking
-    
     public float attackCooldown = 4f;
     public string attackPrefabID = "Spell_Slash";
     public Vector3 attackOffset = Vector3.zero;
     public bool turnAttackToLookAtTarget = true;
     public GameObject attackParticlesParent;
 
+    // Unreachable attack
+    // for when the targeted player is off of the navmesh and out of attack range.
     public string unreachableAttackID;
     public float unreachableAttackRange = 80f;
     public Vector3 unreachableAttackOffset = Vector3.zero;
     public bool turnUnreachableAttackToLookAtTarget = true;
     bool targetInUnreachableAttackRange = false;
-
 
     bool alreadyAttacked = false, targetUnreachable = false, attackStartedAsUnreachable = false;
 
@@ -55,8 +56,7 @@ public class MobAI : Enemy, IPunObservable {
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         startPoint = transform.position;
@@ -252,7 +252,7 @@ public class MobAI : Enemy, IPunObservable {
             
         }
     }
-    
+
     public void PlayAttackSound() {
         if (attackWindupSound != null) attackWindupSound.Play();
     }
@@ -316,7 +316,6 @@ public class MobAI : Enemy, IPunObservable {
         alreadyAttacked = false;
     }
 
-    
 
     public void OutOfReach() {
         if (targetInAttackRange) {
@@ -335,22 +334,6 @@ public class MobAI : Enemy, IPunObservable {
                 }
             }
         }
-    }
-
-    public void Die() {
-        walking = false;
-        dead = true;
-        onDeath.Invoke();
-        if (breathingSound != null) breathingSound.Stop();
-        GetComponent<CapsuleCollider>().enabled = false;
-        if (photonView.IsMine) {
-            animator.Play("Dead");
-            Invoke("DestroySelf", 30f);
-        }
-    }
-
-    void DestroySelf() {
-        PhotonNetwork.Destroy(gameObject);
     }
 
     void SearchWalkPoint() {

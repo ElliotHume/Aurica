@@ -2718,6 +2718,7 @@ MonoBehaviour:
   attackWindupSound: {fileID: 8478681900063603382}
   aggroSound: {fileID: 8478681900101273926}
   breathingSound: {fileID: 8478681901460699397}
+  deathSound: {fileID: 8478681901590454286}
   sightRange: 8
   attackRange: 2
   walkingSpeed: 1
@@ -2735,43 +2736,7 @@ MonoBehaviour:
     nature: 0
   onDeath:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8478681901590454286}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7567570798446451368}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5808715791545854288}
-        m_TargetAssemblyTypeName: LootCreator, Assembly-CSharp
-        m_MethodName: DropLoot
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   slowed: 0
   hastened: 0
   rooted: 0

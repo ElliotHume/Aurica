@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     protected float maxHealth;
     public LayerMask whatIsGround, whatIsPlayer, sightBlockingMask;
     public EnemyCharacterUI enemyUI;
-    public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound;
+    public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound, deathSound;
 
     protected GameObject closestPlayer;
     protected Vector3 playerPos;
@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     protected Quaternion networkRotation;
     protected float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     protected DamagePopup accumulatingDamagePopup;
+    protected bool didLocalPlayerParticipate = false;
 
     // States
     public float sightRange = 10f, attackRange = 3f, walkingSpeed = 2f, runningSpeed = 4f;
@@ -169,6 +170,34 @@ public class Enemy : MonoBehaviourPunCallbacks {
             duration -= Time.deltaTime;
             yield return new WaitForFixedUpdate();
         }
+    }
+
+    public void SetLocalPlayerParticipation() {
+        didLocalPlayerParticipate = true;
+    }
+
+    public void Die() {
+        walking = false;
+        dead = true;
+        onDeath.Invoke();
+        if (breathingSound != null) breathingSound.Stop();
+        if (deathSound != null) deathSound.Play();
+        GetComponent<CapsuleCollider>().enabled = false;
+        animator.Play("Dead");
+        
+        // Drop loot
+        LootCreator loot = GetComponentInChildren<LootCreator>();
+        if (loot != null && didLocalPlayerParticipate) loot.DropLoot();
+
+        // Disable the character UI
+        EnemyCharacterUI ui = GetComponentInChildren<EnemyCharacterUI>();
+        if (ui != null) ui.gameObject.SetActive(false);
+
+        if (photonView.IsMine) Invoke("DestroySelf", 30f);
+    }
+
+    void DestroySelf() {
+        PhotonNetwork.Destroy(gameObject);
     }
 
     /* ---------------------- MOVEMENT MANAGER ---------------------- */

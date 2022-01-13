@@ -171,6 +171,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
                 if (enemy != null) {
+                    enemy.SetLocalPlayerParticipation();
                     PhotonView pv = PhotonView.Get(enemy);
                     if (pv != null) {
                         pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);

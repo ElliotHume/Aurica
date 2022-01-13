@@ -73,6 +73,7 @@ public class TargetedSpell : Spell {
                 pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
         }
         if (Damage > 0f && TargetEM != null) {
+            TargetEM.SetLocalPlayerParticipation();
             PhotonView pv = PhotonView.Get(TargetEM);
             string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
             if (pv != null)
