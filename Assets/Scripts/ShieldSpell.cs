@@ -11,6 +11,7 @@ public class ShieldSpell : Spell, IPunObservable {
     public List<string> networkedEffectsOnHit;
     public ManaDistribution ShieldDistribution;
     public StatusEffect statusEffectOnBreak;
+    public MovementEffect movementEffectOnBreak;
 
     bool broken = false;
 
@@ -71,6 +72,7 @@ public class ShieldSpell : Spell, IPunObservable {
                 PhotonView pv = PhotonView.Get(owner);
                 if (pv != null) pv.RPC("BreakShield", RpcTarget.All);
                 if (statusEffectOnBreak != null) statusEffectOnBreak.ManualActivation(PlayerManager.LocalPlayerGameObject);
+                if (movementEffectOnBreak != null) movementEffectOnBreak.ManualActivation(PlayerManager.LocalPlayerGameObject);
             }
 
             PhotonNetwork.Destroy(gameObject);

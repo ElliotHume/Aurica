@@ -865,7 +865,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
                     AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
 
-                    GameObject target = GetPlayerWithinAimTolerance(10f);
+                    GameObject target = GetPlayerWithinAimTolerance(5f);
                     if (target != null) {
                         Debug.Log("Target found: " + target);
                         if (ts != null) ts.SetTarget(target);

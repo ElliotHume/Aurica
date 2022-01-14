@@ -14791,6 +14791,7 @@ GameObject:
   - component: {fileID: 5733788829484927316}
   - component: {fileID: 7026157317925104585}
   - component: {fileID: 7292031901590729338}
+  - component: {fileID: 4370876483578509561}
   m_Layer: 8
   m_Name: Spell_LesserShield_Life
   m_TagString: Shield
@@ -14844,7 +14845,8 @@ MonoBehaviour:
   IsOpponentTargeted: 0
   Health: 25
   spawnEffectsOnBreak: []
-  networkedEffectsOnBreak: []
+  networkedEffectsOnBreak:
+  - XCollision_LesserShieldBreak
   networkedEffectsOnHit: []
   ShieldDistribution:
     structure: -0.25
@@ -14854,6 +14856,8 @@ MonoBehaviour:
     earth: 0
     air: 0.2
     nature: 0
+  statusEffectOnBreak: {fileID: 0}
+  movementEffectOnBreak: {fileID: 4370876483578509561}
 --- !u!114 &7026157317925104585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14894,3 +14898,24 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &4370876483578509561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249637546169865365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacementDistance: 15
+  displacementSpeed: 10
+  displacementDirection: {x: 0, y: 0.2, z: -1}
+  canHitSelf: 1
+  isKnockback: 0
+  isVacuum: 0
+  isFixed: 0
+  isContinuous: 0
+  clip: {fileID: 0}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5488073844092395655}
   - component: {fileID: 5488073844091242551}
   - component: {fileID: 5533991813402493959}
+  - component: {fileID: 3416111322678137224}
   m_Layer: 1
   m_Name: SM_Env_Rock_Rectangle_03
   m_TagString: Untagged
@@ -96,6 +97,22 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43549938121079044, guid: 4eff9077ab203f74aa205c00db547a37, type: 2}
+--- !u!208 &3416111322678137224
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5488073844089262177}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.41400003, y: 0.79, z: 0.41400003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5488073844415726033
 GameObject:
   m_ObjectHideFlags: 0

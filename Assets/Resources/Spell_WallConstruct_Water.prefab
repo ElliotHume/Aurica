@@ -4551,6 +4551,7 @@ GameObject:
   - component: {fileID: 4082741049535119372}
   - component: {fileID: 4057164319960271932}
   - component: {fileID: 1832267106318530349}
+  - component: {fileID: 908012754117809726}
   m_Layer: 1
   m_Name: SM_Env_Rock_Rectangle_03
   m_TagString: Untagged
@@ -4648,6 +4649,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8276867, y: 1.5795243, z: 0.8280005}
   m_Center: {x: 0, y: -0.000000059591727, z: 0.00021791458}
+--- !u!208 &908012754117809726
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082741049533143130}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.41400003, y: 0.79, z: 0.41400003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4082741049692948970
 GameObject:
   m_ObjectHideFlags: 0

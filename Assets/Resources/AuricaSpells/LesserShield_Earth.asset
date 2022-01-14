@@ -16,7 +16,8 @@ MonoBehaviour:
   manaType: 7
   description: Create a weak shield of earth mana around you. This shield is slightly
     stronger than other lesser shields, and the target distribution requires less
-    energy due to the compatibility between earth mana and this spell.
+    energy due to the compatibility between earth mana and this spell. When broken
+    the mana will throw the caster backwards a short distance.
   targetDistribution:
     structure: 0.1
     essence: -0.1

@@ -5238,6 +5238,7 @@ GameObject:
   - component: {fileID: 4735362485014839786}
   - component: {fileID: 4735362485014839787}
   - component: {fileID: 4735362485014839784}
+  - component: {fileID: -7846507436578625904}
   m_Layer: 8
   m_Name: Spell_LesserShield_Water
   m_TagString: Shield
@@ -5291,7 +5292,8 @@ MonoBehaviour:
   IsOpponentTargeted: 0
   Health: 50
   spawnEffectsOnBreak: []
-  networkedEffectsOnBreak: []
+  networkedEffectsOnBreak:
+  - XCollision_LesserShieldBreak
   networkedEffectsOnHit: []
   ShieldDistribution:
     structure: 0.25
@@ -5301,6 +5303,8 @@ MonoBehaviour:
     earth: 0
     air: 0
     nature: 0
+  statusEffectOnBreak: {fileID: 0}
+  movementEffectOnBreak: {fileID: -7846507436578625904}
 --- !u!114 &4735362485014839787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5341,6 +5345,27 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &-7846507436578625904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4735362485014839790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacementDistance: 15
+  displacementSpeed: 10
+  displacementDirection: {x: 0, y: 0.2, z: -1}
+  canHitSelf: 1
+  isKnockback: 0
+  isVacuum: 0
+  isFixed: 0
+  isContinuous: 0
+  clip: {fileID: 0}
 --- !u!1 &4735362485289220637
 GameObject:
   m_ObjectHideFlags: 0

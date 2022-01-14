@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     public EnemyCharacterUI enemyUI;
     public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound, deathSound;
 
-    protected GameObject closestPlayer;
+    protected GameObject closestPlayer, playerOwner;
     protected Vector3 playerPos;
     protected UnityEngine.AI.NavMeshAgent agent;
     protected Animator animator;
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     protected Quaternion networkRotation;
     protected float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     protected DamagePopup accumulatingDamagePopup;
-    protected bool didLocalPlayerParticipate = false;
+    protected bool didLocalPlayerParticipate = false, disabledLootDrops = false;
 
     // States
     public float sightRange = 10f, attackRange = 3f, walkingSpeed = 2f, runningSpeed = 4f;
@@ -184,10 +184,12 @@ public class Enemy : MonoBehaviourPunCallbacks {
         if (deathSound != null) deathSound.Play();
         GetComponent<CapsuleCollider>().enabled = false;
         animator.Play("Dead");
-        
+
         // Drop loot
-        LootCreator loot = GetComponentInChildren<LootCreator>();
-        if (loot != null && didLocalPlayerParticipate) loot.DropLoot();
+        if (!disabledLootDrops) {
+            LootCreator loot = GetComponentInChildren<LootCreator>();
+            if (loot != null && didLocalPlayerParticipate) loot.DropLoot();
+        }
 
         // Disable the character UI
         EnemyCharacterUI ui = GetComponentInChildren<EnemyCharacterUI>();
@@ -227,6 +229,19 @@ public class Enemy : MonoBehaviourPunCallbacks {
             agent.isStopped = rooted;
         }
         animator.speed = stunned ? 0f : 1f;
+    }
+
+    /* ---------------------- MISC FUNCTIONS ------------------------ */
+
+    public void SetPlayerOwner(GameObject ownerGO){
+        playerOwner = ownerGO;
+        disabledLootDrops = true;
+    }
+
+    public void SetStrength(float strengthMultiplier) {
+        maxHealth *= strengthMultiplier;
+        Health *= strengthMultiplier;
+        enemyUI.SetMaxHealth(maxHealth);
     }
 
 

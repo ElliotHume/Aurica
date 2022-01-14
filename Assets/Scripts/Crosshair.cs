@@ -51,10 +51,15 @@ public class Crosshair : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay( transform.position );
         RaycastHit[] hits = Physics.SphereCastAll( ray, radius, 1000f, 1 << 3);
         foreach(var hit in hits) {
+            if (hit.collider.gameObject == PlayerManager.LocalPlayerGameObject) continue;
             Vector3 cameraPos = Camera.main.transform.position;
             Vector3 hitPos = hit.collider.gameObject.transform.position+playerHitOffset;
-            bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
-            if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerGameObject) return hit.collider.gameObject;
+            float angle = Vector3.Angle(Camera.main.transform.forward, hitPos - cameraPos);
+            if (Mathf.Abs(angle) <= 30f && Vector3.Distance(hitPos, cameraPos) > 4f) {
+                bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
+                if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerGameObject) return hit.collider.gameObject;
+            }   
+            
         }
 
         return null;

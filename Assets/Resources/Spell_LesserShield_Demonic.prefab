@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 844773994039799608}
   - component: {fileID: 5905396997380778805}
   - component: {fileID: 3178021129982374133}
+  - component: {fileID: -7037948072484567354}
   m_Layer: 8
   m_Name: Spell_LesserShield_Demonic
   m_TagString: Shield
@@ -199,7 +200,8 @@ MonoBehaviour:
   IsOpponentTargeted: 0
   Health: 25
   spawnEffectsOnBreak: []
-  networkedEffectsOnBreak: []
+  networkedEffectsOnBreak:
+  - XCollision_LesserShieldBreak
   networkedEffectsOnHit: []
   ShieldDistribution:
     structure: -0.25
@@ -209,6 +211,8 @@ MonoBehaviour:
     earth: 0
     air: 0
     nature: -1
+  statusEffectOnBreak: {fileID: 0}
+  movementEffectOnBreak: {fileID: -7037948072484567354}
 --- !u!114 &5905396997380778805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +253,27 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &-7037948072484567354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742547046692801962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacementDistance: 15
+  displacementSpeed: 10
+  displacementDirection: {x: 0, y: 0.2, z: -1}
+  canHitSelf: 1
+  isKnockback: 0
+  isVacuum: 0
+  isFixed: 0
+  isContinuous: 0
+  clip: {fileID: 0}
 --- !u!1 &3940971654886454154
 GameObject:
   m_ObjectHideFlags: 0

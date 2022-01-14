@@ -16,7 +16,8 @@ MonoBehaviour:
   manaType: 6
   description: Create a weak shield of water around you. This shield is slightly
     stronger than other lesser shields, and the target distribution requires less
-    energy due to the compatibility between water mana and this spell.
+    energy due to the compatibility between water mana and this spell. When broken
+    the mana will throw the caster backwards a short distance.
   targetDistribution:
     structure: 0.1
     essence: 0.1

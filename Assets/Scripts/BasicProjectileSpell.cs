@@ -23,7 +23,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public bool ExplodeOnReachMaxDistance = false;
     public GameObject[] EffectsOnCollision;
     public string[] NetworkedEffectsOnCollision;
-    public bool CollisionEffectsUseHitNormal = true;
+    public bool LocalCollisionEffectsUseHitNormal = true, NetworkCollisionEffectsUseHitNormal = true, NetworkCollisionEffectsOnlyOnHitGround = false;
     public GameObject[] DeactivateObjectsOnCollision;
 
     private Vector3 startPosition;
@@ -204,7 +204,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void LocalCollisionBehaviour(Vector3 hitpoint, Vector3 hitNormal) {
-        Vector3 normal = CollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
+        Vector3 normal = LocalCollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
         foreach (var effect in DeactivateObjectsOnCollision) {
             if (effect != null) effect.SetActive(false);
         }
@@ -219,16 +219,24 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void NetworkCollisionBehaviour(Vector3 hitPoint, Vector3 hitNormal) {
-        Vector3 normal = CollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
+        Vector3 normal = NetworkCollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
+        if (NetworkCollisionEffectsOnlyOnHitGround && Vector3.Dot(hitNormal, Vector3.up) < 0.707f) return;
         foreach(string effect in NetworkedEffectsOnCollision) {
             GameObject instance = PhotonNetwork.Instantiate(effect, hitPoint + normal * CollisionOffset, transform.rotation);
-            instance.transform.LookAt(hitPoint + normal + normal * CollisionOffset);
-            instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
-            Spell instanceSpell = instance.GetComponent<Spell>();
-            if (instanceSpell != null) {
-                instanceSpell.SetSpellStrength(GetSpellStrength());
-                instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
-                instanceSpell.SetOwner(GetOwner());
+            Enemy instancedEnemy = instance.GetComponent<Enemy>();
+            if (instancedEnemy != null) {
+                instance.transform.rotation = Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0));
+                instancedEnemy.SetPlayerOwner(GetOwner());
+                instancedEnemy.SetStrength(GetSpellStrength());
+            } else {
+                instance.transform.LookAt(hitPoint + normal + normal * CollisionOffset);
+                instance.transform.Rotate(Vector3.forward, transform.eulerAngles.y);
+                Spell instanceSpell = instance.GetComponent<Spell>();
+                if (instanceSpell != null) {
+                    instanceSpell.SetSpellStrength(GetSpellStrength());
+                    instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
+                    instanceSpell.SetOwner(GetOwner());
+                }
             }
         }
     }

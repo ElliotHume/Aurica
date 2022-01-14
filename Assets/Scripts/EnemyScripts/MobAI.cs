@@ -72,6 +72,7 @@ public class MobAI : Enemy, IPunObservable {
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
         foreach (GameObject go in gos) {
+            if (go == playerOwner) continue;
             Vector3 diff = go.transform.position - position;
             float curDistance = diff.sqrMagnitude;
             if (curDistance < distance && go.GetComponents<TargetDummy>().Length == 0) {
@@ -79,6 +80,7 @@ public class MobAI : Enemy, IPunObservable {
                 distance = curDistance;
             }
         }
+        // Debug.Log("Closest player: "+closest+"     enemyOwner:"+playerOwner+"   isTargetOwner: "+(closest == playerOwner));
         return closest;
     }
 
@@ -128,6 +130,23 @@ public class MobAI : Enemy, IPunObservable {
         // Get closest player
         closestPlayer = FindClosestPlayer();
 
+        // Set animator variable(s)
+        animator.SetBool("Moving", walking && !rooted && !stunned);
+        animator.SetBool("InCombat", inCombat);
+
+        // Check health
+        if (Health <= 0f) {
+            if (!dead) Die();
+            if (agent.hasPath) {
+                agent.ResetPath();
+                agent.isStopped = true;
+            }
+            return;
+        }
+
+        // Don't do anything if stunned or there are no valid player targets
+        if (stunned || closestPlayer == null) return;
+
         // Get player controller position in worldspace
         playerPos = closestPlayer.transform.position + new Vector3(0f,1f,0f);
 
@@ -143,7 +162,7 @@ public class MobAI : Enemy, IPunObservable {
         // If in sight range, check if the target is obscured
         if (targetInSightRange || targetInAttackRange || targetInUnreachableAttackRange) {
             RaycastHit raycastHit;
-            if( Physics.SphereCast(transform.position+transform.up, 0.5f, (playerPos - (transform.position+transform.up)), out raycastHit, 100f, sightBlockingMask) ) {
+            if( Physics.SphereCast(transform.position+transform.up, 0.2f, (playerPos - (transform.position+transform.up)), out raycastHit, 100f, sightBlockingMask) ) {
                 // Debug.Log("Can see: "+raycastHit.transform.gameObject);
                 canSeeTarget = raycastHit.transform.gameObject.tag == "Player";
             }
@@ -151,37 +170,22 @@ public class MobAI : Enemy, IPunObservable {
 
         // Debug.Log("InSightRange: "+targetInSightRange+"    InAttackRange: "+targetInAttackRange+"     CanSeeTarget: "+canSeeTarget);
 
-        // Set animatoration variable(s)
-        animator.SetBool("Moving", walking && !rooted && !stunned);
-        animator.SetBool("InCombat", inCombat);
-
-        // Dont do anything if stunned
-        if (stunned) return;
-
         // Thinking logic
-        if (Health > 0f) {
-            if (!inCombat) {
-                if (!targetInSightRange || (targetInSightRange && !canSeeTarget)) {
-                    if (doesPatrol) Patrolling();
-                } else {
-                    inCombat = true;
-                    if (!slowed && !hastened && !rooted && !stunned) agent.speed = runningSpeed;
-                    if (aggroSound != null) aggroSound.Play();
-                    ChaseTarget();
-                }
+        if (!inCombat) {
+            if (!targetInSightRange || (targetInSightRange && !canSeeTarget)) {
+                if (doesPatrol) Patrolling();
             } else {
-                if ((!targetInAttackRange && !alreadyAttacked) || (targetInAttackRange && !canSeeTarget && !alreadyAttacked) || (targetUnreachable && !targetInAttackRange)) {
-                    ChaseTarget();
-                } else {
-                    targetUnreachable = false;
-                    AttackTarget();
-                }
+                inCombat = true;
+                if (!slowed && !hastened && !rooted && !stunned) agent.speed = runningSpeed;
+                if (aggroSound != null) aggroSound.Play();
+                ChaseTarget();
             }
         } else {
-            if (!dead) Die();
-            if (agent.hasPath) {
-                agent.ResetPath();
-                agent.isStopped = true;
+            if ((!targetInAttackRange && !alreadyAttacked) || (targetInAttackRange && !canSeeTarget && !alreadyAttacked) || (targetUnreachable && !targetInAttackRange)) {
+                ChaseTarget();
+            } else {
+                targetUnreachable = false;
+                AttackTarget();
             }
         }
     }

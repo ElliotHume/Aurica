@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1680339722020335211}
   - component: {fileID: 1680339722020335210}
   - component: {fileID: 8210917988068167712}
+  - component: {fileID: 1905643199}
   m_Layer: 0
   m_Name: Spell_SentinelOfStone
   m_TagString: Untagged
@@ -103,7 +104,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 7395700566902343484}
   - {fileID: 7395700566902343458}
-  sceneViewId: 0
+  sceneViewId: 49
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7395700566902343458
@@ -142,7 +143,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 4.921591
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -238,7 +239,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 2.3056993
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -327,6 +328,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0514154, y: 0.6645994, z: 1.6600428}
   m_Center: {x: -0.02686888, y: 6.972409, z: 0.071970224}
+--- !u!208 &1905643199
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7395700566902202528}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 12.5, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -5.89, z: 0}
+  m_TimeToStationary: 1.2
 --- !u!1001 &1680339722047304262
 PrefabInstance:
   m_ObjectHideFlags: 0

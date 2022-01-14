@@ -144,4 +144,8 @@ public class EnemyCharacterUI : MonoBehaviour {
         return dmgPopup;
     }
 
+    public void SetMaxHealth(float max) {
+        enemyHealthSlider.maxValue = max;
+    }
+
 }
