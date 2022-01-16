@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     protected float maxHealth;
     public LayerMask whatIsGround, whatIsPlayer, sightBlockingMask;
     public EnemyCharacterUI enemyUI;
-    public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound, deathSound;
+    public AudioSource hurtSound, attackWindupSound, aggroSound, breathingSound, deathSound, footstepSound;
 
     protected GameObject closestPlayer, playerOwner;
     protected Vector3 playerPos;
@@ -232,6 +232,10 @@ public class Enemy : MonoBehaviourPunCallbacks {
     }
 
     /* ---------------------- MISC FUNCTIONS ------------------------ */
+
+    public void Footstep() {
+        if (footstepSound != null) footstepSound.Play();
+    }
 
     public void SetPlayerOwner(GameObject ownerGO){
         playerOwner = ownerGO;

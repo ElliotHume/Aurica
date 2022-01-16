@@ -55,7 +55,6 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
             }
         } else {
             if (!shrunk && !isSceneObject) {
-                Debug.Log(photonView.Owner);
                 startScale = startScale * 0.5f;
                 transform.localScale = startScale;
                 shrunk = true;
@@ -87,7 +86,7 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         transform.SetParent(parentGO.transform);
         startScale = transform.localScale;
     }
-    
+
     void LateUpdate() {
         // Always face the camera
         transform.LookAt(transform.position + cam.forward);
@@ -141,9 +140,11 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         drift = true;
 
         // Unparent the object, we want it to appear in world space when it stops
-        Vector3 temp = gameObject.transform.position;
-        gameObject.transform.SetParent(null);
-        gameObject.transform.position = temp;
+        Vector3 temp = transform.position;
+        transform.SetParent(null);
+        transform.localScale = photonView.IsMine ? Vector3.one * ( isSceneObject ? 2f : 0.5f) : Vector3.one;
+        startScale = photonView.IsMine ? Vector3.one * ( isSceneObject ? 2f : 0.5f) : Vector3.one;
+        transform.position = temp;
 
         // Start the fade out after delay
         StartCoroutine(FadeOut());

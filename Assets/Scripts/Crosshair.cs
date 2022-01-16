@@ -53,9 +53,10 @@ public class Crosshair : MonoBehaviour
         foreach(var hit in hits) {
             if (hit.collider.gameObject == PlayerManager.LocalPlayerGameObject) continue;
             Vector3 cameraPos = Camera.main.transform.position;
-            Vector3 hitPos = hit.collider.gameObject.transform.position+playerHitOffset;
+            Vector3 hitPos = hit.collider.gameObject.transform.position+(playerHitOffset * hit.collider.gameObject.transform.localScale.y);
             float angle = Vector3.Angle(Camera.main.transform.forward, hitPos - cameraPos);
-            if (Mathf.Abs(angle) <= 30f && Vector3.Distance(hitPos, cameraPos) > 4f) {
+            Debug.Log("Character hit: "+hit.collider.gameObject+"     angle: "+angle+"    distance: "+Vector3.Distance(hitPos, cameraPos));
+            if (Mathf.Abs(angle) <= 45f && Vector3.Distance(hitPos, cameraPos) > 4f) {
                 bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
                 if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerGameObject) return hit.collider.gameObject;
             }   
@@ -86,7 +87,7 @@ public class Crosshair : MonoBehaviour
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach( var player in players) {
             Vector3 cameraPos = Camera.main.transform.position;
-            Vector3 hitPos = player.transform.position+playerHitOffset;
+            Vector3 hitPos = player.transform.position+(playerHitOffset * player.transform.localScale.y);
             bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
             Gizmos.color = isVisibilityBlocked? Color.red : Color.green;
             Gizmos.DrawLine(cameraPos, hitPos);
