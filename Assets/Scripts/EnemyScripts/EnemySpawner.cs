@@ -35,7 +35,7 @@ public class EnemySpawner : MonoBehaviourPun {
         if (hasSpawned && spawn != null) {
             isSpawnAlive = spawn.Health > 0f;
             if (!isSpawnAlive && !respawnInitiated) {
-                Debug.Log("Initiate Respawn of: " + enemyID);
+                // Debug.Log("Initiate Respawn of: " + enemyID);
                 hasSpawned = false;
                 StartCoroutine(Respawn());
             }
@@ -44,7 +44,7 @@ public class EnemySpawner : MonoBehaviourPun {
 
     public void Spawn() {
         if (hasSpawned || !photonView.IsMine) return;
-        Debug.Log("Spawning "+enemyID);
+        // Debug.Log("Spawning "+enemyID);
         spawnGO = PhotonNetwork.Instantiate("Enemies/"+enemyID, transform.position, transform.rotation);
         spawn = spawnGO.GetComponent<Enemy>();
         if (preventSpawnPatrolling && spawn != null) spawn.doesPatrol = false;

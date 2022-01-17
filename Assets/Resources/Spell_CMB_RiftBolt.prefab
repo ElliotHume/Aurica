@@ -81,6 +81,9 @@ MonoBehaviour:
   EffectsOnCollision:
   - {fileID: 2331186632438128978, guid: d8e8ade8bcc101c4cb2c33c72d800ceb, type: 3}
   NetworkedEffectsOnCollision: []
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 2845141037785307596}
   - {fileID: 2845944324621695380}

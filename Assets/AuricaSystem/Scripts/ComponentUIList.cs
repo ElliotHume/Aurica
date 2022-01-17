@@ -56,7 +56,7 @@ public class ComponentUIList : MonoBehaviour
     }
 
     public void WipeList() {
-        Debug.Log("Wiping list");
+        // Debug.Log("Wiping list");
         if (instances.Count > 0) {
             foreach (var item in instances){
                 Destroy(item);

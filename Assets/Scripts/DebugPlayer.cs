@@ -63,7 +63,7 @@ public class DebugPlayer : MonoBehaviourPun
         return PhotonNetwork.Instantiate(prefabName, transform.position + transform.up + transform.forward, transform.rotation);
     }
 
-    void OnCollisionEnter(Collision collision) {
-        Debug.Log("DEBUG HIT BY: "+collision.gameObject);
-    }
+    // void OnCollisionEnter(Collision collision) {
+    //     Debug.Log("DEBUG HIT BY: "+collision.gameObject);
+    // }
 }

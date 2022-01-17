@@ -17,12 +17,10 @@ public class RadiusEvent : MonoBehaviour
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, layerMask);
         if (hitColliders.Length > 0 && !hasActivated) {
-            Debug.Log("Fire event");
             // Fire the event once when the trigger is within the radius
             OnRadiusEnter.Invoke();
             hasActivated = true;
         } else if (hitColliders.Length == 0 && hasActivated) {
-            Debug.Log("Reset event");
             // Reset so that it can fire again
             hasActivated = false;
         }

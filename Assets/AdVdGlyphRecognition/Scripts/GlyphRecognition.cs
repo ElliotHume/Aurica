@@ -124,7 +124,7 @@ public class GlyphRecognition : MonoBehaviour {
 			return;
 		}
 		
-		Debug.Log("Match found:  "+ match.target.ToString()+"   Cost: "+match.Cost);
+		// Debug.Log("Match found:  "+ match.target.ToString()+"   Cost: "+match.Cost);
 		// Debug.Log("Player:   "+player.name);
 		// Make sure glyph recognition finishes and clears the stroke list
 		// through any possible errors.

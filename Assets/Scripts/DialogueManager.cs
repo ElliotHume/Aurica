@@ -60,6 +60,6 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void EndDialogue() {
-        Debug.Log("end of conversation");
+        // Debug.Log("end of conversation");
     }
 }

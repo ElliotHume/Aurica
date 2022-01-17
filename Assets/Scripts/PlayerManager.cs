@@ -462,13 +462,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public void Teleport(Vector3 newPosition) {
         if (!photonView.IsMine) return;
-        Debug.Log("Teleporting " + gameObject + "  to " + newPosition);
+        // Debug.Log("Teleporting " + gameObject + "  to " + newPosition);
         transform.position = newPosition;
     }
 
     public void Teleport(Transform newPosition) {
         if (!photonView.IsMine) return;
-        Debug.Log("Teleporting " + gameObject + "  to pos: " + newPosition.position + "with rotation");
+        // Debug.Log("Teleporting " + gameObject + "  to pos: " + newPosition.position + "with rotation");
         transform.position = newPosition.position;
         transform.rotation = newPosition.rotation;
     }
@@ -537,7 +537,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!photonView.IsMine || isShielded) return;
         if (ownerID != "") {
             lastPlayerToDamageSelf = ownerID;
-            Debug.Log("Took damage from "+ownerID);
+            // Debug.Log("Took damage from "+ownerID);
         }
         
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
@@ -700,7 +700,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             Mana = newMax;
             manaBar.SetMaxHealth(maxMana);
 
-            Debug.Log("New Max mana: " + maxMana + " " + Mana);
+            // Debug.Log("New Max mana: " + maxMana + " " + Mana);
         }
     }
 
@@ -752,16 +752,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             return;
         }
         if (spell == null) {
-            Debug.Log("Invalid cast");
+            // Debug.Log("Invalid cast");
             CastFizzle();
             auricaCaster.ResetCast();
             return;
         }
-        Debug.Log("Spell Match: " + spell.c_name);
+        // Debug.Log("Spell Match: " + spell.c_name);
 
         // Fail before animation if the player does not have sufficient mana.
         if (Mana - auricaCaster.GetManaCost() < 0f) {
-            Debug.Log("Insufficient Mana for spell!");
+            // Debug.Log("Insufficient Mana for spell!");
             CastFizzle();
             manaBar.BlinkText();
             auricaCaster.ResetCast();
@@ -867,7 +867,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
                     GameObject target = GetPlayerWithinAimTolerance(5f);
                     if (target != null) {
-                        Debug.Log("Target found: " + target);
+                        // Debug.Log("Target found: " + target);
                         if (ts != null) ts.SetTarget(target);
                         if (aoeSpell != null) aoeSpell.SetTarget(target);
                     }
@@ -1061,7 +1061,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine && !isShielded) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
             if (appliedSlowEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
+                // Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
                 return;
             }
             appliedSlowEffects.Add(Identifier);
@@ -1088,7 +1088,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
             if (appliedSlowEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
+                // Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
                 return;
             }
             appliedSlowEffects.Add(Identifier);
@@ -1386,7 +1386,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void Strengthen(string Identifier, float duration, string strengthString) {
         if (photonView.IsMine && !isShielded) {
             if (appliedStrengthenEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
+                // Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
                 return;
             }
             appliedStrengthenEffects.Add(Identifier);
@@ -1412,7 +1412,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void ContinuousStrengthen(string Identifier, string strengthString) {
         if (photonView.IsMine) {
             if (appliedStrengthenEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
+                // Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
                 return;
             }
             appliedStrengthenEffects.Add(Identifier);
@@ -1659,7 +1659,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void SlowFall(string Identifier, float duration, float percentage) {
         if (photonView.IsMine) {
             if (appliedSlowFallEffects.Contains(Identifier)){
-                Debug.Log("Nullify duplicate {SLOW FALL} from ["+Identifier+"].");
+                // Debug.Log("Nullify duplicate {SLOW FALL} from ["+Identifier+"].");
                 return;
             } 
             appliedSlowFallEffects.Add(Identifier);

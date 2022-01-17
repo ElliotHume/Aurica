@@ -20,7 +20,7 @@ public class AimpointAnchor : MonoBehaviour
                 out direction, out distance
             );
 
-        Debug.Log("HIT NORMAL: "+direction);
+        // Debug.Log("HIT NORMAL: "+direction);
         return direction;
     }
 }

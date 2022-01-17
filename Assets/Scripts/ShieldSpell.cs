@@ -40,7 +40,7 @@ public class ShieldSpell : Spell, IPunObservable {
         // Invert the shield distribution for damage calc
         // this means a shield dist [0,0,1,1,1,1,0] will completely nullify all elemental damage
         Health -= ShieldDistribution.GetInverted().GetDamage(damage, damageDistribution);
-        Debug.Log("Health: " + Health);
+        // Debug.Log("Health: " + Health);
 
         if (damage > 1f) {
             foreach (string effect in networkedEffectsOnHit) {
@@ -81,13 +81,10 @@ public class ShieldSpell : Spell, IPunObservable {
     }
 
     public void SetShieldStrength(float strength) {
-        Debug.Log("Setting shield strength from: " + Health + " x" + strength);
         Health *= strength;
-        Debug.Log("to: " + Health);
     }
 
     public void SetDistribution(ManaDistribution newDist) {
-        Debug.Log("Set shield dist to: " + newDist.ToString());
         ShieldDistribution = newDist;
     }
 

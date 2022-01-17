@@ -289,7 +289,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void SlowFall(bool sf, float percentage = 0f) {
-        if (sf) Debug.Log("Activate slow fall %"+percentage);
+        // if (sf) Debug.Log("Activate slow fall %"+percentage);
         slowFall = sf;
         slowFallPercent = percentage;
         accelerant = 1f;

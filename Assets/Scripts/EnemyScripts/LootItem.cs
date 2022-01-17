@@ -26,7 +26,7 @@ public class LootItem : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        Debug.Log("Collided with: "+other+"    "+(other.gameObject == PlayerManager.LocalPlayerGameObject));
+        // Debug.Log("Collided with: "+other+"    "+(other.gameObject == PlayerManager.LocalPlayerGameObject));
         if (other.gameObject == PlayerManager.LocalPlayerGameObject && rewardPoints > 0f) {
             RewardsManager.Instance.AddRewards(rewardPoints);
             Instantiate(pickupEffect, transform.position, transform.rotation);

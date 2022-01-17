@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Private Methods
 
     public void playerDeath( PlayerManager player ) {
-        Debug.Log("A player has died...");
+        // Debug.Log("A player has died...");
         // Only handle respawning if the spawn point is set, otherwise other game type managers will handle respawns
         if (SceneSpawnPoint != null) StartCoroutine(RespawnPlayer(player));
     }

@@ -40,7 +40,7 @@ public class ObjectiveSphere : MonoBehaviourPun
     public void AttachToPlayer(GameObject player){
         holdingPlayerGO = player;
         holdingPlayerManager = player.GetComponent<PlayerManager>();
-        Debug.Log("Attach objective ball to player: "+holdingPlayerManager.GetUniqueName());
+        // Debug.Log("Attach objective ball to player: "+holdingPlayerManager.GetUniqueName());
         if (appliedStatusEffect != null) appliedStatusEffect.ManualContinuousActivation(player);
         isHeld = true;
         OnGrab.Invoke();
@@ -49,7 +49,7 @@ public class ObjectiveSphere : MonoBehaviourPun
     }
 
     public void Reset() {
-        Debug.Log("Reset object ball");
+        // Debug.Log("Reset object ball");
         isHeld = false;
         if (appliedStatusEffect != null) appliedStatusEffect.ManualContinuousDeactivation(holdingPlayerGO);
         transform.position = originPoint.position;

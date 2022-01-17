@@ -55,7 +55,7 @@ public class Crosshair : MonoBehaviour
             Vector3 cameraPos = Camera.main.transform.position;
             Vector3 hitPos = hit.collider.gameObject.transform.position+(playerHitOffset * hit.collider.gameObject.transform.localScale.y);
             float angle = Vector3.Angle(Camera.main.transform.forward, hitPos - cameraPos);
-            Debug.Log("Character hit: "+hit.collider.gameObject+"     angle: "+angle+"    distance: "+Vector3.Distance(hitPos, cameraPos));
+            // Debug.Log("Character hit: "+hit.collider.gameObject+"     angle: "+angle+"    distance: "+Vector3.Distance(hitPos, cameraPos));
             if (Mathf.Abs(angle) <= 45f && Vector3.Distance(hitPos, cameraPos) > 4f) {
                 bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
                 if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerGameObject) return hit.collider.gameObject;

@@ -37,7 +37,6 @@ public class SpellCollisionTrigger : MonoBehaviour
     }
 
     public void Trigger() {
-        Debug.Log("TRIGGER spell collision object: "+gameObject);
         OnSpellCollide.Invoke();
     }
 }

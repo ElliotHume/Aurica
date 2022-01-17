@@ -259,7 +259,6 @@ public class Enemy : MonoBehaviourPunCallbacks {
         if (photonView.IsMine) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
             if (appliedSlowEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
                 return;
             }
             appliedSlowEffects.Add(Identifier);
@@ -286,7 +285,6 @@ public class Enemy : MonoBehaviourPunCallbacks {
         if (photonView.IsMine) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
             if (appliedSlowEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
                 return;
             }
             appliedSlowEffects.Add(Identifier);
@@ -509,7 +507,6 @@ public class Enemy : MonoBehaviourPunCallbacks {
             ManaDistribution weakDist = new ManaDistribution(weakString);
             weakened = true;
             weaknesses += weakDist;
-            //Debug.Log("New Strength: " + weaknesses.ToString());
         }
     }
 
@@ -526,7 +523,6 @@ public class Enemy : MonoBehaviourPunCallbacks {
             ManaDistribution weakDist = new ManaDistribution(weakString);
             weaknesses -= weakDist;
             if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
-            //Debug.Log("New Strength after end: " + weaknesses.ToString());
         }
     }
 
@@ -541,10 +537,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     [PunRPC]
     public void Strengthen(string Identifier, float duration, string strengthString) {
         if (photonView.IsMine) {
-            if (appliedStrengthenEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
-                return;
-            }
+            if (appliedStrengthenEffects.Contains(Identifier)) return;
             appliedStrengthenEffects.Add(Identifier);
 
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
@@ -555,7 +548,6 @@ public class Enemy : MonoBehaviourPunCallbacks {
         strengthenRoutineRunning = true;
         strengthened = true;
         strengths += strengthDist;
-        //Debug.Log("New Strength: " + strengths.ToString());
         yield return new WaitForSeconds(duration);
         strengths -= strengthDist;
         if (strengths.GetAggregate() <= 0.1f) strengthened = false;
@@ -567,16 +559,12 @@ public class Enemy : MonoBehaviourPunCallbacks {
     [PunRPC]
     public void ContinuousStrengthen(string Identifier, string strengthString) {
         if (photonView.IsMine) {
-            if (appliedStrengthenEffects.Contains(Identifier)) {
-                Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
-                return;
-            }
+            if (appliedStrengthenEffects.Contains(Identifier)) return;
             appliedStrengthenEffects.Add(Identifier);
 
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
             strengthened = true;
             strengths += strengthDist;
-            //Debug.Log("New Strength: " + strengths.ToString());
         }
     }
 
@@ -593,7 +581,6 @@ public class Enemy : MonoBehaviourPunCallbacks {
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
             strengths -= strengthDist;
             if (strengths.GetAggregate() <= 0.1f) strengthened = false;
-            //Debug.Log("New Strength after end: " + strengths.ToString());
         }
     }
 

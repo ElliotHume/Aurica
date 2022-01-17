@@ -273,7 +273,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     void ActivateContinuous(PhotonView pv, bool isEnemy = false) {
         if (pv != null) {
             AffectedPlayers.Add(pv);
-            Debug.Log("Activate continuous");
+            // Debug.Log("Activate continuous");
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());

@@ -215,7 +215,7 @@ public class AuricaCaster : MonoBehaviourPun {
             componentString += c.c_name + ", ";
         }
         componentString = componentString.Substring(0, componentString.Length - 2);
-        Debug.Log("Caching spell: " + componentString);
+        // Debug.Log("Caching spell: " + componentString);
 
         CachedSpell cs = new CachedSpell(componentString);
         if (cachedSpells.ContainsKey(key)) {
@@ -294,7 +294,7 @@ public class AuricaCaster : MonoBehaviourPun {
                 spellMatch = s;
                 spellStrength = (spellMatch.errorThreshold - s.GetError(s.GetManaType(distribution), distribution)) / spellMatch.errorThreshold + 0.3f;
                 if (spellStrength < 0.25f) spellStrength = 0.25f;
-                Debug.Log("Pure match: "+s.c_name+"   mana type:"+s.GetManaType(distribution)+"  error:"+s.GetError(s.GetManaType(distribution), distribution));
+                // Debug.Log("Pure match: "+s.c_name+"   mana type:"+s.GetManaType(distribution)+"  error:"+s.GetError(s.GetManaType(distribution), distribution));
             }
         }
         

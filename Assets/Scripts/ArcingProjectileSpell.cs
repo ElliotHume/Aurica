@@ -111,7 +111,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
 
     void OnCollisionEnter(Collision collision) {
         if ( isCollided ) return;
-        Debug.Log("Collision with: "+ collision.gameObject);
+        // Debug.Log("Collision with: "+ collision.gameObject);
         
         // Prevent the projectile hitting the player who cast it if the flag is set.
         if (collision.gameObject.tag == "Player") {

@@ -77,7 +77,7 @@ public class AuricaSpell : ScriptableObject {
             // Debug.Log("Percent "+i+"  "+ percents[i]+" * "+ (1+modPercents[i]));
         }
 
-        Debug.Log("Spell damage modifier by: x"+sum);
+        // Debug.Log("Spell damage modifier by: x"+sum);
         return sum;
     }
 
