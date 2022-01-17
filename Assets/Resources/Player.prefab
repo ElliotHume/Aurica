@@ -46465,8 +46465,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSpeed: 4.5
-  JumpHeight: 2
-  JumpSpeed: 3
+  JumpHeight: 1
+  JumpSpeed: 90
+  JumpLiftTime: 0.3
   Mass: 6
   SlowFallAccelerantScaling: 4.5
   GroundBoostVector: {x: 0, y: 0.4, z: 2}
@@ -46495,7 +46496,7 @@ MonoBehaviour:
   GroundedRadius: 0.41
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 3
+    m_Bits: 7
 --- !u!114 &7920007557602750286
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19194,6 +19194,9 @@ MonoBehaviour:
   - {fileID: 7480270526002496783, guid: b9db69e84b01a22409dd022d3f558101, type: 3}
   NetworkedEffectsOnCollision:
   - XCollision_AngelWisp
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 2089789810491678801}
   - {fileID: 2090356949759038811}

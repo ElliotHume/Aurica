@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 
 public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
-    public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, Mass = 3f, SlowFallAccelerantScaling = 0.1f;
+    public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, JumpLiftTime = 0.3f, Mass = 3f, SlowFallAccelerantScaling = 0.1f;
     public Vector3 GroundBoostVector, JumpBoostVector;
     public float BoostDistance=200f, BoostSpeed=1f;
     public AudioSource footStepSource;
@@ -82,6 +82,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         castAnimationTypes.Add(8, "2H Finger Channel");
         castAnimationTypes.Add(9, "2H Hand Channel");
         castAnimationTypes.Add(10, "2H Clap Cast");
+        castAnimationTypes.Add(11, "2h Explosion Cast FAST");
     }
 
     // Update is called once per frame
@@ -186,32 +187,15 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (!photonView.IsMine) return;
         jumpSource.clip = jumpingSounds[0];
         jumpSource.Play();
-        StartCoroutine(JumpRoutine());
-    }
+        // StartCoroutine(JumpRoutine());
 
-    IEnumerator JumpRoutine() {
+        // Jump Displacement
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        float timer = 0.3f;
+        AddImpact(((transform.forward * v + transform.right * h).normalized / 3f) + (Vector3.up * JumpHeight), JumpSpeed, true);
+    }
 
-        // Do it once so we are off the ground
-        Vector3 movement = (transform.forward * v + transform.right * h).normalized;
-        movement.y += JumpHeight;
-        characterController.Move(movement * Time.deltaTime * JumpSpeed);
-
-        while (timer > 0f) {
-            movement = (transform.forward * v + transform.right * h).normalized;
-            movement.y += JumpHeight;
-            characterController.Move(movement * Time.deltaTime * JumpSpeed);
-
-            timer -= Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-        while (!Grounded) {
-            movement = (transform.forward * v + transform.right * h).normalized;
-            characterController.Move(movement * Time.deltaTime * JumpSpeed);
-            yield return new WaitForEndOfFrame();
-        }
+    public void JumpLand() {
         jumpSource.clip = jumpingSounds[1];
         jumpSource.Play();
     }

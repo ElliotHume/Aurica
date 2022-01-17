@@ -835,7 +835,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void CastSpell() {
         if (photonView.IsMine && !silenced && !stunned) {
             if (Mana - auricaCaster.GetManaCost() > 0f) {
-                Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(5f) != null ? GetPlayerWithinAimTolerance(5f).transform : null;
+                Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(2f) != null ? GetPlayerWithinAimTolerance(2f).transform : null;
                 if (aimTransform == null) {
                     CastFizzle();
                     auricaCaster.ResetCast();
@@ -865,7 +865,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
                     AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
 
-                    GameObject target = GetPlayerWithinAimTolerance(5f);
+                    GameObject target = GetPlayerWithinAimTolerance(2f);
                     if (target != null) {
                         // Debug.Log("Target found: " + target);
                         if (ts != null) ts.SetTarget(target);
@@ -885,7 +885,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) {
             if (!isChannelling && currentChannelledSpell != null && !silenced && !stunned) {
                 if (Mana - auricaCaster.GetManaCost() > 0f) {
-                    Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(5f) != null ? GetPlayerWithinAimTolerance(5f).transform : null;
+                    Transform aimTransform = !currentSpellIsOpponentTargeted ? currentCastingTransform : GetPlayerWithinAimTolerance(2f) != null ? GetPlayerWithinAimTolerance(2f).transform : null;
                     if (aimTransform == null) {
                         CastFizzle();
                         auricaCaster.ResetCast();
@@ -910,7 +910,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                             channelSpell.SetTarget(gameObject);
                         } else if (currentSpellIsOpponentTargeted) {
                             currentSpellIsOpponentTargeted = false;
-                            GameObject target = GetPlayerWithinAimTolerance(5f);
+                            GameObject target = GetPlayerWithinAimTolerance(2f);
                             if (target != null) {
                                 channelSpell.SetTarget(target);
                             }
