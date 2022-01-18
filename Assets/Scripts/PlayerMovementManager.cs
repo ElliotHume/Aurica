@@ -198,6 +198,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public void JumpLand() {
         jumpSource.clip = jumpingSounds[1];
         jumpSource.Play();
+        jumping = false;
     }
 
     public void EndJump() {

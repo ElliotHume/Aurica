@@ -72,12 +72,22 @@ public class BasicProjectileSpell : Spell, IPunObservable
         }
     }
 
+    public void Update() {
+        if (Speed > 60f) {
+            oldPosition = transform.position;
+            UpdateWorldPosition();
+            velocity = transform.position - oldPosition;
+        }
+    }
+
 
     public void FixedUpdate() {
         // Local Behaviour
-        oldPosition = transform.position;
-        UpdateWorldPosition();
-        velocity = transform.position - oldPosition;
+        if (Speed <= 60f) {
+            oldPosition = transform.position;
+            UpdateWorldPosition();
+            velocity = transform.position - oldPosition;
+        }
 
         // Remote movement compensation
         if (!photonView.IsMine) {

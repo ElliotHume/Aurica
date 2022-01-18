@@ -4655,8 +4655,8 @@ GameObject:
   - component: {fileID: 6569867819681743637}
   - component: {fileID: 6539213448247580042}
   - component: {fileID: 6569867819681743636}
-  - component: {fileID: 6569867819681743659}
   - component: {fileID: 6569867819681743638}
+  - component: {fileID: 6186389733353983657}
   m_Layer: 6
   m_Name: Spell_SeveringGale
   m_TagString: Spell
@@ -4703,15 +4703,15 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 80
+  Speed: 70
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
-  ContinuesPastCollision: 0
+  ContinuesPastCollision: 1
   AimAssistedProjectile: 1
   AimAssistTurningSpeed: 40
   PerfectHomingProjectile: 1
-  HomingDetectionSphereRadius: 0.5
+  HomingDetectionSphereRadius: 0.75
   TrackingProjectile: 0
   TrackingTurnSpeed: 0.1
   CollisionOffset: 0
@@ -4748,13 +4748,13 @@ MonoBehaviour:
   EffectColor: {r: 0.5330188, g: 1, b: 0.6397928, a: 1}
   IsVisible: 1
   FadeoutTime: 1.5
-  UseCollisionDetection: 1
+  UseCollisionDetection: 0
   LimitMaxDistance: 0
   MaxDistance: -1
   Mass: 0
   Speed: 0
   AirDrag: 0
-  UseGravity: 1
+  UseGravity: 0
 --- !u!54 &6569867819681743636
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4768,23 +4768,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!136 &6569867819681743659
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6569867819681743658}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 1.8926988
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.32935405, z: 0}
 --- !u!114 &6569867819681743638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4808,6 +4794,19 @@ MonoBehaviour:
   sceneViewId: 68
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!135 &6186389733353983657
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569867819681743658}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0.5}
 --- !u!1 &6570211512591119002
 GameObject:
   m_ObjectHideFlags: 0

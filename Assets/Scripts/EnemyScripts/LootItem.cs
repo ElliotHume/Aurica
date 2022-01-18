@@ -5,18 +5,19 @@ using UnityEngine;
 public class LootItem : MonoBehaviour {
     public float rewardPoints = 0f;
     public GameObject pickupEffect;
+    public bool dynamicDrop = true;
 
     private bool goToPlayer = false;
 
     // Start is called before the first frame update
     void Start() {
         // After a timeout, the loot will travel towards the player
-        Invoke("GoToPlayer", 15f);
+        if (dynamicDrop) Invoke("GoToPlayer", 15f);
     }
 
     // Update is called once per frame
     void Update() {
-        if (goToPlayer) {
+        if (dynamicDrop && goToPlayer) {
             transform.position = Vector3.Lerp(transform.position, PlayerManager.LocalPlayerGameObject.transform.position+ new Vector3(0f, 1f, 0f), Time.deltaTime);
         }
     }

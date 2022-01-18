@@ -4585,7 +4585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_name: Elite Troll
-  Health: 200
+  Health: 150
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -4610,12 +4610,12 @@ MonoBehaviour:
   walkPointRange: 10
   idleTime: 9
   aura:
-    structure: 0.15
+    structure: 0
     essence: 0
-    fire: -0.45
-    water: 0.65
-    earth: 0.65
-    air: 0.65
+    fire: -0.33
+    water: 0.66
+    earth: 0.66
+    air: 0.66
     nature: 0
   onDeath:
     m_PersistentCalls:

@@ -187,6 +187,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             stream.SendNext(slowed);
             stream.SendNext(hastened);
             stream.SendNext(rooted);
+            stream.SendNext(grounded);
             stream.SendNext(silenced);
             stream.SendNext(stunned);
             stream.SendNext(weakened);
@@ -194,6 +195,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             stream.SendNext(fragile);
             stream.SendNext(tough);
             stream.SendNext(manaRestorationChange);
+            stream.SendNext(camouflaged);
+            stream.SendNext(slowFall);
         } else {
             // Network player, receive data
             // CRITICAL DATA
@@ -207,6 +210,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             this.slowed = (bool)stream.ReceiveNext();
             this.hastened = (bool)stream.ReceiveNext();
             this.rooted = (bool)stream.ReceiveNext();
+            this.grounded = (bool)stream.ReceiveNext();
             this.silenced = (bool)stream.ReceiveNext();
             this.stunned = (bool)stream.ReceiveNext();
             this.weakened = (bool)stream.ReceiveNext();
@@ -214,6 +218,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             this.fragile = (bool)stream.ReceiveNext();
             this.tough = (bool)stream.ReceiveNext();
             this.manaRestorationChange = (bool)stream.ReceiveNext();
+            this.camouflaged = (bool)stream.ReceiveNext();
+            this.slowFall = (bool)stream.ReceiveNext();
         }
     }
 

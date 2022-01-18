@@ -3794,7 +3794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_name: Wraith
-  Health: 150
+  Health: 75
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
@@ -3819,13 +3819,13 @@ MonoBehaviour:
   walkPointRange: 10
   idleTime: 9
   aura:
-    structure: 0.85
+    structure: 0.66
     essence: 0
     fire: -0.1
-    water: 0.5
-    earth: 0.5
+    water: 0.33
+    earth: 0.33
     air: -0.1
-    nature: -0.3
+    nature: -0.33
   onDeath:
     m_PersistentCalls:
       m_Calls: []

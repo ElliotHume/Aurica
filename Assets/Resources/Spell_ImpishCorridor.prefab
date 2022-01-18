@@ -139,8 +139,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 23, y: 2.919113, z: 5.651804}
-  m_Center: {x: 0, y: -0.04044354, z: 2.3259122}
+  m_Size: {x: 23, y: 3.8598924, z: 5.651804}
+  m_Center: {x: 0, y: -0.23952103, z: 2.3259127}
 --- !u!114 &169208110790808328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 1
   slowDuration: 1
   slowPercentage: 90
@@ -161,6 +162,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -202,11 +205,16 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &1130306444978964047
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,7 +756,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 20, y: 1, z: 7}
+    m_Scale: {x: 20, y: 3, z: 7}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5352,7 +5360,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 20, y: 1, z: 7}
+    m_Scale: {x: 20, y: 3, z: 7}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5550,7 +5558,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 40
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -14507,7 +14515,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 6, y: 1, z: 1}
+    m_Scale: {x: 6, y: 1.5, z: 1}
     placementMode: 2
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -18623,7 +18631,7 @@ Transform:
   m_GameObject: {fileID: 3123567468675444720}
   m_LocalRotation: {x: 0.7071069, y: -8.881784e-16, z: 0.0000000040503103, w: 0.70710677}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 27.334902, y: 10.786469, z: 5.068659}
+  m_LocalScale: {x: 27.334902, y: 10.786469, z: 7.8493247}
   m_Children: []
   m_Father: {fileID: 169208110790808381}
   m_RootOrder: 1
@@ -18817,7 +18825,7 @@ Transform:
   m_GameObject: {fileID: 3123567468967705716}
   m_LocalRotation: {x: 0.011545072, y: 0.70463353, z: 0.7092628, w: -0.017458173}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 27.901855, y: 9.650537, z: 4.87648}
+  m_LocalScale: {x: 27.901855, y: 9.650537, z: 7.551717}
   m_Children: []
   m_Father: {fileID: 169208110790808381}
   m_RootOrder: 0
@@ -19437,7 +19445,7 @@ ParticleSystem:
     donutRadius: 0.1
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 5, y: 0.6, z: 1}
+    m_Scale: {x: 5, y: 0.8, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

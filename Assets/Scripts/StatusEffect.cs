@@ -242,7 +242,8 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
-            if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, slowPercentage/100f * multiplier) ;
+            // Cap slow values at 90%, we don't want a 100% slow
+            if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, slowPercentage/100f * Mathf.Clamp(multiplier, 0f, 90f)) ;
             if (hasten) pv.RPC("Hasten", RpcTarget.All, Identifier, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
             if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
             if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
@@ -278,7 +279,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, Identifier, strengthenDistribution.ToString());
-            if (slow) pv.RPC("ContinuousSlow", RpcTarget.All, Identifier, slowPercentage / 100f * multiplier);
+            if (slow) pv.RPC("ContinuousSlow", RpcTarget.All, Identifier, slowPercentage / 100f * Mathf.Clamp(multiplier, 0f, 90f));
             if (hasten) pv.RPC("ContinuousHasten", RpcTarget.All, Identifier, hastenPercentage / 100f * multiplier);
             if (root) pv.RPC("ContinuousRoot", RpcTarget.All);
             if (stun) pv.RPC("ContinuousStun", RpcTarget.All);

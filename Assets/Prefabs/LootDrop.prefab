@@ -52,6 +52,7 @@ MonoBehaviour:
   rewardPoints: 0.001
   pickupEffect: {fileID: 3591803235172798741, guid: 758223c07bc80724693cd82ddd75b6c4,
     type: 3}
+  dynamicDrop: 1
 --- !u!33 &6177314283082667575
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -255,7 +256,7 @@ ParticleSystem:
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
-  cullingMode: 3
+  cullingMode: 2
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
@@ -4831,7 +4832,7 @@ ParticleSystem:
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
-  cullingMode: 3
+  cullingMode: 2
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
@@ -9314,7 +9315,7 @@ ParticleSystem:
   lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
-  cullingMode: 3
+  cullingMode: 2
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0

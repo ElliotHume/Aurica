@@ -36,6 +36,17 @@ public class MobAI : Enemy, IPunObservable {
 
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+
+            // Status Effect data
+            stream.SendNext(slowed);
+            stream.SendNext(hastened);
+            stream.SendNext(rooted);
+            stream.SendNext(silenced);
+            stream.SendNext(stunned);
+            stream.SendNext(weakened);
+            stream.SendNext(strengthened);
+            stream.SendNext(fragile);
+            stream.SendNext(tough);
         } else {
             // Network player, receive data
             // CRITICAL DATA
@@ -44,6 +55,17 @@ public class MobAI : Enemy, IPunObservable {
 
             this.networkPosition = (Vector3)stream.ReceiveNext();
             this.networkRotation = (Quaternion)stream.ReceiveNext();
+
+            // Status Effect data
+            this.slowed = (bool)stream.ReceiveNext();
+            this.hastened = (bool)stream.ReceiveNext();
+            this.rooted = (bool)stream.ReceiveNext();
+            this.silenced = (bool)stream.ReceiveNext();
+            this.stunned = (bool)stream.ReceiveNext();
+            this.weakened = (bool)stream.ReceiveNext();
+            this.strengthened = (bool)stream.ReceiveNext();
+            this.fragile = (bool)stream.ReceiveNext();
+            this.tough = (bool)stream.ReceiveNext();
 
             if (networkCombat && !inCombat) {
                 inCombat = true;
@@ -131,7 +153,7 @@ public class MobAI : Enemy, IPunObservable {
         closestPlayer = FindClosestPlayer();
 
         // Set animator variable(s)
-        animator.SetBool("Moving", walking && !rooted && !stunned);
+        animator.SetBool("Moving", (walking && (agent.hasPath && !((transform.position - agent.destination).magnitude < 0.2f))) && !rooted && !stunned);
         animator.SetBool("InCombat", inCombat);
 
         // Check health

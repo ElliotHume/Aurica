@@ -23083,6 +23083,9 @@ MonoBehaviour:
   EffectsOnCollision:
   - {fileID: 7594053420557360836, guid: aca026d78ddaf4e6e9e98e5656614ec1, type: 3}
   NetworkedEffectsOnCollision: []
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 8104009635555746410}
   - {fileID: 8103268769634451076}
@@ -23205,7 +23208,7 @@ MonoBehaviour:
     air: 0
     nature: 0
   fragile: 1
-  fragileDuration: 5
+  fragileDuration: 8
   fragilePercentage: 50
   tough: 0
   toughDuration: 0
