@@ -9594,7 +9594,9 @@ MonoBehaviour:
   - {fileID: 1411649290842528181, guid: ba84e7a58e9594fbc9763c6cb85ab806, type: 3}
   NetworkedEffectsOnCollision:
   - Enemies/EnemySpells/Spell_NPC_ContaminationAoE
-  CollisionEffectsUseHitNormal: 0
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 5507999055211135336}
   - {fileID: 1200757694830277513}
