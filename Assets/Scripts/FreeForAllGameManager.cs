@@ -31,7 +31,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     float timer;
 
-    bool matchStarted = false;
+    bool matchStarted = false, disabled = false;
     PlayerManager localPlayer;
     float score;
 
@@ -107,6 +107,8 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
 
         if (MatchMusic != null) MatchMusic.Play();
+
+        if (DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.Disable();
     }
 
     IEnumerator StartTimer() {
@@ -120,6 +122,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     public void playerDeath(PlayerManager player) {
+        if (disabled) return;
         StartCoroutine(RespawnPlayer(player));
     }
 
@@ -309,5 +312,16 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             ThirdPlaceText.gameObject.SetActive(false);
         }
         playerScores.Clear();
+        if (DeathmatchGameManager.Instance != null) DeathmatchGameManager.Instance.Enable();
+    }
+
+    public void Disable() {
+        disabled = true;
+        FreeForAllGamePanel.SetActive(false);
+    }
+
+    public void Enable() {
+        disabled = false;
+        FreeForAllGamePanel.SetActive(true);
     }
 }

@@ -31,7 +31,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
 
     List<PlayerManager> blueSide, redSide;
-    bool matchStarted = false, isBlueTeam = false, matchStarter = false;
+    bool matchStarted = false, isBlueTeam = false, matchStarter = false, disabled = false;
     PlayerManager localPlayer;
 
     string blueSideNames = "", redSideNames = "";
@@ -213,6 +213,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
 
         if (MatchMusic != null) MatchMusic.Play();
+
+        if (FreeForAllGameManager.Instance != null) FreeForAllGameManager.Instance.Disable();
     }
 
     [PunRPC]
@@ -296,9 +298,11 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
         matchStarted = false;
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
         if (MatchMusic != null) MatchMusic.Stop();
+        if (FreeForAllGameManager.Instance != null) FreeForAllGameManager.Instance.Enable();
     }
 
     public void playerDeath(PlayerManager player) {
+        if (disabled) return;
         StartCoroutine(RespawnPlayer(player));
     }
 
@@ -343,5 +347,15 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         if (PhotonNetwork.IsMasterClient && matchStarted) photonView.RPC("EndMatch", RpcTarget.All, 2);
+    }
+
+    public void Disable() {
+        disabled = true;
+        DeathMatchGamePanel.SetActive(false);
+    }
+
+    public void Enable() {
+        disabled = false;
+        DeathMatchGamePanel.SetActive(true);
     }
 }

@@ -390,13 +390,16 @@ MonoBehaviour:
   LastingDamage: 35
   OneShotEffect: 0
   LastingEffect: 1
+  attachToTarget: 0
   canHitSelf: 1
   growBeforeStart: 0
   SpellStrengthChangesDuration: 1
+  SpellStrengthChangesScale: 0
   DestroyTimeDelay: 25
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 8227631035991573942}
   - {fileID: 164231837982026024}
@@ -470,6 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -478,6 +482,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -519,11 +525,16 @@ MonoBehaviour:
   manaDrainPercentAmount: 20
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &8132636485573861053
 GameObject:
   m_ObjectHideFlags: 0
