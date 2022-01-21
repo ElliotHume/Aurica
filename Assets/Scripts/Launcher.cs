@@ -101,7 +101,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
                     level = "Deathmatch";
                     break;
                 case "Open Field":
-                    level = "DeathmatchLargeArena";
+                    level = "Arena";
                     break;
                 case "AdventureMode":
                     level = "AdventureMode";
