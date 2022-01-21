@@ -10103,7 +10103,7 @@ Transform:
   m_GameObject: {fileID: 1672351131367423511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.666304, y: 0.094866276, z: 12.153663}
-  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1674103542360372955}
   - {fileID: 1672351131367842019}
@@ -10150,7 +10150,7 @@ MonoBehaviour:
   canHitSelf: 0
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
-  SpellStrengthChangesScale: 0
+  SpellStrengthChangesScale: 1
   DestroyTimeDelay: 15
   StartTimeDelay: 0
   ScalingFactor: 0
@@ -10305,7 +10305,7 @@ MonoBehaviour:
   toughDuration: 0
   toughPercentage: 0
   changeManaRegen: 1
-  changeDuration: 30
+  changeDuration: 45
   changePercentage: 0.01
   healing: 0
   healFlatAmount: 0
