@@ -14527,7 +14527,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a47dc39afbb44ff4db59fefd1e46f188, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.5
   m_Pitch: 1.4
   Loop: 0
   Mute: 0
@@ -28514,6 +28514,7 @@ GameObject:
   - component: {fileID: 6349903416905673330}
   - component: {fileID: 6349903416905673295}
   - component: {fileID: 6349903416905673294}
+  - component: {fileID: 2733112967179302916}
   m_Layer: 3
   m_Name: Mob_Marauder
   m_TagString: Enemy
@@ -28587,7 +28588,7 @@ MonoBehaviour:
   footstepSound: {fileID: 265266908624650485}
   sightRange: 12
   attackRange: 3
-  walkingSpeed: 3
+  walkingSpeed: 2
   runningSpeed: 6
   doesPatrol: 1
   walkPointRange: 20
@@ -28683,7 +28684,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -28743,6 +28744,18 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!114 &2733112967179302916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6349903416905673329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6349903416905676457
 GameObject:
   m_ObjectHideFlags: 0

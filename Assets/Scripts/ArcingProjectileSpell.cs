@@ -12,6 +12,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
     public float CollisionDestroyTimeDelay = 5;
     public GameObject[] LocalEffectsOnCollision;
     public string[] NetworkedEffectsOnCollision;
+    public bool NetworkCollisionEffectsOnlyOnHitGround = false;
     public GameObject[] DeactivateObjectsOnCollision;
 
 
@@ -179,6 +180,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                     }
                 }
             }
+            if (NetworkCollisionEffectsOnlyOnHitGround && Vector3.Dot(hit.normal, Vector3.up) < 0.707f) return;
             foreach (string effect in NetworkedEffectsOnCollision) {
                 GameObject instance = PhotonNetwork.Instantiate(effect, hit.point + hit.normal * CollisionOffset, new Quaternion());
                 instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
@@ -187,6 +189,13 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                     instanceSpell.SetSpellStrength(GetSpellStrength());
                     instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
                     instanceSpell.SetOwner(GetOwner());
+                } else {
+                    Enemy instancedEnemy = instance.GetComponent<Enemy>();
+                    if (instancedEnemy != null) {
+                        instance.transform.rotation = Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0));
+                        instancedEnemy.SetPlayerOwner(GetOwner());
+                        instancedEnemy.SetStrength(GetSpellStrength());
+                    }
                 }
             }
         }

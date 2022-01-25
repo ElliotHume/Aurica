@@ -179,6 +179,8 @@ public class AoESpell : Spell {
     void DisableCollisions() {
         active = false;
         GetComponent<Collider>().enabled = false;
+        StatusEffect se = GetComponent<StatusEffect>();
+        if (se) se.ManualDeactivate();
     }
 
     void Enable() {

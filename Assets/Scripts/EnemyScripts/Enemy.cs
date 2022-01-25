@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     protected Quaternion networkRotation;
     protected float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     protected DamagePopup accumulatingDamagePopup;
-    protected bool didLocalPlayerParticipate = false, disabledLootDrops = false;
+    protected bool didLocalPlayerParticipate = false, disabledLootDrops = false, decayHealth = false;
 
     // States
     public float sightRange = 10f, attackRange = 3f, walkingSpeed = 2f, runningSpeed = 4f;
@@ -240,6 +240,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     public void SetPlayerOwner(GameObject ownerGO){
         playerOwner = ownerGO;
         disabledLootDrops = true;
+        decayHealth = true;
     }
 
     public void SetStrength(float strengthMultiplier) {

@@ -3740,6 +3740,7 @@ GameObject:
   - component: {fileID: 1856565773294346706}
   - component: {fileID: 1856565773294346735}
   - component: {fileID: 1856565773294346734}
+  - component: {fileID: 509080091}
   m_Layer: 3
   m_Name: Mob_Wraith
   m_TagString: Enemy
@@ -3939,7 +3940,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1856565773294346733}
   - {fileID: 1856565773294346734}
-  sceneViewId: 25
+  sceneViewId: 26
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1856565773294346734
@@ -3969,6 +3970,18 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!114 &509080091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856565773294346705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1856565773294346979
 GameObject:
   m_ObjectHideFlags: 0

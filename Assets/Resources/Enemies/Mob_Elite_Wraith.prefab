@@ -25768,7 +25768,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4248b2d084a77843897d78b48049fc1, type: 2}
+  - {fileID: 2100000, guid: a717eed83da285f429ec98a53c4141cb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28180,6 +28180,7 @@ GameObject:
   - component: {fileID: 7000176594381670711}
   - component: {fileID: 7000176594381670666}
   - component: {fileID: 7000176594381670667}
+  - component: {fileID: 4972818192743752144}
   m_Layer: 3
   m_Name: Mob_Elite_Wraith
   m_TagString: Enemy
@@ -28409,6 +28410,18 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!114 &4972818192743752144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7000176594381670708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7000176594381670918
 GameObject:
   m_ObjectHideFlags: 0

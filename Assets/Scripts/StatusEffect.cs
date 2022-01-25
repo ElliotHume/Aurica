@@ -228,6 +228,15 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             }
     }
 
+    public void ManualDeactivate() {
+        if (photonView.IsMine && isContinuous) {
+            foreach (PhotonView player in AffectedPlayers) {
+                DeactivateContinuous(player, false);
+            }
+            AffectedPlayers.Clear();
+        }
+    }
+
     public void OnPreNetDestroy(PhotonView rootView) {
         if (photonView.IsMine && isContinuous) {
             foreach (PhotonView player in AffectedPlayers) {

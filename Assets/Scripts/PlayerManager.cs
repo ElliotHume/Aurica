@@ -586,6 +586,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         while (duration > 0f) {
             TakeDamage(damagePerSecond * Time.deltaTime, spellDistribution);
             duration -= Time.deltaTime;
+            if (Health <= 0) break;
             yield return new WaitForFixedUpdate();
         }
     }

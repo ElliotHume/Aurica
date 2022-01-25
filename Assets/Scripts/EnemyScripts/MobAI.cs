@@ -25,7 +25,7 @@ public class MobAI : Enemy, IPunObservable {
     public bool turnUnreachableAttackToLookAtTarget = true;
     bool targetInUnreachableAttackRange = false;
 
-    bool alreadyAttacked = false, targetUnreachable = false, attackStartedAsUnreachable = false;
+    bool alreadyAttacked = false, attacking = false, targetUnreachable = false, attackStartedAsUnreachable = false;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -165,6 +165,7 @@ public class MobAI : Enemy, IPunObservable {
             }
             return;
         }
+        if (decayHealth) Health -= (0.1f + (1f - (Health/maxHealth))) * Time.deltaTime;
 
         // Don't do anything if stunned or there are no valid player targets
         if (stunned || closestPlayer == null) return;
@@ -203,7 +204,7 @@ public class MobAI : Enemy, IPunObservable {
                 ChaseTarget();
             }
         } else {
-            if ((!targetInAttackRange && !alreadyAttacked) || (targetInAttackRange && !canSeeTarget && !alreadyAttacked) || (targetUnreachable && !targetInAttackRange)) {
+            if ((!targetInAttackRange && !attacking) || (targetInAttackRange && !canSeeTarget && !attacking) || (targetUnreachable && !targetInAttackRange)) {
                 ChaseTarget();
             } else {
                 targetUnreachable = false;
@@ -265,6 +266,7 @@ public class MobAI : Enemy, IPunObservable {
 
         // If you are not currently attacking, attack target
         if (!alreadyAttacked) {
+            attacking = true;
             animator.SetBool("Attack", true);
             alreadyAttacked = true;
             attackStartedAsUnreachable = targetUnreachable;
@@ -335,6 +337,7 @@ public class MobAI : Enemy, IPunObservable {
                 if (effect != null) effect.Stop();
             }
         }
+        attacking = false;
         Invoke(nameof(ResetAttack), attackCooldown);
     }
 
