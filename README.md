@@ -11,13 +11,13 @@ There are a wealth of spell options to choose from in each battle. Currently the
 
 ### Novel features
 The intent of the magic system is to create a novel system for spell-casting that has incredible depth but maintains a low barrier of entry for casual players. Some key features of the system include:
-- **Unique player Auras:** Every player has a completely unique Aura that influences how the magic system works for them.
-- **Personality-based strengths:** Take the quiz or randomly roll your Aura to shape the magic system to your preferences.
-- **Classless spell-casting:** Every player can cast any spell at any time.
-- **Glyph drawing:** Spell components can be drawn on the screen with glyphs to cast spells and rebind your loadout on the fly!
-- **Spell crafting:** Spells can be crafted using components to have enhanced effects at the cost of additional mana.
-- **10 mana types:** Many different mana types each with their own lore, unique spell-styles and type identities!
-- **Cultivation:** Participating in PvP matches or defeating tough enemies in adventure mode earns cultivation to develop your Aura.
+- **Unique player Auras:** every player has a completely unique Aura that influences how the magic system works for them.
+- **Personality-based strengths:** take the quiz or randomly roll your Aura to shape the magic system to your preferences.
+- **Classless spell-casting:** every player can cast any spell at any time.
+- **Glyph drawing:** spell components can be drawn on the screen with glyphs to cast spells and rebind your loadout on the fly!
+- **Spell crafting:** spells can be crafted using components to have enhanced effects at the cost of additional mana.
+- **10 mana types:** many different mana types each with their own lore, unique spell-styles and type identities!
+- **Cultivation:** participating in PvP matches or defeating tough enemies in adventure mode earns cultivation to develop your Aura.
 
 ![Adventure mode POV](Assets/UI/Screenshots/AdventureModePOV.PNG)
 
