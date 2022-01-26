@@ -22,4 +22,11 @@ public class HealthBar : MonoBehaviour
         if (blinkingText != null) blinkingText.Fire();
     }
 
+    public void SetFillColor(Color c) {
+        Transform fill = transform.Find("Fill");
+        if (fill != null) {
+            Image fillImg = fill.gameObject.GetComponent<Image>();
+            if (fillImg != null) fillImg.color = c;
+        }
+    }
 }

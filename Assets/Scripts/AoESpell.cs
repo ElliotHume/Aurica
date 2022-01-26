@@ -107,7 +107,7 @@ public class AoESpell : Spell {
     }
 
     void OnTriggerStay(Collider other) {
-        if (!LastingEffect) return;
+        if (!LastingEffect || (!GetCanHitOwner() && other.gameObject == GetOwner())) return;
         // TODO: Call local collision response to generate collision VFX
         // ContactPoint hit = collision.GetContact(0);
         // LocalCollisionBehaviour(hit.point, hit.normal);

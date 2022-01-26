@@ -19,7 +19,7 @@ public class EnemyCharacterUI : MonoBehaviour {
 
     public Transform cam;
 
-    public Color baseColor = Color.white, statusEffectColor = Color.yellow;
+    public Color baseColor = Color.white, statusEffectColor = Color.yellow, allyColor = Color.green;
 
     private bool hidden = false;
     private Color initialColor;
@@ -146,6 +146,15 @@ public class EnemyCharacterUI : MonoBehaviour {
 
     public void SetMaxHealth(float max) {
         enemyHealthSlider.maxValue = max;
+    }
+
+    public void SetAllyColor() {
+        SetNameColor(allyColor);
+        initialColor = allyColor;
+        HealthBar hb = GetComponentInChildren<HealthBar>();
+        if (hb != null) {
+            hb.SetFillColor(allyColor);
+        }
     }
 
 }

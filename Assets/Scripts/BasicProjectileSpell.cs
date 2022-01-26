@@ -218,6 +218,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
         foreach (var effect in DeactivateObjectsOnCollision) {
             if (effect != null) effect.SetActive(false);
         }
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (var effect in particles) {
+            if (effect != null) effect.Stop();
+        }
         foreach (var effect in EffectsOnCollision) {
             GameObject instance = Instantiate(effect, hitpoint + normal * CollisionOffset, new Quaternion());
             instance.transform.LookAt(hitpoint + normal + normal * CollisionOffset);

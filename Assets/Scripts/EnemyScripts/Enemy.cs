@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     protected Quaternion networkRotation;
     protected float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     protected DamagePopup accumulatingDamagePopup;
-    protected bool didLocalPlayerParticipate = false, disabledLootDrops = false, decayHealth = false;
+    protected bool didLocalPlayerParticipate = false, playerOwned = false;
 
     // States
     public float sightRange = 10f, attackRange = 3f, walkingSpeed = 2f, runningSpeed = 4f;
@@ -186,7 +186,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
         animator.Play("Dead");
 
         // Drop loot
-        if (!disabledLootDrops) {
+        if (!playerOwned) {
             LootCreator loot = GetComponentInChildren<LootCreator>();
             if (loot != null && didLocalPlayerParticipate) loot.DropLoot();
         }
@@ -239,14 +239,19 @@ public class Enemy : MonoBehaviourPunCallbacks {
 
     public void SetPlayerOwner(GameObject ownerGO){
         playerOwner = ownerGO;
-        disabledLootDrops = true;
-        decayHealth = true;
+        playerOwned = true;
+        enemyUI.SetAllyColor();
     }
 
     public void SetStrength(float strengthMultiplier) {
         maxHealth *= strengthMultiplier;
         Health *= strengthMultiplier;
-        enemyUI.SetMaxHealth(maxHealth);
+        photonView.RPC("SetMaxHealthBar", RpcTarget.All, maxHealth);
+    }
+
+    [PunRPC]
+    public void SetMaxHealthBar(float newMax) {
+        enemyUI.SetMaxHealth(newMax);
     }
 
 

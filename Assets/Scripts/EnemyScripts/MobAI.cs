@@ -33,6 +33,7 @@ public class MobAI : Enemy, IPunObservable {
             // CRITICAL DATA
             stream.SendNext(Health);
             stream.SendNext(inCombat);
+            stream.SendNext(playerOwned);
 
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
@@ -52,6 +53,7 @@ public class MobAI : Enemy, IPunObservable {
             // CRITICAL DATA
             this.Health = (float)stream.ReceiveNext();
             bool networkCombat = (bool)stream.ReceiveNext();
+            bool playerOwned = (bool)stream.ReceiveNext();
 
             this.networkPosition = (Vector3)stream.ReceiveNext();
             this.networkRotation = (Quaternion)stream.ReceiveNext();
@@ -165,7 +167,7 @@ public class MobAI : Enemy, IPunObservable {
             }
             return;
         }
-        if (decayHealth) Health -= (0.1f + (1f - (Health/maxHealth))) * Time.deltaTime;
+        if (playerOwned) Health -= (0.1f + (1f - (Health/maxHealth))) * Time.deltaTime;
 
         // Don't do anything if stunned or there are no valid player targets
         if (stunned || closestPlayer == null) return;
@@ -298,7 +300,7 @@ public class MobAI : Enemy, IPunObservable {
         
         Spell spell = newSpell.GetComponent<Spell>();
         if (spell != null) {
-            spell.SetSpellDamageModifier(aura + strengths - weaknesses);
+            spell.SetSpellDamageModifier(new ManaDistribution() + strengths - weaknesses);
             spell.SetOwner(gameObject, false);
         } else {
             Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
