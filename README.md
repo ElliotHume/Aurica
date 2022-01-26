@@ -52,3 +52,4 @@ Due to the multi-stage prototyping process and learning more as I go the code is
 
 ![Adventure mode crystal cavern POV](Assets/UI/Screenshots/CrystalCavePOV.PNG)
 ![PvE combat top-down view](Assets/UI/Screenshots/TopViewPvE4.PNG)
+![PvE forge raid room](Assets/UI/Screenshots/ForgeRaid.PNG)
