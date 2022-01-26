@@ -19,6 +19,8 @@ The intent of the magic system is to create a novel system for spell-casting tha
 - **10 mana types:** Many different mana types each with their own lore, unique spell-styles and type identities!
 - **Cultivation:** Participating in PvP matches or defeating tough enemies in adventure mode earns cultivation to develop your Aura.
 
+![Adventure mode POV](Assets/UI/Screenshots/AdventureModePOV.PNG)
+
 
 ### How to play
 To get started, download the most recent pre-release build from the releases tab here in GitHub.
@@ -41,3 +43,12 @@ Due to the multi-stage prototyping process and learning more as I go the code is
 
 
 ## [Learn more about the game in the Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52) (Work in progress...)
+
+
+
+
+
+## Screenshots ##
+
+![Adventure mode crystal cavern POV](Assets/UI/Screenshots/CrystalCavePOV.PNG)
+![PvE combat top-down view](Assets/UI/Screenshots/TopViewPvE4.PNG)
