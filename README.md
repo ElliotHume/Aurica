@@ -48,8 +48,22 @@ Due to the multi-stage prototyping process and learning more as I go the code is
 
 
 
-## Screenshots ##
+## Adventure Mode Screenshots ##
 
 ![Adventure mode crystal cavern POV](Assets/UI/Screenshots/CrystalCavePOV.PNG)
 ![PvE combat top-down view](Assets/UI/Screenshots/TopViewPvE4.PNG)
 ![PvE forge raid room](Assets/UI/Screenshots/ForgeRaid.PNG)
+
+
+## PvP Arena Screenshots ##
+
+![Order Magic POV](Assets/UI/Screenshots/ArenaPvP.PNG)
+
+![Earth Magic POV](Assets/UI/Screenshots/ArenaPvP2.PNG)
+
+![Life Magic POV](Assets/UI/Screenshots/ArenaPvP3.PNG)
+
+![Death Magic POV](Assets/UI/Screenshots/ArenaPvP4.PNG)
+
+![Fire Magic POV](Assets/UI/Screenshots/ArenaPvP5.PNG)
+
