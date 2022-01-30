@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Throw a ball of mana that will create an earth golem if it impacts
     the ground. The earth golem will be hostile to any other mage than the caster.
   targetDistribution:
-    structure: 0.4
+    structure: 0.3
     essence: 0.25
     fire: 0
     water: 0
@@ -34,4 +34,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f79dc01f24dc49b7b7d35a67e0eaaf5, type: 2}
   errorThreshold: 1.5
   isAuric: 0
-  linkedSpellResource: Spell_CreateEarthGolem
+  linkedSpellResource: Spell_Summon_CreateEarthGolem

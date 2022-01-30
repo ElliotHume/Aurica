@@ -18,8 +18,9 @@ public class PlayerLook : MonoBehaviourPun
     public Transform firstPersonParent;
     public Transform thirdPersonParent;
     public Vector3 headPosition => thirdPersonParent.position;
+    public CharacterController playerCharacterController;
 
-    Vector3 originalCameraPosition;
+    Vector3 originalCameraPosition, oldPosition;
 
     // the layer mask to use when trying to detect view blocking
     // (this way we dont zoom in all the way when standing in another entity)
@@ -136,8 +137,7 @@ public class PlayerLook : MonoBehaviourPun
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    void Update()
-    {
+    void Update() {
         if (!photonView.IsMine || Input.GetButton("Fire2") || Cursor.lockState != CursorLockMode.Locked) return;
         // calculate horizontal and vertical rotation steps
         float xExtra = Input.GetAxis("Mouse X") * XSensitivity;
@@ -161,11 +161,21 @@ public class PlayerLook : MonoBehaviourPun
                 QualitySettings.SetQualityLevel(0, true);
             }
         }
+
+        float forwardVelocity = (Vector3.Project(playerCharacterController.velocity, transform.forward)).magnitude;
+        if (forwardVelocity > 15f) {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 90f, (forwardVelocity / 15f) * Time.deltaTime);
+        } else if (forwardVelocity > 7f) {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 70f, (forwardVelocity / 7f) * Time.deltaTime);
+        } else {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 60f, 7f * Time.deltaTime);
+        }
+        
+        Debug.Log(forwardVelocity);
     }
 
     // Update camera position after everything else was updated
-    void LateUpdate()
-    {
+    void LateUpdate() {
         if (!photonView.IsMine || Input.GetButton("Fire2") || Cursor.lockState != CursorLockMode.Locked) return;
         // clamp camera rotation automatically. this way we can rotate it to
         // whatever we like in Update, and LateUpdate will correct it.
