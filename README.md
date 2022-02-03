@@ -31,7 +31,7 @@ Once you are logged in and have gone through the Aura generation, you will be mo
 
 If you want to face a friend in a PvP match, return to the main menu and type in an agreed upon room name and hit the "Join Room" button. This will put you in the default battlegrounds. You can select the arena using the button beside the "Join Room" button. The default arena is a free for all mode with an objective ball in the middle (that you take and dunk at the spawnpoints), but there are also team deathmatch arenas available.
 
-### [Read more about the game in a blog post on my website](https://elliothume.github.io/Aurica/)
+### [Read more about the game in a post on my website](https://elliothume.github.io/Aurica/)
 ----
 
 #### Afterword:
