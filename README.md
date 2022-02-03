@@ -5,9 +5,9 @@
 ----
 
 ### Description
-Players face each other in multiplayer battles of skilled spell casting. The objective of each match is to reduce your opponent(s) shared pool of lives to zero before they do the same to you. To do this well the player must learn the strengths of their own pseudo-randomly generated Aura. A player's Aura is a distribution of mana types that interact with spell casting to make spells stronger or weaker depending on how the mana in the spell is balanced.
+Players face each other or against monsters in multiplayer battles of skilled spell casting. To excel players must learn the strengths of their own pseudo-randomly generated Aura. A player's Aura is a distribution of mana that will interact with spell casting to make spells stronger or weaker depending on how the spell is composed. The magic system is incredibly deep but retains an ease-of-use that lets casual players have as much fun as the more dedicated players.
 
-There are a wealth of spell options to choose from in each battle. Currently there are over 70 unique spells implemented and more being developed constantly. Part of the balance of the game is this large selection of spells, you can read more about this in the wiki.
+There are a wealth of spell options to choose from in each battle, with over 70+ unique spells from 10 different schools of magic, and more are being developed constantly.
 
 ### Novel features
 The intent of the magic system is to create a novel system for spell-casting that has incredible depth but maintains a low barrier of entry for casual players. Some key features of the system include:
