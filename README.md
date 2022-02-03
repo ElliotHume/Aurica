@@ -31,18 +31,18 @@ Once you are logged in and have gone through the Aura generation, you will be mo
 
 If you want to face a friend in a PvP match, return to the main menu and type in an agreed upon room name and hit the "Join Room" button. This will put you in the default battlegrounds. You can select the arena using the button beside the "Join Room" button. The default arena is a free for all mode with an objective ball in the middle (that you take and dunk at the spawnpoints), but there are also team deathmatch arenas available.
 
+### [Read more about the game in a blog post on my website](https://elliothume.github.io/Aurica/)
 ----
 
 #### Afterword:
-This game is not intended for mass-market or publishing. This game is a passion project for developing the Aurica magic system. The game has progressed through multiple prototypes due to the creator's desire to play the game with others and share the game system in an way that players can get engaged in.
-The Aurica System is inherently unbalanced, which is intentional, but there is ongoing work to balance different factors of unfairness so that every player has an avenue of progress and gameplay that is competitively valid, you can read more on this in the wiki of the Aurica System.
+This game is a passion project for developing the Aurica magic system. The game has progressed through multiple prototypes due to the creator's desire to play the game with others and share the game system in an way that players can get engaged in.
 
-Due to the multi-stage prototyping process and learning more as I go the code is not very well architectured. If the game shows promise when opened up to more players I will go through with an architectural refactoring.
+Due to the multi-stage prototyping process, and learning more as I go, the code is not well architectured. If the game shows promise when opened up to more players I will go through with an architectural refactoring of the prototype (or I might just start from scratch).
 
 ----
 
 
-## [Learn more about the game in the Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52) (Work in progress...)
+### [Learn how the magic system works on the Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52)
 
 
 
