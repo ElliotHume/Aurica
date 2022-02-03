@@ -35,7 +35,7 @@ If you want to face a friend in a PvP match, return to the main menu and type in
 ----
 
 #### Afterword:
-This game is a passion project for developing the Aurica magic system. The game has progressed through multiple prototypes due to the creator's desire to play the game with others and share the game system in an way that players can get engaged in.
+This game is a passion project for developing the Aurica magic system. The game has progressed through multiple prototypes due to the creator's desire to play the game with others and share the game system in a way that players can get engaged in.
 
 Due to the multi-stage prototyping process, and learning more as I go, the code is not well architectured. If the game shows promise when opened up to more players I will go through with an architectural refactoring of the prototype (or I might just start from scratch).
 
