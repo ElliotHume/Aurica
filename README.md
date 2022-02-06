@@ -1,13 +1,13 @@
 # AURICA <img align="left" width="150" height="150" src="Assets/UI/ApophisLogo.jpeg">
 
 
-#### Wield powerful and diverse magic in a strategic battle between mages. Every player is unique, with a pseudo-randomly generated Aura that interacts with every spell you cast and every hit you take. Aurica has a magic system with unparralled depth and intricacy. The ceiling for growth in Aurica is limited only by your dedication.
+#### Wield powerful and diverse magic in a strategic battle between mages. Every player is unique, with a pseudo-randomly generated Aura that interacts with every spell you cast and every hit you take. Aurica has a magic system with unparalleled depth and intricacy. The ceiling for growth in Aurica is limited only by your dedication.
 ----
 
 ### Description
-Players face each other in multiplayer battles of skilled spell casting. The objective of each match is to reduce your opponent(s) shared pool of lives to zero before they do the same to you. To do this well the player must learn the strengths of their own pseudo-randomly generated Aura. A player's Aura is a distribution of mana types that interact with spell casting to make spells stronger or weaker depending on how the mana in the spell is balanced.
+Players face each other or against monsters in multiplayer battles of skilled spell casting. To excel, players must learn the strengths of their own pseudo-randomly generated Aura. A player's Aura is a distribution of mana that will interact with spell casting to make spells stronger or weaker depending on how the spell is composed. The magic system is incredibly deep but retains an ease-of-use that lets casual players have as much fun as the more dedicated players.
 
-There are a wealth of spell options to choose from in each battle. Currently there are over 70 unique spells implemented and more being developed constantly. Part of the balance of the game is this large selection of spells, you can read more about this in the wiki.
+There are a wealth of spell options to choose from in each battle, with over 90+ unique spells from 10 different schools of magic, and more are being developed constantly.
 
 ### Novel features
 The intent of the magic system is to create a novel system for spell-casting that has incredible depth but maintains a low barrier of entry for casual players. Some key features of the system include:
@@ -31,11 +31,11 @@ Once you are logged in and have gone through the Aura generation, you will be mo
 
 If you want to face a friend in a PvP match, return to the main menu and type in an agreed upon room name and hit the "Join Room" button. This will put you in the default battlegrounds. You can select the arena using the button beside the "Join Room" button. The default arena is a free for all mode with an objective ball in the middle (that you take and dunk at the spawnpoints), but there are also team deathmatch arenas available.
 
-### [Read more about the game in a blog post on my website](https://elliothume.github.io/Aurica/)
+### [Read more about the game in a post on my website](https://elliothume.github.io/Aurica/)
 ----
 
 #### Afterword:
-This game is a passion project for developing the Aurica magic system. The game has progressed through multiple prototypes due to the creator's desire to play the game with others and share the game system in an way that players can get engaged in.
+This game is a passion project for developing the Aurica magic system. The game has progressed through multiple prototypes due to the creator's desire to play the game with others and share the game system in a way that players can get engaged in.
 
 Due to the multi-stage prototyping process, and learning more as I go, the code is not well architectured. If the game shows promise when opened up to more players I will go through with an architectural refactoring of the prototype (or I might just start from scratch).
 
