@@ -23,6 +23,7 @@ public class AuricaCaster : MonoBehaviourPun {
     private List<AuricaSpellComponent> currentComponents;
     private ManaDistribution currentDistribution;
     private float currentManaCost, spellStrength;
+    private AuricaSpell currentSpellMatch;
     private ComponentUIPanel cpUI;
     private DistributionUIDisplay distDisplay;
 
@@ -186,7 +187,23 @@ public class AuricaCaster : MonoBehaviourPun {
             }
         }
 
-        return spellMatch;
+        currentSpellMatch = spellMatch == null ? null : spellMatch;
+        return currentSpellMatch;
+    }
+
+    public AuricaPureSpell GetPureMagicSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
+        AuricaPureSpell spellMatch = null;
+        foreach (AuricaPureSpell s in allPureSpells) {
+            // Debug.Log("Check Pure Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(s.GetManaType(distribution), distribution));
+            if (s.CheckComponents(components, distribution)) {
+                spellMatch = s;
+                spellStrength = (spellMatch.errorThreshold - s.GetError(s.GetManaType(distribution), distribution)) / spellMatch.errorThreshold + 0.5f;
+                if (spellStrength < 0.5f) spellStrength = 0.5f;
+                // Debug.Log("Pure match: "+s.c_name+"   mana type:"+s.GetManaType(distribution)+"  error:"+s.GetError(s.GetManaType(distribution), distribution));
+            }
+        }
+        currentSpellMatch = spellMatch == null ? null : spellMatch.GetAuricaSpell(spellMatch.GetManaType(currentDistribution));
+        return spellMatch == null ? null : spellMatch;
     }
 
     public void ResetCast() {
@@ -271,6 +288,9 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public float GetManaCost() {
+        if (currentSpellMatch != null) {
+            return (currentSpellMatch.baseManaCost + (currentSpellMatch.componentManaMultiplier * currentManaCost)) * GameManager.GLOBAL_MANA_COST_MULTIPLIER;
+        }
         return currentManaCost * GameManager.GLOBAL_MANA_COST_MULTIPLIER;
     }
 
@@ -284,22 +304,6 @@ public class AuricaCaster : MonoBehaviourPun {
 
     public List<AuricaSpellComponent> GetCurrentComponents() {
         return currentComponents;
-    }
-
-    public AuricaPureSpell GetPureMagicSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
-        AuricaPureSpell spellMatch = null;
-        foreach (AuricaPureSpell s in allPureSpells) {
-            // Debug.Log("Check Pure Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(s.GetManaType(distribution), distribution));
-            if (s.CheckComponents(components, distribution)) {
-                spellMatch = s;
-                spellStrength = (spellMatch.errorThreshold - s.GetError(s.GetManaType(distribution), distribution)) / spellMatch.errorThreshold + 0.5f;
-                if (spellStrength < 0.5f) spellStrength = 0.5f;
-                // Debug.Log("Pure match: "+s.c_name+"   mana type:"+s.GetManaType(distribution)+"  error:"+s.GetError(s.GetManaType(distribution), distribution));
-            }
-        }
-        
-        if (spellMatch == null) return null;
-        return spellMatch;
     }
     
 

@@ -24,11 +24,12 @@ MonoBehaviour:
     air: 0
     nature: 0.2
   keyComponents:
-  - {fileID: 11400000, guid: d82da2bc39437474b8c9d066190ac6c2, type: 2}
+  - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
   - {fileID: 11400000, guid: 3cf948b2b89c1d141a59b48da8203c3a, type: 2}
   - {fileID: 11400000, guid: c4acee6ed94e9bb48b4f937cd6910d1b, type: 2}
   - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
-  - {fileID: 11400000, guid: 85f10a05819964b658b734430e180abc, type: 2}
+  baseManaCost: 50
+  componentManaMultiplier: 0.5
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_ArchitectFortress

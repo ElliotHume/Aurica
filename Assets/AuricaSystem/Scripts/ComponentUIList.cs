@@ -12,6 +12,9 @@ public class ComponentUIList : MonoBehaviour
     public List<AuricaSpellComponent> componentList;
     public AudioSource ChangeComponentSound;
 
+    private AuricaSpell[] allSpells;
+    private List<AuricaSpell> allSpellsList;
+
     private AuricaSpellComponent[] allComponents;
     private Glyph[] allComponentGlyphs;
     private float currentYPos;
@@ -29,6 +32,8 @@ public class ComponentUIList : MonoBehaviour
             componentList = new List<AuricaSpellComponent>(allComponents);
             // componentList.Sort((a, b) => a.CompareTo(b));
         }
+        allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
+        allSpellsList = new List<AuricaSpell>(allSpells);
     }
 
     void Start() {
@@ -52,6 +57,18 @@ public class ComponentUIList : MonoBehaviour
             newButton.GetComponent<ComponentUIButton>().SetComponent(component);
             newButton.GetComponent<ComponentUIButton>().componentDisplay = componentUIDisplay;
             newButton.GetComponent<ComponentUIButton>().SetGlyph(allComponentGlyphs, component.c_name);
+
+            // bool found = false;
+            // foreach(AuricaSpell spell in allSpellsList) {
+            //     if (spell.keyComponents.Contains(component)) {
+            //         found = true;
+            //     }
+            // }
+            // if (found) {
+            //     Debug.Log("Foundational");
+            // } else {
+            //     Debug.Log("Crafting");
+            // }
         }
     }
 

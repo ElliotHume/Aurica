@@ -5360,6 +5360,9 @@ MonoBehaviour:
   EffectsOnCollision: []
   NetworkedEffectsOnCollision:
   - XCollision_WellOfFlame
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 2596167967331184763}
   - {fileID: 2596216834100798139}

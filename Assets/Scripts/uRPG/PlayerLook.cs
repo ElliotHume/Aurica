@@ -170,8 +170,6 @@ public class PlayerLook : MonoBehaviourPun
         } else {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 60f, 7f * Time.deltaTime);
         }
-        
-        Debug.Log(forwardVelocity);
     }
 
     // Update camera position after everything else was updated

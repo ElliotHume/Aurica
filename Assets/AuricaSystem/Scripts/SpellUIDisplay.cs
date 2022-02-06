@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SpellUIDisplay : MonoBehaviour {
+    public GameObject displayPanel, craftingPanel;
+    public SpellCraftingMatrix spellMatrix;
     public Text title, description, spellEfficacyText, manaCostText;
     public DistributionUIDisplay targetDistDisplay;
     public DistributionUIDisplayValues targetDistDisplayValues;
@@ -12,7 +14,7 @@ public class SpellUIDisplay : MonoBehaviour {
     public GameObject placeholder, spellStrengthTitle, manaCostTitle;
     public bool isCasterAgnostic = false;
 
-    private AuricaSpell spell;
+    public AuricaSpell spell;
     private bool isHidden = true;
 
     // Start is called before the first frame update
@@ -67,7 +69,7 @@ public class SpellUIDisplay : MonoBehaviour {
                 PopulateFromSpell(spell);
             }
         } catch {
-            // do nothing, no spell match
+            if (spellMatrix != null) spellMatrix.CheckComponents();
         }
     }
 
@@ -102,35 +104,46 @@ public class SpellUIDisplay : MonoBehaviour {
     }
 
     public void ShowSpell() {
-        title.gameObject.SetActive(true);
-        description.gameObject.SetActive(true);
-        if (spellEfficacyText != null) spellEfficacyText.gameObject.SetActive(true);
-        if (manaCostText != null) manaCostText.gameObject.SetActive(true);
-        targetDistDisplay.gameObject.SetActive(true);
-        targetDistDisplayValues.gameObject.SetActive(true);
-        if (spellStrengthTitle != null) spellStrengthTitle.SetActive(true);
-        if (manaCostTitle != null) manaCostTitle.SetActive(true);
-        if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(true);
-        if (placeholder != null) placeholder.SetActive(false);
+        if (displayPanel != null) {
+            displayPanel.SetActive(true);
+            craftingPanel.SetActive(false);
+        } else {
+            title.gameObject.SetActive(true);
+            description.gameObject.SetActive(true);
+            if (spellEfficacyText != null) spellEfficacyText.gameObject.SetActive(true);
+            if (manaCostText != null) manaCostText.gameObject.SetActive(true);
+            targetDistDisplay.gameObject.SetActive(true);
+            targetDistDisplayValues.gameObject.SetActive(true);
+            if (spellStrengthTitle != null) spellStrengthTitle.SetActive(true);
+            if (manaCostTitle != null) manaCostTitle.SetActive(true);
+            if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(true);
+            if (placeholder != null) placeholder.SetActive(false);
+        }
         isHidden = false;
     }
 
     public void HideSpell() {
-        title.gameObject.SetActive(false);
-        description.gameObject.SetActive(false);
-        if (spellEfficacyText != null) spellEfficacyText.gameObject.SetActive(false);
-        if (manaCostText != null) manaCostText.gameObject.SetActive(false);
-        targetDistDisplay.gameObject.SetActive(false);
-        targetDistDisplayValues.gameObject.SetActive(false);
-        if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(false);
-        if (spellStrengthTitle != null) spellStrengthTitle.SetActive(false);
-        if (manaCostTitle != null) manaCostTitle.SetActive(false);
-        if (placeholder != null) placeholder.SetActive(true);
+        if (displayPanel != null) {
+            displayPanel.SetActive(false);
+            craftingPanel.SetActive(true);
+        } else {
+            title.gameObject.SetActive(false);
+            description.gameObject.SetActive(false);
+            if (spellEfficacyText != null) spellEfficacyText.gameObject.SetActive(false);
+            if (manaCostText != null) manaCostText.gameObject.SetActive(false);
+            targetDistDisplay.gameObject.SetActive(false);
+            targetDistDisplayValues.gameObject.SetActive(false);
+            if (componentUIList != null) componentUIList.gameObject.transform.parent.parent.gameObject.SetActive(false);
+            if (spellStrengthTitle != null) spellStrengthTitle.SetActive(false);
+            if (manaCostTitle != null) manaCostTitle.SetActive(false);
+            if (placeholder != null) placeholder.SetActive(true);
+        }
         isHidden = true;
     }
 
     public void Discard() {
         if (!isCasterAgnostic) AuricaCaster.LocalCaster.ResetCast();
+        if (spellMatrix != null) spellMatrix.CheckComponents();
         ClearSpell();
     }
 

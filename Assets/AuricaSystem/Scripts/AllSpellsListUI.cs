@@ -19,6 +19,7 @@ public class AllSpellsListUI : MonoBehaviour
     void Start()
     {
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
+        allSpells = allSpells.Where((s) => s.keyComponents.Count != 0).ToArray();
         allSpellsList = new List<AuricaSpell>(allSpells);
         allSpellsList.Sort((a, b) => a.c_name.CompareTo(b.c_name));
         rect = GetComponent<RectTransform>();
@@ -26,11 +27,18 @@ public class AllSpellsListUI : MonoBehaviour
         spellListPanelGameObject.SetActive(false);
     }
 
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            SelectNextComponent(true);
+        } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            SelectNextComponent(false);
+        }
+    }
+
     public void PopulateList() {
         //currentYPos = startYPos;
         //rect.sizeDelta = new Vector2(150, 80 * allSpellsList.Count);
         foreach (AuricaSpell spell in allSpellsList) {
-            if (spell.keyComponents.Count == 0) continue;
             GameObject newButton = Instantiate(spellElementPrefab, transform.position, transform.rotation, transform);
             instances.Add(newButton);
             newButton.GetComponent<SpellUIButton>().SetSpellDisplay(spellUIDisplay);
@@ -61,5 +69,21 @@ public class AllSpellsListUI : MonoBehaviour
         }
         WipeList();
         PopulateList();
+    }
+
+    void SelectNextComponent(bool traverseDownwards) {
+        if (spellUIDisplay.spell == null) return;
+
+        int selectedIndex = allSpellsList.IndexOf(spellUIDisplay.spell);
+
+        if (traverseDownwards) {
+            if (selectedIndex == allSpellsList.Count - 1) return;
+            spellUIDisplay.PopulateFromSpell(allSpellsList[selectedIndex+1]);
+        } else {
+            if (selectedIndex == 0) return;
+            spellUIDisplay.PopulateFromSpell(allSpellsList[selectedIndex-1]);
+        }
+        
+        spellUIDisplay.ShowSpell();
     }
 }

@@ -25,10 +25,12 @@ MonoBehaviour:
     air: 0
     nature: 1
   keyComponents:
-  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
   - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
   - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
   - {fileID: 11400000, guid: f2a312eb39a2f4cbdb6d601a6ae97e52, type: 2}
+  baseManaCost: 25
+  componentManaMultiplier: 0.5
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_AngelWisp

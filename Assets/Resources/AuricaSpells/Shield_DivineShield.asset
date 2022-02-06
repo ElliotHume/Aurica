@@ -25,10 +25,11 @@ MonoBehaviour:
     air: 0.33
     nature: 1
   keyComponents:
-  - {fileID: 11400000, guid: ddab4c958b760457d8a7b68e3f8cb208, type: 2}
-  - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
   - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
   - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
+  baseManaCost: 55
+  componentManaMultiplier: 0.2
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_Shield_DivineShield

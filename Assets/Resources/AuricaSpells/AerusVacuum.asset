@@ -25,11 +25,12 @@ MonoBehaviour:
     air: 0.78
     nature: 0.1
   keyComponents:
-  - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
-  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
-  - {fileID: 11400000, guid: 319d2d350905d8044ace545479d7eb70, type: 2}
   - {fileID: 11400000, guid: 2f485ba20f556cf46b74218f1e105aa2, type: 2}
   - {fileID: 11400000, guid: b681523d843b54d9d9b7481fc00f587d, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: 319d2d350905d8044ace545479d7eb70, type: 2}
+  baseManaCost: 30
+  componentManaMultiplier: 0.5
   errorThreshold: 2
   isAuric: 0
   linkedSpellResource: Spell_AerusVacuum
