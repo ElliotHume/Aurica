@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using AdVd.GlyphRecognition;
 
 public class SpellUIDisplay : MonoBehaviour {
     public GameObject displayPanel, craftingPanel;
@@ -12,14 +13,17 @@ public class SpellUIDisplay : MonoBehaviour {
     public ComponentUIList componentUIList;
     public ComponentUIDisplay componentUIDisplay;
     public GameObject placeholder, spellStrengthTitle, manaCostTitle;
+    public List<GlyphDisplay> glyphDisplays;
     public bool isCasterAgnostic = false;
 
     public AuricaSpell spell;
     private bool isHidden = true;
+    private Glyph[] allComponentGlyphs;
 
     // Start is called before the first frame update
     void Start() {
         HideSpell();
+        allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
     }
 
     void Update() {
@@ -91,6 +95,19 @@ public class SpellUIDisplay : MonoBehaviour {
             componentUIList.ResetList();
             foreach ( var component in spell.keyComponents) {
                 componentUIList.AddComponent(component);
+            }
+        }
+        if (glyphDisplays.Count > 0) {
+            foreach(GlyphDisplay gd in glyphDisplays) {
+                gd.glyph = null;
+            }
+            for(int i=0; i < Mathf.Min(s.keyComponents.Count, 8); i++ ) {
+                foreach (Glyph item in allComponentGlyphs) {
+                    if (item.name == s.keyComponents[i].c_name) {
+                        glyphDisplays[i].glyph = item;
+                        break;
+                    }
+                }
             }
         }
 
