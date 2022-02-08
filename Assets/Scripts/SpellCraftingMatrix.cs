@@ -14,22 +14,28 @@ public class SpellCraftingMatrix : MonoBehaviour {
     private List<AuricaSpell> allSpellsList;
     private AuricaCaster caster;
     private Glyph[] allComponentGlyphs;
+    private bool initialized = false;
 
-    // Start is called before the first frame update
-    void Start() {
+    void StartUp() {
         caster = AuricaCaster.LocalCaster;
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
         allSpellsList = new List<AuricaSpell>(allSpells);
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
+        initialized = true;
     }
 
     void OnEnable() {
+        if (!initialized) StartUp();
         CheckComponents();
     }
 
     public void CheckComponents() {
         if (!gameObject.activeInHierarchy) return;
-        if (caster == null) caster = AuricaCaster.LocalCaster;
+        if (caster == null) {
+            if (AuricaCaster.LocalCaster == null) return;
+            caster = AuricaCaster.LocalCaster;
+        }
+
         List<AuricaSpellComponent> components = caster.GetCurrentComponents();
         if (components.Count == 0) {
             for(int i=0; i < 8; i++) {

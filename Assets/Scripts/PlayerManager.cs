@@ -691,7 +691,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab)) {
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown("g")) {
             if (!isChannelling) {
                 if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.Cast());
             } else {

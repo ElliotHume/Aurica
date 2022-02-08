@@ -26,6 +26,10 @@ public class SpellUIDisplay : MonoBehaviour {
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
     }
 
+    void OnEnable() {
+        CheckComponents();
+    }
+
     void Update() {
         if (Input.GetKey(KeyCode.LeftShift)) {
             if (Input.GetKeyDown("1")) {
@@ -66,6 +70,7 @@ public class SpellUIDisplay : MonoBehaviour {
     }
 
     public void CheckComponents() {
+        if (AuricaCaster.LocalCaster == null) return;
         spell = AuricaCaster.LocalCaster.Cast();
         try {
             if (spell.c_name != null) {

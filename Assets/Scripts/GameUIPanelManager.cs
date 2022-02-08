@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameUIPanelManager : MonoBehaviour {
-    public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel, spellListPanel, cultivationPanel;
+    public GameObject spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel;
 
     public bool IsEditingInputField => 
         EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
@@ -54,6 +54,15 @@ public class GameUIPanelManager : MonoBehaviour {
         if (Input.GetKeyDown("i")) {
             infoPanel.SetActive(!infoPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+        }
+
+        // If no menus are open, and the player is holding right mouse, open the glyphdrawingmenu
+        if (Input.GetButton("Fire2")) {
+            if (!spellCraftingPanel.activeInHierarchy && !infoPanel.activeInHierarchy && !cultivationPanel.activeInHierarchy && !spellListPanel.activeInHierarchy && !auraPanel.activeInHierarchy) {
+                glyphDrawingFrame.SetActive(true);
+            }
+        } else {
+            glyphDrawingFrame.SetActive(false);
         }
     }
 }

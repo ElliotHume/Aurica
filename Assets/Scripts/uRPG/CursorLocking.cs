@@ -18,8 +18,7 @@ public class CursorLocking : MonoBehaviour
         return Input.GetButton("Fire2");
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         Cursor.lockState = AnyUnlockWindowActive() || HoldingMButton()
                            ? CursorLockMode.None
                            : CursorLockMode.Locked;
