@@ -7,8 +7,9 @@ using TMPro;
 
 public class GrimoireSpellsListUI : MonoBehaviour
 {
-    public GameObject grimoirePanel, spellElementPrefab;
+    public GameObject grimoirePanel, spellElementPrefab, wildMagicPanel, pureMagicPanel;
     public GrimoireSpellUIDisplay spellUIDisplay;
+    public GrimoirePureSpellUIDisplay pureSpellUIDisplay;
     public TMP_Text manaTitleText;
 
     public bool restricted = true;
@@ -29,6 +30,9 @@ public class GrimoireSpellsListUI : MonoBehaviour
     private List<AuricaSpell> divineSpellsList;
     private List<AuricaSpell> demonicSpellsList;
 
+    private AuricaPureSpell[] allPureSpells;
+    private List<AuricaPureSpell> pureSpellsList;
+
     private List<GameObject> instances = new List<GameObject>();
     private AuricaSpell.ManaType CurrentManaType = 0;
 
@@ -38,6 +42,10 @@ public class GrimoireSpellsListUI : MonoBehaviour
         allSpells = allSpells.Where((s) => s.keyComponents.Count != 0).ToArray();
         allSpellsList = new List<AuricaSpell>(allSpells);
         allSpellsList.Sort((a, b) => a.c_name.CompareTo(b.c_name));
+
+        allPureSpells = Resources.LoadAll<AuricaPureSpell>("AuricaPureSpells");
+        pureSpellsList = allPureSpells.ToList();
+        pureSpellsList.Sort((a, b) => a.c_name.CompareTo(b.c_name));
 
         auricSpellsList = new List<AuricaSpell>(allSpells.Where((s) => s.manaType == AuricaSpell.ManaType.Auric).ToArray());
         allSpellsList.Sort((a, b) => a.c_name.CompareTo(b.c_name));
@@ -80,6 +88,18 @@ public class GrimoireSpellsListUI : MonoBehaviour
     }
 
     public void SetManaType(int newManaType) { 
+        if ( newManaType == -1 ){
+            wildMagicPanel.SetActive(false);
+            pureMagicPanel.SetActive(true);
+            manaTitleText.text = "Pure Spells";
+            WipeList();
+            PopulatePureSpells();
+            return;
+        }
+
+        wildMagicPanel.SetActive(true);
+        pureMagicPanel.SetActive(false);
+
         CurrentManaType = (AuricaSpell.ManaType)newManaType;
 
         switch(CurrentManaType) {
@@ -134,6 +154,7 @@ public class GrimoireSpellsListUI : MonoBehaviour
     }
 
     public void PopulateList() {
+        if (restricted && DiscoveryManager.Instance == null) return;
         List<AuricaSpell> discoveredSpells = DiscoveryManager.Instance.GetDiscoveredSpells();
         foreach (AuricaSpell spell in currentSpellsList) {
             if (restricted && !discoveredSpells.Contains(spell)) continue;
@@ -141,6 +162,15 @@ public class GrimoireSpellsListUI : MonoBehaviour
             instances.Add(newButton);
             newButton.GetComponent<GrimoireSpellUIButton>().SetSpellDisplay(spellUIDisplay);
             newButton.GetComponent<GrimoireSpellUIButton>().SetSpell(spell);
+        }
+    }
+
+    public void PopulatePureSpells() {
+        foreach (AuricaPureSpell pureSpell in pureSpellsList) {
+            GameObject newButton = Instantiate(spellElementPrefab, transform.position, transform.rotation, transform);
+            instances.Add(newButton);
+            newButton.GetComponent<GrimoireSpellUIButton>().SetPureSpellDisplay(pureSpellUIDisplay);
+            newButton.GetComponent<GrimoireSpellUIButton>().SetPureSpell(pureSpell);
         }
     }
 

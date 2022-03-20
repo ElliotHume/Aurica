@@ -7,8 +7,8 @@ public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager Instance;
 
-    public Sprite AuricIcon, OrderIcon, ChaosIcon, LifeIcon, DeathIcon, FireIcon, WaterIcon, EarthIcon, AirIcon, DivineIcon, DemonicIcon;
-    public Color AuricColor, OrderColor, ChaosColor, LifeColor, DeathColor, FireColor, WaterColor, EarthColor, AirColor, DivineColor, DemonicColor;
+    public Sprite AuricIcon, OrderIcon, ChaosIcon, LifeIcon, DeathIcon, FireIcon, WaterIcon, EarthIcon, AirIcon, DivineIcon, DemonicIcon, PureIcon;
+    public Color AuricColor, OrderColor, ChaosColor, LifeColor, DeathColor, FireColor, WaterColor, EarthColor, AirColor, DivineColor, DemonicColor, PureColor;
 
 
     // Start is called before the first frame update
@@ -71,5 +71,12 @@ public class ResourceManager : MonoBehaviour
         }
         return Color.white;
     }
+
+    public Sprite GetPureIcon() {
+        return PureIcon;
+    }
     
+    public Color GetPureColor() {
+        return PureColor;
+    }
 }

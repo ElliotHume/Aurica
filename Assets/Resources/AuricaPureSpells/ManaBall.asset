@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa11aad955653524e8c1664593085106, type: 3}
   m_Name: ManaBall
   m_EditorClassIdentifier: 
-  c_name: ManaBall
+  c_name: Mana Ball
   description: Shoot a weak ball of mana that will direct itself towards where the
     caster targets.
   SpellBasis: 0
   SpellForm: 4
   SpellFocus: 12
   SpellAction: 18
+  addedManaCost: 0
   errorThreshold: 3
   OrderSpell: {fileID: 11400000, guid: f333ae6e61544c9448cd9bc00519aafa, type: 2}
   ChaosSpell: {fileID: 11400000, guid: f832b95b3cc9c6741a8515accad3b02d, type: 2}
