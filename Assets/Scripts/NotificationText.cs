@@ -39,4 +39,10 @@ public class NotificationText : MonoBehaviour {
         text.text = "+"+Mathf.Round(currentPoints * 1000f)+" Cultivation points";
         text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
     }
+
+    public void ShowDiscovery(string spell) {
+        isVisible = true;
+        text.text = "Added to Grimoire: "+spell;
+        text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
+    }
 }

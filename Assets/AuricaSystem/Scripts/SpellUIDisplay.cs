@@ -71,7 +71,7 @@ public class SpellUIDisplay : MonoBehaviour {
 
     public void CheckComponents() {
         if (AuricaCaster.LocalCaster == null) return;
-        spell = AuricaCaster.LocalCaster.Cast();
+        spell = AuricaCaster.LocalCaster.CastFinal();
         try {
             if (spell.c_name != null) {
                 if (isHidden) ShowSpell();

@@ -567,17 +567,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Play hit effects
         DamageVignette.Instance.FlashDamage(finalDamage);
         if (cameraWorker != null) cameraWorker.Shake(finalDamage / 100f, 0.198f);
-        if (HitSound != null && finalDamage > 1.5f) HitSound.Play();
+        if (HitSound != null && finalDamage > 2f) HitSound.Play();
 
         // Create damage popup
-        if (finalDamage > 1.5f) {
+        if (finalDamage > 3f) {
             characterUI.CreateDamagePopup(finalDamage);
         } else {
             // For an AoE spell tick we do something different
             aoeDamageTick += finalDamage;
         }
 
-        if (finalDamage > 1.5f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
+        if (finalDamage > 2f) Debug.Log("Take Damage --  pre-resistance: " + damage + "    post-resistance: " + finalDamage + "     resistance total: " + finalDamage / damage);
     }
 
     IEnumerator TakeDirectDoTDamage(float damage, float duration, ManaDistribution spellDistribution) {
@@ -693,7 +693,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown("g")) {
             if (!isChannelling) {
-                if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.Cast());
+                if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.CastFinal());
             } else {
                 StopChannelling();
                 auricaCaster.ResetCast();

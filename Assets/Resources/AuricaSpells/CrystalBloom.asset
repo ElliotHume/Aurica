@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: CrystalBloom
+  m_EditorClassIdentifier: 
+  c_name: Crystal Bloom
+  manaType: 6
+  description: Channel a hail of ice particles that bloom into damaging crystal flowers
+    on contact.
+  targetDistribution:
+    structure: 0.1
+    essence: 0.55
+    fire: 0
+    water: 0.75
+    earth: 0
+    air: 0
+    nature: 0.15
+  keyComponents:
+  - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
+  - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  baseManaCost: 50
+  componentManaMultiplier: 0.5
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_CrystalBloom

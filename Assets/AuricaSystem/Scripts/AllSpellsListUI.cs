@@ -24,7 +24,7 @@ public class AllSpellsListUI : MonoBehaviour
         allSpellsList.Sort((a, b) => a.c_name.CompareTo(b.c_name));
         rect = GetComponent<RectTransform>();
         PopulateList();
-        spellListPanelGameObject.SetActive(false);
+        if (spellListPanelGameObject != null) spellListPanelGameObject.SetActive(false);
     }
 
     void Update () {

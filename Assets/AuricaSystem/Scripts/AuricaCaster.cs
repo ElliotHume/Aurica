@@ -20,6 +20,7 @@ public class AuricaCaster : MonoBehaviourPun {
     private AuricaPureSpell[] allPureSpells;
 
     // Runtime variables
+    private List<AuricaSpell> discoveredSpells;
     private List<AuricaSpellComponent> currentComponents;
     private ManaDistribution currentDistribution;
     private float currentManaCost, spellStrength;
@@ -99,6 +100,12 @@ public class AuricaCaster : MonoBehaviourPun {
         currentComponents = new List<AuricaSpellComponent>();
         currentDistribution = new ManaDistribution();
         cachedSpells = new Dictionary<string, CachedSpell>();
+        discoveredSpells = new List<AuricaSpell>();
+    }
+
+    public void RetrieveDiscoveredSpells() {
+        Debug.Log("Aurica Caster: Retrieved discovered spells.");
+        discoveredSpells = DiscoveryManager.Instance.GetDiscoveredSpells();
     }
 
     public void AddComponent(string componentName) {
@@ -133,7 +140,7 @@ public class AuricaCaster : MonoBehaviourPun {
         foreach (string item in splitComponents) {
             AddComponent(item);
         }
-        return CastFinal();
+        return Cast();
     }
 
     public AuricaSpell CastSpellByObject(AuricaSpell spell) {
@@ -142,7 +149,7 @@ public class AuricaCaster : MonoBehaviourPun {
         foreach (AuricaSpellComponent component in spell.keyComponents) {
             AddComponent(component);
         }
-        return CastFinal();
+        return Cast();
     }
 
     public float GetSpellStrengthForSpell(AuricaSpell spell) {
@@ -158,20 +165,23 @@ public class AuricaCaster : MonoBehaviourPun {
 
     public AuricaSpell Cast() {
         AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
-        AuricaSpell spell = pureSpell == null ? null :  pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
-        if (spell != null) return spell;
-        return GetSpellMatch(currentComponents, currentDistribution);
+        AuricaSpell spell = pureSpell == null ? GetSpellMatch(currentComponents, currentDistribution) :  pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
+        if (spell != null) {
+            if (pureSpell != null) currentManaCost += pureSpell.addedManaCost;
+            return spell;
+        }
+        return null;
     }
 
     public AuricaSpell CastFinal() {
         AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
-        AuricaSpell spell = pureSpell == null ? null : pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
+        AuricaSpell spell = pureSpell == null ? GetSpellMatch(currentComponents, currentDistribution) : pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
         if (spell != null) {
-            // Debug.Log("Add extra mana cost for pure spell: "+pureSpell.addedManaCost+"     pre-addition: "+currentManaCost);
-            currentManaCost += pureSpell.addedManaCost;
+            if (discoveredSpells.Count > 0 && !discoveredSpells.Contains(spell)) DiscoveryManager.Instance.Discover(spell);
+            if (pureSpell != null) currentManaCost += pureSpell.addedManaCost;
             return spell;
         }
-        return GetSpellMatch(currentComponents, currentDistribution);
+        return null;
     }
 
     public AuricaSpell GetSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
