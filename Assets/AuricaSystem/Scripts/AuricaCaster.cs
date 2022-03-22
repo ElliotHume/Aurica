@@ -134,6 +134,7 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public AuricaSpell CastSpellByName(string componentsByName) {
+        if (componentsByName == null || componentsByName == "") return null;
         ResetCast();
         string[] componentSeperator = new string[] { ", " };
         string[] splitComponents = componentsByName.Split(componentSeperator, System.StringSplitOptions.None);
@@ -236,7 +237,8 @@ public class AuricaCaster : MonoBehaviourPun {
         return GetSpellMatch(new List<AuricaSpellComponent>(), new ManaDistribution());
     }
 
-    public void CacheCurrentSpell(string key) {
+    public void CacheCurrentSpell(string k) {
+        string key = k.ToLower();
         string componentString = "";
         foreach (AuricaSpellComponent c in currentComponents) {
             componentString += c.c_name + ", ";
@@ -271,7 +273,8 @@ public class AuricaCaster : MonoBehaviourPun {
         }
     }
 
-    public void CacheSpell(string key, string spell) {
+    public void CacheSpell(string k, string spell) {
+        string key = k.ToLower();
         Debug.Log("Caching key "+key+" with spell: " + spell);
         CachedSpell cs = new CachedSpell(spell);
         if (cachedSpells.ContainsKey(key)) {
@@ -290,6 +293,7 @@ public class AuricaCaster : MonoBehaviourPun {
 
         // GAME SPECIFIC
         try {
+            Debug.Log("TRY SET BINDINGUI "+key+"     "+match.c_name);
             BindingUIPanel.LocalInstance.SetBind(key, match);
         } catch {
             Debug.Log("No spell found for binding...");

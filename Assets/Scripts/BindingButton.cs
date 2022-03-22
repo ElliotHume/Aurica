@@ -10,11 +10,12 @@ public class BindingButton : MonoBehaviour
     public Image SpellIcon;
     public string key;
     public Color CannotCastColorTint;
+    public Text SpellComponents;
 
     private AuricaSpell spell;
     private bool canCast;
 
-    public void SetButtonGraphics(AuricaSpell s) {
+    public void SetButtonGraphics(AuricaSpell s, string components="") {
         if (s == null) {
             SpellText.text = "NONE";
             SpellIcon.sprite = ResourceManager.Instance.AuricIcon;
@@ -24,6 +25,7 @@ public class BindingButton : MonoBehaviour
         spell = s;
         SpellText.text = spell.c_name;
         SpellIcon.sprite = ResourceManager.Instance.GetIcon(spell.manaType);
+        if (SpellComponents != null) SpellComponents.text = components;
     }
 
     public void CanCast(bool flag) {

@@ -5,10 +5,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameUIPanelManager : MonoBehaviour {
-    public GameObject spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel;
+    public static GameUIPanelManager Instance;
+    public GameObject spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel, cloudLoadoutPanel;
+
+    void Start() {
+        GameUIPanelManager.Instance = this;
+    }
 
     public bool IsEditingInputField => 
         EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
+
+    public bool ShouldProcessInputs() {
+        return !spellCraftingPanel.activeInHierarchy && !cloudLoadoutPanel.activeInHierarchy;
+    }
 
     void Update() {
         if (IsEditingInputField) return;
@@ -21,13 +30,14 @@ public class GameUIPanelManager : MonoBehaviour {
 
         // Bring up the spell crafting menu
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            if (infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy) {
-                if (infoPanel != null) infoPanel.SetActive(false);
-                if (spellListPanel != null) spellListPanel.SetActive(false);
-                if (auraPanel != null) auraPanel.SetActive(false);
+            if (infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy) {
+                infoPanel.SetActive(false);
+                spellListPanel.SetActive(false);
+                auraPanel.SetActive(false);
                 if (cultivationPanel.activeInHierarchy) {
                     cultivationPanel.GetComponent<RewardsUIPanel>().ClosePanel();
                 }
+                cloudLoadoutPanel.SetActive(false);
                 return;
             }
             spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
@@ -53,6 +63,12 @@ public class GameUIPanelManager : MonoBehaviour {
         // Bring up the info menus
         if (Input.GetKeyDown("i")) {
             infoPanel.SetActive(!infoPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+        }
+
+        // Bring up the personal class loadout menu
+        if (Input.GetKeyDown("l")) {
+            cloudLoadoutPanel.SetActive(!cloudLoadoutPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
 

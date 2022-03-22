@@ -323,7 +323,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
 
 
-            if (spellCraftingDisplay != null && !spellCraftingDisplay.activeInHierarchy) this.ProcessInputs();
+            if (GameUIPanelManager.Instance && GameUIPanelManager.Instance.ShouldProcessInputs()) this.ProcessInputs();
 
             // If there is healing to be done, do it
             if (healing > 0f && Health < maxHealth) {

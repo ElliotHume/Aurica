@@ -23568,7 +23568,15 @@ MonoBehaviour:
   EffectsOnCollision: []
   NetworkedEffectsOnCollision:
   - XCollision_SinkingHold
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &6960067749986523730
 SphereCollider:
   m_ObjectHideFlags: 0
