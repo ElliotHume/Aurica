@@ -10110,6 +10110,11 @@ MonoBehaviour:
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &4787963137644770237
 SphereCollider:
   m_ObjectHideFlags: 0

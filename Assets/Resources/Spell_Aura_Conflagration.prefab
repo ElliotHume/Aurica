@@ -14323,7 +14323,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
-  Duration: 15
+  Duration: 25
   CastAnimationType: 5
   CastingAnchor: transform
   TurnToAimPoint: 1
@@ -14338,7 +14338,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 1
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 19
+  DestroyTimeDelay: 29
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -14349,6 +14349,11 @@ MonoBehaviour:
   - {fileID: 2047465271}
   - {fileID: 6319179523684372179}
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &6319179522457626870
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14398,7 +14403,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 6319179522457626867}
-  sceneViewId: 25
+  sceneViewId: 32
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6319179522457626867
@@ -15230,7 +15235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isParticleSystem: 0
   m_inputMaterial: {fileID: 2100000, guid: 98cb94841a8621f4e8ea05216e607467, type: 2}
-  m_timeToReduce: 15
+  m_timeToReduce: 25
   m_reduceFactor: 2
   m_upFactor: 1
 --- !u!1 &7097613484288147297
@@ -15357,6 +15362,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isParticleSystem: 0
   m_inputMaterial: {fileID: 2100000, guid: 39d706e5f1a699a43a569c417dec23f1, type: 2}
-  m_timeToReduce: 15
+  m_timeToReduce: 25
   m_reduceFactor: 2
   m_upFactor: 1

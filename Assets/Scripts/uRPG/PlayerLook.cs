@@ -166,9 +166,9 @@ public class PlayerLook : MonoBehaviourPun
         if (forwardVelocity > 15f) {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 75f, (forwardVelocity / 15f) * Time.deltaTime);
         } else if (forwardVelocity > 7f) {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 65f, (forwardVelocity / 7f) * Time.deltaTime);
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 70f, (forwardVelocity / 7f) * Time.deltaTime);
         } else {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 60f, 7f * Time.deltaTime);
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 65f, 7f * Time.deltaTime);
         }
     }
 

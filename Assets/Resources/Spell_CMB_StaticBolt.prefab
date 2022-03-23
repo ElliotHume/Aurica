@@ -294,9 +294,17 @@ MonoBehaviour:
   EffectsOnCollision:
   - {fileID: 3140731373008193382, guid: 7542dcb82a20d404087a20ee90d69e10, type: 3}
   NetworkedEffectsOnCollision: []
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 4937855794268016466}
   - {fileID: 4937102242045486062}
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &4936092335273999727
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -28,6 +28,7 @@ public class SpellDiscoveryPillar : MonoBehaviour {
     public void DisplaySpell() {
         List<AuricaSpellComponent> components = spell.keyComponents;
         for(int i=0; i < glyphDisplays.Count; i++) {
+            if (glyphDisplays[i] == null || !glyphDisplays[i].gameObject.activeInHierarchy) continue;
             if (i < components.Count) {
                 foreach (Glyph item in allComponentGlyphs) {
                     if (item.name == components[i].c_name) {

@@ -19225,7 +19225,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: dotAoE
-  Duration: 30
+  Duration: 40
   CastAnimationType: 1
   CastingAnchor: front
   TurnToAimPoint: 1
@@ -19240,7 +19240,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 1
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 32
+  DestroyTimeDelay: 42
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -19250,6 +19250,11 @@ MonoBehaviour:
   - {fileID: 5193952557239455298}
   - {fileID: 5194307686023291780}
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!54 &8316678771313687780
 Rigidbody:
   m_ObjectHideFlags: 0
