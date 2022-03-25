@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: PriestSanctuary
+  m_EditorClassIdentifier: 
+  c_name: Priest Sanctuary
+  manaType: 9
+  description: Channel divine and life energies to create a barrier around the caster
+    that will protect against projectile spells. Anyone within the effect will be
+    slowly healed over time.
+  targetDistribution:
+    structure: 0.05
+    essence: 0.33
+    fire: 0
+    water: 0.1
+    earth: 0
+    air: 0.33
+    nature: 0.33
+  keyComponents:
+  - {fileID: 11400000, guid: c4acee6ed94e9bb48b4f937cd6910d1b, type: 2}
+  - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
+  - {fileID: 11400000, guid: ec341d06fe0184444983a2205987618b, type: 2}
+  - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
+  baseManaCost: 20
+  componentManaMultiplier: 0.5
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_PriestSanctuary

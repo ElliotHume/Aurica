@@ -10,7 +10,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float Speed = 20f;
     public float RandomMoveRadius = 0f;
     public float RandomMoveSpeedScale = 0f;
-    public bool CanHitSelf = true, ContinuesPastCollision = false;
+    public bool CanHitSelf = true;
     public bool AimAssistedProjectile = true;
     public float AimAssistTurningSpeed = 15f;
     public bool PerfectHomingProjectile = false;
@@ -115,7 +115,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     }
                     transform.rotation = networkRotation;
                     LocalCollisionBehaviour(transform.position, -transform.forward);
-                    if (!ContinuesPastCollision) isCollided = true;
+                    isCollided = true;
                 }
             }
         }
@@ -138,7 +138,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         if (enemyAttack && collision.gameObject == GetOwner()) return;
 
         ContactPoint hit = collision.GetContact(0);
-        if (!ContinuesPastCollision) isCollided = true;
+        isCollided = true;
 
         // Call local collision response to generate collision VFX
         LocalCollisionBehaviour(hit.point, hit.normal);
@@ -212,7 +212,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void OnParticleCollision(GameObject other) {
-        if (!ParticleCollisions || (!GetCanHitOwner() && other.gameObject == GetOwner())) return;
+        // Particle collisions are locally authoratative for players, if on YOUR screen you are hit by a particle you take the damage.
+        if (!ParticleCollisions || (!GetCanHitOwner() && other == GetOwner())) return;
         PhotonView pv = PhotonView.Get(other);
         if (pv != null && !pv.IsMine) return;
         
@@ -223,7 +224,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
             }
         }
 
-        if (other.gameObject.tag == "Player" && (other.gameObject != PlayerManager.LocalPlayerGameObject || CanHitSelf)) {
+        if (other.tag == "Player" && (!photonView.IsMine || CanHitSelf)) {
+            Debug.Log("Player hit: "+other);
             PlayerManager pm = other.GetComponent<PlayerManager>();
             if (pm != null) {
                 if (pv != null) {
@@ -240,7 +242,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     }
                 }
             }
-        } else if (other.tag == "Enemy") {
+        }
+
+        // Anything other than players is handled by the spell owner
+        if (!photonView.IsMine) return;
+        if (other.tag == "Enemy") {
             Enemy enemy = other.GetComponent<Enemy>();
             string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
             if (enemy != null) {
@@ -262,8 +268,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
             if (dmgobj != null) {
                 if (pv != null) {
                     pv.RPC("OnSpellCollide", RpcTarget.All, DamagePerParticle * numCollisionEvents * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
-                    collidedViewId = pv.ViewID;
-                    FlashHitMarker(true);
+                    FlashHitMarker(false);
                 }
             }
         }
@@ -272,7 +277,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     [PunRPC]
     public void SpellCollision() {
         LocalCollisionBehaviour(transform.position, -transform.forward);
-        if (!ContinuesPastCollision) isCollided = true;
+        isCollided = true;
         if (photonView.IsMine) {
             Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
             NetworkCollisionBehaviour(transform.position, Vector3.up);

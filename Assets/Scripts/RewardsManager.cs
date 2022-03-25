@@ -34,10 +34,10 @@ public class RewardsManager : MonoBehaviour {
     }
 
     void OnDataRecieved (GetUserDataResult result) {
+        fetching = false;
         if (result.Data != null && result.Data.ContainsKey("RewardPoints")) {
             rewardPoints = float.Parse(result.Data["RewardPoints"].Value);
             fetched = true;
-            fetching = false;
             Debug.Log("Fetched reward points from cloud: ["+rewardPoints+"]");
         } else {
             AddRewards(0f);

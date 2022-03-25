@@ -570,7 +570,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (HitSound != null && finalDamage > 2f) HitSound.Play();
 
         // Create damage popup
-        if (finalDamage > 3f) {
+        if (finalDamage > 4f) {
             characterUI.CreateDamagePopup(finalDamage);
         } else {
             // For an AoE spell tick we do something different
@@ -681,6 +681,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     boostCharge2 = 0f;
                 }
             }
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown("g")) {
+            boostCharge1 = BoostCooldown;
+            boostCharge2 = BoostCooldown;
         }
 
         if (Input.GetKeyDown("\\")) {

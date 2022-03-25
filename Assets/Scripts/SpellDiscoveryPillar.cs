@@ -10,6 +10,7 @@ public class SpellDiscoveryPillar : MonoBehaviour {
 
     public List<GlyphDisplay> glyphDisplays;
     public List<CapStretchStrokeGraphic> glyphGraphics;
+    public bool keepColor = false;
     
     private AuricaSpell[] allSpells;
     private List<AuricaSpell> allSpellsList;
@@ -36,7 +37,7 @@ public class SpellDiscoveryPillar : MonoBehaviour {
                         break;
                     }
                 }
-                if (ResourceManager.Instance != null) glyphGraphics[i].SetColor(ResourceManager.Instance.GetColor(spell.manaType));
+                if (!keepColor && ResourceManager.Instance != null) glyphGraphics[i].SetColor(ResourceManager.Instance.GetColor(spell.manaType));
             } else {
                 glyphDisplays[i].glyph = null;
             }

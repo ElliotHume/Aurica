@@ -41,11 +41,11 @@ public class DiscoveryManager : MonoBehaviour {
     }
 
     void OnDataRecieved (GetUserDataResult result) {
+        fetching = false;
         if (result.Data != null && result.Data.ContainsKey("Discoveries")) {
             rawDiscoveries = result.Data["Discoveries"].Value;
             discoveredSpells = GetListFromString(rawDiscoveries);
             fetched = true;
-            fetching = false;
             Debug.Log("Fetched discoveries from cloud: "+rawDiscoveries+"");
             AuricaCaster.LocalCaster.RetrieveDiscoveredSpells();
         } else {
