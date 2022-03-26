@@ -23909,7 +23909,7 @@ MonoBehaviour:
   ManaChannelCost: 60
   SpellEffectType: 
   Duration: 1
-  CastAnimationType: 8
+  CastAnimationType: 12
   CastingAnchor: transform
   TurnToAimPoint: 1
   IsChannel: 1
@@ -23944,6 +23944,11 @@ MonoBehaviour:
   TimeBetweenSpawnEffects: 0
   MaxNumberOfEffectsSpawned: 0
   RandomSpawnSphereSize: 0
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &7458834175787316984
 MonoBehaviour:
   m_ObjectHideFlags: 0

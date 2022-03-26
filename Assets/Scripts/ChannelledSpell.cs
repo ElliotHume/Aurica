@@ -24,6 +24,7 @@ public class ChannelledSpell : Spell {
     public float SpawnEffectsDelay = 0.5f, TimeBetweenSpawnEffects = 1f;
     public int MaxNumberOfEffectsSpawned = 0;
     public float RandomSpawnSphereSize = 0f;
+    public bool SpawnedEffectsFaceAwayFromCenter = false;
 
     public bool ParticleCollisions = false;
     public float DamagePerParticle = 1f;
@@ -238,6 +239,10 @@ public class ChannelledSpell : Spell {
             Quaternion spawnRotation = transform.rotation;
             if (RandomSpawnSphereSize > 0f) {
                 spawnPoint += Random.insideUnitSphere * RandomSpawnSphereSize;
+            }
+            if (SpawnedEffectsFaceAwayFromCenter) {
+                Vector3 direction = transform.position - spawnPoint;
+                spawnRotation = Quaternion.LookRotation(direction);
             }
             GameObject instance = PhotonNetwork.Instantiate(effect, spawnPoint, spawnRotation);
             Spell instanceSpell = instance.GetComponent<Spell>();

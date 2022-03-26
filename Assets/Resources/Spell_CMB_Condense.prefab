@@ -14573,7 +14573,6 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 1
-  ContinuesPastCollision: 0
   AimAssistedProjectile: 1
   AimAssistTurningSpeed: 10
   PerfectHomingProjectile: 0
@@ -14589,12 +14588,20 @@ MonoBehaviour:
   EffectsOnCollision:
   - {fileID: 7392420765674112789, guid: 515c61add91694b83806e8ae939516be, type: 3}
   NetworkedEffectsOnCollision: []
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 4150390177402858474}
   - {fileID: 4151153290034563424}
   - {fileID: 4150184489665575934}
   - {fileID: 4150142972047946684}
   - {fileID: 4150325939232148492}
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &4151492393079109418
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: IrLeTosBattery
+  m_EditorClassIdentifier: 
+  c_name: Ir'Le'To's Battery
+  manaType: 10
+  description: Channel energy from Ir'Le'To's den to send a battery of tainted mana
+    bolts in every direction. The spells have strong tracking capabilities so long
+    as the caster has an opponent in their sights.
+  targetDistribution:
+    structure: -0.31
+    essence: -0.15
+    fire: 0.08
+    water: 0.21
+    earth: 0
+    air: 0
+    nature: -0.75
+  keyComponents:
+  - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
+  - {fileID: 11400000, guid: 3b94403fe60b4433f8914e88089b077a, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  baseManaCost: 40
+  componentManaMultiplier: 0.5
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_IrLeTosBattery

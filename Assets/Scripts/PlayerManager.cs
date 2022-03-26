@@ -570,7 +570,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (HitSound != null && finalDamage > 2f) HitSound.Play();
 
         // Create damage popup
-        if (finalDamage > 4f) {
+        if (finalDamage > 5f) {
             characterUI.CreateDamagePopup(finalDamage);
         } else {
             // For an AoE spell tick we do something different
@@ -1103,6 +1103,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 // Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
                 return;
             }
+            Debug.Log("Apply slow: "+percentage);
             appliedSlowEffects.Add(Identifier);
 
             slowed = true;

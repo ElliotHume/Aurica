@@ -252,7 +252,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
             // Cap slow values at 90%, we don't want a 100% slow
-            if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, slowPercentage/100f * Mathf.Clamp(multiplier, 0f, 90f)) ;
+            if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, Mathf.Clamp(slowPercentage/100f * multiplier, 0f, 90f)) ;
             if (hasten) pv.RPC("Hasten", RpcTarget.All, Identifier, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
             if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
             if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
@@ -283,12 +283,12 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     void ActivateContinuous(PhotonView pv, bool isEnemy = false) {
         if (pv != null) {
             AffectedPlayers.Add(pv);
-            // Debug.Log("Activate continuous");
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
+            // Debug.Log("Activate continuous   mult:" + multiplier);
             if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, Identifier, strengthenDistribution.ToString());
-            if (slow) pv.RPC("ContinuousSlow", RpcTarget.All, Identifier, slowPercentage / 100f * Mathf.Clamp(multiplier, 0f, 90f));
+            if (slow) pv.RPC("ContinuousSlow", RpcTarget.All, Identifier, Mathf.Clamp(slowPercentage / 100f * multiplier, 0f, 90f));
             if (hasten) pv.RPC("ContinuousHasten", RpcTarget.All, Identifier, hastenPercentage / 100f * multiplier);
             if (root) pv.RPC("ContinuousRoot", RpcTarget.All);
             if (stun) pv.RPC("ContinuousStun", RpcTarget.All);

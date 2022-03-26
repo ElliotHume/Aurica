@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: BoulderToss
+  m_EditorClassIdentifier: 
+  c_name: Boulder Toss
+  manaType: 7
+  description: Throw an arcing boulder that damages and explodes into a small slowing
+    field on contact.
+  targetDistribution:
+    structure: 0.23
+    essence: -0.1
+    fire: 0.11
+    water: 0
+    earth: 0.95
+    air: 0
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: 3ac906ae1eff3405f84ba9a716ee2556, type: 2}
+  - {fileID: 11400000, guid: 3f79dc01f24dc49b7b7d35a67e0eaaf5, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  baseManaCost: 65
+  componentManaMultiplier: 0.5
+  errorThreshold: 1.5
+  isAuric: 0
+  linkedSpellResource: Spell_BoulderToss
