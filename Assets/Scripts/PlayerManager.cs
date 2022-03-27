@@ -466,6 +466,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         HardReset();
     }
 
+    [PunRPC]
+    public void TeleportEffect(Vector3 newPosition) {
+        if (!photonView.IsMine) return;
+        // Debug.Log("Teleporting " + gameObject + "  to " + newPosition);
+        transform.position = newPosition;
+    }
+
     public void Teleport(Vector3 newPosition) {
         if (!photonView.IsMine) return;
         // Debug.Log("Teleporting " + gameObject + "  to " + newPosition);

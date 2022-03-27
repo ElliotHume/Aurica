@@ -5091,6 +5091,7 @@ GameObject:
   - component: {fileID: 7087062788467506555}
   - component: {fileID: 7087062788467506553}
   - component: {fileID: 7087062788467506552}
+  - component: {fileID: 1211007778}
   m_Layer: 6
   m_Name: ParticleExplosion
   m_TagString: Untagged
@@ -9765,6 +9766,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1211007778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087062788467506550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7087062789675194413
 GameObject:
   m_ObjectHideFlags: 0
@@ -9776,6 +9789,7 @@ GameObject:
   - component: {fileID: 7087062789675194412}
   - component: {fileID: 7087062789675194414}
   - component: {fileID: 7087062789675194415}
+  - component: {fileID: 1211007780}
   m_Layer: 6
   m_Name: Particles (2)
   m_TagString: Untagged
@@ -9951,7 +9965,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.16197933, g: 0.9811321, b: 0.26782498, a: 1}
+      maxColor: {r: 0.98039216, g: 0.16078429, b: 0.89955115, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -14570,6 +14584,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1211007780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087062789675194413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7087062789831158444
 GameObject:
   m_ObjectHideFlags: 0
@@ -14581,6 +14607,7 @@ GameObject:
   - component: {fileID: 7087062789831158447}
   - component: {fileID: 7087062789831158353}
   - component: {fileID: 7087062789831158446}
+  - component: {fileID: 1211007781}
   m_Layer: 6
   m_Name: Fog (2)
   m_TagString: Untagged
@@ -15779,7 +15806,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0.5882353}
-        key1: {r: 0.32460594, g: 1, b: 0.25098038, a: 1}
+        key1: {r: 1, g: 0.25098038, b: 0.9070501, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0.2509804}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -19255,3 +19282,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1211007781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087062789831158444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

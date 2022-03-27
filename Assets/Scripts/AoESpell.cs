@@ -46,7 +46,7 @@ public class AoESpell : Spell {
         }
         Invoke("EndSpell", Duration+StartTimeDelay);
 
-        if (!attachToTarget && PositionOffset != Vector3.zero) transform.position += PositionOffset;
+        if (!attachToTarget && PositionOffset != Vector3.zero) transform.position += (transform.forward * PositionOffset.z + transform.right * PositionOffset.x + transform.up * PositionOffset.y);
     }
 
     void FixedUpdate() {

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: RipRift
+  m_EditorClassIdentifier: 
+  c_name: Rip Rift
+  manaType: 2
+  description: Rip a hole in space, any caught in the right will be randomly teleported
+    away from the center and take a minor amount of damage. The caster is immune
+    for taking damage.
+  targetDistribution:
+    structure: -0.81
+    essence: -0.13
+    fire: 0.04
+    water: 0.08
+    earth: 0.01
+    air: 0.099
+    nature: 0.11
+  keyComponents:
+  - {fileID: 11400000, guid: 2c16fa44aac434c128740b9c51ca6fb1, type: 2}
+  - {fileID: 11400000, guid: f0352fd38cf3b40c48e0d2b78a70eed0, type: 2}
+  - {fileID: 11400000, guid: 197038a676bb942a188c671e73ca3aae, type: 2}
+  - {fileID: 11400000, guid: 756e7ce5743bb4cb5a23fe32386f9e88, type: 2}
+  baseManaCost: 100
+  componentManaMultiplier: 0.5
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_RipRift

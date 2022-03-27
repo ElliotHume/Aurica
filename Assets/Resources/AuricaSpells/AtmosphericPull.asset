@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: AtmosphericPull
+  m_EditorClassIdentifier: 
+  c_name: Atmospheric Pull
+  manaType: 8
+  description: Pull on the atmosphere around you. This create a very strong pulling
+    effect that draws in everyone in a large area around the caster.
+  targetDistribution:
+    structure: -0.5
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0.1
+    air: 0.78
+    nature: 0.1
+  keyComponents:
+  - {fileID: 11400000, guid: 2f485ba20f556cf46b74218f1e105aa2, type: 2}
+  - {fileID: 11400000, guid: b681523d843b54d9d9b7481fc00f587d, type: 2}
+  - {fileID: 11400000, guid: e50251c9a58054bc69f05bbe847cd548, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  baseManaCost: 30
+  componentManaMultiplier: 0.5
+  errorThreshold: 2
+  isAuric: 0
+  linkedSpellResource: Spell_AtmosphericPull
