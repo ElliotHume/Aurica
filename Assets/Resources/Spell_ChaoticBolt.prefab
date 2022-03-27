@@ -9728,9 +9728,8 @@ MonoBehaviour:
   RandomMoveRadius: 0.05
   RandomMoveSpeedScale: 15
   CanHitSelf: 1
-  ContinuesPastCollision: 0
   AimAssistedProjectile: 1
-  AimAssistTurningSpeed: 10
+  AimAssistTurningSpeed: 30
   PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 5
   TrackingProjectile: 1
@@ -9752,6 +9751,8 @@ MonoBehaviour:
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &7070001880803783847
 SphereCollider:
   m_ObjectHideFlags: 0

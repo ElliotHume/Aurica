@@ -56,7 +56,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
-  Duration: 60
+  Duration: 20
   CastAnimationType: 0
   CastingAnchor: transform
   TurnToAimPoint: 1
@@ -71,7 +71,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 60
+  DestroyTimeDelay: 25
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -273,8 +273,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 60
-      minScalar: 45
+      scalar: 20
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1349,7 +1349,7 @@ ParticleSystem:
         m_RotationOrder: 0
     separateAxes: 0
   ColorModule:
-    enabled: 1
+    enabled: 0
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -1374,7 +1374,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 13685
+        atime1: 65535
         atime2: 47224
         atime3: 65535
         atime4: 0
@@ -1383,7 +1383,7 @@ ParticleSystem:
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
