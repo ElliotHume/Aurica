@@ -27,6 +27,12 @@ public class DiscoveryManager : MonoBehaviour {
         allSpellsList = new List<AuricaSpell>(allSpells);
     }
 
+    void Update() {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.RightShift) && Input.GetKey("t")) {
+            Discover(allSpellsList);
+        }
+    }
+
     void FixedUpdate() {
         if (!fetched && !fetching) GetDiscoveries();
     }
@@ -71,6 +77,7 @@ public class DiscoveryManager : MonoBehaviour {
 
         PlayFabClientAPI.UpdateUserData(request, OnDiscoveriesDataSend, OnError);
         NotificationText.Instance.ShowDiscovery(spell.c_name);
+        if (TipWindow.Instance) TipWindow.Instance.ShowTip("Tip", "See the newly discovered spell in your Grimoire by pressing \"z\".", 3f);
     }
 
     public void Discover(List<AuricaSpell> spells) {
@@ -88,6 +95,7 @@ public class DiscoveryManager : MonoBehaviour {
 
         PlayFabClientAPI.UpdateUserData(request, OnDiscoveriesDataSend, OnError);
         NotificationText.Instance.ShowDiscovery(spells.Count+"x new spells");
+        if (TipWindow.Instance) TipWindow.Instance.ShowTip("Tip", "See the newly discovered spells in your Grimoire by pressing \"z\".", 3f);
     }
 
     void OnDiscoveriesDataSend(UpdateUserDataResult result) {

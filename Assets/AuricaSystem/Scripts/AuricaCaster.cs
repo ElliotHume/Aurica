@@ -293,7 +293,6 @@ public class AuricaCaster : MonoBehaviourPun {
 
         // GAME SPECIFIC
         try {
-            Debug.Log("TRY SET BINDINGUI "+key+"     "+match.c_name);
             BindingUIPanel.LocalInstance.SetBind(key, match);
         } catch {
             Debug.Log("No spell found for binding...");

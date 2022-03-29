@@ -57,6 +57,7 @@ public class RewardsManager : MonoBehaviour {
         PlayFabClientAPI.UpdateUserData(request, OnRewardsDataSend, OnError);
         fetched = false;
         NotificationText.Instance.ShowCultivationPoints(points);
+        if (TipWindow.Instance) TipWindow.Instance.ShowTip("Tip", "Press \"x\" to bring up the menu where you can spend cultivation points.", 4f);
         GetRewards();
     }
 

@@ -23,6 +23,7 @@ public class RadiusEvent : MonoBehaviour
         } else if (hitColliders.Length == 0 && hasActivated) {
             // Reset so that it can fire again
             hasActivated = false;
+            OnRadiusExit.Invoke();
         }
     }
 
