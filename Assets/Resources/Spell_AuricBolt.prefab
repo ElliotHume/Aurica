@@ -9674,7 +9674,6 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 1
-  ContinuesPastCollision: 0
   AimAssistedProjectile: 1
   AimAssistTurningSpeed: 10
   PerfectHomingProjectile: 0
@@ -9697,6 +9696,11 @@ MonoBehaviour:
   - {fileID: 6831136182445076590}
   - {fileID: 6830876317025642998}
   - {fileID: 6830827286787338926}
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &6829760452918033103
 SphereCollider:
   m_ObjectHideFlags: 0
