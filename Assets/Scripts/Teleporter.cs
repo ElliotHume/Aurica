@@ -9,7 +9,7 @@ public class Teleporter : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Player" && other.gameObject == PlayerManager.LocalPlayerGameObject) {
             PlayerManager pm = other.gameObject.GetComponent<PlayerManager>();
-            pm.Teleport(anchor.position);
+            pm.Teleport(anchor);
 
             if (isKillingPlane) pm.TakeDamage(100000f, new ManaDistribution());
         }
