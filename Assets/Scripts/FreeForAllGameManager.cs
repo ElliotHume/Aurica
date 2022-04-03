@@ -28,10 +28,11 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
     public Dictionary<string, float> playerScores;
 
     public Text VictoryText, DefeatText, ReasonText, RewardsText, WinnerText, SecondPlaceText, ThirdPlaceText;
+    public bool disabled = false;
 
     float timer;
 
-    bool matchStarted = false, disabled = false;
+    bool matchStarted = false;
     PlayerManager localPlayer;
     float score;
 
@@ -79,7 +80,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void SendGameStart() {
         if (matchStarted) return;
-
+        disabled = false;
         if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();
         playerScores.Clear();

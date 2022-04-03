@@ -26,12 +26,13 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
     public int LivesPerPlayer = 1;
     public float RespawnTimer;
     public AudioSource MatchMusic, TeamSelectClip;
+    public bool disabled = false;
     int blueSideLives, redSideLives;
 
 
 
     List<PlayerManager> blueSide, redSide;
-    bool matchStarted = false, isBlueTeam = false, matchStarter = false, disabled = false;
+    bool matchStarted = false, isBlueTeam = false, matchStarter = false;
     PlayerManager localPlayer;
 
     string blueSideNames = "", redSideNames = "";
@@ -145,6 +146,7 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     public void ShowTeamSelect() {
+        disabled = false;
         readyButton.SetActive(false);
         teamSelectPanel.SetActive(true);
         if (TeamSelectClip != null) TeamSelectClip.Play();

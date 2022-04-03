@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.IsConnected) {
                     Vector3 position = SceneSpawnPoint != null ? SceneSpawnPoint.position : transform.position;
                     Quaternion rotation = SceneSpawnPoint != null ? SceneSpawnPoint.rotation : transform.rotation;
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, position + (UnityEngine.Random.insideUnitSphere * 5f), rotation, 0);
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, position + (UnityEngine.Random.insideUnitSphere * 2f), rotation, 0);
                 } else {
                     // Go back to the launcher, as the connection has failed at some point (or you are loading the game from the wrong scene)
                     Cursor.lockState = CursorLockMode.None;
