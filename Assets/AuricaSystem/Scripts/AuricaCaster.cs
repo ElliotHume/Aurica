@@ -118,9 +118,6 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void AddComponent(AuricaSpellComponent newComponent) {
-        if (currentComponents.Count >= 10) {
-            currentManaCost += 10f;
-        }
         currentComponents.Add(newComponent);
         currentManaCost += newComponent.GetManaCost(aura.GetAura());
         ManaDistribution oldMd = currentDistribution;
@@ -131,6 +128,10 @@ public class AuricaCaster : MonoBehaviourPun {
 
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
         if (cpUI != null) cpUI.AddComponent(newComponent);
+    }
+
+    public void RemoveLastComponent() {
+        AuricaSpellComponent component = currentComponents[currentComponents.Count - 1];
     }
 
     public AuricaSpell CastSpellByName(string componentsByName) {
