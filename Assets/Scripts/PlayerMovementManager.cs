@@ -6,7 +6,7 @@ using Photon.Pun;
 public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public float PlayerSpeed = 1f, JumpHeight = 1f, JumpSpeed = 3f, JumpLiftTime = 0.3f, Mass = 3f, SlowFallAccelerantScaling = 0.1f;
     public Vector3 GroundBoostVector, JumpBoostVector;
-    public float BoostDistance=200f, BoostSpeed=1f;
+    public float BoostDistance=200f, BoostSpeed=1f, AccelerationTime=1f;
     public AudioSource footStepSource;
     public AudioClip[] footsteps;
     public AudioSource jumpSource;
@@ -29,6 +29,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private bool isRooted, isStunned, isChannelling, isBeingDisplaced, jumping, running = true, casting, slowFall, groundedStatusEffect;
     private Vector3 playerVelocity, impact, velocity;
     private float movementSpeed, slowFallPercent, accelerant = 1f;
+    private float forwardsAcceleration = 0, sidewaysAcceleration = 0;
     private PlayerManager playerManager;
     private PlayerParticleManager particleManager;
     private CharacterMaterialManager materialManager;
@@ -132,7 +133,23 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!casting && !isChannelling && !isRooted && !isStunned && !isBeingDisplaced) characterController.Move((transform.forward * v + transform.right * h).normalized * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
+        if (!casting && !isChannelling && !isRooted && !isStunned && !isBeingDisplaced) {
+            // Create momentum, speeding up if you move in the same direction
+            if (Mathf.Approximately(v, 0f)){ 
+                forwardsAcceleration = Mathf.Max(forwardsAcceleration - Time.deltaTime * 2f, 0f);
+            } else {
+                if (v*forwardsAcceleration <= 0.0f) forwardsAcceleration = 0f;
+                forwardsAcceleration = Mathf.Clamp(forwardsAcceleration + (v * Time.deltaTime * AccelerationTime), -0.5f, 0.5f);
+            }
+            if (Mathf.Approximately(h, 0f)){ 
+                sidewaysAcceleration = Mathf.Max(sidewaysAcceleration - Time.deltaTime * 2f, 0f);
+            } else {
+                if (h*sidewaysAcceleration <= 0.0f) sidewaysAcceleration = 0f;
+                sidewaysAcceleration = Mathf.Clamp(sidewaysAcceleration + (h * Time.deltaTime * AccelerationTime), -0.5f, 0.5f);
+            }            
+            // Debug.Log("Forwards acc: "+forwardsAcceleration+"  sidways: "+sidewaysAcceleration+"   vec: "+Vector3.ClampMagnitude((transform.forward * v * forwardsAcceleration + transform.right * h * sidewaysAcceleration), 0.33f));
+            characterController.Move((Vector3.ClampMagnitude((transform.forward * v + transform.right * h), 0.8f) + Vector3.ClampMagnitude((transform.forward * v * Mathf.Abs(forwardsAcceleration) + transform.right * h * Mathf.Abs(sidewaysAcceleration)), 0.5f)) * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
+        }
 
         // If slowfalling and not grounded, apply upwards force to counteract gravity by a percentage amount
         if (slowFall) {
@@ -142,7 +159,6 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
                 characterController.Move(transform.up * 2f * slowFallPercent * accelerant * Time.deltaTime);
                 accelerant += SlowFallAccelerantScaling * Time.deltaTime;
             }
-
             // Debug.Log("Accelerant scaling: "+SlowFallAccelerantScaling+"      accelerant: "+accelerant);
         }
 
