@@ -85,6 +85,11 @@ MonoBehaviour:
   - {fileID: 5215967478093756622}
   - {fileID: 4793113707756892712}
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &1837173963783316402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +105,7 @@ MonoBehaviour:
   Identifier: SceneObject
   slow: 1
   slowDuration: 1
-  slowPercentage: 50
+  slowPercentage: 20
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0

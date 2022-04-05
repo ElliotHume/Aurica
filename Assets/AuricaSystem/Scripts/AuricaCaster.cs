@@ -131,7 +131,27 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void RemoveLastComponent() {
+        if (currentComponents.Count <= 0) {
+            TipWindow.Instance.ShowTip("Cannot Remove Component", "There are no more components left to remove.", 1f);
+            return;
+        }
         AuricaSpellComponent component = currentComponents[currentComponents.Count - 1];
+        if (component.hasFluxDistribution || component.hasSiphonDistribution) {
+            TipWindow.Instance.ShowTip("Cannot Remove Component", "The component: "+component.c_name+" cannot be removed since it has either a flux or siphon mana distribution.", 2f);
+            return;
+        }
+        currentManaCost -= component.GetManaCost(aura.GetAura());
+        currentDistribution = component.RemoveDistribution(currentDistribution, aura.GetAura());
+        currentComponents.Remove(component);
+        Debug.Log("REMOVED COMPONENT components left: "+currentComponents.Count);
+        if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
+        if (cpUI != null) cpUI.RemoveComponent(component);
+        if (TipWindow.Instance != null) TipWindow.Instance.ShowTip("Removed Component", "Removed component: "+component.c_name, 1f);
+    }
+
+    public bool CanRemoveLastComponent() {
+        AuricaSpellComponent component = currentComponents[currentComponents.Count - 1];
+        return !(component.hasFluxDistribution || component.hasSiphonDistribution);
     }
 
     public AuricaSpell CastSpellByName(string componentsByName) {
@@ -175,11 +195,12 @@ public class AuricaCaster : MonoBehaviourPun {
         return null;
     }
 
-    public AuricaSpell CastFinal() {
+    public AuricaSpell CastFinal(bool addMastery=true) {
         AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
         AuricaSpell spell = pureSpell == null ? GetSpellMatch(currentComponents, currentDistribution) : pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
         if (spell != null) {
             if (discoveredSpells.Count > 0 && !discoveredSpells.Contains(spell)) DiscoveryManager.Instance.Discover(spell);
+            if (addMastery && MasteryManager.Instance != null) MasteryManager.Instance.AddMasteries(spell.masteries);
             if (pureSpell != null) currentManaCost += pureSpell.addedManaCost;
             return spell;
         }
@@ -227,12 +248,12 @@ public class AuricaCaster : MonoBehaviourPun {
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
     }
 
-    public AuricaSpell CastBindSlot(string slot) {
+    public AuricaSpell CastBindSlot(string slot, bool addMastery=true) {
         if (cachedSpells.ContainsKey(slot)) {
             ResetCast();
             CachedSpell cachedSpell = cachedSpells[slot];
             cachedSpell.AddComponents(this);
-            return CastFinal();
+            return CastFinal(addMastery);
         }
 
         return GetSpellMatch(new List<AuricaSpellComponent>(), new ManaDistribution());

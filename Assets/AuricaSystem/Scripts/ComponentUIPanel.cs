@@ -46,4 +46,9 @@ public class ComponentUIPanel : MonoBehaviour
             }
         }
     }
+
+    public void RemoveComponent(AuricaSpellComponent component) {
+        ComponentPanels[currentIndex-1].gameObject.SetActive(false);
+        currentIndex -= 1;
+    }
 }

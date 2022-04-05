@@ -39,28 +39,28 @@ public class CloudLoadoutUIPanel : MonoBehaviour
     void Update() {
         if (Input.GetKeyDown("1")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_1");
-            AuricaCaster.LocalCaster.CastBindSlot("1");
+            AuricaCaster.LocalCaster.CastBindSlot("1", false);
         } else if (Input.GetKeyDown("2")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_2");
-            AuricaCaster.LocalCaster.CastBindSlot("2");
+            AuricaCaster.LocalCaster.CastBindSlot("2", false);
         } else if (Input.GetKeyDown("3")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_3");
-            AuricaCaster.LocalCaster.CastBindSlot("3");
+            AuricaCaster.LocalCaster.CastBindSlot("3", false);
         } else if (Input.GetKeyDown("4")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_4");
-            AuricaCaster.LocalCaster.CastBindSlot("4");
+            AuricaCaster.LocalCaster.CastBindSlot("4", false);
         } else if (Input.GetKeyDown("e")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_e");
-            AuricaCaster.LocalCaster.CastBindSlot("e");
+            AuricaCaster.LocalCaster.CastBindSlot("e", false);
         } else if (Input.GetKeyDown("q")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_q");
-            AuricaCaster.LocalCaster.CastBindSlot("q");
+            AuricaCaster.LocalCaster.CastBindSlot("q", false);
         } else if (Input.GetKeyDown("r")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_r");
-            AuricaCaster.LocalCaster.CastBindSlot("r");
+            AuricaCaster.LocalCaster.CastBindSlot("r", false);
         } else if (Input.GetKeyDown("f")) {
             bindingspell = PlayerPrefs.GetString("CachedSpell_f");
-            AuricaCaster.LocalCaster.CastBindSlot("f");
+            AuricaCaster.LocalCaster.CastBindSlot("f", false);
         } else if (Input.GetKeyDown(KeyCode.Tab)) {
             AuricaCaster.LocalCaster.ResetCast();
         }

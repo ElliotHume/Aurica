@@ -325,6 +325,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             if (GameUIPanelManager.Instance && GameUIPanelManager.Instance.ShouldProcessInputs()) this.ProcessInputs();
 
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Backspace)) {
+                AuricaCaster.LocalCaster.RemoveLastComponent();
+            }
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown("m")) {
+                MasteryManager.Instance.SyncMasteries();
+            }
+
             // If there is healing to be done, do it
             if (healing > 0f && Health < maxHealth) {
                 float healingDone = healing * Time.deltaTime * HealingRate;

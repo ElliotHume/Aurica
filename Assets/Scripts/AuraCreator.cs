@@ -253,13 +253,13 @@ public class AuraCreator : MonoBehaviour
 
         while (aggregatePower < POWER_THRESHOLD || !offsetAccurate) {
             // Roll random values and add offsets
-            structure = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.structure) * 100f) / 100f, -1.1f, 1.1f);
-            essence = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.essence) * 100f) / 100f, -1.1f, 1.1f);
-            fire = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.fire) * 100f) / 100f, 1.1f);
-            water = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.water) * 100f) / 100f, 1.1f);
-            earth = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.earth) * 100f) / 100f, 1.1f);
-            air = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.air) * 100f) / 100f, 1.1f);
-            nature = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.nature) * 100f) / 100f, -1.1f, 1.1f);
+            structure = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.structure) * 100f) / 100f, -1.0f, 1.0f);
+            essence = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.essence) * 100f) / 100f, -1.0f, 1.0f);
+            fire = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.fire) * 100f) / 100f, 1.0f);
+            water = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.water) * 100f) / 100f, 1.0f);
+            earth = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.earth) * 100f) / 100f, 1.0f);
+            air = Mathf.Min( Mathf.Round( (Random.Range(0f, 1f) + finalOffsets.air) * 100f) / 100f, 1.0f);
+            nature = Mathf.Clamp( Mathf.Round( (RandomFromDistribution.RandomNormalDistribution(0f, FLUX) + finalOffsets.nature) * 100f) / 100f, -1.0f, 1.0f);
 
             // Create an elemental weakness by multiplying the lowest rolled element by WEAKNESS_MULTIPLIER
             // Unless this roll passes a 2.5% chance, in which case, do not create a weakness

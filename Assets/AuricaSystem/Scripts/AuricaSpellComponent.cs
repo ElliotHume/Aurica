@@ -51,6 +51,14 @@ public class AuricaSpellComponent : ScriptableObject {
         return calculatedDistribution;
     }
 
+    public ManaDistribution RemoveDistribution(ManaDistribution givenDistribution, ManaDistribution aura) {
+        ManaDistribution calculatedDistribution = new ManaDistribution(givenDistribution.ToString());
+        if (hasBasicDistribution) calculatedDistribution.SubtractBasicDist(basicDistribution);
+        if (hasAuricDistribution) calculatedDistribution.SubtractAuricDist(auricDistribution, aura);
+        calculatedDistribution.ClampElementalValues();
+        return calculatedDistribution;
+    }
+
     public float GetManaCost(ManaDistribution aura) {
         if (!hasAuricDistribution && !hasBasicDistribution && !hasSiphonDistribution) return 0;
         float auricContribution = hasAuricDistribution ? (auricDistribution * aura).GetAggregate() : 0f;

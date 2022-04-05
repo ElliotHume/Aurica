@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject spellCraftingPanel, glyphCastingPanel, auraPanel, infoPanel, spellListPanel;
 
     public static float GLOBAL_SPELL_SPEED_MULTIPLIER = 2f;
-    public static float GLOBAL_SPELL_DAMAGE_MULTIPLIER = 0.8f;
+    public static float GLOBAL_SPELL_DAMAGE_MULTIPLIER = 1f;
     public static float GLOBAL_SPELL_DURATION_MULTIPLIER = 1f;
 
     public static float GLOBAL_SPELL_HEALING_MULTIPLIER = 1f;
@@ -96,6 +96,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     #region Public Methods
+
+    public void StartRoomLeave() {
+        if (!MasteryManager.Instance.synced) MasteryManager.Instance.SyncMasteries();
+        StartCoroutine(WaitLeaveRoom());
+    }
+
+    IEnumerator WaitLeaveRoom() {
+        while (!MasteryManager.Instance.synced) {
+            yield return new WaitForFixedUpdate();
+        }
+        yield return new WaitForSeconds(1f);
+        LeaveRoom();
+    }
 
 
     public void LeaveRoom() {

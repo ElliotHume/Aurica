@@ -150,7 +150,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 
         // Consume the impact energy each cycle:
-        float impactConsumptionMultiplier = (Grounded ? 5f : 2.5f) * (groundedStatusEffect ? 2f : 1f);
+        float impactConsumptionMultiplier = (Grounded ? (jumping ? 20f : 5f) : 2.5f) * (groundedStatusEffect ? 2f : 1f);
         impact = Vector3.Lerp(impact, Vector3.zero, impactConsumptionMultiplier * Time.deltaTime);
 
         // Calculate velocity for lag compensation

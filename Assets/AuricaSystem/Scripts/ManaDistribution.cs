@@ -195,6 +195,26 @@ public struct ManaDistribution {
         // Debug.Log("Post-Siphon Distribution "+this.ToString());
     }
 
+    public void SubtractBasicDist(ManaDistribution other) {
+        structure -= other.structure;
+        essence -= other.essence;
+        fire -= other.fire;
+        water -= other.water;
+        earth -= other.earth;
+        air -= other.air;
+        nature -= other.nature;
+    }
+
+    public void SubtractAuricDist(ManaDistribution auricDist, ManaDistribution aura) {
+        structure -= auricDist.structure * aura.structure;
+        essence -= auricDist.essence * aura.essence;
+        fire -= auricDist.fire * aura.fire;
+        water -= auricDist.water * aura.water;
+        earth -= auricDist.earth * aura.earth;
+        air -= auricDist.air * aura.air;
+        nature -= auricDist.nature * aura.nature;
+    }
+
     public void ClampElementalValues() {
         if (fire < 0f) fire = 0f;
         if (water < 0f) water = 0f;

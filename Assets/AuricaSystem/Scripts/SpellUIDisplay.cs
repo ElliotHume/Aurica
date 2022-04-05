@@ -33,28 +33,28 @@ public class SpellUIDisplay : MonoBehaviour {
     void Update() {
         if (Input.GetKey(KeyCode.LeftShift)) {
             if (Input.GetKeyDown("1")) {
-                AuricaCaster.LocalCaster.CastBindSlot("1");
+                AuricaCaster.LocalCaster.CastBindSlot("1", false);
                 CheckComponents();
             } else if (Input.GetKeyDown("2")) {
-                AuricaCaster.LocalCaster.CastBindSlot("2");
+                AuricaCaster.LocalCaster.CastBindSlot("2", false);
                 CheckComponents();
             } else if (Input.GetKeyDown("3")) {
-                AuricaCaster.LocalCaster.CastBindSlot("3");
+                AuricaCaster.LocalCaster.CastBindSlot("3", false);
                 CheckComponents();
             } else if (Input.GetKeyDown("4")) {
-                AuricaCaster.LocalCaster.CastBindSlot("4");
+                AuricaCaster.LocalCaster.CastBindSlot("4", false);
                 CheckComponents();
             } else if (Input.GetKeyDown("e")) {
-                AuricaCaster.LocalCaster.CastBindSlot("e");
+                AuricaCaster.LocalCaster.CastBindSlot("e", false);
                 CheckComponents();
             } else if (Input.GetKeyDown("q")) {
-                AuricaCaster.LocalCaster.CastBindSlot("q");
+                AuricaCaster.LocalCaster.CastBindSlot("q", false);
                 CheckComponents();
             } else if (Input.GetKeyDown("r")) {
-                AuricaCaster.LocalCaster.CastBindSlot("r");
+                AuricaCaster.LocalCaster.CastBindSlot("r", false);
                 CheckComponents();
             } else if (Input.GetKeyDown("f")) {
-                AuricaCaster.LocalCaster.CastBindSlot("f");
+                AuricaCaster.LocalCaster.CastBindSlot("f", false);
                 CheckComponents();
             }
 
@@ -71,7 +71,7 @@ public class SpellUIDisplay : MonoBehaviour {
 
     public void CheckComponents() {
         if (AuricaCaster.LocalCaster == null) return;
-        spell = AuricaCaster.LocalCaster.CastFinal();
+        spell = AuricaCaster.LocalCaster.Cast();
         try {
             if (spell.c_name != null) {
                 if (isHidden) ShowSpell();

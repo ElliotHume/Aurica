@@ -5443,7 +5443,7 @@ MonoBehaviour:
   DamageScalingRate: 10
   ScalingFactor: 0
   ScalingLimit: 0
-  PositionOffset: {x: 0, y: 1, z: 1.5}
+  PositionOffset: {x: 0, y: 1.2, z: 1.5}
   DeactivateObjectsAfterChannel:
   - {fileID: 1225730804258741097}
   - {fileID: 1225730804258721643}
@@ -5459,6 +5459,12 @@ MonoBehaviour:
   TimeBetweenSpawnEffects: 1
   MaxNumberOfEffectsSpawned: 0
   RandomSpawnSphereSize: 0
+  SpawnedEffectsFaceAwayFromCenter: 0
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &1225730804258951652
 MonoBehaviour:
   m_ObjectHideFlags: 0
