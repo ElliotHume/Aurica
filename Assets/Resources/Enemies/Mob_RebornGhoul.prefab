@@ -13822,8 +13822,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2985491935319049239}
-  m_LocalRotation: {x: 0.0005943053, y: -0.86313546, z: 0.00053191156, w: -0.5049719}
-  m_LocalPosition: {x: -29.206818, y: 0.05533432, z: 45.841724}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5436617880937371423}
@@ -16453,7 +16453,6 @@ GameObject:
   - component: {fileID: 3269402713201466423}
   - component: {fileID: 3269402713201466418}
   - component: {fileID: 3269402713201466421}
-  - component: {fileID: 5632334661837113973}
   m_Layer: 3
   m_Name: Mob_RebornGhoul
   m_TagString: Enemy
@@ -16648,7 +16647,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 3269402713201466420}
   - {fileID: 3269402713201466421}
-  sceneViewId: 18
+  sceneViewId: 41
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &3269402713201466421
@@ -16678,18 +16677,6 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &5632334661837113973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3269402713201466408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3269416126050408494
 GameObject:
   m_ObjectHideFlags: 0

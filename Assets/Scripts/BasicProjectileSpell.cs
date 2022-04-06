@@ -124,6 +124,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     void OnCollisionEnter(Collision collision) {
         if ( isCollided || !photonView.IsMine ) return;
+
+        Debug.Log(""+gameObject+"  Collided with  "+collision.gameObject);
         
         // Prevent the projectile hitting the player who cast it if the flag is set.
         if (!CanHitSelf && collision.gameObject.tag == "Player") {
@@ -290,7 +292,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
             instance.transform.LookAt(hitpoint + normal + normal * CollisionOffset);
             Destroy(instance, CollisionDestroyTimeDelay);
         }
-        GetComponent<Collider>().enabled = false;
+        foreach(Collider col in GetComponents<Collider>()) col.enabled = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().isKinematic = true;
     }
@@ -334,7 +336,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 foreach (var effect in DeactivateObjectsOnCollision) {
                     if (effect != null) effect.SetActive(false);
                 }
-                GetComponent<Collider>().enabled = false;
+                foreach(Collider col in GetComponents<Collider>()) col.enabled = false;
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<Rigidbody>().isKinematic = true;
                 Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);

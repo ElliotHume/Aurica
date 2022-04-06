@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900419405}
   m_LocalRotation: {x: -0.7069834, y: -0, z: -0, w: 0.7072302}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.311, z: -0}
   m_LocalScale: {x: 0.16696566, y: 0.16696566, z: 0.16696566}
   m_Children: []
   m_Father: {fileID: 7069209326346761162}
@@ -533,7 +533,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 17
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -4555,7 +4555,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 338668464246934697}
-  - component: {fileID: 1135489865}
+  - component: {fileID: 4373108878315951605}
   m_Layer: 0
   m_Name: Effect_09_Crystals
   m_TagString: Untagged
@@ -4581,7 +4581,7 @@ Transform:
   m_Father: {fileID: 7069209326346761162}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1135489865
+--- !u!114 &4373108878315951605
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4604,6 +4604,7 @@ GameObject:
   - component: {fileID: 338668464359677413}
   - component: {fileID: 338668464359677415}
   - component: {fileID: 338668464359677412}
+  - component: {fileID: 1938980035458031033}
   m_Layer: 0
   m_Name: Effect_09_Crystal_3
   m_TagString: Untagged
@@ -9503,6 +9504,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1938980035458031033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338668464359677410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &338668464443536061
 GameObject:
   m_ObjectHideFlags: 0
@@ -9514,6 +9527,7 @@ GameObject:
   - component: {fileID: 338668464443536060}
   - component: {fileID: 338668464443536062}
   - component: {fileID: 338668464443536063}
+  - component: {fileID: 8401773831755609362}
   m_Layer: 0
   m_Name: Effect_09_Crystal_2
   m_TagString: Untagged
@@ -14413,6 +14427,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8401773831755609362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338668464443536061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &338668464512821641
 GameObject:
   m_ObjectHideFlags: 0
@@ -14424,14 +14450,14 @@ GameObject:
   - component: {fileID: 338668464512821640}
   - component: {fileID: 338668464512821642}
   - component: {fileID: 338668464512821643}
-  - component: {fileID: 1135489867}
+  - component: {fileID: 8642058826197334025}
   m_Layer: 0
   m_Name: Effect_09_HolyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &338668464512821640
 Transform:
   m_ObjectHideFlags: 0
@@ -19288,7 +19314,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1135489867
+--- !u!114 &8642058826197334025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19311,7 +19337,6 @@ GameObject:
   - component: {fileID: 338668464535446785}
   - component: {fileID: 338668464535446787}
   - component: {fileID: 338668464535446784}
-  - component: {fileID: 1135489868}
   m_Layer: 0
   m_Name: Effect_09_Particle_2
   m_TagString: Untagged
@@ -19327,7 +19352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338668464535446814}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.019, z: 0}
+  m_LocalPosition: {x: 0, y: -0.384, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7069209326346761162}
@@ -24117,18 +24142,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1135489868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338668464535446814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &338668464717506643
 GameObject:
   m_ObjectHideFlags: 0
@@ -24140,7 +24153,6 @@ GameObject:
   - component: {fileID: 338668464717506642}
   - component: {fileID: 338668464717506644}
   - component: {fileID: 338668464717506645}
-  - component: {fileID: 1135489869}
   m_Layer: 0
   m_Name: Effect_09_Particle
   m_TagString: Untagged
@@ -28946,18 +28958,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1135489869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338668464717506643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &338668465253585062
 GameObject:
   m_ObjectHideFlags: 0
@@ -28969,6 +28969,7 @@ GameObject:
   - component: {fileID: 338668465253585065}
   - component: {fileID: 338668465253585067}
   - component: {fileID: 338668465253585064}
+  - component: {fileID: 896150497446932251}
   m_Layer: 0
   m_Name: Effect_09_Crystal_4
   m_TagString: Untagged
@@ -33868,6 +33869,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &896150497446932251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338668465253585062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &338668465742963124
 GameObject:
   m_ObjectHideFlags: 0
@@ -33879,6 +33892,7 @@ GameObject:
   - component: {fileID: 338668465742963127}
   - component: {fileID: 338668465742963129}
   - component: {fileID: 338668465742963126}
+  - component: {fileID: 2397597938720975953}
   m_Layer: 0
   m_Name: Effect_09_Crystal
   m_TagString: Untagged
@@ -38778,6 +38792,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &2397597938720975953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338668465742963124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3668601380888278402
 GameObject:
   m_ObjectHideFlags: 0
@@ -39154,14 +39180,14 @@ GameObject:
   - component: {fileID: 1271787730633985695}
   - component: {fileID: 6700862685040908475}
   - component: {fileID: 3546366867722590999}
-  - component: {fileID: 1135489866}
+  - component: {fileID: 5444948370395953447}
   m_Layer: 0
   m_Name: Effect_09_HolyEffect_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1271787730633985695
 Transform:
   m_ObjectHideFlags: 0
@@ -44018,7 +44044,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1135489866
+--- !u!114 &5444948370395953447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44045,7 +44071,7 @@ GameObject:
   - component: {fileID: 3668601379967538081}
   - component: {fileID: 3668601379967538082}
   - component: {fileID: 3668601379967538084}
-  - component: {fileID: 1135489863}
+  - component: {fileID: 7704490567265641343}
   m_Layer: 7
   m_Name: Spell_Aura_Hearthbound
   m_TagString: Spell
@@ -44168,7 +44194,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3668601379967538082}
-  sceneViewId: 25
+  sceneViewId: 41
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &3668601379967538082
@@ -44261,7 +44287,7 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
---- !u!114 &1135489863
+--- !u!114 &7704490567265641343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

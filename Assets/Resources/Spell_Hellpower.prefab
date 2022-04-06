@@ -15527,6 +15527,11 @@ MonoBehaviour:
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &9085698444767215682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15567,22 +15572,22 @@ MonoBehaviour:
   strengthen: 1
   strengthenDuration: 1
   strengthenDistribution:
-    structure: 0.5
-    essence: 0.5
-    fire: 0.5
+    structure: 0.1
+    essence: 0.1
+    fire: 0.1
     water: 0
     earth: 0
     air: 0
-    nature: 0.75
+    nature: 0.4
   fragile: 0
   fragileDuration: 0
   fragilePercentage: 0
   tough: 1
   toughDuration: 1
   toughPercentage: 20
-  changeManaRegen: 1
-  changeDuration: 1
-  changePercentage: 200
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0

@@ -13943,6 +13943,8 @@ MonoBehaviour:
   - {fileID: 8742591927400122126}
   - {fileID: 8742591928797109154}
   PositionOffset: {x: 0, y: 1, z: 0}
+  statusEffect: {fileID: 0}
+  movementEffect: {fileID: 0}
 --- !u!114 &8742591927773826201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13996,9 +13998,9 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
-  changeManaRegen: 1
-  changeDuration: 5
-  changePercentage: 150
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
   healing: 1
   healFlatAmount: 10
   healPercentAmount: 10

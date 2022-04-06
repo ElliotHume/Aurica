@@ -23448,7 +23448,7 @@ Transform:
   m_GameObject: {fileID: 8144746314763805422}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 0, y: -1.59, z: -15.2}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6343305161721666962}
   - {fileID: 6756908352118173980}
@@ -23483,7 +23483,7 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  LastingDamage: 35
+  LastingDamage: 45
   OneShotEffect: 0
   LastingEffect: 1
   attachToTarget: 0
@@ -23504,6 +23504,11 @@ MonoBehaviour:
   - {fileID: 6311023847586482074}
   - {fileID: 6311023849514036716}
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &8144746314763805418
 MonoBehaviour:
   m_ObjectHideFlags: 0

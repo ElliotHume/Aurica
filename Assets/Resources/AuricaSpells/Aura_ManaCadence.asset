@@ -15,8 +15,9 @@ MonoBehaviour:
   c_name: Mana Cadence
   manaType: 1
   description: Tap into the pulse of a nearby ley line. This influx of energy will
-    stun you in place and restore your mana extremely quickly. You are less susceptible
-    to damage for the duration of this spell.
+    lock you in place and restore your mana extremely quickly. You are less susceptible
+    to damage for the duration of this spell. This spell will also effect anyone
+    who is close to you.
   targetDistribution:
     structure: 0.85
     essence: 0.1
@@ -34,4 +35,5 @@ MonoBehaviour:
   componentManaMultiplier: 0.5
   errorThreshold: 1
   isAuric: 0
+  masteries: 
   linkedSpellResource: Spell_Aura_ManaCadence

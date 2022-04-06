@@ -94,6 +94,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region Static Methods
+    
+    public static PlayerManager GetPlayerFromID(string PlayerID) {
+        PlayerManager[] players = FindObjectsOfType<PlayerManager>();
+        return Array.Find(players, player => player.GetUniqueName() == PlayerID);
+    }
+
+    #endregion
 
     #region Public Methods
 

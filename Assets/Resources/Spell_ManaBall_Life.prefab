@@ -14369,7 +14369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 8
   auricaSpell: {fileID: 11400000, guid: 135090c23420cab42907f118b0cd2e47, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -14385,7 +14385,6 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
-  ContinuesPastCollision: 0
   AimAssistedProjectile: 1
   AimAssistTurningSpeed: 10
   PerfectHomingProjectile: 0
@@ -14401,11 +14400,19 @@ MonoBehaviour:
   EffectsOnCollision:
   - {fileID: 3338622119119638005, guid: 009107c7c6e248d4d962fa6089e58ee1, type: 3}
   NetworkedEffectsOnCollision: []
+  LocalCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsUseHitNormal: 1
+  NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 8973806474579284455}
   - {fileID: 8974378925184011847}
   - {fileID: 8974234185522942277}
   - {fileID: 8974352267312010021}
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &8975589433369972680
 SphereCollider:
   m_ObjectHideFlags: 0

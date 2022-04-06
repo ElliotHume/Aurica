@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1274147986180092786}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 0, y: -1.59, z: -15.2}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4084394493387885582}
   - {fileID: 4425913710040555648}
@@ -65,16 +65,19 @@ MonoBehaviour:
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  LastingDamage: 35
+  LastingDamage: 45
   OneShotEffect: 0
   LastingEffect: 1
+  attachToTarget: 0
   canHitSelf: 1
   growBeforeStart: 0
   SpellStrengthChangesDuration: 1
+  SpellStrengthChangesScale: 0
   DestroyTimeDelay: 25
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 4084394493387885583}
   - {fileID: 5244356070805725329}
@@ -83,6 +86,11 @@ MonoBehaviour:
   - {fileID: 5651658597408734475}
   - {fileID: 7739681163905123916}
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &1274147986180092790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 1
   slowDuration: 1
   slowPercentage: 15
@@ -155,6 +164,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -196,11 +207,16 @@ MonoBehaviour:
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
   cleanse: 0
   cure: 0
   isContinuous: 1
   canHitSelf: 1
   onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &2920849059454386027
 GameObject:
   m_ObjectHideFlags: 0

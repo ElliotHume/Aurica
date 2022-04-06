@@ -8,16 +8,16 @@ public class TargetedSpell : Spell {
     public float DestroyTimeDelay = 15f;
     public GameObject[] DeactivateObjectsAfterDuration;
     public Vector3 PositionOffset = Vector3.zero;
+    public StatusEffect statusEffect;
+    public MovementEffect movementEffect;
 
     private GameObject TargetGO;
     private PlayerManager TargetPM;
     private Enemy TargetEM;
-    private StatusEffect statusEffect;
-    private MovementEffect movementEffect;
 
     private bool hasActivated = false, durationEnded = false;
 
-    void Awake() {
+    void Start() {
         statusEffect = GetComponent<StatusEffect>();
         movementEffect = GetComponent<MovementEffect>();
         if (SpellStrengthChangesDuration) {
@@ -36,6 +36,10 @@ public class TargetedSpell : Spell {
 
     // Update is called once per frame
     void Update() {
+        if (FollowsTarget && TargetGO != null && !durationEnded) {
+            transform.position = TargetGO.transform.position + PositionOffset;
+        }
+
         if (!photonView.IsMine) return;
 
         if (!hasActivated && OneShotEffect && TargetGO != null) {
@@ -44,10 +48,6 @@ public class TargetedSpell : Spell {
 
         if (UNIMPLEMENTEDLastingEffect) {
             Lasting();
-        }
-
-        if (FollowsTarget && TargetGO != null && !durationEnded) {
-            transform.position = TargetGO.transform.position + PositionOffset;
         }
     }
 
@@ -59,9 +59,23 @@ public class TargetedSpell : Spell {
         transform.position = targetGO.transform.position + PositionOffset;
         transform.rotation = targetGO.transform.rotation;
 
+        photonView.RPC("NetworkSetPlayerTarget", RpcTarget.All, TargetPM.GetUniqueName());
+
         if (!hasActivated && OneShotEffect) {
             OneShot();
         }
+    }
+
+    [PunRPC]
+    public void NetworkSetPlayerTarget(string PlayerID) {
+        if (photonView.IsMine) return;
+        PlayerManager pm = GameManager.GetPlayerFromID(PlayerID);
+
+        TargetGO = pm.gameObject;
+        TargetPM = pm;
+
+        transform.position = TargetGO.transform.position + PositionOffset;
+        transform.rotation = TargetGO.transform.rotation;
     }
 
     void OneShot() {

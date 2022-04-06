@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Angel Wisp
   manaType: 9
-  description: A seeking spell that will inflict a fragile debuff on those hit, and
-    leave a large silencing area on collision.
+  description: Create a ball of seeking divine energy spell that will inflict a fragile
+    debuff on it's target, and leaves a silencing area on collision.
   targetDistribution:
     structure: 0.1
     essence: 0
@@ -33,4 +33,5 @@ MonoBehaviour:
   componentManaMultiplier: 0.5
   errorThreshold: 2
   isAuric: 0
+  masteries: 
   linkedSpellResource: Spell_AngelWisp

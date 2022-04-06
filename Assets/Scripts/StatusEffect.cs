@@ -248,9 +248,9 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     void Activate(PhotonView pv, bool isEnemy = false) {
         if (pv != null) {
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
-            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
+            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
             // Cap slow values at 90%, we don't want a 100% slow
             if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, Mathf.Clamp(slowPercentage/100f * multiplier, 0f, 90f)) ;
             if (hasten) pv.RPC("Hasten", RpcTarget.All, Identifier, hastenDuration * multiplier, hastenPercentage/100f * multiplier);

@@ -685,7 +685,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
 
         // Use Boost
-        if (Input.GetKeyDown("h") || Input.GetKeyDown("c")) {
+        if (Input.GetKeyDown("h") || Input.GetKeyDown("c") || Input.GetKeyDown(KeyCode.Mouse3) || Input.GetKeyDown(KeyCode.Mouse2)) {
             if (hasBoost && !stunned && !silenced && !isShielded) {
                 movementManager.Boost();
                 PhotonNetwork.Instantiate("XCollision_Boost", transform.position, transform.rotation);
@@ -1737,6 +1737,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void Cleanse() {
         try {
+            if (silenced) {
+                if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
+                silenced = false;
+            }
             if (slowed) {
                 if (slowRoutineRunning) StopCoroutine(slowRoutine);
                 animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
@@ -1760,10 +1764,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 if (groundedRoutineRunning) StopCoroutine(rootRoutine);
                 movementManager.Ground(false);
                 grounded = false;
-            }
-            if (silenced) {
-                if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
-                silenced = false;
             }
             if (stunned) {
                 if (stunRoutineRunning) StopCoroutine(stunRoutine);
@@ -1812,8 +1812,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 appliedSlowFallEffects.Clear();
                 slowFall = false;
             }
-        } catch {
-            // Do nothing
+        } catch (System.Exception e) {
+            Debug.Log("Error trying to cleanse: "+e.Message);
         }
     }
 
