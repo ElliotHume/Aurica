@@ -133,22 +133,26 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!casting && !isChannelling && !isRooted && !isStunned && !isBeingDisplaced) {
-            // Create momentum, speeding up if you move in the same direction
-            if (Mathf.Approximately(v, 0f)){ 
-                forwardsAcceleration = Mathf.Max(forwardsAcceleration - Time.deltaTime * 2f, 0f);
+        if (!isChannelling && !isRooted && !isStunned && !isBeingDisplaced) {
+            if (!casting) {
+                // Create momentum, speeding up if you move in the same direction
+                if (Mathf.Approximately(v, 0f)){ 
+                    forwardsAcceleration = Mathf.Max(forwardsAcceleration - Time.deltaTime * 2f, 0f);
+                } else {
+                    if (v*forwardsAcceleration <= 0.0f) forwardsAcceleration = 0f;
+                    forwardsAcceleration = Mathf.Clamp(forwardsAcceleration + (v * Time.deltaTime * AccelerationTime), -0.5f, 0.5f);
+                }
+                if (Mathf.Approximately(h, 0f)){ 
+                    sidewaysAcceleration = Mathf.Max(sidewaysAcceleration - Time.deltaTime * 2f, 0f);
+                } else {
+                    if (h*sidewaysAcceleration <= 0.0f) sidewaysAcceleration = 0f;
+                    sidewaysAcceleration = Mathf.Clamp(sidewaysAcceleration + (h * Time.deltaTime * AccelerationTime), -0.5f, 0.5f);
+                }            
+                // Debug.Log("Forwards acc: "+forwardsAcceleration+"  sidways: "+sidewaysAcceleration+"   vec: "+Vector3.ClampMagnitude((transform.forward * v * forwardsAcceleration + transform.right * h * sidewaysAcceleration), 0.33f));
+                characterController.Move((Vector3.ClampMagnitude((transform.forward * v + transform.right * h), 0.8f) + Vector3.ClampMagnitude((transform.forward * v * Mathf.Abs(forwardsAcceleration) + transform.right * h * Mathf.Abs(sidewaysAcceleration)), 0.5f)) * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
             } else {
-                if (v*forwardsAcceleration <= 0.0f) forwardsAcceleration = 0f;
-                forwardsAcceleration = Mathf.Clamp(forwardsAcceleration + (v * Time.deltaTime * AccelerationTime), -0.5f, 0.5f);
+                characterController.Move((transform.forward * v + transform.right * h).normalized * 0.1f * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
             }
-            if (Mathf.Approximately(h, 0f)){ 
-                sidewaysAcceleration = Mathf.Max(sidewaysAcceleration - Time.deltaTime * 2f, 0f);
-            } else {
-                if (h*sidewaysAcceleration <= 0.0f) sidewaysAcceleration = 0f;
-                sidewaysAcceleration = Mathf.Clamp(sidewaysAcceleration + (h * Time.deltaTime * AccelerationTime), -0.5f, 0.5f);
-            }            
-            // Debug.Log("Forwards acc: "+forwardsAcceleration+"  sidways: "+sidewaysAcceleration+"   vec: "+Vector3.ClampMagnitude((transform.forward * v * forwardsAcceleration + transform.right * h * sidewaysAcceleration), 0.33f));
-            characterController.Move((Vector3.ClampMagnitude((transform.forward * v + transform.right * h), 0.8f) + Vector3.ClampMagnitude((transform.forward * v * Mathf.Abs(forwardsAcceleration) + transform.right * h * Mathf.Abs(sidewaysAcceleration)), 0.5f)) * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
         }
 
         // If slowfalling and not grounded, apply upwards force to counteract gravity by a percentage amount
@@ -166,7 +170,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 
         // Consume the impact energy each cycle:
-        float impactConsumptionMultiplier = (Grounded ? (jumping ? 20f : 5f) : 2.5f) * (groundedStatusEffect ? 2f : 1f);
+        float impactConsumptionMultiplier = (Grounded ? 5f : 2.5f) * (groundedStatusEffect ? 2f : 1f);
         impact = Vector3.Lerp(impact, Vector3.zero, impactConsumptionMultiplier * Time.deltaTime);
 
         // Calculate velocity for lag compensation

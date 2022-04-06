@@ -16,7 +16,9 @@ public class MasteryManager : MonoBehaviour {
         Movement, Battlemage, Support, Defender
     };
 
+    public static int NoviceThreshold = 10, AdeptThreshold = 100, MasterThreshold = 1000, LegendThreshold = 10000;
     public static MasteryManager Instance;
+
     [HideInInspector]
     public int AuricMastery, OrderMastery, ChaosMastery, LifeMastery, DeathMastery, FireMastery, WaterMastery, EarthMastery, AirMastery, DivineMastery, DemonicMastery;
     [HideInInspector]

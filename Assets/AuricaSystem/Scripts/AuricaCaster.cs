@@ -195,12 +195,11 @@ public class AuricaCaster : MonoBehaviourPun {
         return null;
     }
 
-    public AuricaSpell CastFinal(bool addMastery=true) {
+    public AuricaSpell CastFinal() {
         AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
         AuricaSpell spell = pureSpell == null ? GetSpellMatch(currentComponents, currentDistribution) : pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
         if (spell != null) {
             if (discoveredSpells.Count > 0 && !discoveredSpells.Contains(spell)) DiscoveryManager.Instance.Discover(spell);
-            if (addMastery && MasteryManager.Instance != null) MasteryManager.Instance.AddMasteries(spell.masteries);
             if (pureSpell != null) currentManaCost += pureSpell.addedManaCost;
             return spell;
         }
@@ -248,12 +247,12 @@ public class AuricaCaster : MonoBehaviourPun {
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
     }
 
-    public AuricaSpell CastBindSlot(string slot, bool addMastery=true) {
+    public AuricaSpell CastBindSlot(string slot) {
         if (cachedSpells.ContainsKey(slot)) {
             ResetCast();
             CachedSpell cachedSpell = cachedSpells[slot];
             cachedSpell.AddComponents(this);
-            return CastFinal(addMastery);
+            return CastFinal();
         }
 
         return GetSpellMatch(new List<AuricaSpellComponent>(), new ManaDistribution());

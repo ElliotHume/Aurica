@@ -849,8 +849,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 particleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
                 if (CastingSound != null) CastingSound.Play();
             }
-            
         }
+
+        // ADD MASTERY
+        if (MasteryManager.Instance != null) MasteryManager.Instance.AddMasteries(spell.masteries);
 
         if (spellCraftingDisplay != null) {
             SpellCraftingUIDisplay sp = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();

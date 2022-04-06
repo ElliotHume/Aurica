@@ -33,28 +33,28 @@ public class SpellUIDisplay : MonoBehaviour {
     void Update() {
         if (Input.GetKey(KeyCode.LeftShift)) {
             if (Input.GetKeyDown("1")) {
-                AuricaCaster.LocalCaster.CastBindSlot("1", false);
+                AuricaCaster.LocalCaster.CastBindSlot("1");
                 CheckComponents();
             } else if (Input.GetKeyDown("2")) {
-                AuricaCaster.LocalCaster.CastBindSlot("2", false);
+                AuricaCaster.LocalCaster.CastBindSlot("2");
                 CheckComponents();
             } else if (Input.GetKeyDown("3")) {
-                AuricaCaster.LocalCaster.CastBindSlot("3", false);
+                AuricaCaster.LocalCaster.CastBindSlot("3");
                 CheckComponents();
             } else if (Input.GetKeyDown("4")) {
-                AuricaCaster.LocalCaster.CastBindSlot("4", false);
+                AuricaCaster.LocalCaster.CastBindSlot("4");
                 CheckComponents();
             } else if (Input.GetKeyDown("e")) {
-                AuricaCaster.LocalCaster.CastBindSlot("e", false);
+                AuricaCaster.LocalCaster.CastBindSlot("e");
                 CheckComponents();
             } else if (Input.GetKeyDown("q")) {
-                AuricaCaster.LocalCaster.CastBindSlot("q", false);
+                AuricaCaster.LocalCaster.CastBindSlot("q");
                 CheckComponents();
             } else if (Input.GetKeyDown("r")) {
-                AuricaCaster.LocalCaster.CastBindSlot("r", false);
+                AuricaCaster.LocalCaster.CastBindSlot("r");
                 CheckComponents();
             } else if (Input.GetKeyDown("f")) {
-                AuricaCaster.LocalCaster.CastBindSlot("f", false);
+                AuricaCaster.LocalCaster.CastBindSlot("f");
                 CheckComponents();
             }
 
