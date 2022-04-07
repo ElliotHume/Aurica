@@ -351,7 +351,7 @@ Transform:
   m_GameObject: {fileID: 6570306711766743755}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 0, y: -1.59, z: -15.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.33, y: 0.33, z: 0.33}
   m_Children:
   - {fileID: 8227631035991573943}
   - {fileID: 8641498263495387449}
@@ -397,8 +397,8 @@ MonoBehaviour:
   SpellStrengthChangesScale: 0
   DestroyTimeDelay: 25
   StartTimeDelay: 0
-  ScalingFactor: 0
-  ScalingLimit: 0
+  ScalingFactor: 0.225
+  ScalingLimit: 1.33
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 8227631035991573942}
