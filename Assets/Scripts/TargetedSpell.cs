@@ -59,7 +59,7 @@ public class TargetedSpell : Spell {
         transform.position = targetGO.transform.position + PositionOffset;
         transform.rotation = targetGO.transform.rotation;
 
-        photonView.RPC("NetworkSetPlayerTarget", RpcTarget.All, TargetPM.GetUniqueName());
+        if (TargetPM != null) photonView.RPC("NetworkSetPlayerTarget", RpcTarget.All, TargetPM.GetUniqueName());
 
         if (!hasActivated && OneShotEffect) {
             OneShot();

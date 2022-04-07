@@ -10,13 +10,18 @@ public class MasteryManager : MonoBehaviour {
     public enum MasteryLevel {
         Novice, Adept, Master, Legend
     };
+    public static Dictionary<MasteryLevel, int> MasteryThresholds = new Dictionary<MasteryLevel, int>{
+        {MasteryManager.MasteryLevel.Novice, 10},
+        {MasteryManager.MasteryLevel.Adept, 100},
+        {MasteryManager.MasteryLevel.Master, 1000},
+        {MasteryManager.MasteryLevel.Legend, 10000},
+    };
 
     public enum MasteryCategories {
         Auric, Order, Chaos, Life, Death, Fire, Water, Earth, Air, Divine, Demonic,
         Movement, Battlemage, Support, Defender
     };
 
-    public static int NoviceThreshold = 10, AdeptThreshold = 100, MasterThreshold = 1000, LegendThreshold = 10000;
     public static MasteryManager Instance;
 
     [HideInInspector]

@@ -794,11 +794,26 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             return;
         }
 
+        string linkedSpellResource = spell.linkedSpellResource;
+
+        // Check if the spell is a mastery spell, and if it is check if the player has sufficient mastery
+        if (spell.isMasterySpell) {
+            if (MasteryManager.Instance.GetMastery(spell.masteryCategory) < MasteryManager.MasteryThresholds[spell.masteryLevel]) {
+                linkedSpellResource = spell.masteryFailedSpellResource;
+                TipWindow.Instance.ShowTip("Not Enough Mastery", "To cast this spell properly you need more mastery with "+spell.masteryCategory.ToString()+" spells", 4f);
+                Debug.Log("Mastery check failed");
+            } else {
+                Debug.Log("Mastery check passed");
+            }
+
+        }
+
         // Load spell resource
-        GameObject dataObject = Resources.Load<GameObject>(spell.linkedSpellResource);
+        GameObject dataObject = Resources.Load<GameObject>(linkedSpellResource);
         Spell foundSpell = dataObject != null ? dataObject.GetComponent<Spell>() : null;
 
         if (foundSpell == null) {
+            if (linkedSpellResource.StartsWith("XCollision")) PhotonNetwork.Instantiate(linkedSpellResource, transform.position, transform.rotation);
             return;
         }
 
@@ -834,13 +849,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         // Set the spell to cast, and start the animation
         if (!foundSpell.IsChannel) {
-            currentSpellCast = spell.linkedSpellResource;
+            currentSpellCast = linkedSpellResource;
             movementManager.PlayCastingAnimation(foundSpell.CastAnimationType);
             particleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
             if (CastingSound != null) CastingSound.Play();
         } else {
             // If the spell is channelled, channel it immediately if its a shield, else start the channelling animation
-            currentChannelledSpell = spell.linkedSpellResource;
+            currentChannelledSpell = linkedSpellResource;
             ShieldSpell shield = dataObject.GetComponent<ShieldSpell>(); 
             if (shield != null) {
                 ChannelShield();

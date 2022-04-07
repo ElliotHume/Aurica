@@ -14,9 +14,13 @@ public class AuricaSpell : ScriptableObject {
     public string description;
     public ManaDistribution targetDistribution;
     public List<AuricaSpellComponent> keyComponents;
-    public float baseManaCost = 20f, componentManaMultiplier = 0.5f, errorThreshold = 3.0f;
-    public bool isAuric = false;
     public List<MasteryManager.MasteryCategories> masteries;
+    public bool isMasterySpell = false;
+    public MasteryManager.MasteryCategories masteryCategory;
+    public MasteryManager.MasteryLevel masteryLevel;
+    public string masteryFailedSpellResource = "";
+    public bool isAuric = false;
+    public float baseManaCost = 20f, componentManaMultiplier = 0.5f, errorThreshold = 3.0f;
     public string linkedSpellResource = "";
 
 
