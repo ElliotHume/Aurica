@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour
 
     public Sprite AuricIcon, OrderIcon, ChaosIcon, LifeIcon, DeathIcon, FireIcon, WaterIcon, EarthIcon, AirIcon, DivineIcon, DemonicIcon, PureIcon;
     public Color AuricColor, OrderColor, ChaosColor, LifeColor, DeathColor, FireColor, WaterColor, EarthColor, AirColor, DivineColor, DemonicColor, PureColor;
+    public Sprite AuricMasteryIcon, OrderMasteryIcon, ChaosMasteryIcon, LifeMasteryIcon, DeathMasteryIcon, FireMasteryIcon, WaterMasteryIcon, EarthMasteryIcon, AirMasteryIcon, DivineMasteryIcon, DemonicMasteryIcon;
 
 
     // Start is called before the first frame update
@@ -42,6 +43,34 @@ public class ResourceManager : MonoBehaviour
                 return DemonicIcon;
         }
         return AuricIcon;
+    }
+
+    public Sprite GetMasteryIcon(AuricaSpell.ManaType manaType) {
+        switch (manaType) {
+            case AuricaSpell.ManaType.Auric:
+                return AuricMasteryIcon;
+            case AuricaSpell.ManaType.Order:
+                return OrderMasteryIcon;
+            case AuricaSpell.ManaType.Chaos:
+                return ChaosMasteryIcon;
+            case AuricaSpell.ManaType.Life:
+                return LifeMasteryIcon;
+            case AuricaSpell.ManaType.Death:
+                return DeathMasteryIcon;
+            case AuricaSpell.ManaType.Fire:
+                return FireMasteryIcon;
+            case AuricaSpell.ManaType.Water:
+                return WaterMasteryIcon;
+            case AuricaSpell.ManaType.Earth:
+                return EarthMasteryIcon;
+            case AuricaSpell.ManaType.Air:
+                return AirMasteryIcon;
+            case AuricaSpell.ManaType.Divine:
+                return DivineMasteryIcon;
+            case AuricaSpell.ManaType.Demonic:
+                return DemonicMasteryIcon;
+        }
+        return AuricMasteryIcon;
     }
 
     public Color GetColor(AuricaSpell.ManaType manaType) {

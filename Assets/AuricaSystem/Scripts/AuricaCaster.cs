@@ -199,8 +199,10 @@ public class AuricaCaster : MonoBehaviourPun {
         AuricaPureSpell pureSpell = GetPureMagicSpellMatch(currentComponents, currentDistribution);
         AuricaSpell spell = pureSpell == null ? GetSpellMatch(currentComponents, currentDistribution) : pureSpell.GetAuricaSpell(pureSpell.GetManaType(currentDistribution));
         if (spell != null) {
-            if (discoveredSpells.Count > 0 && !discoveredSpells.Contains(spell)) DiscoveryManager.Instance.Discover(spell);
             if (pureSpell != null) currentManaCost += pureSpell.addedManaCost;
+            if (discoveredSpells.Count > 0 && !discoveredSpells.Contains(spell) && (!spell.isMasterySpell || MasteryManager.Instance.HasMasteryForSpell(spell))) {
+                DiscoveryManager.Instance.Discover(spell);
+            }
             return spell;
         }
         return null;

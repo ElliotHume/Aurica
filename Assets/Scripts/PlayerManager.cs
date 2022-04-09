@@ -798,7 +798,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         // Check if the spell is a mastery spell, and if it is check if the player has sufficient mastery
         if (spell.isMasterySpell) {
-            if (MasteryManager.Instance.GetMastery(spell.masteryCategory) < MasteryManager.MasteryThresholds[spell.masteryLevel]) {
+            if (!MasteryManager.Instance.HasMasteryForSpell(spell)) {
                 linkedSpellResource = spell.masteryFailedSpellResource;
                 TipWindow.Instance.ShowTip("Not Enough Mastery", "To cast this spell properly you need more mastery with "+spell.masteryCategory.ToString()+" spells", 4f);
                 Debug.Log("Mastery check failed");

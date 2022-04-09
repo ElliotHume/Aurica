@@ -7,6 +7,7 @@ using TMPro;
 public class BindingButton : MonoBehaviour
 {
     public TMP_Text SpellText;
+    public Text AlternateSpellText;
     public Image SpellIcon;
     public string key;
     public Color CannotCastColorTint;
@@ -17,13 +18,15 @@ public class BindingButton : MonoBehaviour
 
     public void SetButtonGraphics(AuricaSpell s, string components="") {
         if (s == null) {
-            SpellText.text = "NONE";
+            if (SpellText != null) SpellText.text = "NONE";
+            if (AlternateSpellText != null) AlternateSpellText.text = "NONE";
             SpellIcon.sprite = ResourceManager.Instance.AuricIcon;
             return;
         }
 
         spell = s;
-        SpellText.text = spell.c_name;
+        if (SpellText != null) SpellText.text = spell.c_name;
+        if (AlternateSpellText != null) AlternateSpellText.text = spell.c_name;
         SpellIcon.sprite = ResourceManager.Instance.GetIcon(spell.manaType);
         if (SpellComponents != null) SpellComponents.text = components;
     }

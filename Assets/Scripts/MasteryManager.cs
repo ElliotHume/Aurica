@@ -86,6 +86,11 @@ public class MasteryManager : MonoBehaviour {
         return Masteries[category];
     }
 
+    public bool HasMasteryForSpell(AuricaSpell spell) {
+        // Debug.Log("Check mastery for ["+spell.c_name+"]  isMasterySpell: "+spell.isMasterySpell+" category: "+spell.masteryCategory+"   required mastery: "+MasteryThresholds[spell.masteryLevel]+" player mastery: "+Masteries[spell.masteryCategory]+"     FINAL VERDICT = "+(!spell.isMasterySpell || (Masteries[spell.masteryCategory] >= MasteryThresholds[spell.masteryLevel])));
+        return !spell.isMasterySpell || (Masteries[spell.masteryCategory] >= MasteryThresholds[spell.masteryLevel]);
+    }
+
     public void FetchMasteries() {
         fetching = true;
         PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);
