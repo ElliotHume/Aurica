@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: WillOfTheWind
+  m_EditorClassIdentifier: 
+  c_name: Will of the Wind
+  manaType: 8
+  description: 'MASTER SPELL: Call to the will of the wind and become one with the
+    breeze. This spell will grant the caster a slow fall affect for an very long
+    duration. The caster will be able to cast spells while airborne for the duration
+    of the slow fall effect.'
+  targetDistribution:
+    structure: -0.15
+    essence: 0.07
+    fire: 0
+    water: 0
+    earth: 0
+    air: 1
+    nature: 0.15
+  keyComponents:
+  - {fileID: 11400000, guid: 9158d01a20f674f70a37d08d910d65dd, type: 2}
+  - {fileID: 11400000, guid: 7cf8e2ef9910f4bd7b2ef7bae79f424c, type: 2}
+  - {fileID: 11400000, guid: b681523d843b54d9d9b7481fc00f587d, type: 2}
+  - {fileID: 11400000, guid: 7148f1af2d1fc1b4a8c598a4ab0d60c4, type: 2}
+  - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  masteries: 080000000b000000
+  isMasterySpell: 1
+  masteryCategory: 11
+  masteryLevel: 2
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 200
+  componentManaMultiplier: 1
+  errorThreshold: 2
+  linkedSpellResource: Spell_WillOfTheWind

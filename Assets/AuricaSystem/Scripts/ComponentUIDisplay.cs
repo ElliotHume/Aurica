@@ -49,7 +49,7 @@ public class ComponentUIDisplay : MonoBehaviour {
         Title.text = component.c_name;
         Description.text = component.description;
 
-        ManaDistribution md = component.basicDistribution + (component.auricDistribution * PlayerManager.LocalInstance.aura.GetAura());
+        ManaDistribution md = (component.hasBasicDistribution ? component.basicDistribution : new ManaDistribution()) + (component.hasAuricDistribution ? (component.auricDistribution * PlayerManager.LocalInstance.aura.GetAura()) : new ManaDistribution());
         ManaDistDisplayGO.SetActive(true);
         ManaDistDisplay.SetDistribution(md);
 

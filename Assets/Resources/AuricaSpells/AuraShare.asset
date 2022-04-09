@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: AuraShare
+  m_EditorClassIdentifier: 
+  c_name: Aura Share
+  manaType: 0
+  description: 'LEGEND SPELL: Shape your Aura into a push of mana that greatly increases
+    the mana regeneration of those around you, at the cost of reduced mana regeneration
+    for yourself. The spell also has a minor hastening affect for the caster. Legendary
+    mastery of Auric magic permits the caster to cast this spell with a very small
+    amout of mana.'
+  targetDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: 8707cd8dfb1e0714b95707d9a7299cac, type: 2}
+  - {fileID: 11400000, guid: 4c06a586768c141858894da85dad6b8f, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 1695c1f276952436ab72f5a2f31e1c4e, type: 2}
+  masteries: 000000000d000000
+  isMasterySpell: 1
+  masteryCategory: 0
+  masteryLevel: 3
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 1
+  baseManaCost: 10
+  componentManaMultiplier: 0.1
+  errorThreshold: 3
+  linkedSpellResource: Spell_AuraShare
