@@ -41,6 +41,14 @@ public class DiscoveryManager : MonoBehaviour {
         return discoveredSpells;
     }
 
+    public bool IsSpellDiscovered(AuricaSpell spell) {
+        return discoveredSpells.Contains(spell);
+    }
+
+    public bool HasFetched() {
+        return fetched && !fetching;
+    }
+
     public void GetDiscoveries() {
         fetching = true;
         PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);
@@ -78,6 +86,14 @@ public class DiscoveryManager : MonoBehaviour {
         PlayFabClientAPI.UpdateUserData(request, OnDiscoveriesDataSend, OnError);
         NotificationText.Instance.ShowDiscovery(spell.c_name);
         if (TipWindow.Instance) TipWindow.Instance.ShowTip("Tip", "See the newly discovered spell in your Grimoire by pressing \"z\".", 3f);
+
+        // Recolor discovery pillars if you discover their spell
+        SpellDiscoveryPillar[] spellDiscoveries = FindObjectsOfType<SpellDiscoveryPillar>();
+        foreach( SpellDiscoveryPillar discovery in spellDiscoveries ) {
+            if (discovery.spell == spell) {
+                discovery.DisplaySpell();
+            }
+        }
     }
 
     public void Discover(List<AuricaSpell> spells) {

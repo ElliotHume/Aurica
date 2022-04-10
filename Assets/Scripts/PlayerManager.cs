@@ -322,6 +322,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 accumulatingDamageTimer = 0f;
             }
 
+            // Lerp Mana regen towards default if no effects are applied. Because floating point math can create rounding error problems with statuses
+            if (!manaRestorationRoutineRunning && appliedManaRestorationChangeEffects.Count == 0 && !Mathf.Approximately(ManaRegen, defaultManaRegen)){
+                ManaRegen = Mathf.Lerp(ManaRegen, defaultManaRegen, 0.05f * Time.deltaTime);
+                if (Mathf.Approximately(ManaRegen, defaultManaRegen)) manaRestorationChange = false;
+            } 
 
             if (GameUIPanelManager.Instance && GameUIPanelManager.Instance.ShouldProcessInputs()) this.ProcessInputs();
 
@@ -882,6 +887,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 if (aimTransform == null) {
                     CastFizzle();
                     auricaCaster.ResetCast();
+                    TipWindow.Instance.ShowTip("No Target Found", "This spell is a targeted spell, look at a player or monster for this spell to target them.", 3f);
                     return;
                 }
                 GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, aimTransform.position, aimTransform.rotation);

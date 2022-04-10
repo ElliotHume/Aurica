@@ -8,6 +8,9 @@ public class GameUIPanelManager : MonoBehaviour {
     public static GameUIPanelManager Instance;
     public GameObject spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel, cloudLoadoutPanel, masteryPanel;
 
+    [HideInInspector]
+    public bool glyphDrawingToggledOn = false;
+
     void Start() {
         GameUIPanelManager.Instance = this;
     }
@@ -43,6 +46,7 @@ public class GameUIPanelManager : MonoBehaviour {
             }
             spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+            glyphDrawingToggledOn = false;
         }
 
         // Bring up spell list menu
@@ -85,7 +89,22 @@ public class GameUIPanelManager : MonoBehaviour {
                 glyphDrawingFrame.SetActive(true);
             }
         } else {
-            glyphDrawingFrame.SetActive(false);
+            if (!glyphDrawingToggledOn) glyphDrawingFrame.SetActive(false);
         }
+        // If no menus are open, and the player presses the LeftAlt button, toggle the glyphdrawing menu
+        if (Input.GetKeyDown(KeyCode.LeftAlt)) {
+            if (!(spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy)) {
+                if (!glyphDrawingFrame.activeInHierarchy && !spellCraftingPanel.activeInHierarchy && !infoPanel.activeInHierarchy && !cultivationPanel.activeInHierarchy && !spellListPanel.activeInHierarchy && !auraPanel.activeInHierarchy) {
+                    glyphDrawingFrame.SetActive(true);
+                    glyphDrawingToggledOn = true;
+                } else {
+                    glyphDrawingFrame.SetActive(false);
+                    glyphDrawingToggledOn = false;
+                }
+            } else {
+                glyphDrawingFrame.SetActive(false);
+                glyphDrawingToggledOn = false;
+            }
+        } 
     }
 }

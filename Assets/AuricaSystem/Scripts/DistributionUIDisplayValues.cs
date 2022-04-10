@@ -7,6 +7,7 @@ public class DistributionUIDisplayValues : MonoBehaviour {
     public Text structure, essence, fire, water, earth, air, nature;
     public string suffix = "";
     public float multiplier = 100f;
+    public bool useOneDecimal = false;
     private List<Text> bars;
     // Start is called before the first frame update
     void Start() {
@@ -40,6 +41,6 @@ public class DistributionUIDisplayValues : MonoBehaviour {
     string GetShorterString(float mana) {
         int comparisonLength = mana > 0f ? 5 : 6; 
         bool useExtraPrecision = (mana * multiplier).ToString().Length >= comparisonLength;
-        return (mana * multiplier).ToString(useExtraPrecision ? "F3" : "F2") + suffix;
+        return (mana * multiplier).ToString(useOneDecimal ? "F1" : useExtraPrecision ? "F3" : "F2") + suffix;
     }
 }

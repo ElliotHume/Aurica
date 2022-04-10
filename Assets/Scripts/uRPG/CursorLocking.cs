@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Linq;
 
-public class CursorLocking : MonoBehaviour
-{
+public class CursorLocking : MonoBehaviour {
     public GameObject[] windowsThatUnlockCursor;
 
     bool AnyUnlockWindowActive()
@@ -19,7 +18,8 @@ public class CursorLocking : MonoBehaviour
     }
 
     void FixedUpdate() {
-        Cursor.lockState = AnyUnlockWindowActive() || HoldingMButton()
+        Debug.Log("GLYPH TOGGLE: "+(GameUIPanelManager.Instance != null && GameUIPanelManager.Instance.glyphDrawingToggledOn)+"   OTHER: "+(AnyUnlockWindowActive() || HoldingMButton()));
+        Cursor.lockState = AnyUnlockWindowActive() || HoldingMButton() || (GameUIPanelManager.Instance != null && GameUIPanelManager.Instance.glyphDrawingToggledOn)
                            ? CursorLockMode.None
                            : CursorLockMode.Locked;
 

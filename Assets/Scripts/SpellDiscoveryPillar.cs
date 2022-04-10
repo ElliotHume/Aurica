@@ -10,11 +10,11 @@ public class SpellDiscoveryPillar : MonoBehaviour {
 
     public List<GlyphDisplay> glyphDisplays;
     public List<CapStretchStrokeGraphic> glyphGraphics;
-    public bool keepColor = false;
     
     private AuricaSpell[] allSpells;
     private List<AuricaSpell> allSpellsList;
     private Glyph[] allComponentGlyphs;
+    private bool displayed = false;
 
     void Awake() {
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
@@ -22,11 +22,17 @@ public class SpellDiscoveryPillar : MonoBehaviour {
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
     }
 
-    void Start() {
-        if (spell != null) DisplaySpell();
+    void FixedUpdate() {
+        if (!displayed) {
+            if (DiscoveryManager.Instance.HasFetched()) {
+                DisplaySpell();
+                displayed = true;
+            }
+        }
     }
 
     public void DisplaySpell() {
+        if (spell == null) return;
         List<AuricaSpellComponent> components = spell.keyComponents;
         for(int i=0; i < glyphDisplays.Count; i++) {
             if (glyphDisplays[i] == null || !glyphDisplays[i].gameObject.activeInHierarchy) continue;
@@ -37,7 +43,8 @@ public class SpellDiscoveryPillar : MonoBehaviour {
                         break;
                     }
                 }
-                if (!keepColor && ResourceManager.Instance != null) glyphGraphics[i].SetColor(ResourceManager.Instance.GetColor(spell.manaType));
+                // If you already know the spell, turn the glyphs black
+                if (DiscoveryManager.Instance != null && DiscoveryManager.Instance.IsSpellDiscovered(spell)) glyphGraphics[i].SetColor(Color.black);
             } else {
                 glyphDisplays[i].glyph = null;
             }

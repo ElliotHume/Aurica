@@ -314,6 +314,11 @@ public class AuricaCaster : MonoBehaviourPun {
         PlayerPrefs.SetString("CachedSpell_" + key, spell);
         AuricaSpell match = CastSpellByName(spell);
 
+        // DISCOVER SPELL
+        if (match != null && discoveredSpells.Count > 0 && !discoveredSpells.Contains(match) && (!match.isMasterySpell || MasteryManager.Instance.HasMasteryForSpell(match))) {
+            DiscoveryManager.Instance.Discover(match);
+        }
+        
         // GAME SPECIFIC
         try {
             BindingUIPanel.LocalInstance.SetBind(key, match);
