@@ -29,6 +29,7 @@ public class ChannelledSpell : Spell {
     public bool ParticleCollisions = false;
     public float DamagePerParticle = 1f;
     public ParticleSystem collisionParticles;
+    public string NetworkSpawnEffectOnParticleCollision;
     public AudioClip particleCollisionSound;
     public float clipVolume;
     private List<ParticleCollisionEvent> collisionEvents;
@@ -199,7 +200,18 @@ public class ChannelledSpell : Spell {
         }
 
         // Anything other than players is handled by the spell owner
-        if (!photonView.IsMine) return;    
+        if (!photonView.IsMine) return;
+        if (NetworkSpawnEffectOnParticleCollision != "") {
+            foreach(var collision in collisionEvents) {
+                GameObject newEffect = PhotonNetwork.Instantiate(NetworkSpawnEffectOnParticleCollision, collision.intersection, new Quaternion());
+                Spell instanceSpell = newEffect.GetComponent<Spell>();
+                if (instanceSpell != null) {
+                    instanceSpell.SetSpellStrength(GetSpellStrength());
+                    instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
+                    instanceSpell.SetOwner(GetOwner());
+                }
+            }
+        }  
         if (other.tag == "Enemy") {
             Enemy enemy = other.GetComponent<Enemy>();
             string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";

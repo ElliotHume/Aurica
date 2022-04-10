@@ -27,7 +27,7 @@ public class BindingButton : MonoBehaviour
         spell = s;
         if (SpellText != null) SpellText.text = spell.c_name;
         if (AlternateSpellText != null) AlternateSpellText.text = spell.c_name;
-        SpellIcon.sprite = ResourceManager.Instance.GetIcon(spell.manaType);
+        SpellIcon.sprite = !spell.isMasterySpell ? ResourceManager.Instance.GetIcon(spell.manaType) : ResourceManager.Instance.GetMasteryIcon(spell.manaType);
         if (SpellComponents != null) SpellComponents.text = components;
     }
 

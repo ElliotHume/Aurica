@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: VolcanicRain
+  m_EditorClassIdentifier: 
+  c_name: Volcanic Rain
+  manaType: 5
+  description: 'MASTER SPELL: Channel the spell to create a rain of volcanic meteors
+    that leave fields of fire when they land. The caster will remain unharmed.'
+  targetDistribution:
+    structure: -0.225
+    essence: -0.3
+    fire: 1
+    water: 0
+    earth: 0
+    air: 0
+    nature: -0.125
+  keyComponents:
+  - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: 453ad9fbc5057f34397dd8a564db3663, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  masteries: 050000000c000000
+  isMasterySpell: 1
+  masteryCategory: 5
+  masteryLevel: 2
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 100
+  componentManaMultiplier: 0.5
+  errorThreshold: 2
+  linkedSpellResource: Spell_VolcanicRain

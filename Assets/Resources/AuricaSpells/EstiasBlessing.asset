@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: EstiasBlessing
+  m_EditorClassIdentifier: 
+  c_name: Estia's Blessing
+  manaType: 3
+  description: 'MASTER SPELL: Heal yourself for a majority of your missing health.
+    The spell will inflict a massive weakening and major fragility debuff for a moderate
+    length as well.'
+  targetDistribution:
+    structure: -0.1
+    essence: 1
+    fire: 0
+    water: 0.15
+    earth: 0
+    air: 0.1
+    nature: 0.15
+  keyComponents:
+  - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
+  - {fileID: 11400000, guid: 3cb6d78aac23a4de3a0d2d431b55ff5b, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  - {fileID: 11400000, guid: 755243bc2e8c74bca98ca950f1464edd, type: 2}
+  masteries: 03000000
+  isMasterySpell: 1
+  masteryCategory: 3
+  masteryLevel: 2
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 250
+  componentManaMultiplier: 0.66
+  errorThreshold: 2
+  linkedSpellResource: Spell_EstiasBlessing
