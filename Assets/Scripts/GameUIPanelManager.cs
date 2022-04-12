@@ -92,7 +92,7 @@ public class GameUIPanelManager : MonoBehaviour {
             if (!glyphDrawingToggledOn) glyphDrawingFrame.SetActive(false);
         }
         // If no menus are open, and the player presses the LeftAlt button, toggle the glyphdrawing menu
-        if (Input.GetKeyDown(KeyCode.LeftAlt)) {
+        if (Input.GetKeyDown(KeyCode.LeftControl)) {
             if (!(spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy)) {
                 if (!glyphDrawingFrame.activeInHierarchy && !spellCraftingPanel.activeInHierarchy && !infoPanel.activeInHierarchy && !cultivationPanel.activeInHierarchy && !spellListPanel.activeInHierarchy && !auraPanel.activeInHierarchy) {
                     glyphDrawingFrame.SetActive(true);

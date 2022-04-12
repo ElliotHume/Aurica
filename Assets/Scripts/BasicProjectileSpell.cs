@@ -10,7 +10,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float Speed = 20f;
     public float RandomMoveRadius = 0f;
     public float RandomMoveSpeedScale = 0f;
-    public bool CanHitSelf = true;
+    public bool CanHitSelf = true, IgnoreNonPlayerCollision = false;
     public bool AimAssistedProjectile = true;
     public float AimAssistTurningSpeed = 15f;
     public bool PerfectHomingProjectile = false;
@@ -139,6 +139,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
         if (enemyAttack && collision.gameObject == GetOwner()) return;
 
+        if (IgnoreNonPlayerCollision && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Untagged" ) return;
+
         ContactPoint hit = collision.GetContact(0);
         isCollided = true;
 
@@ -168,47 +170,51 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         }
                     }
                 }
-            } else if (collision.gameObject.tag == "Shield") {
-                ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
-                if (ss != null) {
-                    PhotonView pv = PhotonView.Get(ss);
-                    if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());
-                } else {
-                    Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
-                }
-            } else if (collision.gameObject.tag == "Spell") {
-                // This is required for the case when a remote client shoots a spell out of the air.
-                // Without this RPC the spell will turn off its collision on remote clients before those remote clients register the collision on the local spell that is hit.
-                Spell spell = collision.gameObject.GetComponent<Spell>();
-                if (spell != null) {
-                    PhotonView pv = PhotonView.Get(spell);
-                    if (pv != null) {
-                        pv.RPC("SpellCollision", RpcTarget.All);
+            }
+            if (!IgnoreNonPlayerCollision) {
+                if (collision.gameObject.tag == "Shield") {
+                    ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
+                    if (ss != null) {
+                        PhotonView pv = PhotonView.Get(ss);
+                        if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());
+                    } else {
+                        Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
                     }
-                }
-            } else if (collision.gameObject.tag == "DamageableObject") {
-                DamageableObject dmgobj = collision.gameObject.GetComponent<DamageableObject>();
-                if (dmgobj != null) {
-                    PhotonView pv = PhotonView.Get(dmgobj);
-                    if (pv != null) {
-                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
-                        collidedViewId = pv.ViewID;
-                        FlashHitMarker(true);
+                } else if (collision.gameObject.tag == "Spell") {
+                    // This is required for the case when a remote client shoots a spell out of the air.
+                    // Without this RPC the spell will turn off its collision on remote clients before those remote clients register the collision on the local spell that is hit.
+                    Spell spell = collision.gameObject.GetComponent<Spell>();
+                    if (spell != null) {
+                        PhotonView pv = PhotonView.Get(spell);
+                        if (pv != null) {
+                            pv.RPC("SpellCollision", RpcTarget.All);
+                        }
                     }
-                }
-            } else if (collision.gameObject.tag == "Enemy") {
-                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-                string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
-                if (enemy != null) {
-                    PhotonView pv = PhotonView.Get(enemy);
-                    if (pv != null) {
-                        enemy.SetLocalPlayerParticipation();
-                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
-                        collidedViewId = pv.ViewID;
-                        FlashHitMarker(true);
+                } else if (collision.gameObject.tag == "DamageableObject") {
+                    DamageableObject dmgobj = collision.gameObject.GetComponent<DamageableObject>();
+                    if (dmgobj != null) {
+                        PhotonView pv = PhotonView.Get(dmgobj);
+                        if (pv != null) {
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
+                            collidedViewId = pv.ViewID;
+                            FlashHitMarker(true);
+                        }
+                    }
+                } else if (collision.gameObject.tag == "Enemy") {
+                    Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                    string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                    if (enemy != null) {
+                        PhotonView pv = PhotonView.Get(enemy);
+                        if (pv != null) {
+                            enemy.SetLocalPlayerParticipation();
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                            collidedViewId = pv.ViewID;
+                            FlashHitMarker(true);
+                        }
                     }
                 }
             }
+            
             NetworkCollisionBehaviour(hit.point, hit.normal);
         }
     }
@@ -270,6 +276,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     [PunRPC]
     public void SpellCollision() {
+        if (IgnoreNonPlayerCollision) return;
+        Debug.Log(gameObject+" hit by spell");
         LocalCollisionBehaviour(transform.position, -transform.forward);
         isCollided = true;
         if (photonView.IsMine) {

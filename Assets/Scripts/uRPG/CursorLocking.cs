@@ -18,7 +18,6 @@ public class CursorLocking : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        Debug.Log("GLYPH TOGGLE: "+(GameUIPanelManager.Instance != null && GameUIPanelManager.Instance.glyphDrawingToggledOn)+"   OTHER: "+(AnyUnlockWindowActive() || HoldingMButton()));
         Cursor.lockState = AnyUnlockWindowActive() || HoldingMButton() || (GameUIPanelManager.Instance != null && GameUIPanelManager.Instance.glyphDrawingToggledOn)
                            ? CursorLockMode.None
                            : CursorLockMode.Locked;

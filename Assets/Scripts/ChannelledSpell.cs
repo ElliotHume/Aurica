@@ -203,7 +203,7 @@ public class ChannelledSpell : Spell {
         if (!photonView.IsMine) return;
         if (NetworkSpawnEffectOnParticleCollision != "") {
             foreach(var collision in collisionEvents) {
-                GameObject newEffect = PhotonNetwork.Instantiate(NetworkSpawnEffectOnParticleCollision, collision.intersection, new Quaternion());
+                GameObject newEffect = PhotonNetwork.Instantiate(NetworkSpawnEffectOnParticleCollision, collision.intersection, gameObject.transform.rotation);
                 Spell instanceSpell = newEffect.GetComponent<Spell>();
                 if (instanceSpell != null) {
                     instanceSpell.SetSpellStrength(GetSpellStrength());

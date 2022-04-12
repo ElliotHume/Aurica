@@ -62,7 +62,7 @@ public class CharacterMaterialManager : MonoBehaviourPun
     public void SetOutline(Color color) {
         if (outline != null) {
             outline.OutlineColor = color;
-            outline.OutlineWidth = 1f;
+            outline.OutlineWidth = 1.5f;
             outlineSet = true;
         }
     }
@@ -83,7 +83,7 @@ public class CharacterMaterialManager : MonoBehaviourPun
 
     public void ShowOutline() {
         if (outline != null) {
-            outline.OutlineWidth = (!outlineSet && photonView.IsMine) ? 0f : 1f;
+            outline.OutlineWidth = (!outlineSet && photonView.IsMine) ? 0f : outlineSet ? 1.5f : 1f;
         }
     }
 

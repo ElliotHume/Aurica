@@ -343,8 +343,8 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
 
     IEnumerator RespawnPlayer(PlayerManager player) {
         yield return new WaitForSeconds(RespawnTimer);
-        player.Respawn();
         player.Teleport(isBlueTeam ? BlueSideSpawnPoint : RedSideSpawnPoint);
+        player.Respawn();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {

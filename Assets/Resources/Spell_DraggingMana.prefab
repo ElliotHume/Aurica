@@ -9743,7 +9743,7 @@ GameObject:
   - component: {fileID: 2963925967766984897}
   m_Layer: 8
   m_Name: Spell_DraggingMana
-  m_TagString: Spell
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9808,6 +9808,7 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  IgnoreNonPlayerCollision: 1
   AimAssistedProjectile: 1
   AimAssistTurningSpeed: 20
   PerfectHomingProjectile: 0
@@ -9846,7 +9847,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4447152493015183866
 MonoBehaviour:
@@ -9898,7 +9899,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4445725194709829857
 GameObject:

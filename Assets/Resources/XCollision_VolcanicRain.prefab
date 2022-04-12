@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631280083762895977}
-  m_LocalRotation: {x: -0.40557975, y: 0.579228, z: 0.579228, w: -0.40557984}
+  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071069}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.75586, y: 0.75586, z: 0.75586}
   m_Children: []
   m_Father: {fileID: 5452584695697109285}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 200, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &9134897636893892327
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9501,6 +9501,7 @@ GameObject:
   - component: {fileID: 8133437867113820864}
   - component: {fileID: 8133437867113820866}
   - component: {fileID: 8133437867113820865}
+  - component: {fileID: 5272475904361823157}
   m_Layer: 7
   m_Name: XCollision_VolcanicRain
   m_TagString: Spell
@@ -9543,7 +9544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
-  auricaSpell: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
+  auricaSpell: {fileID: 11400000, guid: f91d3c1f826b54d4780e9a677f657a14, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: dotAoE
@@ -9569,6 +9570,8 @@ MonoBehaviour:
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 5449604807618162095}
+  - {fileID: 5449957645624938749}
+  - {fileID: 5449679849112016361}
   EffectsOnDelayedStartup: []
   ParticleCollisions: 0
   DamagePerParticle: 1
@@ -9643,6 +9646,80 @@ MonoBehaviour:
   sceneViewId: 42
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &5272475904361823157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5449586856535318667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Identifier: SceneObject
+  slow: 0
+  slowDuration: 0
+  slowPercentage: 0
+  hasten: 1
+  hastenDuration: 1
+  hastenPercentage: 15
+  root: 0
+  rootDuration: 0
+  ground: 0
+  groundDuration: 0
+  silence: 0
+  silenceDuration: 0
+  stun: 0
+  stunDuration: 0
+  weaken: 0
+  weakenDuration: 0
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 0
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  fragile: 0
+  fragileDuration: 0
+  fragilePercentage: 0
+  tough: 0
+  toughDuration: 0
+  toughPercentage: 0
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
+  healing: 0
+  healFlatAmount: 0
+  healPercentAmount: 0
+  manaDrain: 0
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
+  cleanse: 0
+  cure: 0
+  isContinuous: 0
+  canHitSelf: 1
+  onlyHitSelf: 1
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &5449604807618162095
 GameObject:
   m_ObjectHideFlags: 0
@@ -14307,13 +14384,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5449679849112016361}
-  m_LocalRotation: {x: -0.00000017881393, y: 0.000000063329935, z: -0.23767011, w: 0.971346}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.6, y: 0.49903998, z: 2.6}
   m_Children: []
   m_Father: {fileID: 5452584695697109285}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -27.498}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5346279938175103045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14421,7 +14498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseWorldSpaceRotation: 0
-  UseRandomRotationAndScale: 1
+  UseRandomRotationAndScale: 0
   randomScalePercent: 20
   IsScreenSpace: 1
 --- !u!1 &5449728044415070951
@@ -19047,7 +19124,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5449957645624938749}
-  m_LocalRotation: {x: -0.000000014901159, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.1376092, y: 0.66672033, z: 2.1376092}
   m_Children: []
@@ -19211,7 +19288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseWorldSpaceRotation: 0
-  UseRandomRotationAndScale: 1
+  UseRandomRotationAndScale: 0
   randomScalePercent: 20
   IsScreenSpace: 1
 --- !u!1 &7092015528676697462
@@ -19414,13 +19491,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7092015528875665035}
-  m_LocalRotation: {x: -0, y: -0.70710677, z: 0.7071069, w: 0}
+  m_LocalRotation: {x: 0.70710677, y: -0, z: -0, w: -0.7071069}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.48107, y: 0.48107, z: 0.48107}
   m_Children: []
   m_Father: {fileID: 5452584695697109285}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 360}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 360}
 --- !u!198 &7092015528875665032
 ParticleSystem:
   m_ObjectHideFlags: 0

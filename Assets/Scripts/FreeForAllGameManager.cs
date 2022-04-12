@@ -175,10 +175,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     IEnumerator RespawnPlayer(PlayerManager player) {
         yield return new WaitForSeconds(RespawnTimer);
-        player.Respawn();
-
         int spawnPoint = UnityEngine.Random.Range (0, Spawnpoints.Count);
         player.Teleport(Spawnpoints[spawnPoint]);
+        player.Respawn();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {
