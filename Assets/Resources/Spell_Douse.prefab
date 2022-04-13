@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8cf69ecb70c1474b9ff3d78268b10f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 15
+  Damage: 12
   auricaSpell: {fileID: 11400000, guid: bef9d3177aeb44186b1e48fd4ae421d6, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -231,8 +231,8 @@ MonoBehaviour:
     fire: 1
     water: 0
     earth: 0
-    air: 0
-    nature: 0
+    air: 0.5
+    nature: 0.2
   strengthen: 0
   strengthenDuration: 0
   strengthenDistribution:
@@ -256,7 +256,7 @@ MonoBehaviour:
   healFlatAmount: 0
   healPercentAmount: 0
   manaDrain: 1
-  manaDrainFlatAmount: 150
+  manaDrainFlatAmount: 50
   manaDrainPercentAmount: 0
   camouflage: 0
   camouflageDuration: 0

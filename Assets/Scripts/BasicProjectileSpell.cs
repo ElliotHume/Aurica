@@ -125,7 +125,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     void OnCollisionEnter(Collision collision) {
         if ( isCollided || !photonView.IsMine ) return;
 
-        Debug.Log(""+gameObject+"  Collided with  "+collision.gameObject);
+        // Debug.Log(""+gameObject+"  Collided with  "+collision.gameObject);
         
         // Prevent the projectile hitting the player who cast it if the flag is set.
         if (!CanHitSelf && collision.gameObject.tag == "Player") {
@@ -139,7 +139,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
         if (enemyAttack && collision.gameObject == GetOwner()) return;
 
-        if (IgnoreNonPlayerCollision && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Untagged" ) return;
+        if (IgnoreNonPlayerCollision && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Enemy" ) return;
 
         ContactPoint hit = collision.GetContact(0);
         isCollided = true;
@@ -170,6 +170,18 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         }
                     }
                 }
+            } else if (collision.gameObject.tag == "Enemy") {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                if (enemy != null) {
+                    PhotonView pv = PhotonView.Get(enemy);
+                    if (pv != null) {
+                        enemy.SetLocalPlayerParticipation();
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                        collidedViewId = pv.ViewID;
+                        FlashHitMarker(true);
+                    }
+                }
             }
             if (!IgnoreNonPlayerCollision) {
                 if (collision.gameObject.tag == "Shield") {
@@ -196,18 +208,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         PhotonView pv = PhotonView.Get(dmgobj);
                         if (pv != null) {
                             pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), "");
-                            collidedViewId = pv.ViewID;
-                            FlashHitMarker(true);
-                        }
-                    }
-                } else if (collision.gameObject.tag == "Enemy") {
-                    Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-                    string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
-                    if (enemy != null) {
-                        PhotonView pv = PhotonView.Get(enemy);
-                        if (pv != null) {
-                            enemy.SetLocalPlayerParticipation();
-                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                             collidedViewId = pv.ViewID;
                             FlashHitMarker(true);
                         }

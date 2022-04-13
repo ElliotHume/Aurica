@@ -19,16 +19,21 @@ public class SummonSpell : Spell, IPunObservable {
     private Vector3 startPosition = Vector3.zero, Destination = Vector3.zero;
     private float amountOfScalingApplied = 0f;
     private bool active = true, doneMoving = true;
+    private Vector3 networkPosition, oldPosition, velocity;
+    private Quaternion networkRotation;
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){
         if (stream.IsWriting) {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
             stream.SendNext(transform.localScale);
         } else {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
+            networkPosition = (Vector3) stream.ReceiveNext();
+            networkRotation = (Quaternion) stream.ReceiveNext();
             transform.localScale = (Vector3)stream.ReceiveNext();
+
+            float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
+            networkPosition += (velocity * lag);
         }
     }
 
@@ -67,6 +72,13 @@ public class SummonSpell : Spell, IPunObservable {
 
     }
 
+    void Update() {
+        if (!photonView.IsMine) {
+            if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * 2f);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
+        }
+    }
+
     void FixedUpdate() {
         if (photonView.IsMine && active && doneMoving && ScalingFactor != 0f && (ScalingLimit == 0f || amountOfScalingApplied < ScalingLimit)) {
             transform.localScale += transform.localScale * ScalingFactor * Time.deltaTime;
@@ -80,9 +92,12 @@ public class SummonSpell : Spell, IPunObservable {
         var t = 0f;
         while (t < 1) {
             t += Time.deltaTime / TimeToRise;
+            oldPosition = transform.position;
             transform.localPosition = Vector3.Lerp(currentPos, Destination, t);
+            velocity = transform.position - oldPosition;
             yield return null;
         }
+        velocity = Vector3.zero;
         doneMoving = true;
     }
 

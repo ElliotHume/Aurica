@@ -788,7 +788,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             auricaCaster.ResetCast();
             return;
         }
-        // Debug.Log("Spell Match: " + spell.c_name);
 
         // Fail before animation if the player does not have sufficient mana.
         if (Mana - auricaCaster.GetManaCost() < 0f) {
@@ -806,9 +805,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (!MasteryManager.Instance.HasMasteryForSpell(spell)) {
                 linkedSpellResource = spell.masteryFailedSpellResource;
                 TipWindow.Instance.ShowTip("Not Enough Mastery", "To cast this spell properly you need more mastery with "+spell.masteryCategory.ToString()+" spells", 4f);
-                Debug.Log("Mastery check failed");
+                //Debug.Log("Mastery check failed");
             } else {
-                Debug.Log("Mastery check passed");
+                //Debug.Log("Mastery check passed");
             }
 
         }
@@ -821,6 +820,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (linkedSpellResource.StartsWith("XCollision")) PhotonNetwork.Instantiate(linkedSpellResource, transform.position, transform.rotation);
             return;
         }
+
+        if (foundSpell.Damage > 0f) Debug.Log("Spell " + spell.c_name+" Adjusted Damage/Mana: "+((foundSpell.Damage * auricaCaster.GetSpellStrength()) / auricaCaster.GetManaCost())+" Base Damage/Mana: "+(foundSpell.Damage / auricaCaster.GetManaCost()));
 
         // Change the casting anchor (where the spell spawns from)
         switch (foundSpell.CastingAnchor) {
@@ -1722,11 +1723,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         slowFall = true;
         movementManager.SlowFall(true, percentage);
         yield return new WaitForSeconds(duration);
-        slowFall = false;
-        slowFallRoutineRunning = false;
-        movementManager.SlowFall(false);
-
         if (appliedSlowFallEffects.Contains(Identifier)) appliedSlowFallEffects.Remove(Identifier);
+        slowFall = appliedSlowFallEffects.Count > 0;
+        slowFallRoutineRunning = false;
+        movementManager.SlowFall(appliedSlowFallEffects.Count > 0);
     }
     [PunRPC]
     public void ContinuousSlowFall(string Identifier, float percentage) {
@@ -1748,8 +1748,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 return;
             }
 
-            slowFall = false;
-            movementManager.SlowFall(false);
+            slowFall = appliedSlowFallEffects.Count > 0;
+            movementManager.SlowFall(appliedSlowFallEffects.Count > 0);
         }
     }
 

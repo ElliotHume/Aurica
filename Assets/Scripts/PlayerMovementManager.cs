@@ -134,7 +134,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
         if (!isChannelling && !isRooted && !isStunned && !isBeingDisplaced) {
-            if (!casting) {
+            if ((!casting || (slowFall && !Grounded))) {
                 // Create momentum, speeding up if you move in the same direction
                 if (Mathf.Approximately(v, 0f)){ 
                     forwardsAcceleration = Mathf.Max(forwardsAcceleration - Time.deltaTime * 2f, 0f);
@@ -296,7 +296,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public void SlowFall(bool sf, float percentage = 0f) {
         // if (sf) Debug.Log("Activate slow fall %"+percentage);
         slowFall = sf;
-        slowFallPercent = percentage;
+        if (percentage != 0f) slowFallPercent = percentage;
         accelerant = 1f;
 
         // // DOESNT WORK - RE: tried to stop massive gravity after slowfall effect ends

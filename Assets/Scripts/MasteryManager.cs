@@ -72,10 +72,18 @@ public class MasteryManager : MonoBehaviour {
         Masteries.Add(MasteryCategories.Battlemage, BattlemageMastery);
         Masteries.Add(MasteryCategories.Support, SupportMastery);
         Masteries.Add(MasteryCategories.Defender, DefenderMastery);
+        StartCoroutine(SyncTimer());
     }
 
     void FixedUpdate() {
         if (!fetched && !fetching) FetchMasteries();
+    }
+
+    IEnumerator SyncTimer() {
+        while(true) {
+            yield return new WaitForSeconds(60f);
+            if (!synced) SyncMasteries();
+        }
     }
 
     public Dictionary<MasteryCategories, int> GetMasteries() {
@@ -115,7 +123,7 @@ public class MasteryManager : MonoBehaviour {
         if (categories.Count == 0) return;
         foreach(MasteryCategories category in categories){
             Masteries[category] += 1;
-            Debug.Log("Added 1 mastery to "+category.ToString());
+            // Debug.Log("Added 1 mastery to "+category.ToString());
         }
         synced = false;
     }

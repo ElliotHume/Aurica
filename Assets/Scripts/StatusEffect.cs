@@ -248,6 +248,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     void Activate(PhotonView pv, bool isEnemy = false) {
         if (pv != null) {
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
+            Debug.Log("Status effect for: "+gameObject+"  cast with multiplier: "+multiplier);
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
             if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
