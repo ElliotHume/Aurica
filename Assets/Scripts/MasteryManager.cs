@@ -33,6 +33,8 @@ public class MasteryManager : MonoBehaviour {
     [HideInInspector]
     public bool synced = true;
 
+    public AudioSource MasteryProgressionSound;
+
     private bool fetched = false, fetching = false;
     private Dictionary<string, MasteryCategories> cloudKeys;
     
@@ -123,7 +125,28 @@ public class MasteryManager : MonoBehaviour {
         if (categories.Count == 0) return;
         foreach(MasteryCategories category in categories){
             Masteries[category] += 1;
-            // Debug.Log("Added 1 mastery to "+category.ToString());
+            // Debug.Log("Added 1 mastery to "+category.ToString()+"  total mastery: "+Masteries[category]);
+            if (Masteries[category] == 10) {
+                RewardsManager.Instance.AddRewards(0.01f);
+                TipWindow.Instance.ShowTip(""+category.ToString()+" Novice Mastery", "You have achieved Novice mastery in "+category.ToString()+" magic. Achieving this milestone progresses your cultivation. Press \"M\" to view your mastery.", 10f);
+                SyncMasteries();
+                MasteryProgressionSound.Play();
+            } else if (Masteries[category] == 100) {
+                RewardsManager.Instance.AddRewards(0.0210f);
+                TipWindow.Instance.ShowTip(""+category.ToString()+" Adept Mastery", "You have achieved Adept mastery in "+category.ToString()+" magic. Achieving this milestone progresses your cultivation. Press \"M\" to view your mastery.", 10f);
+                SyncMasteries();
+                MasteryProgressionSound.Play();
+            } else if (Masteries[category] == 1000) {
+                RewardsManager.Instance.AddRewards(0.1f);
+                TipWindow.Instance.ShowTip(""+category.ToString()+" Master Mastery", "You have achieved Master mastery in "+category.ToString()+" magic. Achieving this milestone progresses your cultivation. Press \"M\" to view your mastery.", 10f);
+                SyncMasteries();
+                MasteryProgressionSound.Play();
+            } else if (Masteries[category] == 10000) {
+                RewardsManager.Instance.AddRewards(1f);
+                TipWindow.Instance.ShowTip(""+category.ToString()+" LEGEND MASTERY", "You have achieved Legendary mastery in "+category.ToString()+" magic. Achieving this milestone progresses your cultivation. Press \"M\" to view your mastery.", 10f);
+                SyncMasteries();
+                MasteryProgressionSound.Play();
+            }
         }
         synced = false;
     }

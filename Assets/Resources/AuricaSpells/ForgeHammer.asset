@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: ForgeHammer
+  m_EditorClassIdentifier: 
+  c_name: Forge Hammer
+  manaType: 5
+  description: 'ADEPT SPELL: Equal parts Fire, Earth, and Divine, this spell summons
+    a divine hammer of stone and fire that slams down on a targeted location, dealing
+    very heavy damage and knocking enemies away from the effect.'
+  targetDistribution:
+    structure: 0.2
+    essence: -0.1
+    fire: 0.33
+    water: 0
+    earth: 0.33
+    air: 0
+    nature: 0.33
+  keyComponents:
+  - {fileID: 11400000, guid: 75401c65cc467884b8e2808420d7a995, type: 2}
+  - {fileID: 11400000, guid: 24a81935fa8e34990ba28ad05d8af8f5, type: 2}
+  - {fileID: 11400000, guid: 75401c65cc467884b8e2808420d7a995, type: 2}
+  - {fileID: 11400000, guid: 24a81935fa8e34990ba28ad05d8af8f5, type: 2}
+  - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
+  masteries: 0700000005000000090000000c000000
+  isMasterySpell: 1
+  masteryCategory: 12
+  masteryLevel: 1
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 100
+  componentManaMultiplier: 0.2
+  errorThreshold: 1.75
+  linkedSpellResource: Spell_ForgeHammer
