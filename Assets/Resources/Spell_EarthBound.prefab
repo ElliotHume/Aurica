@@ -9541,12 +9541,13 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  IgnoreNonPlayerCollision: 0
   AimAssistedProjectile: 1
-  AimAssistTurningSpeed: 20
-  PerfectHomingProjectile: 1
-  HomingDetectionSphereRadius: 10
+  AimAssistTurningSpeed: 30
+  PerfectHomingProjectile: 0
+  HomingDetectionSphereRadius: 0
   TrackingProjectile: 1
-  TrackingTurnSpeed: 25
+  TrackingTurnSpeed: 35
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0

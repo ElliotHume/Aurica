@@ -151,7 +151,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
                 // Debug.Log("Forwards acc: "+forwardsAcceleration+"  sidways: "+sidewaysAcceleration+"   vec: "+Vector3.ClampMagnitude((transform.forward * v * forwardsAcceleration + transform.right * h * sidewaysAcceleration), 0.33f));
                 characterController.Move((Vector3.ClampMagnitude((transform.forward * v + transform.right * h), 0.8f) + Vector3.ClampMagnitude((transform.forward * v * Mathf.Abs(forwardsAcceleration) + transform.right * h * Mathf.Abs(sidewaysAcceleration)), 0.5f)) * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
             } else {
-                characterController.Move((transform.forward * v + transform.right * h).normalized * 0.1f * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
+                characterController.Move(Vector3.ClampMagnitude((transform.forward * v + transform.right * h), 0.7f) * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
             }
         }
 
@@ -182,7 +182,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         casting = true;
         animator.SetBool("Cast", casting);
         animator.SetInteger("CastType", animationType);
-        
+        if (animationType != 8 && animationType != 12) animator.SetLayerWeight(1, 1f);;
     }
 
     public bool CanCast() {
@@ -193,6 +193,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         casting = false;
         jumping = false;
         animator.SetBool("Cast", casting);
+        animator.SetLayerWeight(1, 0f);
     }
 
     public void Footstep() {

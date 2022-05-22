@@ -270,6 +270,8 @@ public class ChannelledSpell : Spell {
     }
 
     void DestroySelf() {
+        StatusEffect[] statusEffects = GetComponents<StatusEffect>();
+        foreach(StatusEffect status in statusEffects) status.ManualDeactivate();
         PhotonNetwork.Destroy(gameObject);
     }
 

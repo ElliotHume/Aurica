@@ -4856,7 +4856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab14f2ffdc8075a49a75a85012620571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 4
+  Damage: 1
   auricaSpell: {fileID: 11400000, guid: 358e9df03dc6e4a7e803c12d9d689607, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -4876,6 +4876,8 @@ MonoBehaviour:
   DeactivateObjectsAfterDuration:
   - {fileID: 6469829141419433482}
   PositionOffset: {x: 0, y: 1, z: 0}
+  statusEffect: {fileID: 0}
+  movementEffect: {fileID: 0}
 --- !u!114 &6469829140295485745
 MonoBehaviour:
   m_ObjectHideFlags: 0

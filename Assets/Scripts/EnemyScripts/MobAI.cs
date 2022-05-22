@@ -167,7 +167,7 @@ public class MobAI : Enemy, IPunObservable {
             }
             return;
         }
-        if (playerOwned) Health -= (0.1f + (1f - (Health/maxHealth))) * Time.deltaTime;
+        if (playerOwned) Health -= ((1f - (Health/maxHealth)) + (1f * Mathf.Clamp(maxHealth/100f, 0f, 1f))) * Time.deltaTime;
 
         // Don't do anything if stunned or there are no valid player targets
         if (stunned || closestPlayer == null) return;

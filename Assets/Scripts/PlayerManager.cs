@@ -69,7 +69,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private Animator animator;
     private string currentSpellCast = "", currentChannelledSpell = "";
     private Transform currentCastingTransform;
-    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, sneaking = false;
+    private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, sneaking = false, respawning = false;
     private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
     private PlayerMovementManager movementManager;
     private HealthBar healthBar, manaBar, boostCooldownBar1, boostCooldownBar2;
@@ -87,6 +87,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     private DamagePopup accumulatingDamagePopup;
     private string lastPlayerToDamageSelf;
+    private float immunityTimer = 0f;
     
 
 
@@ -408,7 +409,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (Health <= 0f && !dead) {
             Die();
         }
-        if (!photonView.IsMine) {
+        if (photonView.IsMine) {
+            if (respawning && !dead && immunityTimer <= 2f) {
+                immunityTimer += Time.deltaTime;
+            } else if (respawning && !dead && immunityTimer > 2f) {
+                respawning = false;
+                immunityTimer = 0f;
+            }
+        } else {
             if (stunned && animator.speed > 0f) {
                 movementManager.Stun(true);
             } else if (!stunned && animator.speed == 0f) {
@@ -447,6 +455,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void Die() {
         if (dead) return;
         dead = true;
+        respawning = true;
         animator.enabled = false;
         RootBone.transform.parent = null;
         healthBar.SetHealth(0);
@@ -580,6 +589,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public void TakeDamage(float damage, ManaDistribution spellDistribution) {
+        if (respawning) return;
         float finalDamage = GetFinalDamage(damage, spellDistribution);
         Health -= finalDamage;
 

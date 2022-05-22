@@ -236,10 +236,13 @@ public class AoESpell : Spell {
     }
 
     void DestroySelf() {
+        StatusEffect[] statusEffects = GetComponents<StatusEffect>();
+        foreach(StatusEffect status in statusEffects) status.ManualDeactivate();
         PhotonNetwork.Destroy(gameObject);
     }
 
     void DisableCollisions() {
+        Debug.Log("Disable Collisions");
         active = false;
         Collider col = GetComponent<Collider>();
         if (col) col.enabled = false;

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6193378498185581893}
   - component: {fileID: 6193378498185581895}
   - component: {fileID: 6193378498185581892}
+  - component: {fileID: 7575565090186188226}
   m_Layer: 0
   m_Name: Particles (2)
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6193378498185581898}
   m_LocalRotation: {x: -0.70710707, y: -0, z: -0, w: 0.70710665}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6341, y: 1.6341, z: 1.6341}
   m_Children: []
   m_Father: {fileID: 7736339835723171465}
   m_RootOrder: 2
@@ -4560,6 +4561,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &7575565090186188226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6193378498185581898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6193378498610423854
 GameObject:
   m_ObjectHideFlags: 0
@@ -4571,6 +4584,7 @@ GameObject:
   - component: {fileID: 6193378498610423849}
   - component: {fileID: 6193378498610423851}
   - component: {fileID: 6193378498610423848}
+  - component: {fileID: 1282647629656388773}
   m_Layer: 0
   m_Name: Distortion (2)
   m_TagString: Untagged
@@ -4587,7 +4601,7 @@ Transform:
   m_GameObject: {fileID: 6193378498610423854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6341, y: 1.6341, z: 1.6341}
   m_Children: []
   m_Father: {fileID: 7736339835723171465}
   m_RootOrder: 3
@@ -9245,6 +9259,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1282647629656388773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6193378498610423854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6193378499619209914
 GameObject:
   m_ObjectHideFlags: 0
@@ -9256,6 +9282,7 @@ GameObject:
   - component: {fileID: 6193378499619209909}
   - component: {fileID: 6193378499619209911}
   - component: {fileID: 6193378499619209908}
+  - component: {fileID: 5293038227082277236}
   m_Layer: 0
   m_Name: ExplosionCore (2)
   m_TagString: Untagged
@@ -9272,7 +9299,7 @@ Transform:
   m_GameObject: {fileID: 6193378499619209914}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12.8446045, y: 12.8446045, z: 12.8446045}
+  m_LocalScale: {x: 20.989368, y: 20.989368, z: 20.989368}
   m_Children: []
   m_Father: {fileID: 7736339835723171465}
   m_RootOrder: 1
@@ -13809,6 +13836,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5293038227082277236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6193378499619209914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7736339834665816499
 GameObject:
   m_ObjectHideFlags: 0
@@ -13820,6 +13859,7 @@ GameObject:
   - component: {fileID: 7736339834665816498}
   - component: {fileID: 7736339834665816496}
   - component: {fileID: 7736339834665816497}
+  - component: {fileID: 6412921515071983729}
   m_Layer: 6
   m_Name: Fog (1)
   m_TagString: Untagged
@@ -18494,6 +18534,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6412921515071983729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736339834665816499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7736339835723171466
 GameObject:
   m_ObjectHideFlags: 0
@@ -18510,6 +18562,7 @@ GameObject:
   - component: {fileID: 8756285022837459405}
   - component: {fileID: 14217189853414308}
   - component: {fileID: 8076896083589325530}
+  - component: {fileID: 475199122665854214}
   m_Layer: 6
   m_Name: Spell_AuraShare
   m_TagString: Spell
@@ -18662,7 +18715,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 7736339835723171470}
-  sceneViewId: 41
+  sceneViewId: 16
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7736339835723171470
@@ -18788,7 +18841,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8076896083589325530
 MonoBehaviour:
@@ -18864,3 +18917,15 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 0
   isManualTriggerOnly: 0
+--- !u!114 &475199122665854214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736339835723171466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

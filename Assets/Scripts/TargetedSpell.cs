@@ -102,6 +102,8 @@ public class TargetedSpell : Spell {
     }
 
     void DestroySelf() {
+        StatusEffect[] statusEffects = GetComponents<StatusEffect>();
+        foreach(StatusEffect status in statusEffects) status.ManualDeactivate();
         PhotonNetwork.Destroy(gameObject);
     }
 

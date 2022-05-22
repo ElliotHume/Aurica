@@ -356,11 +356,11 @@ MonoBehaviour:
   CanHitSelf: 0
   IgnoreNonPlayerCollision: 1
   AimAssistedProjectile: 1
-  AimAssistTurningSpeed: 20
+  AimAssistTurningSpeed: 30
   PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 0
-  TrackingProjectile: 0
-  TrackingTurnSpeed: 0
+  TrackingProjectile: 1
+  TrackingTurnSpeed: 20
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 7
   MaxDistance: 0
@@ -375,6 +375,7 @@ MonoBehaviour:
   NetworkCollisionEffectsOnlyOnHitGround: 0
   DeactivateObjectsOnCollision:
   - {fileID: 2165481531971035296}
+  - {fileID: 6540441557802619557}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}

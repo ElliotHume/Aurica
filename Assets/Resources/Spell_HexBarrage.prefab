@@ -9290,10 +9290,17 @@ MonoBehaviour:
   spawnsEffects: 1
   NetworkedSpawnEffects:
   - Spell_ChaoticBolt
-  SpawnEffectsDelay: 0.5
-  TimeBetweenSpawnEffects: 0.5
+  SpawnEffectsDelay: 0.1
+  TimeBetweenSpawnEffects: 0.4
   MaxNumberOfEffectsSpawned: 0
   RandomSpawnSphereSize: 1
+  SpawnedEffectsFaceAwayFromCenter: 0
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  NetworkSpawnEffectOnParticleCollision: 
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &8851489460088827790
 MonoBehaviour:
   m_ObjectHideFlags: 0
