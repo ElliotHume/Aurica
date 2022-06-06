@@ -5,9 +5,10 @@
 ----
 
 ### Description
-Players face each other or against monsters in multiplayer battles of skilled spell casting. To excel, players must learn the strengths of their own pseudo-randomly generated Aura. A player's Aura is a distribution of mana that will interact with spell casting to make spells stronger or weaker depending on how the spell is composed. The magic system is incredibly deep but retains an ease-of-use that lets casual players have as much fun as the more dedicated players.
+Players face each other in multiplayer battles of skilled spell casting. To excel, players must learn the strengths of their own pseudo-randomly generated Aura.
+A player's Aura is a distribution of mana that will interact with spell casting to make spells stronger or weaker depending on how the spell is composed. The magic system is incredibly deep but retains an ease-of-use that lets casual players have as much fun as the more dedicated players.
 
-There are a wealth of spell options to choose from in each battle, with over 90+ unique spells from 10 different schools of magic, and more are being developed constantly.
+There are a wealth of spell options to choose from in each battle, with over 110+ unique spells from 10 different schools of magic, and more are being developed constantly.
 
 ### Novel features
 The intent of the magic system is to create a novel system for spell-casting that has incredible depth but maintains a low barrier of entry for casual players. Some key features of the system include:
@@ -37,7 +38,7 @@ If you want to face a friend in a PvP match, return to the main menu and type in
 #### Afterword:
 This game is a passion project for developing the Aurica magic system. The game has progressed through multiple prototypes due to the creator's desire to play the game with others and share the game system in a way that players can get engaged in.
 
-Due to the multi-stage prototyping process, and learning more as I go, the code is not well architectured. If the game shows promise when opened up to more players I will go through with an architectural refactoring of the prototype (or I might just start from scratch).
+Due to the multi-stage prototyping process, and learning as I go, the code is not well architectured. If the game shows promise when opened up to more players I will go through with an architectural refactoring of the prototype (or I probably just restart from scratch).
 
 ----
 
