@@ -39,6 +39,11 @@ public class CloudLoadoutManager : MonoBehaviour {
         return loadout;
     }
 
+    public string GetLoadoutKey(string key) {
+        Dictionary<string, string> loadout = GetLoadout();
+        return loadout[key.ToUpper()];
+    }
+
     public void FetchCloudLoadout() {
         fetching = true;
         PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);
@@ -110,11 +115,11 @@ public class CloudLoadoutManager : MonoBehaviour {
 
     public void Bind(string key, string spell) {
         if (key == null || spell == null || key == "" || spell == "") return;
-        Debug.Log("Binding spell: "+spell+"    to key: "+key);
+        Debug.Log("Binding spell: "+spell+"    to key: "+key.ToUpper());
 
         var request = new UpdateUserDataRequest {
             Data = new Dictionary<string, string> {
-                {("LoadoutKey"+key), spell}
+                {("LoadoutKey"+key.ToUpper()), spell}
             }
         };
 

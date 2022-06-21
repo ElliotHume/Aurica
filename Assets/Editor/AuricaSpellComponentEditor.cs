@@ -153,16 +153,25 @@ public class AuricaSpellComponentEditor : Editor {
                 string[] splitStr = importString.Split(stringSeperator, System.StringSplitOptions.None);
                 splitStr[0] = splitStr[0].Replace("\"", "").Replace("(", "");
                 splitStr[1] = splitStr[1].Replace("\"", "");
-                splitStr[2] = splitStr[2].Replace("\"", "").Replace(")", "");
+                splitStr[2] = splitStr[2].Replace("\"", "");
+                splitStr[3] = splitStr[3].Replace("\"", "");
+                splitStr[4] = splitStr[4].Replace("\"", "");
+                splitStr[5] = splitStr[5].Replace("\"", "").Replace(")", "");
 
                 component.c_name = splitStr[0];
                 Debug.Log("Name: " + component.c_name);
                 component.description = splitStr[1];
                 Debug.Log("Description: " + component.description);
 
-                splitStr[2] = splitStr[2].Substring(1, splitStr[2].Length - 2);
+                component.manaCostMultiplier = float.Parse(splitStr[2]);
+
+                component.category = (AuricaSpellComponent.Category)System.Enum.Parse( typeof(AuricaSpellComponent.Category), splitStr[3] );
+
+                component.classification = (AuricaSpellComponent.Classification)System.Enum.Parse( typeof(AuricaSpellComponent.Classification), splitStr[4] );
+
+                splitStr[5] = splitStr[5].Substring(1, splitStr[5].Length - 2);
                 string[] distributionSeperator = new string[] { "], [" };
-                string[] splitDistributions = splitStr[2].Split(distributionSeperator, System.StringSplitOptions.None);
+                string[] splitDistributions = splitStr[5].Split(distributionSeperator, System.StringSplitOptions.None);
                 int iter = 0;
                 component.hasBasicDistribution = false;
                 component.hasAuricDistribution = false;
@@ -183,12 +192,25 @@ public class AuricaSpellComponentEditor : Editor {
                         component.fluxDistribution = new ManaDistribution(item);
                         Debug.Log("Flux dist: " + component.fluxDistribution.ToString());
                         if (component.fluxDistribution.IsEmpty()) component.hasFluxDistribution = false;
+                    } else if (iter == 3) {
+                        component.hasSiphonDistribution = true;
+                        component.siphonDistribution = new ManaDistribution(item);
+                        Debug.Log("Siphon dist: " + component.siphonDistribution.ToString());
+                        if (component.siphonDistribution.IsEmpty()) component.hasSiphonDistribution = false;
                     }
                     iter += 1;
                 }
-            }
+        }
             Undo.RecordObject(target, "Import values");
         }
+
+        // TEMPLATE: "name", "description", "manaMultiplier", "category", "classification", [0.15, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], [0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        string exportString = "";
+        ManaDistribution zeroDist = new ManaDistribution();
+        exportString += "\""+component.name+"\""+", \""+component.description+"\", \""+component.manaCostMultiplier+"\", \""+component.category+"\", \""+component.classification+"\", ["+(component.hasBasicDistribution ? component.basicDistribution.ToString() : zeroDist.ToString())+"], ["+(component.hasAuricDistribution ? component.auricDistribution.ToString() : zeroDist.ToString())+"], ["+(component.hasFluxDistribution ? component.fluxDistribution.ToString() : zeroDist.ToString())+"], ["+(component.hasSiphonDistribution ? component.siphonDistribution.ToString() : zeroDist.ToString())+"]";
+
+        string export = EditorGUILayout.TextField("String: ", exportString);
+
         EditorUtility.SetDirty(target);
     }
 }

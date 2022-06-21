@@ -328,6 +328,13 @@ public class AuricaCaster : MonoBehaviourPun {
         }
     }
 
+    public string GetCachedSpellText(string key) {
+        if (cachedSpells.ContainsKey(key)) {
+            return cachedSpells[key].componentsByName;
+        }
+        return "";
+    }
+
     public float GetManaCost() {
         if (currentSpellMatch != null) {
             return (currentSpellMatch.baseManaCost + (currentSpellMatch.componentManaMultiplier * currentManaCost)) * GameManager.GLOBAL_MANA_COST_MULTIPLIER;
