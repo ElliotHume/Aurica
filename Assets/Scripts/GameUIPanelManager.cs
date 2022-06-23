@@ -26,13 +26,13 @@ public class GameUIPanelManager : MonoBehaviour {
         if (IsEditingInputField) return;
         
         // Bring up the Aura display menu
-        if (Input.GetKeyDown("`")) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.AuraMenu)) {
             auraPanel.SetActive(!auraPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
 
         // Bring up the spell crafting menu
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.CraftingMenu)) {
             if (infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy) {
                 infoPanel.SetActive(false);
                 spellListPanel.SetActive(false);
@@ -50,13 +50,13 @@ public class GameUIPanelManager : MonoBehaviour {
         }
 
         // Bring up spell list menu
-        if (Input.GetKeyDown("z")) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.GrimoireMenu)) {
             spellListPanel.SetActive(!spellListPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
 
         // Bring up cultivation menu
-        if (Input.GetKeyDown("x")) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.CultivationMenu)) {
             if (cultivationPanel.activeInHierarchy) {
                 cultivationPanel.GetComponent<RewardsUIPanel>().ClosePanel();
             } else {
@@ -66,19 +66,19 @@ public class GameUIPanelManager : MonoBehaviour {
         }
 
         // Bring up the info menus
-        if (Input.GetKeyDown("i")) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.InfoMenu)) {
             infoPanel.SetActive(!infoPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
 
         // Bring up the personal class loadout menu
-        if (Input.GetKeyDown("l")) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.LoadoutMenu)) {
             cloudLoadoutPanel.SetActive(!cloudLoadoutPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
 
         // Bring up the spell mastery loadout menu
-        if (Input.GetKeyDown("m")) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.MasteryMenu)) {
             masteryPanel.SetActive(!masteryPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
         }
@@ -92,7 +92,7 @@ public class GameUIPanelManager : MonoBehaviour {
             if (!glyphDrawingToggledOn) glyphDrawingFrame.SetActive(false);
         }
         // If no menus are open, and the player presses the LeftAlt button, toggle the glyphdrawing menu
-        if (Input.GetKeyDown(KeyCode.LeftControl)) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
             if (!(spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy)) {
                 if (!glyphDrawingFrame.activeInHierarchy && !spellCraftingPanel.activeInHierarchy && !infoPanel.activeInHierarchy && !cultivationPanel.activeInHierarchy && !spellListPanel.activeInHierarchy && !auraPanel.activeInHierarchy) {
                     glyphDrawingFrame.SetActive(true);

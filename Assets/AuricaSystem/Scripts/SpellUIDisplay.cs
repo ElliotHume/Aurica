@@ -32,28 +32,28 @@ public class SpellUIDisplay : MonoBehaviour {
 
     void Update() {
         if (Input.GetKey(KeyCode.LeftShift)) {
-            if (Input.GetKeyDown("1")) {
+            if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
                 AuricaCaster.LocalCaster.CastBindSlot("1");
                 CheckComponents();
-            } else if (Input.GetKeyDown("2")) {
+            } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2))) {
                 AuricaCaster.LocalCaster.CastBindSlot("2");
                 CheckComponents();
-            } else if (Input.GetKeyDown("3")) {
+            } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3))) {
                 AuricaCaster.LocalCaster.CastBindSlot("3");
                 CheckComponents();
-            } else if (Input.GetKeyDown("4")) {
+            } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot4))) {
                 AuricaCaster.LocalCaster.CastBindSlot("4");
                 CheckComponents();
-            } else if (Input.GetKeyDown("e")) {
+            } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE))) {
                 AuricaCaster.LocalCaster.CastBindSlot("e");
                 CheckComponents();
-            } else if (Input.GetKeyDown("q")) {
+            } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ))) {
                 AuricaCaster.LocalCaster.CastBindSlot("q");
                 CheckComponents();
-            } else if (Input.GetKeyDown("r")) {
+            } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR))) {
                 AuricaCaster.LocalCaster.CastBindSlot("r");
                 CheckComponents();
-            } else if (Input.GetKeyDown("f")) {
+            } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF))) {
                 AuricaCaster.LocalCaster.CastBindSlot("f");
                 CheckComponents();
             }

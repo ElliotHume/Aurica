@@ -677,30 +677,38 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (silenced || stunned || !photonView.IsMine) return;
 
         if (movementManager.CanCast()) {
-            if (Input.GetKeyDown("1")) {
+            if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("1"));
-            } else if (Input.GetKeyDown("2")) {
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("2"));
-            } else if (Input.GetKeyDown("3")) {
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("3"));
-            } else if (Input.GetKeyDown("4")) {
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot4)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("4"));
-            } else if (Input.GetKeyDown("e")) {
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("e"));
-            } else if (Input.GetKeyDown("q")) {
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("q"));
-            } else if (Input.GetKeyDown("r")) {
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("r"));
-            } else if (Input.GetKeyDown("f")) {
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF)) {
                 CastAuricaSpell(auricaCaster.CastBindSlot("f"));
             }
-        } else if (isChannelling && (Input.GetKeyDown("1") || Input.GetKeyDown("2") || Input.GetKeyDown("3") || Input.GetKeyDown("4") || Input.GetKeyDown("e") || Input.GetKeyDown("q") || Input.GetKeyDown("r") || Input.GetKeyDown("f"))) {
+        } else if (isChannelling && (
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot4) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF))) {
             StopChannelling();
             auricaCaster.ResetCast();
         }
 
         // Use Boost
-        if (Input.GetKeyDown("h") || Input.GetKeyDown("c") || Input.GetKeyDown(KeyCode.Mouse3) || Input.GetKeyDown(KeyCode.Mouse2)) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Boost) || Input.GetKeyDown(KeyCode.Mouse2)) {
             if (hasBoost && !stunned && !silenced && !isShielded) {
                 movementManager.Boost();
                 PhotonNetwork.Instantiate("XCollision_Boost", transform.position, transform.rotation);
@@ -725,7 +733,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown("g")) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Cast)) {
             if (!isChannelling) {
                 if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.CastFinal());
             } else {

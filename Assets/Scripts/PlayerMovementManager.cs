@@ -104,12 +104,12 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (Input.GetButtonDown("Jump") && !isRooted && !isStunned && !isChannelling && !isBeingDisplaced && !jumping && Grounded && !groundedStatusEffect) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Jump) && !isRooted && !isStunned && !isChannelling && !isBeingDisplaced && !jumping && Grounded && !groundedStatusEffect) {
             animator.SetTrigger("Jump");
             jumping = true;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift)) {
+        if (InputManager.Instance.GetKey(KeybindingActions.Sneak)) {
             if (running) {
                 movementSpeed /= 3f;
                 playerManager.Sneak();

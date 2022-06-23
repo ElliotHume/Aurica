@@ -82673,6 +82673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1831540787}
   - component: {fileID: 1831540786}
+  - component: {fileID: 1831540788}
   m_Layer: 0
   m_Name: Directional Light (3)
   m_TagString: Untagged
@@ -82726,7 +82727,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -82756,6 +82757,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 27.061, y: -35.461, z: 58.054}
+--- !u!114 &1831540788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831540785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1831631531
 GameObject:
   m_ObjectHideFlags: 0
@@ -91761,6 +91774,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2043661025}
   - component: {fileID: 2043661024}
+  - component: {fileID: 2043661026}
   m_Layer: 0
   m_Name: Directional Light (2)
   m_TagString: Untagged
@@ -91814,7 +91828,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -91844,6 +91858,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &2043661026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043661023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2048145733
 PrefabInstance:
   m_ObjectHideFlags: 0

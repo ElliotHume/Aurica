@@ -152,16 +152,6 @@ public class PlayerLook : MonoBehaviourPun
         transform.Rotate(new Vector3(0, xExtra, 0));
         camera.transform.Rotate(new Vector3(-yExtra, 0, 0));
 
-        if (Input.GetKey(KeyCode.RightShift)) {
-            if (Input.GetKeyDown("h")) {
-                QualitySettings.SetQualityLevel(5, true);
-            } else if (Input.GetKeyDown("m")) {
-                QualitySettings.SetQualityLevel(3, true);
-            } else if (Input.GetKeyDown("l")) {
-                QualitySettings.SetQualityLevel(0, true);
-            }
-        }
-
         float forwardVelocity = (Vector3.Project(playerCharacterController.velocity, transform.forward)).magnitude;
         if (forwardVelocity > 15f) {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 75f, (forwardVelocity / 15f) * Time.deltaTime);

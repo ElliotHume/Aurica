@@ -23,14 +23,6 @@ public class ComponentUIDisplay : MonoBehaviour {
         allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
     }
 
-    void Update() {
-        if ((Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown("=")) {
-            if (component != null) {
-                onComponentCast.Invoke();
-            }
-        }
-    }
-
     public void UpdateComponent(AuricaSpellComponent c) {
         if (isHidden) Show();
         ActivateCP(c);
