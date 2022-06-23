@@ -151,6 +151,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
                 // Debug.Log("Forwards acc: "+forwardsAcceleration+"  sidways: "+sidewaysAcceleration+"   vec: "+Vector3.ClampMagnitude((transform.forward * v * forwardsAcceleration + transform.right * h * sidewaysAcceleration), 0.33f));
                 characterController.Move((Vector3.ClampMagnitude((transform.forward * v + transform.right * h), 0.8f) + Vector3.ClampMagnitude((transform.forward * v * Mathf.Abs(forwardsAcceleration) + transform.right * h * Mathf.Abs(sidewaysAcceleration)), 0.5f)) * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
             } else {
+                forwardsAcceleration = 0f;
+                sidewaysAcceleration = 0f;
                 characterController.Move(Vector3.ClampMagnitude((transform.forward * v + transform.right * h), 0.7f) * movementSpeed * Time.deltaTime * GameManager.GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER);
             }
         }

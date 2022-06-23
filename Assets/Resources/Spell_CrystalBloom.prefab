@@ -97,7 +97,7 @@ MonoBehaviour:
   ParticleCollisions: 1
   DamagePerParticle: 20
   collisionParticles: {fileID: 919553133327374644}
-  NetworkSpawnEffectOnParticleCollision: 
+  NetworkSpawnEffectOnParticleCollision: XCollision_CrystalBloom
   particleCollisionSound: {fileID: 8300000, guid: c9f7664bc65c9ba4f8a78fecb69fb56f,
     type: 3}
   clipVolume: 0.66
@@ -1039,7 +1039,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 120
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2

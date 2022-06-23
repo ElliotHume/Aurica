@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class TipWindow : MonoBehaviour {
     public static TipWindow Instance;
@@ -9,6 +10,7 @@ public class TipWindow : MonoBehaviour {
     public GameObject TipPanel;
     public Text title, text;
     public float closeDelay = 8f;
+    public UnityEvent OnClose;
 
     Coroutine hideRoutine;
     private float setCloseDelay = 0f;
@@ -38,7 +40,7 @@ public class TipWindow : MonoBehaviour {
     IEnumerator HideTip() {
         float timer = setCloseDelay > 0f ? setCloseDelay : closeDelay;
         yield return new WaitForSeconds(timer);
-        TipPanel.SetActive(false);
+        OnClose.Invoke();
         hideRoutine = null;
     }
 

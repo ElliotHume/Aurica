@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6193378498185581898}
   m_LocalRotation: {x: -0.70710707, y: -0, z: -0, w: 0.70710665}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6341, y: 1.6341, z: 1.6341}
+  m_LocalScale: {x: 2.1445928, y: 2.1445928, z: 2.1445928}
   m_Children: []
   m_Father: {fileID: 7736339835723171465}
   m_RootOrder: 2
@@ -4601,7 +4601,7 @@ Transform:
   m_GameObject: {fileID: 6193378498610423854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6341, y: 1.6341, z: 1.6341}
+  m_LocalScale: {x: 2.1445928, y: 2.1445928, z: 2.1445928}
   m_Children: []
   m_Father: {fileID: 7736339835723171465}
   m_RootOrder: 3
@@ -9282,7 +9282,7 @@ GameObject:
   - component: {fileID: 6193378499619209909}
   - component: {fileID: 6193378499619209911}
   - component: {fileID: 6193378499619209908}
-  - component: {fileID: 5293038227082277236}
+  - component: {fileID: 1377220709649803243}
   m_Layer: 0
   m_Name: ExplosionCore (2)
   m_TagString: Untagged
@@ -9299,7 +9299,7 @@ Transform:
   m_GameObject: {fileID: 6193378499619209914}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20.989368, y: 20.989368, z: 20.989368}
+  m_LocalScale: {x: 27.546446, y: 27.546446, z: 27.546446}
   m_Children: []
   m_Father: {fileID: 7736339835723171465}
   m_RootOrder: 1
@@ -13836,7 +13836,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &5293038227082277236
+--- !u!114 &1377220709649803243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13859,7 +13859,7 @@ GameObject:
   - component: {fileID: 7736339834665816498}
   - component: {fileID: 7736339834665816496}
   - component: {fileID: 7736339834665816497}
-  - component: {fileID: 6412921515071983729}
+  - component: {fileID: 665879453016719160}
   m_Layer: 6
   m_Name: Fog (1)
   m_TagString: Untagged
@@ -18534,7 +18534,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &6412921515071983729
+--- !u!114 &665879453016719160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18562,7 +18562,7 @@ GameObject:
   - component: {fileID: 8756285022837459405}
   - component: {fileID: 14217189853414308}
   - component: {fileID: 8076896083589325530}
-  - component: {fileID: 475199122665854214}
+  - component: {fileID: 4071812708147603303}
   m_Layer: 6
   m_Name: Spell_AuraShare
   m_TagString: Spell
@@ -18841,7 +18841,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8076896083589325530
 MonoBehaviour:
@@ -18917,7 +18917,7 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 0
   isManualTriggerOnly: 0
---- !u!114 &475199122665854214
+--- !u!114 &4071812708147603303
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
