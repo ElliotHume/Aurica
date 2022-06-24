@@ -13733,14 +13733,15 @@ MonoBehaviour:
   spawnsEffects: 1
   NetworkedSpawnEffects:
   - Spell_BoulderToss
-  SpawnEffectsDelay: 0.5
-  TimeBetweenSpawnEffects: 1
+  SpawnEffectsDelay: 0
+  TimeBetweenSpawnEffects: 0.75
   MaxNumberOfEffectsSpawned: 0
   RandomSpawnSphereSize: 0
   SpawnedEffectsFaceAwayFromCenter: 0
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
+  NetworkSpawnEffectOnParticleCollision: 
   particleCollisionSound: {fileID: 0}
   clipVolume: 0
 --- !u!114 &2802628485053071065

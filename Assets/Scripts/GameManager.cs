@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance;
     [Tooltip("The prefab to use for representing the player")]
     public GameObject playerPrefab;
+    public Transform StartingPosition;
     public Transform SceneSpawnPoint;
     public float RespawnTimer = 5.0f;
 
@@ -64,8 +65,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                 if (PhotonNetwork.IsConnected) {
-                    Vector3 position = SceneSpawnPoint != null ? SceneSpawnPoint.position : transform.position;
-                    Quaternion rotation = SceneSpawnPoint != null ? SceneSpawnPoint.rotation : transform.rotation;
+                    Vector3 position = StartingPosition != null ? StartingPosition.position : (SceneSpawnPoint != null ? SceneSpawnPoint.position : transform.position);
+                    Quaternion rotation = StartingPosition != null ? StartingPosition.rotation : (SceneSpawnPoint != null ? SceneSpawnPoint.rotation : transform.rotation);
                     PhotonNetwork.Instantiate(this.playerPrefab.name, position + (UnityEngine.Random.insideUnitSphere), rotation, 0);
                 } else {
                     // Go back to the launcher, as the connection has failed at some point (or you are loading the game from the wrong scene)

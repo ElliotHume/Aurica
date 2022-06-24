@@ -4578,7 +4578,7 @@ MonoBehaviour:
   SpellStrengthChangesScalingSpeed: 0
   StartTimeDelay: 0
   DestroyTimeDelay: 6
-  MoveSpeed: 6
+  MoveSpeed: 9
   DamageScalingRate: 1
   ScalingFactor: 0
   ScalingLimit: 0
@@ -4593,9 +4593,11 @@ MonoBehaviour:
   TimeBetweenSpawnEffects: 0
   MaxNumberOfEffectsSpawned: 0
   RandomSpawnSphereSize: 0
+  SpawnedEffectsFaceAwayFromCenter: 0
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
+  NetworkSpawnEffectOnParticleCollision: 
   particleCollisionSound: {fileID: 0}
   clipVolume: 0
 --- !u!114 &2602017314133456980

@@ -14629,25 +14629,25 @@ MonoBehaviour:
   silenceDuration: 0
   stun: 0
   stunDuration: 0
-  weaken: 1
-  weakenDuration: 30
+  weaken: 0
+  weakenDuration: 0
   weakenDistribution:
     structure: 0
     essence: 0
     fire: 0
-    water: 0.5
-    earth: 0.5
+    water: 0
+    earth: 0
     air: 0
     nature: 0
   strengthen: 1
   strengthenDuration: 30
   strengthenDistribution:
-    structure: 0
+    structure: 0.1
     essence: 0.33
     fire: 0.33
-    water: 0
-    earth: 0
-    air: 0
+    water: 0.1
+    earth: 0.1
+    air: 0.1
     nature: 0.33
   fragile: 0
   fragileDuration: 0

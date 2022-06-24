@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     protected float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     protected DamagePopup accumulatingDamagePopup;
     protected bool didLocalPlayerParticipate = false, playerOwned = false;
+    protected float spellStrength=0f;
 
     // States
     public float sightRange = 10f, attackRange = 3f, walkingSpeed = 2f, runningSpeed = 4f;
@@ -246,6 +247,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
     public void SetStrength(float strengthMultiplier) {
         maxHealth *= strengthMultiplier;
         Health *= strengthMultiplier;
+        spellStrength = strengthMultiplier;
         photonView.RPC("SetMaxHealthBar", RpcTarget.All, maxHealth);
     }
 

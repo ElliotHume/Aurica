@@ -21,8 +21,8 @@ public class DebugPlayer : MonoBehaviourPun
                 CastDebugSpell("Spell_AuricBolt");
             } else if (Input.GetKeyDown("v")) {
                 CastDebugSpell("Spell_CMB_Condense");
-            } else if (Input.GetKeyDown("l")) {
-                CastDebugSpell("Spell_Judgement");
+            } else if (Input.GetKeyDown("k")) {
+                CastDebugSpell("Spell_Dissolution");
             } else if (Input.GetKeyDown("j")) {
                 CastDebugSpell("Spell_ManaRealm_Chaos");
             }

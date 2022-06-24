@@ -302,6 +302,7 @@ public class MobAI : Enemy, IPunObservable {
         if (spell != null) {
             spell.SetSpellDamageModifier(new ManaDistribution() + strengths - weaknesses);
             spell.SetOwner(gameObject, false);
+            if (spellStrength != 0f) spell.SetSpellStrength(spellStrength);
         } else {
             Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
         }

@@ -23929,8 +23929,8 @@ MonoBehaviour:
   DestroyTimeDelay: 6
   MoveSpeed: 5
   DamageScalingRate: 2
-  ScalingFactor: 0.2
-  ScalingLimit: 1.5
+  ScalingFactor: 0.3
+  ScalingLimit: 1.7
   PositionOffset: {x: 0, y: 1, z: 0}
   DeactivateObjectsAfterChannel:
   - {fileID: 1618910035797680235}
@@ -23948,6 +23948,7 @@ MonoBehaviour:
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
+  NetworkSpawnEffectOnParticleCollision: 
   particleCollisionSound: {fileID: 0}
   clipVolume: 0
 --- !u!114 &7458834175787316984

@@ -9900,6 +9900,13 @@ MonoBehaviour:
   TimeBetweenSpawnEffects: 0
   MaxNumberOfEffectsSpawned: 0
   RandomSpawnSphereSize: 0
+  SpawnedEffectsFaceAwayFromCenter: 0
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  NetworkSpawnEffectOnParticleCollision: 
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &6844821327728173492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10012,7 +10019,7 @@ MonoBehaviour:
   healFlatAmount: 0
   healPercentAmount: 0
   manaDrain: 1
-  manaDrainFlatAmount: 10
+  manaDrainFlatAmount: 15
   manaDrainPercentAmount: 20
   camouflage: 0
   camouflageDuration: 0

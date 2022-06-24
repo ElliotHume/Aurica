@@ -14979,7 +14979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67083e10f3215ad418e8832567fcb580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 3
   auricaSpell: {fileID: 11400000, guid: 67b6261503fcf1b469da6c9de87508bc, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -14990,9 +14990,9 @@ MonoBehaviour:
   TurnToAimPoint: 0
   IsChannel: 0
   IsSelfTargeted: 0
-  IsOpponentTargeted: 0
+  IsOpponentTargeted: 1
   LastingDamage: 50
-  OneShotEffect: 0
+  OneShotEffect: 1
   LastingEffect: 1
   attachToTarget: 0
   canHitSelf: 1
@@ -15011,6 +15011,11 @@ MonoBehaviour:
   - {fileID: 2554990099123764421}
   - {fileID: 2555265698123381201}
   EffectsOnDelayedStartup: []
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!54 &1731846032461455095
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -49,6 +49,18 @@ public class ShieldSpell : Spell, IPunObservable {
         }
     }
 
+    [PunRPC]
+    public void Dispel() {
+        if (!photonView.IsMine || broken) return;
+        broken = true;
+        PlayerManager owner = PlayerManager.LocalPlayerGameObject.GetComponent<PlayerManager>();
+        if (owner != null) {
+            PhotonView pv = PhotonView.Get(owner);
+            if (pv != null) pv.RPC("BreakShield", RpcTarget.All);
+        }
+        PhotonNetwork.Destroy(gameObject);
+    }
+
     public void Break() {
         if (broken) return;
         broken = true;
