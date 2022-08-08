@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameUIPanelManager : MonoBehaviour {
     public static GameUIPanelManager Instance;
-    public GameObject spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel, cloudLoadoutPanel, masteryPanel;
+    public GameObject menuPanel, spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel, cloudLoadoutPanel, masteryPanel;
 
     [HideInInspector]
     public bool glyphDrawingToggledOn = false;
@@ -24,16 +24,11 @@ public class GameUIPanelManager : MonoBehaviour {
 
     void Update() {
         if (IsEditingInputField) return;
-        
-        // Bring up the Aura display menu
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.AuraMenu)) {
-            auraPanel.SetActive(!auraPanel.activeInHierarchy);
-            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
-        }
 
-        // Bring up the spell crafting menu
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.CraftingMenu)) {
-            if (infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy) {
+        // Bring up the Menu
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Menu)) {
+            if (spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy) {
+                spellCraftingPanel.SetActive(false);
                 infoPanel.SetActive(false);
                 spellListPanel.SetActive(false);
                 auraPanel.SetActive(false);
@@ -44,6 +39,19 @@ public class GameUIPanelManager : MonoBehaviour {
                 masteryPanel.SetActive(false);
                 return;
             }
+            menuPanel.SetActive(!menuPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!menuPanel.activeInHierarchy);
+            glyphDrawingToggledOn = false;
+        }
+        
+        // Bring up the Aura display menu
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.AuraMenu)) {
+            auraPanel.SetActive(!auraPanel.activeInHierarchy);
+            glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+        }
+
+        // Bring up the spell crafting menu
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.CraftingMenu)) {
             spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
             glyphDrawingToggledOn = false;

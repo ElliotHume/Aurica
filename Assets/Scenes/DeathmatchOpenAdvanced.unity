@@ -38367,6 +38367,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 764578073}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &768289745 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2019318733, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &770277207
 GameObject:
   m_ObjectHideFlags: 0
@@ -38471,6 +38483,9 @@ MonoBehaviour:
   blueSidePlayerCountText: {fileID: 1597847951}
   redSidePlayerCountText: {fileID: 861801996}
   rewardsText: {fileID: 1166636569}
+  deathmatchText: {fileID: 1166636557}
+  redSideText: {fileID: 1166636556}
+  blueSideText: {fileID: 1166636555}
   blueSidePlayerMaterial: {fileID: 2100000, guid: ec4e3847523bb844499342c7de73a9b4,
     type: 2}
   redSidePlayerMaterial: {fileID: 2100000, guid: 3fbade09b83e6684c85f132da96a79bd,
@@ -38483,6 +38498,8 @@ MonoBehaviour:
   victoryText: {fileID: 1166636568}
   defeatText: {fileID: 1166636567}
   teamSelectPanel: {fileID: 1127915117}
+  blueSideTeamSelectButton: {fileID: 768289745}
+  redSideTeamSelectButton: {fileID: 1536350731}
   ToggleObjects:
   - {fileID: 452295827}
   LivesPerPlayer: 1
@@ -56570,6 +56587,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+--- !u!1 &1166636555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5788461467489427280, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166636556 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5728616387680158345, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166636557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8866902363010243361, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1166636559 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1428337444, guid: 49d05c70d726ef843b55f895a94a3e24,
@@ -69761,6 +69796,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1535386082}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1536350731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1138143005, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1166636554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1538833033
 GameObject:
   m_ObjectHideFlags: 0

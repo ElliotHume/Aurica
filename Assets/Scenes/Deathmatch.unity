@@ -9216,9 +9216,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49d05c70d726ef843b55f895a94a3e24, type: 3}
+--- !u!114 &253344723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1138143005, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 253344722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &253344724 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2019318733, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 253344722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &253344725 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5788461467489427280, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 253344722}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &253344726 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5728616387680158345, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 253344722}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &253344727 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 227797169, guid: 49d05c70d726ef843b55f895a94a3e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 253344722}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &253344728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8866902363010243361, guid: 49d05c70d726ef843b55f895a94a3e24,
     type: 3}
   m_PrefabInstance: {fileID: 253344722}
   m_PrefabAsset: {fileID: 0}
@@ -28474,6 +28516,9 @@ MonoBehaviour:
   blueSidePlayerCountText: {fileID: 253344731}
   redSidePlayerCountText: {fileID: 253344730}
   rewardsText: {fileID: 1237690410}
+  deathmatchText: {fileID: 253344728}
+  redSideText: {fileID: 253344726}
+  blueSideText: {fileID: 253344725}
   blueSidePlayerMaterial: {fileID: 2100000, guid: dcf1c8ebc26cef840a13f1b3c0a50f63,
     type: 2}
   redSidePlayerMaterial: {fileID: 2100000, guid: 3fbade09b83e6684c85f132da96a79bd,
@@ -28486,6 +28531,8 @@ MonoBehaviour:
   victoryText: {fileID: 851857149}
   defeatText: {fileID: 2136492219}
   teamSelectPanel: {fileID: 253344729}
+  blueSideTeamSelectButton: {fileID: 253344724}
+  redSideTeamSelectButton: {fileID: 253344723}
   ToggleObjects:
   - {fileID: 1146005986}
   LivesPerPlayer: 1

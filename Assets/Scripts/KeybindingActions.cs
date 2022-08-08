@@ -21,5 +21,6 @@ public enum KeybindingActions {
     MasteryMenu,
     LoadoutMenu,
     InfoMenu,
-    GlyphCastingMenu
+    GlyphCastingMenu,
+    Menu
 }

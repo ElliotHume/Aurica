@@ -8,8 +8,9 @@ public class CursorLocking : MonoBehaviour {
     {
         // check manually. Linq.Any() is HEAVY(!) on GC and performance
         foreach (GameObject go in windowsThatUnlockCursor)
-            if (go.activeSelf)
+            if (go.activeSelf) {
                 return true;
+            }
         return false;
     }
 

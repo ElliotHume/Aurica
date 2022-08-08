@@ -720,7 +720,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown("g")) {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown("j")) {
             boostCharge1 = BoostCooldown;
             boostCharge2 = BoostCooldown;
         }

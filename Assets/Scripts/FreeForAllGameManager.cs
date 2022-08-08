@@ -58,7 +58,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         var ts = TimeSpan.FromSeconds(TimerSeconds);
         timerText.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
-        scoreText.text = "Point victory: "+PointLimit;
+        scoreText.text = "POINT CAP: "+PointLimit;
     }
 
     void FixedUpdate() {
@@ -103,7 +103,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (photonView.IsMine) StartCoroutine(StartTimer());
 
         readyButton.SetActive(false);
-        scoreText.text = "Score: 0";
+        scoreText.text = "SCORE: 0";
 
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
 
@@ -139,7 +139,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             if (killerID == localPlayer.GetUniqueName()){
                 score += PointsForKill;
-                scoreText.text = "Score: "+score;
+                scoreText.text = "SCORE: "+score;
                 photonView.RPC("SendScore", RpcTarget.All, localPlayer.GetUniqueName(), score);
             }
         }
@@ -150,6 +150,11 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         photonView.RPC("SendScore", RpcTarget.All, playerName, playerScores[playerName]+PointsForObjective);
     }
 
+    public void ScorePointsForLocalPlayer(float points) {
+        if (!matchStarted) return;
+        photonView.RPC("SendScore", RpcTarget.All, localPlayer.GetUniqueName(), playerScores[localPlayer.GetUniqueName()]+points);
+    }
+
     [PunRPC]
     public void SendScore(string playerID, float remoteScore){
         Debug.Log("Set player ["+playerID+"] score to: "+remoteScore);
@@ -158,7 +163,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (remoteScore < score) return;
             score = remoteScore;
             playerScores[playerID] = remoteScore;
-            scoreText.text = "Score: "+score;
+            scoreText.text = "SCORE: "+score;
         } else {
             playerScores[playerID] = remoteScore;
         }
@@ -194,7 +199,9 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         matchStarted = false;
         score = 0f;
-        scoreText.text = "Score: "+score;
+        scoreText.text = "POINT CAP: "+PointLimit;
+        var ts = TimeSpan.FromSeconds(TimerSeconds);
+        timerText.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
         if (MatchMusic != null) MatchMusic.Stop();
 
