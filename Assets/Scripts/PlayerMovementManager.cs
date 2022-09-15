@@ -222,10 +222,9 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         jumpSource.clip = jumpingSounds[1];
         jumpSource.Play();
         jumping = false;
-    }
 
-    public void EndJump() {
-        jumping = false;
+        forwardsAcceleration = 0f;
+        sidewaysAcceleration = 0f;
     }
 
     private void GroundedCheck() {

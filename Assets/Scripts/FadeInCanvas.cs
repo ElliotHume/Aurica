@@ -19,8 +19,16 @@ public class FadeInCanvas : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate() {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, layerMask);
-        fadeIn = hitColliders.Length > 0;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        fadeIn = false;
+        foreach(var player in players) {
+            if (Vector3.Distance(player.transform.position, transform.position) < radius) {
+                fadeIn = true;
+                break;
+            }
+        }
+        // Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, layerMask);
+        // fadeIn = hitColliders.Length > 0;
     }
 
     void Update() {

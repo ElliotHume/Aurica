@@ -5,11 +5,19 @@ using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 
-public class CharacterUI : MonoBehaviour {
+public class CharacterUI : MonoBehaviourPun {
 
     [Tooltip("UI Text to display Player's Name")]
     [SerializeField]
     private TMP_Text playerNameText;
+
+    [Tooltip("UI Text to display Player's title")]
+    [SerializeField]
+    private TMP_Text playerTitleText;
+
+    [Tooltip("UI Text to display status effects")]
+    [SerializeField]
+    private TMP_Text statusEffectText;
 
     [Tooltip("UI Slider to display Player's Health")]
     [SerializeField]
@@ -20,7 +28,7 @@ public class CharacterUI : MonoBehaviour {
 
     public Color baseColor = Color.white, statusEffectColor = Color.yellow;
 
-
+    private string playerTitle, playerTitleColour;
     private PlayerManager target;
     private bool hidden = false, showingBoost = true;
     private Color initialColor;
@@ -30,6 +38,18 @@ public class CharacterUI : MonoBehaviour {
     void Awake() {
         cam = Camera.main.transform;
         initialColor = baseColor;
+    }
+
+    public void SetTitle(string title, string titleColour) {
+        playerTitle = title;
+        playerTitleColour = titleColour;
+        playerTitleText.text = playerTitle;
+
+        if (playerTitleColour == "" || playerTitleColour == null) return;
+        string[] colourSeperator = new string[] { ", " };
+        string[] splitColour = playerTitleColour.Split(colourSeperator, System.StringSplitOptions.None);
+        Color newColor = new Color(float.Parse(splitColour[0])/255f, float.Parse(splitColour[1])/255f, float.Parse(splitColour[2])/255f);
+        playerTitleText.color = newColor;
     }
 
     void FixedUpdate() {
@@ -95,22 +115,22 @@ public class CharacterUI : MonoBehaviour {
     }
 
     public void SetStatusEffect(string status) {
-        if (playerNameText != null) {
-            playerNameText.text = status;
-            playerNameText.color = statusEffectColor;
+        if (statusEffectText != null) {
+            statusEffectText.text = status;
         }
     }
 
     public void ResetStatusEffects() {
-        if (playerNameText != null) {
-            playerNameText.text = target.photonView.Owner.NickName;
-            playerNameText.color = baseColor;
+        if (statusEffectText != null) {
+            statusEffectText.text = "";
         }
     }
 
     public void Hide() {
         if (hidden) return;
         playerNameText.gameObject.SetActive(false);
+        playerTitleText.gameObject.SetActive(false);
+        statusEffectText.gameObject.SetActive(false);
         playerHealthSlider.gameObject.SetActive(false);
         boostIndicatorContainer.SetActive(false);
         hidden = true;
@@ -119,6 +139,8 @@ public class CharacterUI : MonoBehaviour {
     public void Show() {
         if (!hidden) return;
         playerNameText.gameObject.SetActive(true);
+        playerTitleText.gameObject.SetActive(true);
+        statusEffectText.gameObject.SetActive(true);
         playerHealthSlider.gameObject.SetActive(true);
         boostIndicatorContainer.SetActive(true);
         hidden = false;

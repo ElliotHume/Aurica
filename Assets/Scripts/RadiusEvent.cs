@@ -15,12 +15,21 @@ public class RadiusEvent : MonoBehaviour
     void FixedUpdate() {
         if (onlyFiresOnce && hasActivated) return;
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, layerMask);
-        if (hitColliders.Length > 0 && !hasActivated) {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        bool playerInRange = false;
+        foreach(var player in players) {
+            if (Vector3.Distance(player.transform.position, transform.position) < radius) {
+                playerInRange = true;
+                break;
+            }
+        }
+
+        //Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, layerMask);
+        if (playerInRange && !hasActivated) {
             // Fire the event once when the trigger is within the radius
             OnRadiusEnter.Invoke();
             hasActivated = true;
-        } else if (hitColliders.Length == 0 && hasActivated) {
+        } else if (!playerInRange && hasActivated) {
             // Reset so that it can fire again
             hasActivated = false;
             OnRadiusExit.Invoke();

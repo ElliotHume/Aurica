@@ -153,10 +153,13 @@ public class PlayerLook : MonoBehaviourPun
         camera.transform.Rotate(new Vector3(-yExtra, 0, 0));
 
         float forwardVelocity = (Vector3.Project(playerCharacterController.velocity, transform.forward)).magnitude;
-        if (forwardVelocity > 15f) {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 75f, (forwardVelocity / 15f) * Time.deltaTime);
-        } else if (forwardVelocity > 7f) {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 70f, (forwardVelocity / 7f) * Time.deltaTime);
+        float upwardVelocity = (Vector3.Project(playerCharacterController.velocity, transform.up)).magnitude;
+        float combinedVelocity = Mathf.Max(forwardVelocity, upwardVelocity);
+
+        if (combinedVelocity > 15f) {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 75f, (combinedVelocity / 15f) * Time.deltaTime);
+        } else if (combinedVelocity > 7f) {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 70f, (combinedVelocity / 7f) * Time.deltaTime);
         } else {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 65f, 7f * Time.deltaTime);
         }

@@ -28,8 +28,15 @@ public class EnemySpawner : MonoBehaviourPun {
         if (!photonView.IsMine) return;
 
         if (radiusTrigger != 0f && !hasSpawned) {
-            bool targetInRadius = Physics.CheckSphere(transform.position, radiusTrigger, triggerLayer);
-            if (targetInRadius && !respawnInitiated) Spawn();
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            bool playerInRange = false;
+            foreach(var player in players) {
+                if (Vector3.Distance(player.transform.position, transform.position) < radiusTrigger) {
+                    playerInRange = true;
+                    break;
+                }
+            }
+            if (playerInRange && !respawnInitiated) Spawn();
         }
         
         if (hasSpawned && spawn != null) {

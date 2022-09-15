@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Photon.Pun;
+using Photon.Realtime;
 
 
 /// <summary>
@@ -88,6 +89,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private DamagePopup accumulatingDamagePopup;
     private string lastPlayerToDamageSelf;
     private float immunityTimer = 0f;
+    private string playerTitle, playerTitleColour;
+    private bool titleSet = false;
     
 
 
@@ -236,22 +239,28 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         defaultManaRegen = ManaRegen;
 
-        // Follow the player character with the camera
-        cameraWorker = this.gameObject.GetComponent<CustomCameraWork>();
-        if (cameraWorker != null) {
-            if (photonView.IsMine) {
+        // Follow the local player character with the camera
+        if (photonView.IsMine) {
+            cameraWorker = this.gameObject.GetComponent<CustomCameraWork>();
+            if (cameraWorker != null) {
                 cameraWorker.OnStartFollowing();
+            } else {
+                Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
             }
-        } else {
-            Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
         }
 
         if (PlayerUiPrefab != null) {
-            GameObject _uiGo = Instantiate(PlayerUiPrefab, transform.position + new Vector3(0f, 2f, 0f), transform.rotation);
+            GameObject _uiGo = Instantiate(PlayerUiPrefab, transform.position + new Vector3(0f, 2.15f, 0f), transform.rotation);
             _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
             _uiGo.transform.SetParent(transform);
             characterUI = _uiGo.GetComponent<CharacterUI>();
             materialManager.SetUI(characterUI);
+
+            if (photonView.IsMine) {
+                _uiGo.SetActive(false);
+            } else {
+                RequestTitle();
+            }
         } else {
             Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
         }
@@ -427,6 +436,28 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public string GetUniqueName() {
         return photonView.Owner.NickName+"-|-"+photonView.ViewID;
+    }
+
+    // When the local players title has been retreived from PlayFab, send their title to everyone
+    public void SendTitle(string title, string titleColour) {
+        titleSet = true;
+        playerTitle = title;
+        playerTitleColour = titleColour;        
+    }
+
+    [PunRPC]
+    public void SendRemoteTitle(string title, string titleColour) {
+        if (characterUI != null) characterUI.SetTitle(title, titleColour);
+    }
+
+    // When spawning a remote player, ask for their title
+    public void RequestTitle() {
+        photonView.RPC("RequestRemoteTitle", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void RequestRemoteTitle() {
+        if (titleSet) photonView.RPC("SendRemoteTitle", RpcTarget.All, playerTitle, playerTitleColour);;
     }
 
     public void HardReset() {
