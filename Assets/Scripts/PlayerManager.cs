@@ -159,7 +159,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     bool toughRoutineRunning;
 
     [HideInInspector]
-    public bool manaRestorationChange;
+    public bool manaRestorationChange, manaRestorationBuff;
     private float manaRestorationDuration, manaRestorationPercentage;
     Coroutine manaRestorationRoutine;
     bool manaRestorationRoutineRunning;
@@ -199,6 +199,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             stream.SendNext(fragile);
             stream.SendNext(tough);
             stream.SendNext(manaRestorationChange);
+            stream.SendNext(manaRestorationBuff);
             stream.SendNext(camouflaged);
             stream.SendNext(slowFall);
         } else {
@@ -222,6 +223,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             this.fragile = (bool)stream.ReceiveNext();
             this.tough = (bool)stream.ReceiveNext();
             this.manaRestorationChange = (bool)stream.ReceiveNext();
+            this.manaRestorationBuff = (bool)stream.ReceiveNext();
             this.camouflaged = (bool)stream.ReceiveNext();
             this.slowFall = (bool)stream.ReceiveNext();
         }
@@ -425,6 +427,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 respawning = false;
                 immunityTimer = 0f;
             }
+            manaRestorationBuff = ManaRegen > defaultManaRegen;
         } else {
             if (stunned && animator.speed > 0f) {
                 movementManager.Stun(true);
@@ -436,6 +439,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public string GetUniqueName() {
         return photonView.Owner.NickName+"-|-"+photonView.ViewID;
+    }
+
+    public bool IsHealing() {
+        return healing > 0f;
     }
 
     // When the local players title has been retreived from PlayFab, send their title to everyone
