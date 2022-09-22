@@ -14273,11 +14273,12 @@ MonoBehaviour:
   SpellEffectType: 
   Duration: 25
   CastAnimationType: 1
-  CastingAnchor: front
+  CastingAnchor: aimpoint
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
-  IsOpponentTargeted: 1
+  IsOpponentTargeted: 0
   LastingDamage: 0
   OneShotEffect: 0
   LastingEffect: 1
@@ -14290,6 +14291,7 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 18, y: 18, z: 18}
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []

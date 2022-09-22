@@ -30,7 +30,7 @@ public class CharacterUI : MonoBehaviourPun {
 
     private string playerTitle, playerTitleColour;
     private PlayerManager target;
-    private bool hidden = false, showingBoost = true;
+    private bool hidden = false, showingBoost = true, permanentlyHidden = false;
     private Color initialColor;
     
 
@@ -132,6 +132,16 @@ public class CharacterUI : MonoBehaviourPun {
         }
     }
 
+    // Permanently hide the local players character UI
+    public void PermanentlyHide() {
+        playerNameText.gameObject.SetActive(false);
+        playerTitleText.gameObject.SetActive(false);
+        statusEffectText.gameObject.SetActive(false);
+        playerHealthSlider.gameObject.SetActive(false);
+        boostIndicatorContainer.SetActive(false);
+        permanentlyHidden = true;
+    }
+
     public void Hide() {
         if (hidden) return;
         playerNameText.gameObject.SetActive(false);
@@ -143,7 +153,7 @@ public class CharacterUI : MonoBehaviourPun {
     }
 
     public void Show() {
-        if (!hidden) return;
+        if (!hidden || permanentlyHidden) return;
         playerNameText.gameObject.SetActive(true);
         playerTitleText.gameObject.SetActive(true);
         statusEffectText.gameObject.SetActive(true);

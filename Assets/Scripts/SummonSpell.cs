@@ -13,6 +13,7 @@ public class SummonSpell : Spell, IPunObservable {
     public bool Rising = false, AlignToZAxis = true;
     public float TimeToRise = 1f;
     public float StartingOffset = 0f;
+    public Vector3 TargetingIndicatorScale = Vector3.zero;
     public GameObject[] RisingParticles, DestructionParticles, DeactivateObjectsAfterDuration;
 
 
@@ -126,5 +127,26 @@ public class SummonSpell : Spell, IPunObservable {
         foreach (var effect in DeactivateObjectsAfterDuration) {
             if (effect != null) effect.SetActive(false);
         }
+    }
+
+    public Vector3 GetTargetingIndicatorScale() {
+        if (TargetingIndicatorScale == Vector3.zero || TargetingIndicatorScale == Vector3.one) {
+            TargetingIndicatorScale = Vector3.one;
+            SphereCollider sphereCollider = GetComponent<SphereCollider>();
+            if (sphereCollider != null) {
+                TargetingIndicatorScale = (sphereCollider.radius * 2) * transform.lossyScale;
+            } else {
+                CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
+                if (capsuleCollider != null) {
+                    TargetingIndicatorScale = (capsuleCollider.radius * 2) * transform.lossyScale;
+                } else {
+                    BoxCollider boxCollider = GetComponent<BoxCollider>();
+                    if (boxCollider != null) {
+                        TargetingIndicatorScale = Vector3.Scale(boxCollider.size, transform.lossyScale);
+                    }
+                }
+            }
+        }
+        return TargetingIndicatorScale;
     }
 }

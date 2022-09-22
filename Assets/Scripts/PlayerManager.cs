@@ -91,6 +91,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private float immunityTimer = 0f;
     private string playerTitle, playerTitleColour;
     private bool titleSet = false;
+
+    // Targeting Indicator System
+    private bool preparedSpell = false;
+    private AuricaSpell preparedSpellCast;
+    private GameObject preparedSpellGO;
+    private KeybindingActions preparedSpellKey;
     
 
 
@@ -259,7 +265,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             materialManager.SetUI(characterUI);
 
             if (photonView.IsMine) {
-                _uiGo.SetActive(false);
+                characterUI.PermanentlyHide();
             } else {
                 RequestTitle();
             }
@@ -716,22 +722,29 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (movementManager.CanCast()) {
             if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("1"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("2"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("2"), KeybindingActions.SpellSlot2);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("3"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("3"), KeybindingActions.SpellSlot3);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot4)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("4"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("4"), KeybindingActions.SpellSlot4);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("e"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("e"), KeybindingActions.SpellSlotE);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("q"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("q"), KeybindingActions.SpellSlotQ);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("r"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("r"), KeybindingActions.SpellSlotR);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF)) {
-                CastAuricaSpell(auricaCaster.CastBindSlot("f"));
+                PrepareSpellCast(auricaCaster.CastBindSlot("f"), KeybindingActions.SpellSlotF);
             }
+
+            if (preparedSpell) {
+                if (!InputManager.Instance.GetKey(preparedSpellKey)) {
+                    CastAuricaSpell(preparedSpellCast);
+                }
+            }
+
         } else if (isChannelling && (
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1) ||
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2) ||
@@ -831,19 +844,64 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         PhotonNetwork.Instantiate("XCollision_Fizzle", transform.position, transform.rotation);
     }
 
-    void CastAuricaSpell(AuricaSpell spell) {
-        if (!photonView.IsMine) return;
+    void PrepareSpellCast(AuricaSpell spell, KeybindingActions key) {
         if (isChannelling) {
             StopChannelling();
             auricaCaster.ResetCast();
             return;
         }
         if (spell == null) {
-            // Debug.Log("Invalid cast");
             CastFizzle();
             auricaCaster.ResetCast();
             return;
         }
+
+        // If another key is pressed while there is a spell prepared, cancel previous preparation
+        if (key != preparedSpellKey && preparedSpellCast != null) {
+            preparedSpellCast = null;
+            preparedSpellGO = null;
+        }
+        preparedSpellKey = key;
+        preparedSpell = true;
+
+        string linkedSpellResource = spell.linkedSpellResource;
+        // Check if the spell is a mastery spell, and if it is check if the player has sufficient mastery
+        if (spell.isMasterySpell && !MasteryManager.Instance.HasMasteryForSpell(spell)) {
+            linkedSpellResource = spell.masteryFailedSpellResource;
+        }
+
+        // Load spell resource
+        GameObject dataObject = Resources.Load<GameObject>(linkedSpellResource);
+        preparedSpellCast = spell;
+        preparedSpellGO = dataObject;
+        Spell foundSpell = dataObject != null ? dataObject.GetComponent<Spell>() : null;
+
+        // BasicProjectileSpell bps = dataObject.GetComponent<BasicProjectileSpell>();
+        AoESpell aoe = dataObject.GetComponent<AoESpell>();
+        TargetedSpell ts = dataObject.GetComponent<TargetedSpell>();
+        //ChannelledSpell cs = dataObject.GetComponent<ChannelledSpell>();
+        // ShieldSpell shs = dataObject.GetComponent<ShieldSpell>();
+        SummonSpell ss = dataObject.GetComponent<SummonSpell>();
+
+       
+        if ( aoe != null) {
+            crosshair.ActivateTargetingIndicator(aoe.GetTargetingIndicatorScale(), aoe.UseAimPointNormal, aoe.IsSelfTargeted, aoe.IsOpponentTargeted, aoe.PositionOffset);
+        } else if ( ts != null) {
+            crosshair.ActivateTargetingIndicator(Vector3.one * 2f, false, ts.IsSelfTargeted, ts.IsOpponentTargeted, Vector3.up);
+        } else if ( ss != null) {
+            crosshair.ActivateTargetingIndicator(ss.GetTargetingIndicatorScale(), true, ss.CastingAnchor == "transform", ss.IsOpponentTargeted, Vector3.zero);
+        } else {
+            CastAuricaSpell(spell);
+            preparedSpell = false;
+            return;
+        }
+
+        // Play hand casting particles while holding a spell
+        particleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
+    }
+
+    void CastAuricaSpell(AuricaSpell spell) {
+        if (!photonView.IsMine) return;
 
         // Fail before animation if the player does not have sufficient mana.
         if (Mana - auricaCaster.GetManaCost() < 0f) {
@@ -855,17 +913,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
 
         string linkedSpellResource = spell.linkedSpellResource;
-
         // Check if the spell is a mastery spell, and if it is check if the player has sufficient mastery
-        if (spell.isMasterySpell) {
-            if (!MasteryManager.Instance.HasMasteryForSpell(spell)) {
-                linkedSpellResource = spell.masteryFailedSpellResource;
-                TipWindow.Instance.ShowTip("Not Enough Mastery", "To cast this spell properly you need more mastery with "+spell.masteryCategory.ToString()+" spells", 4f);
-                //Debug.Log("Mastery check failed");
-            } else {
-                //Debug.Log("Mastery check passed");
-            }
-
+        if (spell.isMasterySpell && !MasteryManager.Instance.HasMasteryForSpell(spell)) {
+            linkedSpellResource = spell.masteryFailedSpellResource;
         }
 
         // Load spell resource
@@ -889,7 +939,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 break;
             case "aimpoint":
                 aimPointAnchor.position = GetCrosshairAimPoint();
-                aimPointAnchor.rotation = Quaternion.LookRotation(aimPointAnchorManager.GetHitNormal(), (aimPointAnchor.transform.position - transform.position));
+                if (foundSpell.UseAimPointNormal) {
+                    aimPointAnchor.rotation = Quaternion.LookRotation(aimPointAnchorManager.GetHitNormal(), (aimPointAnchor.transform.position - transform.position));
+                } else {
+                    aimPointAnchor.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                }
                 currentCastingTransform = aimPointAnchor;
                 break;
             default:
@@ -927,6 +981,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 if (CastingSound != null) CastingSound.Play();
             }
         }
+
+        // Stop any targeting indicators
+        crosshair.DeactivateTargetingIndicator();
+        preparedSpell = false;
 
         // ADD MASTERY
         if (MasteryManager.Instance != null) MasteryManager.Instance.AddMasteries(spell.masteries);
@@ -1147,6 +1205,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // ManaDrain - drain mana by a flat value and/or a percentage of missing health
     [PunRPC]
     void ManaDrain(float flat, float percentage) {
+        particleManager.PlayManaDrainFX();
         if (photonView.IsMine) {
             // Debug.Log("Draining Mana by - flat: "+flat+" & percentage: "+percentage+" = "+(Mana * percentage));
             Mana -= flat + (Mana * percentage);
@@ -1813,6 +1872,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Cleanse
     [PunRPC]
     void Cleanse() {
+        particleManager.PlayCleanseFX();
+        if (!photonView.IsMine) return;
         try {
             if (silenced) {
                 if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
@@ -1892,62 +1953,66 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         } catch (System.Exception e) {
             Debug.Log("Error trying to cleanse: "+e.Message);
         }
+        
     }
-
-
-
 
 
     // Cure
     // Removes all negative status effects
     [PunRPC]
     void Cure() {
-        if (slowed) {
-            if (slowRoutineRunning) StopCoroutine(slowRoutine);
-            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-            movementManager.ResetMovementSpeed();
-            slowed = false;
-            appliedSlowEffects.Clear();
-        }
-        if (rooted) {
-            if (rootRoutineRunning) StopCoroutine(rootRoutine);
-            movementManager.Root(false);
-            rooted = false;
-        }
-        if (grounded) {
-            if (groundedRoutineRunning) StopCoroutine(rootRoutine);
-            movementManager.Ground(false);
-            grounded = false;
-        }
-        if (silenced) {
-            if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
-            silenced = false;
-        }
-        if (stunned) {
-            if (stunRoutineRunning) StopCoroutine(stunRoutine);
-            movementManager.Stun(false);
-            stunned = false;
-        }
-        if (fragile) {
-            if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
-            fragilePercentage = 0f;
-            fragile = false;
-            appliedFragileEffects.Clear();
-        }
-        if (weakened) {
-            if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
-            weaknesses = new ManaDistribution();
-            weakened = false;
-            appliedWeakenEffects.Clear();
-        }
-        if (manaRestorationChange) {
-            if (ManaRegen < defaultManaRegen) {
-                if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
-                ManaRegen = defaultManaRegen;
-                manaRestorationPercentage = 0f;
-                manaRestorationChange = false;
-                appliedManaRestorationChangeEffects.Clear();
+        particleManager.PlayCureFX();
+        if (!photonView.IsMine) return;
+        try {
+            if (slowed) {
+                if (slowRoutineRunning) StopCoroutine(slowRoutine);
+                animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+                movementManager.ResetMovementSpeed();
+                slowed = false;
+                appliedSlowEffects.Clear();
             }
+            if (rooted) {
+                if (rootRoutineRunning) StopCoroutine(rootRoutine);
+                movementManager.Root(false);
+                rooted = false;
+            }
+            if (grounded) {
+                if (groundedRoutineRunning) StopCoroutine(rootRoutine);
+                movementManager.Ground(false);
+                grounded = false;
+            }
+            if (silenced) {
+                if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
+                silenced = false;
+            }
+            if (stunned) {
+                if (stunRoutineRunning) StopCoroutine(stunRoutine);
+                movementManager.Stun(false);
+                stunned = false;
+            }
+            if (fragile) {
+                if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
+                fragilePercentage = 0f;
+                fragile = false;
+                appliedFragileEffects.Clear();
+            }
+            if (weakened) {
+                if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
+                weaknesses = new ManaDistribution();
+                weakened = false;
+                appliedWeakenEffects.Clear();
+            }
+            if (manaRestorationChange) {
+                if (ManaRegen < defaultManaRegen) {
+                    if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
+                    ManaRegen = defaultManaRegen;
+                    manaRestorationPercentage = 0f;
+                    manaRestorationChange = false;
+                    appliedManaRestorationChangeEffects.Clear();
+                }
+            }
+        } catch (System.Exception e) {
+            Debug.Log("Error trying to cleanse: "+e.Message);
         }
     }
 }

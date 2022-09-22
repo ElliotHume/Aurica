@@ -28,7 +28,7 @@ public class Spell : MonoBehaviourPun {
     // Which casting anchor to spawn the spell from
     public string CastingAnchor = "front";
 
-    public bool TurnToAimPoint = true;
+    public bool TurnToAimPoint = true, UseAimPointNormal = true;
 
     public bool IsChannel = false, IsSelfTargeted = false, IsOpponentTargeted = false;
 
