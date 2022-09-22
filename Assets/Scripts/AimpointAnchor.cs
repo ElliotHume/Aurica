@@ -2,8 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AimpointAnchor : MonoBehaviour
-{
+public class AimpointAnchor : MonoBehaviour {
+
+    public static AimpointAnchor Instance;
+
+    void Start() {
+        AimpointAnchor.Instance = this;
+    }
+
     public Vector3 GetHitNormal() {
         Collider coll = GetComponent<Collider>();
 
@@ -21,6 +27,6 @@ public class AimpointAnchor : MonoBehaviour
             );
 
         // Debug.Log("HIT NORMAL: "+direction);
-        return direction;
+        return direction.normalized;
     }
 }

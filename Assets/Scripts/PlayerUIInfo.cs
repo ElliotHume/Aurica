@@ -41,6 +41,7 @@ public class PlayerUIInfo : MonoBehaviour {
         if (target.strengthened) statusEffects.Add("STRONG");
         if (target.weakened) statusEffects.Add("WEAK");
         if (target.slowFall) statusEffects.Add("SLOW FALL");
+        if (target.camouflaged) statusEffects.Add("CAMOUFLAGED");
         if (target.manaRestorationChange) {
             if (target.manaRestorationBuff) {
                 statusEffects.Add("MANA RESTORATION");

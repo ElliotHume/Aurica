@@ -15,7 +15,16 @@ public class Crosshair : MonoBehaviour
     public Image HitMarker;
     public float HitMarkerFadeMultiplier = 1f;
 
-    bool hitMarkerVisible = false;
+    [Tooltip("AoE Targeting Indicator")]
+    [SerializeField]
+    public GameObject TargetingIndicatorPrefab;
+
+    bool hitMarkerVisible = false, targetingIndicatorActive = false, targetingIndicatorUseNormals = true;
+    bool isSelfTargeted = false, isOpponentTargeted = false;
+    GameObject currentTargetingIndicator;
+    Vector3 targetingIndicatorScale = Vector3.one, positionOffset = Vector3.zero;
+    AimpointAnchor aimPointAnchor;
+    GameObject playerGO, targetObject;
 
     // private Vector3 startPos;
     void Start() {
@@ -33,6 +42,36 @@ public class Crosshair : MonoBehaviour
         if (HitMarker.color.a <= 0f) {
             HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, 0f);
             hitMarkerVisible = false;
+        }
+
+        if (targetingIndicatorActive) {
+            if (currentTargetingIndicator == null) {
+                currentTargetingIndicator = Instantiate(TargetingIndicatorPrefab, GetWorldPoint(), Quaternion.identity);
+                currentTargetingIndicator.transform.localScale = targetingIndicatorScale;
+            }
+            if (aimPointAnchor == null) {
+                aimPointAnchor = AimpointAnchor.Instance;
+            }
+            if (playerGO == null) {
+                playerGO = PlayerManager.LocalPlayerGameObject;
+            }
+
+            if (isSelfTargeted) {
+                currentTargetingIndicator.transform.position = playerGO.transform.position + positionOffset;
+            } else if (isOpponentTargeted) {
+                targetObject = GetPlayerHit(2f);
+                if (targetObject == null && currentTargetingIndicator.activeInHierarchy) currentTargetingIndicator.SetActive(false);
+                if (targetObject != null && !currentTargetingIndicator.activeInHierarchy) currentTargetingIndicator.SetActive(true);
+                if (targetObject != null) currentTargetingIndicator.transform.position = targetObject.transform.position + positionOffset;
+            } else {
+                currentTargetingIndicator.transform.position = GetWorldPoint();
+                aimPointAnchor.gameObject.transform.position = GetWorldPoint();
+                if (targetingIndicatorUseNormals) {
+                    currentTargetingIndicator.transform.rotation = Quaternion.LookRotation(aimPointAnchor.GetHitNormal(), (aimPointAnchor.gameObject.transform.position - playerGO.transform.position));
+                } else {
+                    currentTargetingIndicator.transform.rotation = Quaternion.Euler(0, playerGO.transform.rotation.eulerAngles.y, 0);
+                }
+            }
         }
     }
 
@@ -81,6 +120,22 @@ public class Crosshair : MonoBehaviour
     public void FlashHitMarker(bool majorDamage) {
         HitMarker.color = new Color(HitMarker.color.r, HitMarker.color.g, HitMarker.color.b, majorDamage ? 1f : 0.33f);
         hitMarkerVisible = true;
+    }
+
+    public void ActivateTargetingIndicator(Vector3 scale, bool useNormals, bool targetSelf, bool targetOpponent, Vector3 offsetPosition) {
+        targetingIndicatorActive = true;
+        targetingIndicatorScale = scale;
+        targetingIndicatorUseNormals = useNormals;
+        isSelfTargeted = targetSelf;
+        isOpponentTargeted = targetOpponent;
+        positionOffset = offsetPosition;
+    }
+
+    public void DeactivateTargetingIndicator(){
+        if (!targetingIndicatorActive && currentTargetingIndicator == null) return;
+        if (currentTargetingIndicator != null) Destroy(currentTargetingIndicator);
+        targetingIndicatorActive = false;
+        targetingIndicatorScale = Vector3.one;
     }
 
     void OnDrawGizmosSelected(){

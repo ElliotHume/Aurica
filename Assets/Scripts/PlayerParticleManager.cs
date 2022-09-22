@@ -9,8 +9,9 @@ public class PlayerParticleManager : MonoBehaviour {
     public GameObject r_auric, r_order, r_chaos, r_life, r_death, r_fire, r_water, r_earth, r_air, r_divine, r_demonic;
     public GameObject l_auric, l_order, l_chaos, l_life, l_death, l_fire, l_water, l_earth, l_air, l_divine, l_demonic;
 
-    public List<GameObject> slowFX, hasteFX, rootFX, groundFX, stunFX, silenceFX, weakenFX, strengthenFX, fragileFX, toughFX, manaBuffFX, manaDebuffFX, healingFX, slowfallFX, cleanseFX, cureFX, manaDrainFX;
-    private bool slowed, hastened, rooted, grounded, stunned, silenced, weakened, strengthened, fragile, tough, manaBuff, manaDebuff, healing, slowfall, manaDrain;
+    public List<GameObject> slowFX, hasteFX, rootFX, groundFX, stunFX, silenceFX, weakenFX, strengthenFX, fragileFX, toughFX, manaBuffFX, manaDebuffFX, healingFX, slowfallFX;
+    public List<ParticleSystem> cleanseFX, cureFX, manaDrainFX;
+    private bool slowed, hastened, rooted, grounded, stunned, silenced, weakened, strengthened, fragile, tough, manaBuff, manaDebuff, healing, slowfall;
 
     PlayerManager playerManager;
     List<int> oneHandedAnimations = new List<int>();
@@ -25,95 +26,103 @@ public class PlayerParticleManager : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (playerManager.stunned && !stunned) {
+        if (playerManager.stunned && !stunned && !playerManager.camouflaged) {
             ActivateEffectParticles(stunFX);
             stunned = true;
-        } else if (!playerManager.stunned && stunned) {
+        } else if ((!playerManager.stunned && stunned) || (stunned && playerManager.camouflaged)) {
             DeactivateEffectParticles(stunFX);
             stunned = false;
         }
 
-        if (playerManager.silenced && !silenced) {
+        if (playerManager.silenced && !silenced && !playerManager.camouflaged) {
             ActivateEffectParticles(silenceFX);
             silenced = true;
-        } else if (!playerManager.silenced && silenced) {
+        } else if ((!playerManager.silenced && silenced) || (stunned && playerManager.camouflaged)) {
             DeactivateEffectParticles(silenceFX);
             silenced = false;
         }
 
-        if (playerManager.rooted && !rooted) {
+        if (playerManager.rooted && !rooted && !playerManager.camouflaged) {
             ActivateEffectParticles(rootFX);
             rooted = true;
-        } else if (!playerManager.rooted && rooted) {
+        } else if ((!playerManager.rooted && rooted) || (rooted && playerManager.camouflaged)) {
             DeactivateEffectParticles(rootFX);
             rooted = false;
         }
 
-        if (playerManager.grounded && !grounded){
+        if (playerManager.grounded && !grounded && !playerManager.camouflaged){
             ActivateEffectParticles(groundFX);
             grounded = true;
-        } else if (!playerManager.grounded && grounded) {
+        } else if ((!playerManager.grounded && grounded) || (grounded && playerManager.camouflaged)) {
             DeactivateEffectParticles(groundFX);
             grounded = false;
         }
 
-        if (playerManager.slowed && !slowed){
+        if (playerManager.slowed && !slowed && !playerManager.camouflaged){
             ActivateEffectParticles(slowFX);
             slowed = true;
-        } else if (!playerManager.slowed && slowed) {
+        } else if ((!playerManager.slowed && slowed) || (slowed && playerManager.camouflaged)) {
             DeactivateEffectParticles(slowFX);
             slowed = false;
         }
 
-        if (playerManager.hastened && !hastened) {
+        if (playerManager.hastened && !hastened && !playerManager.camouflaged) {
             ActivateEffectParticles(hasteFX);
             hastened = true;
-        } else if (!playerManager.hastened && hastened) {
+        } else if ((!playerManager.hastened && hastened) || (hastened && playerManager.camouflaged)) {
             DeactivateEffectParticles(hasteFX);
             hastened = false;
         }
 
-        if (playerManager.fragile && !fragile) {
+        if (playerManager.fragile && !fragile && !playerManager.camouflaged) {
             ActivateEffectParticles(fragileFX);
             fragile = true;
-        } else if (!playerManager.fragile && fragile) {
+        } else if ((!playerManager.fragile && fragile) || (fragile && playerManager.camouflaged)) {
             DeactivateEffectParticles(fragileFX);
             fragile = false;
         }
 
-        if (playerManager.tough && !tough) {
+        if (playerManager.tough && !tough && !playerManager.camouflaged) {
             ActivateEffectParticles(toughFX);
             tough = true;
-        } else if (!playerManager.tough && tough) {
+        } else if ((!playerManager.tough && tough) || (tough && playerManager.camouflaged)) {
             DeactivateEffectParticles(toughFX);
             tough = false;
         }
 
-        if (playerManager.strengthened && !strengthened) {
+        if (playerManager.strengthened && !strengthened && !playerManager.camouflaged) {
             ActivateEffectParticles(strengthenFX);
             strengthened = true;
-        } else if (!playerManager.strengthened && strengthened) {
+        } else if ((!playerManager.strengthened && strengthened) || (strengthened && playerManager.camouflaged)) {
             DeactivateEffectParticles(strengthenFX);
             strengthened = false;
         }
 
-        if (playerManager.weakened && !weakened) {
+        if (playerManager.weakened && !weakened && !playerManager.camouflaged) {
             ActivateEffectParticles(weakenFX);
             weakened = true;
-        } else if (!playerManager.weakened && weakened) {
+        } else if ((!playerManager.weakened && weakened) || (weakened && playerManager.camouflaged)) {
             DeactivateEffectParticles(weakenFX);
             weakened = false;
         }
 
-        if (playerManager.slowFall && !slowfall) {
+        if (playerManager.slowFall && !slowfall && !playerManager.camouflaged) {
             ActivateEffectParticles(slowfallFX);
             slowfall = true;
-        } else if (!playerManager.slowFall && slowfall) {
+        } else if ((!playerManager.slowFall && slowfall) || (slowfall && playerManager.camouflaged)) {
             DeactivateEffectParticles(slowfallFX);
             slowfall = false;
         }
 
-        if (playerManager.manaRestorationChange) {
+        if (playerManager.IsHealing() && !healing && !playerManager.camouflaged) {
+            ActivateEffectParticles(healingFX);
+            healing = true;
+        } else if ((!playerManager.IsHealing() && healing) || (healing && playerManager.camouflaged)) {
+            DeactivateEffectParticles(healingFX);
+            healing = false;
+        }
+
+        if (playerManager.manaRestorationChange && !playerManager.camouflaged) {
             if (playerManager.manaRestorationBuff) {
                 if (!manaBuff) {
                     ActivateEffectParticles(manaBuffFX);
@@ -147,6 +156,24 @@ public class PlayerParticleManager : MonoBehaviour {
     public void DeactivateEffectParticles(List<GameObject> effects) {
         foreach(GameObject go in effects) {
             go.SetActive(false);
+        }
+    }
+
+    public void PlayCureFX() {
+        foreach(ParticleSystem go in cureFX) {
+            go.Play();
+        }
+    }
+
+    public void PlayCleanseFX() {
+        foreach(ParticleSystem go in cleanseFX) {
+            go.Play();
+        }
+    }
+
+    public void PlayManaDrainFX() {
+        foreach(ParticleSystem go in manaDrainFX) {
+            go.Play();
         }
     }
 
@@ -215,8 +242,6 @@ public class PlayerParticleManager : MonoBehaviour {
             foreach(var particle in particles) particle.Play();
             activeParticles.Add(lHandParticles);
         }
-
-        
     }
 
     public void StopDefaultParticles() {
@@ -234,11 +259,6 @@ public class PlayerParticleManager : MonoBehaviour {
     }
 
     public void StopHandParticles(bool shouldStartDefaultParticles = true) {
-        StopAllCoroutines();
-        StartCoroutine(DisableHandParticles(shouldStartDefaultParticles));
-    }
-
-    IEnumerator DisableHandParticles(bool shouldStartDefaultParticles) {
         List<GameObject> disableParticles = activeParticles;
         ParticleSystem[] particles = new ParticleSystem[]{};
         foreach(var particleGO in disableParticles) {
@@ -247,10 +267,5 @@ public class PlayerParticleManager : MonoBehaviour {
         }
 
         if (shouldStartDefaultParticles) StartDefaultParticles();
-
-        yield return new WaitForSeconds(3f);
-        foreach(var particleGO in disableParticles) {
-            particleGO.SetActive(false);
-        }
     }
 }
