@@ -2654,7 +2654,6 @@ GameObject:
   - component: {fileID: 1407281556522934940}
   - component: {fileID: 1407281556522934937}
   - component: {fileID: 1407281556522934942}
-  - component: {fileID: 4241862711902809285}
   m_Layer: 3
   m_Name: Mob_IceGhoul
   m_TagString: Enemy
@@ -2879,18 +2878,6 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &4241862711902809285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1407281556522934915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1407301439416685853
 GameObject:
   m_ObjectHideFlags: 0
@@ -3166,7 +3153,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 450750566cb15b043b697edce51683e3, type: 2}
+  - {fileID: 2100000, guid: 2a12d3fc0532ba64e972160db18dfd99, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
