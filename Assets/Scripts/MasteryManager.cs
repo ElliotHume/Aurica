@@ -112,7 +112,7 @@ public class MasteryManager : MonoBehaviour {
         if (result.Data.ContainsKey("Masteries")) {
             string rawMasteries = result.Data["Masteries"].Value;
             SetMasteriesFromString(rawMasteries);
-            Debug.Log("Fetched Masteries from cloud: "+rawMasteries);
+            // Debug.Log("Fetched Masteries from cloud: "+rawMasteries);
         } else {
             Debug.Log("No Masteries found in cloud");
         }
@@ -155,7 +155,7 @@ public class MasteryManager : MonoBehaviour {
         if (amount == 0) return;
         Masteries[category] += amount;
         synced = false;
-        Debug.Log("Added "+amount+" mastery to "+category.ToString());
+        // Debug.Log("Added "+amount+" mastery to "+category.ToString());
     }
 
     public void UpdateMasteries(Dictionary<MasteryCategories, int> addedMasteries) {
@@ -168,7 +168,7 @@ public class MasteryManager : MonoBehaviour {
     }
 
     public void SyncMasteries() {
-        Debug.Log("Syncing Masteries");
+        // Debug.Log("Syncing Masteries");
 
         var request = new UpdateUserDataRequest {
             Data = new Dictionary<string, string> {
@@ -180,7 +180,7 @@ public class MasteryManager : MonoBehaviour {
     }
 
     void OnDiscoveriesDataSend(UpdateUserDataResult result) {
-        Debug.Log("Masteries Synced with Cloud");
+        // Debug.Log("Masteries Synced with Cloud");
         synced = true;
         fetched = false;
     }

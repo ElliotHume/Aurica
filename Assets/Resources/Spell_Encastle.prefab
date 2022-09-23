@@ -415,6 +415,7 @@ MonoBehaviour:
   CastAnimationType: 3
   CastingAnchor: transform
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -429,7 +430,8 @@ MonoBehaviour:
   Rising: 1
   AlignToZAxis: 0
   TimeToRise: 3.75
-  StartingOffset: 20
+  StartingOffset: 50
+  TargetingIndicatorScale: {x: 1, y: 1, z: 1}
   RisingParticles: []
   DestructionParticles:
   - {fileID: 7709445314275265251, guid: 6b425d11e146398488e9542675abd922, type: 3}

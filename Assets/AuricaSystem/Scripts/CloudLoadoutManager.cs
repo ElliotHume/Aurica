@@ -54,56 +54,56 @@ public class CloudLoadoutManager : MonoBehaviour {
 
         if (result.Data.ContainsKey("LoadoutKey1")) {
             key1 = result.Data["LoadoutKey1"].Value;
-            Debug.Log("Fetched key \"1\" from cloud: "+key1);
+            //Debug.Log("Fetched key \"1\" from cloud: "+key1);
         } else {
             Debug.Log("No spell for key: \"1\" found");
         }
 
         if (result.Data.ContainsKey("LoadoutKey2")) {
             key2 = result.Data["LoadoutKey2"].Value;
-            Debug.Log("Fetched key \"2\" from cloud: "+key2);
+            //Debug.Log("Fetched key \"2\" from cloud: "+key2);
         } else {
             Debug.Log("No spell for key: \"2\" found");
         }
 
         if (result.Data.ContainsKey("LoadoutKey3")) {
             key3 = result.Data["LoadoutKey3"].Value;
-            Debug.Log("Fetched key \"3\" from cloud: "+key3);
+            //Debug.Log("Fetched key \"3\" from cloud: "+key3);
         } else {
             Debug.Log("No spell for key: \"3\" found");
         }
 
         if (result.Data.ContainsKey("LoadoutKey4")) {
             key4 = result.Data["LoadoutKey4"].Value;
-            Debug.Log("Fetched key \"4\" from cloud: "+key4);
+            //Debug.Log("Fetched key \"4\" from cloud: "+key4);
         } else {
             Debug.Log("No spell for key: \"4\" found");
         }
 
         if (result.Data.ContainsKey("LoadoutKeyQ")) {
             keyQ = result.Data["LoadoutKeyQ"].Value;
-            Debug.Log("Fetched key \"Q\" from cloud: "+keyQ);
+            //Debug.Log("Fetched key \"Q\" from cloud: "+keyQ);
         } else {
             Debug.Log("No spell for key: \"Q\" found");
         }
 
         if (result.Data.ContainsKey("LoadoutKeyE")) {
             keyE = result.Data["LoadoutKeyE"].Value;
-            Debug.Log("Fetched key \"E\" from cloud: "+keyE);
+            //Debug.Log("Fetched key \"E\" from cloud: "+keyE);
         } else {
             Debug.Log("No spell for key: \"E\" found");
         }
 
         if (result.Data.ContainsKey("LoadoutKeyR")) {
             keyR = result.Data["LoadoutKeyR"].Value;
-            Debug.Log("Fetched key \"R\" from cloud: "+keyR);
+            //Debug.Log("Fetched key \"R\" from cloud: "+keyR);
         } else {
             Debug.Log("No spell for key: \"R\" found");
         }
 
         if (result.Data.ContainsKey("LoadoutKeyF")) {
             keyF = result.Data["LoadoutKeyF"].Value;
-            Debug.Log("Fetched key \"F\" from cloud: "+keyF);
+            //Debug.Log("Fetched key \"F\" from cloud: "+keyF);
         } else {
             Debug.Log("No spell for key: \"F\" found");
         }
@@ -115,7 +115,7 @@ public class CloudLoadoutManager : MonoBehaviour {
 
     public void Bind(string key, string spell) {
         if (key == null || spell == null || key == "" || spell == "") return;
-        Debug.Log("Binding spell: "+spell+"    to key: "+key.ToUpper());
+        //Debug.Log("Binding spell: "+spell+"    to key: "+key.ToUpper());
 
         var request = new UpdateUserDataRequest {
             Data = new Dictionary<string, string> {
@@ -127,7 +127,7 @@ public class CloudLoadoutManager : MonoBehaviour {
     }
 
     void OnDiscoveriesDataSend(UpdateUserDataResult result) {
-        Debug.Log("Binding Sent to Cloud");
+        //Debug.Log("Binding Sent to Cloud");
         fetched = false;
     }
 

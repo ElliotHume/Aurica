@@ -56,6 +56,7 @@ MonoBehaviour:
   CastAnimationType: 0
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 1
@@ -66,6 +67,8 @@ MonoBehaviour:
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration: []
   PositionOffset: {x: 0, y: 0, z: 0}
+  statusEffect: {fileID: 0}
+  movementEffect: {fileID: 0}
 --- !u!114 &2441772403570627651
 MonoBehaviour:
   m_ObjectHideFlags: 0

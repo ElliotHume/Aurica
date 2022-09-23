@@ -195,7 +195,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 } else if (collision.gameObject.tag == "Spell") {
                     // This is required for the case when a remote client shoots a spell out of the air.
                     // Without this RPC the spell will turn off its collision on remote clients before those remote clients register the collision on the local spell that is hit.
-                    Spell spell = collision.gameObject.GetComponent<Spell>();
+                    BasicProjectileSpell spell = collision.gameObject.GetComponent<BasicProjectileSpell>();
                     if (spell != null) {
                         PhotonView pv = PhotonView.Get(spell);
                         if (pv != null) {

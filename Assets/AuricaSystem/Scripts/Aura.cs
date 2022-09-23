@@ -15,7 +15,7 @@ public class Aura : MonoBehaviourPun {
     void Start() {
         player = GetComponent<PlayerManager>();
         if (PlayerPrefs.HasKey("Aura")) {
-            Debug.Log("Found aura in PlayerPrefs");
+            // Debug.Log("Found aura in PlayerPrefs");
             AuraDistribution = new ManaDistribution(PlayerPrefs.GetString("Aura"));
         } else {
             playerName = player.photonView.Owner.NickName;

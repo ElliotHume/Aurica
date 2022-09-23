@@ -93,7 +93,7 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     }
 
     void OnDataRecieved (GetUserDataResult result) {
-        Debug.Log("Recieved player data");
+        // Debug.Log("Recieved player data");
 
         if (result.Data != null && (result.Data.ContainsKey("Aura") || result.Data.ContainsKey("ModifiedAura"))) {
             if (result.Data.ContainsKey("ModifiedAura")) {
@@ -102,7 +102,7 @@ public class PlayfabLauncherManager : MonoBehaviourPun
                 PlayerPrefs.SetString("Aura", result.Data["Aura"].Value);
             }
             if (result.Data.ContainsKey("ExtraMana")) {
-                Debug.Log("Player has extra mana: "+result.Data["ExtraMana"].Value);
+                // Debug.Log("Player has extra mana: "+result.Data["ExtraMana"].Value);
                 PlayerPrefs.SetString("ExtraMana", result.Data["ExtraMana"].Value);
             }
             OnLogin.Invoke();

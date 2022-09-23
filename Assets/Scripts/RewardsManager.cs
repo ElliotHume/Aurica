@@ -38,7 +38,7 @@ public class RewardsManager : MonoBehaviour {
         if (result.Data != null && result.Data.ContainsKey("RewardPoints")) {
             rewardPoints = float.Parse(result.Data["RewardPoints"].Value);
             fetched = true;
-            Debug.Log("Fetched reward points from cloud: ["+rewardPoints+"]");
+            // Debug.Log("Fetched reward points from cloud: ["+rewardPoints+"]");
         } else {
             AddRewards(0f);
             rewardPoints = 0f;
@@ -62,7 +62,7 @@ public class RewardsManager : MonoBehaviour {
     }
 
     void OnRewardsDataSend(UpdateUserDataResult result) {
-        Debug.Log("Reward points Sent to Cloud : "+rewardPoints);
+        // Debug.Log("Reward points Sent to Cloud : "+rewardPoints);
         GetRewards();
     }
 

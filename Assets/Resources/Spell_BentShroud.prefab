@@ -13845,6 +13845,7 @@ MonoBehaviour:
   CastAnimationType: 0
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -13858,6 +13859,8 @@ MonoBehaviour:
   - {fileID: 6050338981040834252}
   - {fileID: 6050338980552307777}
   PositionOffset: {x: 0, y: 2, z: 0}
+  statusEffect: {fileID: 0}
+  movementEffect: {fileID: 0}
 --- !u!114 &7626839337972646530
 MonoBehaviour:
   m_ObjectHideFlags: 0

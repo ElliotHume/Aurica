@@ -80,6 +80,14 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void SendGameStart() {
         if (matchStarted) return;
+
+        // Destroy all existing spells
+        Spell[] foundSpells = FindObjectsOfType<Spell>();
+        foreach(Spell spell in foundSpells) {
+            if (spell.photonView.IsMine) PhotonNetwork.Destroy(spell.photonView);
+        }
+
+
         disabled = false;
         if (localPlayer == null) localPlayer = PlayerManager.LocalInstance;
         PlayerManager[] ps = FindObjectsOfType<PlayerManager>();

@@ -533,7 +533,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     public void TeleportEffect(Vector3 newPosition) {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || grounded) return;
         // Debug.Log("Teleporting " + gameObject + "  to " + newPosition);
         transform.position = newPosition;
     }
@@ -855,6 +855,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             auricaCaster.ResetCast();
             return;
         }
+        // Fail before animation if the player does not have sufficient mana.
+        if (Mana - auricaCaster.GetManaCost() < 0f) {
+            // Debug.Log("Insufficient Mana for spell!");
+            CastFizzle();
+            manaBar.BlinkText();
+            auricaCaster.ResetCast();
+            return;
+        }
 
         // If another key is pressed while there is a spell prepared, cancel previous preparation
         if (key != preparedSpellKey && preparedSpellCast != null) {
@@ -876,11 +884,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         preparedSpellGO = dataObject;
         Spell foundSpell = dataObject != null ? dataObject.GetComponent<Spell>() : null;
 
-        // BasicProjectileSpell bps = dataObject.GetComponent<BasicProjectileSpell>();
         AoESpell aoe = dataObject.GetComponent<AoESpell>();
         TargetedSpell ts = dataObject.GetComponent<TargetedSpell>();
-        //ChannelledSpell cs = dataObject.GetComponent<ChannelledSpell>();
-        // ShieldSpell shs = dataObject.GetComponent<ShieldSpell>();
         SummonSpell ss = dataObject.GetComponent<SummonSpell>();
 
        

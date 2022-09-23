@@ -60,7 +60,7 @@ public class DiscoveryManager : MonoBehaviour {
             rawDiscoveries = result.Data["Discoveries"].Value;
             discoveredSpells = GetListFromString(rawDiscoveries);
             fetched = true;
-            Debug.Log("Fetched discoveries from cloud: "+rawDiscoveries+"");
+            // Debug.Log("Fetched discoveries from cloud: "+rawDiscoveries+"");
             AuricaCaster.LocalCaster.RetrieveDiscoveredSpells();
         } else {
             Discover(StarterSpells);
@@ -75,7 +75,7 @@ public class DiscoveryManager : MonoBehaviour {
         discoveredSpells.Add(spell);
 
         string rawDiscoveries = GetStringFromList(discoveredSpells.Distinct().ToList());
-        Debug.Log("Discovering spell: "+spell.c_name+"    raw: "+rawDiscoveries);
+        // Debug.Log("Discovering spell: "+spell.c_name+"    raw: "+rawDiscoveries);
 
         var request = new UpdateUserDataRequest {
             Data = new Dictionary<string, string> {
@@ -101,7 +101,7 @@ public class DiscoveryManager : MonoBehaviour {
         discoveredSpells.AddRange(spells);
 
         string rawDiscoveries = GetStringFromList(discoveredSpells.Distinct().ToList());
-        Debug.Log("Discovering spells: "+GetStringFromList(spells)+"    raw: "+rawDiscoveries);
+        // Debug.Log("Discovering spells: "+GetStringFromList(spells)+"    raw: "+rawDiscoveries);
 
         var request = new UpdateUserDataRequest {
             Data = new Dictionary<string, string> {
@@ -115,7 +115,7 @@ public class DiscoveryManager : MonoBehaviour {
     }
 
     void OnDiscoveriesDataSend(UpdateUserDataResult result) {
-        Debug.Log("Discoveries Sent to Cloud : "+rawDiscoveries);
+        // Debug.Log("Discoveries Sent to Cloud : "+rawDiscoveries);
         fetched = false;
     }
 

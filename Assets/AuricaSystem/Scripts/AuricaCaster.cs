@@ -104,7 +104,7 @@ public class AuricaCaster : MonoBehaviourPun {
     }
 
     public void RetrieveDiscoveredSpells() {
-        Debug.Log("Aurica Caster: Retrieved discovered spells.");
+        // Debug.Log("Aurica Caster: Retrieved discovered spells.");
         discoveredSpells = DiscoveryManager.Instance.GetDiscoveredSpells();
     }
 
