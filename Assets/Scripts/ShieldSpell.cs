@@ -36,11 +36,13 @@ public class ShieldSpell : Spell, IPunObservable {
     [PunRPC]
     public void TakeDamage(float damage, string damageDistributionJson) {
         if (!photonView.IsMine) return;
+        Debug.Log("Shield hit dmg: "+damage+"   dist: "+damageDistributionJson);
         ManaDistribution damageDistribution = JsonUtility.FromJson<ManaDistribution>(damageDistributionJson);
         // Invert the shield distribution for damage calc
         // this means a shield dist [0,0,1,1,1,1,0] will completely nullify all elemental damage
         Health -= ShieldDistribution.GetInverted().GetDamage(damage, damageDistribution);
-        // Debug.Log("Health: " + Health);
+        Debug.Log("Post resistance damage: "+ShieldDistribution.GetInverted().GetDamage(damage, damageDistribution));
+        Debug.Log("Health: " + Health);
 
         if (damage > 1f) {
             foreach (string effect in networkedEffectsOnHit) {

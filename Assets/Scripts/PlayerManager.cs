@@ -514,7 +514,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
         if (FreeForAllGameManager.Instance != null) {
             FreeForAllGameManager.Instance.playerDeath(this);
-            if (photonView.IsMine) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
+            if (photonView.IsMine && lastPlayerToDamageSelf != GetUniqueName()) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
         }
 
         ObjectiveSphere[] objectiveSpheres = FindObjectsOfType<ObjectiveSphere>();
@@ -721,7 +721,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (silenced || stunned || !photonView.IsMine) return;
 
         if (movementManager.CanCast()) {
-            if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
+            if (InputManager.Instance.GetKeyDown(KeybindingActions.Cast)) {
+                PrepareSpellCast(auricaCaster.CastFinal(), KeybindingActions.Cast);
+            }else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
                 PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2)) {
                 PrepareSpellCast(auricaCaster.CastBindSlot("2"), KeybindingActions.SpellSlot2);
@@ -744,7 +746,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     CastAuricaSpell(preparedSpellCast);
                 }
             }
-
         } else if (isChannelling && (
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1) ||
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2) ||
@@ -756,7 +757,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF))) {
             StopChannelling();
             auricaCaster.ResetCast();
+        } else {
+            if (preparedSpell) {
+                if (!InputManager.Instance.GetKey(preparedSpellKey)) {
+                    CancelPreparedCast();
+                }
+            }
         }
+        
 
         // Use Boost
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Boost) || Input.GetKeyDown(KeyCode.Mouse2)) {
@@ -781,15 +789,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 Debug.LogWarning("Slowed: "+slowed+"\n Hastened: "+hastened+"\n Weakenesses: "+weaknesses.ToString()+"\n Strengths: "+strengths.ToString()+"\n Fragile: "+fragilePercentage+"\n Tough: "+toughPercentage+"\n Mana Altered: "+manaRestorationPercentage);
             } else {
                 Mana += 400;
-            }
-        }
-
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Cast)) {
-            if (!isChannelling) {
-                if (movementManager.CanCast()) CastAuricaSpell(auricaCaster.CastFinal());
-            } else {
-                StopChannelling();
-                auricaCaster.ResetCast();
             }
         }
     }
@@ -876,6 +875,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Check if the spell is a mastery spell, and if it is check if the player has sufficient mastery
         if (spell.isMasterySpell && !MasteryManager.Instance.HasMasteryForSpell(spell)) {
             linkedSpellResource = spell.masteryFailedSpellResource;
+            TipWindow.Instance.ShowTip("Not Enough Mastery", "To cast this spell properly you need more mastery with "+spell.masteryCategory.ToString()+" spells", 4f);
         }
 
         // Load spell resource
@@ -890,7 +890,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
        
         if ( aoe != null) {
-            crosshair.ActivateTargetingIndicator(aoe.GetTargetingIndicatorScale(), aoe.UseAimPointNormal, aoe.IsSelfTargeted, aoe.IsOpponentTargeted, aoe.PositionOffset);
+            crosshair.ActivateTargetingIndicator(aoe.GetTargetingIndicatorScale(), aoe.UseAimPointNormal, aoe.IsSelfTargeted || aoe.CastingAnchor == "transform", aoe.IsOpponentTargeted, aoe.PositionOffset);
         } else if ( ts != null) {
             crosshair.ActivateTargetingIndicator(Vector3.one * 2f, false, ts.IsSelfTargeted, ts.IsOpponentTargeted, Vector3.up);
         } else if ( ss != null) {
@@ -903,6 +903,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         // Play hand casting particles while holding a spell
         particleManager.PlayHandParticle(foundSpell.CastAnimationType, spell.manaType);
+    }
+
+    void CancelPreparedCast() {
+        auricaCaster.ResetCast();
+        crosshair.DeactivateTargetingIndicator();
+        preparedSpell = false;
     }
 
     void CastAuricaSpell(AuricaSpell spell) {
@@ -1459,7 +1465,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Silence - Prevent spellcasting
     [PunRPC]
     void Silence(float duration) {
-        if (photonView.IsMine && !silenced && !isShielded) {
+        if (photonView.IsMine && !silenced) {
             silenced = true;
             StopChannelling();
             silenceRoutine = StartCoroutine(SilenceRoutine(duration));

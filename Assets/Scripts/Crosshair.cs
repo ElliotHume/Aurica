@@ -57,7 +57,8 @@ public class Crosshair : MonoBehaviour
             }
 
             if (isSelfTargeted) {
-                currentTargetingIndicator.transform.position = playerGO.transform.position + positionOffset;
+                currentTargetingIndicator.transform.position = playerGO.transform.position + (playerGO.transform.forward * positionOffset.z + playerGO.transform.right * positionOffset.x + playerGO.transform.up * positionOffset.y);
+                currentTargetingIndicator.transform.rotation = Quaternion.LookRotation(playerGO.transform.forward);
             } else if (isOpponentTargeted) {
                 targetObject = GetPlayerHit(2f);
                 if (targetObject == null && currentTargetingIndicator.activeInHierarchy) currentTargetingIndicator.SetActive(false);
