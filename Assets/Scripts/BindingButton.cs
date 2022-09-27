@@ -6,10 +6,9 @@ using TMPro;
 
 public class BindingButton : MonoBehaviour
 {
-    public TMP_Text SpellText;
+    public TMP_Text SpellText, KeyText;
     public Text AlternateSpellText;
     public Image SpellIcon;
-    public string key;
     public Color CannotCastColorTint;
     public Text SpellComponents;
 
@@ -40,5 +39,9 @@ public class BindingButton : MonoBehaviour
             canCast = false;
             SpellIcon.color = CannotCastColorTint;
         }
+    }
+
+    public void SetKeyText(string newText) {
+        KeyText.text = newText;
     }
 }

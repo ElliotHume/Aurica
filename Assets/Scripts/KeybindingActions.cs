@@ -22,5 +22,6 @@ public enum KeybindingActions {
     LoadoutMenu,
     InfoMenu,
     GlyphCastingMenu,
-    Menu
+    Menu,
+    Ping
 }

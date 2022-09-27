@@ -33,11 +33,7 @@ public class KeybindUIButton : MonoBehaviour {
     void FixedUpdate() {
         if (!updated && InputManager.Instance != null) {
             inputManager = InputManager.Instance;
-            if (isPrimaryButton) {
-                KeyCodeText.text = inputManager.GetPrimaryActionKeyCode(keyBindAction).ToString();
-            } else {
-                KeyCodeText.text = inputManager.GetAlternateActionKeyCode(keyBindAction).ToString();
-            }
+            KeyCodeText.text = inputManager.GetKeyTranslationOfAction(keyBindAction, isPrimaryButton);
             updated = true;
         }
     }

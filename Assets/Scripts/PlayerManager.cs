@@ -764,6 +764,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 }
             }
         }
+
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Ping)) {
+            PhotonNetwork.Instantiate("Ping", crosshair.GetWorldPoint(), Quaternion.identity);
+        }
         
 
         // Use Boost

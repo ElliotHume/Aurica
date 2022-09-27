@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameUIPanelManager : MonoBehaviour {
     public static GameUIPanelManager Instance;
-    public GameObject menuPanel, spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel, cloudLoadoutPanel, masteryPanel;
+    public GameObject menuPanel, spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel, cloudLoadoutPanel, masteryPanel, settingsPanel;
 
     [HideInInspector]
     public bool glyphDrawingToggledOn = false;
@@ -19,7 +19,7 @@ public class GameUIPanelManager : MonoBehaviour {
         EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
 
     public bool ShouldProcessInputs() {
-        return !spellCraftingPanel.activeInHierarchy && !cloudLoadoutPanel.activeInHierarchy;
+        return !spellCraftingPanel.activeInHierarchy && !cloudLoadoutPanel.activeInHierarchy && !settingsPanel.activeInHierarchy;
     }
 
     void Update() {
@@ -27,7 +27,7 @@ public class GameUIPanelManager : MonoBehaviour {
 
         // Bring up the Menu
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Menu)) {
-            if (spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy) {
+            if (spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy || settingsPanel.activeInHierarchy) {
                 spellCraftingPanel.SetActive(false);
                 infoPanel.SetActive(false);
                 spellListPanel.SetActive(false);
@@ -37,6 +37,7 @@ public class GameUIPanelManager : MonoBehaviour {
                 }
                 cloudLoadoutPanel.SetActive(false);
                 masteryPanel.SetActive(false);
+                settingsPanel.SetActive(false);
                 return;
             }
             menuPanel.SetActive(!menuPanel.activeInHierarchy);
