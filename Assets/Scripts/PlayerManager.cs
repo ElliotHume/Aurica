@@ -444,7 +444,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     public string GetUniqueName() {
-        return photonView.Owner.NickName+"-|-"+photonView.ViewID;
+        return photonView.Owner.NickName+" #"+photonView.ViewID;
+    }
+
+    public string GetName() {
+        return photonView.Owner.NickName;
     }
 
     public bool IsHealing() {

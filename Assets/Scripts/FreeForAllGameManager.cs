@@ -18,7 +18,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
     public List<Transform> Spawnpoints;
     public Color enemyColor = Color.red;
     public GameObject FreeForAllGamePanel, readyButton, resultsPanel;
-    public Text scoreText, timerText;
+    public Text scoreText, timerText, pointLeaderText;
     public List<GameObject> ToggleObjects;
 
     public float PointsForKill = 1f, PointsForObjective=2f, PointLimit=8f, TimerSeconds=180f;
@@ -65,6 +65,18 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!matchStarted) return;
         var ts = TimeSpan.FromSeconds(timer);
         timerText.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
+
+        if (pointLeaderText != null) {
+            string highestScoringPlayer = "You";
+            float highestScore = 0f;
+            foreach(KeyValuePair<string,float> score in playerScores) {
+                if (score.Value > highestScore) {
+                    highestScore = score.Value;
+                    highestScoringPlayer = score.Key == localPlayer.GetUniqueName() ? "You" : score.Key;
+                }
+            }
+            pointLeaderText.text = "Point Leader: "+highestScoringPlayer+" - "+highestScore+"pts";
+        }
 
         if (score >= PointLimit) {
             photonView.RPC("EndMatch", RpcTarget.All, 1);
@@ -208,6 +220,7 @@ public class FreeForAllGameManager : MonoBehaviourPunCallbacks, IPunObservable {
         matchStarted = false;
         score = 0f;
         scoreText.text = "POINT CAP: "+PointLimit;
+        if (pointLeaderText != null) pointLeaderText.text = "Earn points by killing players or completing objectives.\nThe player with the most points at the end wins!";
         var ts = TimeSpan.FromSeconds(TimerSeconds);
         timerText.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
         foreach(var obj in ToggleObjects) obj.SetActive(!obj.activeInHierarchy);
