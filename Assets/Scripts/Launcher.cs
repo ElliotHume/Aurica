@@ -106,6 +106,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
                 case "KoTH Free for all":
                     level = "BattlegroundsKoTH";
                     break;
+                case "Large KoTH FFA":
+                    level = "BattlegroundsKoTHLarge";
+                    break;
                 case "AdventureMode":
                     level = "AdventureMode";
                     break;
