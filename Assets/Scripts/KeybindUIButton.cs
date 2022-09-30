@@ -44,7 +44,7 @@ public class KeybindUIButton : MonoBehaviour {
     }
 
     public void SetCustomKey(KeyCode key) {
-        Debug.Log("SET TO "+key.ToString());
+        // Debug.Log("SET TO "+key.ToString());
         if (isPrimaryButton) {
             inputManager.RebindActionPrimaryKey(keyBindAction, key);
         } else {

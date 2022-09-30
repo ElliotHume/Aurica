@@ -8,11 +8,15 @@ public class InputManager : MonoBehaviour {
     public Keybindings keybindings;
 
     private Dictionary<KeyCode, string> keyTranslations = new Dictionary<KeyCode, string>();
+    private Dictionary<KeybindingActions, Keybindings.KeybindingCheck> keybindingDict = new Dictionary<KeybindingActions, Keybindings.KeybindingCheck>();
+    private Dictionary<KeybindingActions, bool> customPrimaryActionsDict = new Dictionary<KeybindingActions, bool>();
+    private Dictionary<KeybindingActions, bool> customAlternateActionsDict = new Dictionary<KeybindingActions, bool>();
 
     void Awake() {
         InputManager.Instance = this;
-
         PopulateKeyTranslations();
+        PopulateKeyDict();
+        PopulateCustomActionsDicts();
     }
 
     public KeyCode GetPrimaryActionKeyCode(KeybindingActions keybindingAction) {
@@ -40,55 +44,46 @@ public class InputManager : MonoBehaviour {
     }
 
     public bool GetKeyDown(KeybindingActions keybindingAction) {
-        foreach(Keybindings.KeybindingCheck keybindingCheck in keybindings.keybindingChecks) {
-            if (keybindingCheck.keybindingAction == keybindingAction) {
-                if (HasCustomPrimaryKey(keybindingAction) && Input.GetKeyDown(GetCustomPrimaryKey(keybindingAction))){
-                    return true;
-                } else if (HasCustomAlternateKey(keybindingAction) && Input.GetKeyDown(GetCustomAlternateKey(keybindingAction))){
-                    return true;
-                }
-                return (!HasCustomPrimaryKey(keybindingAction) && Input.GetKeyDown(keybindingCheck.keyCode)) || (!HasCustomAlternateKey(keybindingAction) && keybindingCheck.altKeyCode != KeyCode.None && Input.GetKeyDown(keybindingCheck.altKeyCode));
-                
-            }
+        Keybindings.KeybindingCheck keybindingCheck = keybindingDict[keybindingAction];
+        if (customPrimaryActionsDict[keybindingAction] && Input.GetKeyDown(GetCustomPrimaryKey(keybindingAction))){
+            return true;
+        } else if (customAlternateActionsDict[keybindingAction] && Input.GetKeyDown(GetCustomAlternateKey(keybindingAction))){
+            return true;
         }
-        return false;
+        return (!customPrimaryActionsDict[keybindingAction] && Input.GetKeyDown(keybindingCheck.keyCode)) || (!customAlternateActionsDict[keybindingAction] && keybindingCheck.altKeyCode != KeyCode.None && Input.GetKeyDown(keybindingCheck.altKeyCode));
     }
 
     public bool GetKey(KeybindingActions keybindingAction) {
-        foreach(Keybindings.KeybindingCheck keybindingCheck in keybindings.keybindingChecks) {
-            if (keybindingCheck.keybindingAction == keybindingAction) {
-                if (HasCustomPrimaryKey(keybindingAction) && Input.GetKey(GetCustomPrimaryKey(keybindingAction))){
-                    return true;
-                } else if (HasCustomAlternateKey(keybindingAction) && Input.GetKey(GetCustomAlternateKey(keybindingAction))){
-                    return true;
-                }
-                return (!HasCustomPrimaryKey(keybindingAction) && Input.GetKey(keybindingCheck.keyCode)) || (!HasCustomAlternateKey(keybindingAction) && keybindingCheck.altKeyCode != KeyCode.None && Input.GetKey(keybindingCheck.altKeyCode));
-            }
+        Keybindings.KeybindingCheck keybindingCheck = keybindingDict[keybindingAction];
+        if (customPrimaryActionsDict[keybindingAction] && Input.GetKey(GetCustomPrimaryKey(keybindingAction))){
+            return true;
+        } else if (customAlternateActionsDict[keybindingAction] && Input.GetKey(GetCustomAlternateKey(keybindingAction))){
+            return true;
         }
-        return false;
+        return (!customPrimaryActionsDict[keybindingAction] && Input.GetKey(keybindingCheck.keyCode)) || (!customAlternateActionsDict[keybindingAction] && keybindingCheck.altKeyCode != KeyCode.None && Input.GetKey(keybindingCheck.altKeyCode));
     }
 
     public bool GetKeyUp(KeybindingActions keybindingAction) {
-        foreach(Keybindings.KeybindingCheck keybindingCheck in keybindings.keybindingChecks) {
-            if (keybindingCheck.keybindingAction == keybindingAction) {
-                if (HasCustomPrimaryKey(keybindingAction) && Input.GetKeyUp(GetCustomPrimaryKey(keybindingAction))){
-                    return true;
-                } else if (HasCustomAlternateKey(keybindingAction) && Input.GetKeyUp(GetCustomAlternateKey(keybindingAction))){
-                    return true;
-                }
-                return (!HasCustomPrimaryKey(keybindingAction) && Input.GetKeyUp(keybindingCheck.keyCode)) || (!HasCustomAlternateKey(keybindingAction) && keybindingCheck.altKeyCode != KeyCode.None && Input.GetKeyUp(keybindingCheck.altKeyCode));
-            }
+        Keybindings.KeybindingCheck keybindingCheck = keybindingDict[keybindingAction];
+        if (customPrimaryActionsDict[keybindingAction] && Input.GetKeyUp(GetCustomPrimaryKey(keybindingAction))){
+            return true;
+        } else if (customAlternateActionsDict[keybindingAction] && Input.GetKeyUp(GetCustomAlternateKey(keybindingAction))){
+            return true;
         }
-        return false;
+        return (!customPrimaryActionsDict[keybindingAction] && Input.GetKeyUp(keybindingCheck.keyCode)) || (!customAlternateActionsDict[keybindingAction] && keybindingCheck.altKeyCode != KeyCode.None && Input.GetKeyUp(keybindingCheck.altKeyCode));
     }
 
     public void RebindActionPrimaryKey(KeybindingActions keybindingAction, KeyCode key) {
         PlayerPrefs.SetInt(keybindingAction.ToString(), (int)key);
         BindingUIPanel.LocalInstance.Startup();
+        PopulateKeyDict();
+        PopulateCustomActionsDicts();
     }
 
     public void RebindActionAlternateKey(KeybindingActions keybindingAction, KeyCode key) {
         PlayerPrefs.SetInt(keybindingAction.ToString()+"Alt", (int)key);
+        PopulateKeyDict();
+        PopulateCustomActionsDicts();
     }
 
     public bool HasCustomPrimaryKey(KeybindingActions keybindingAction) {
@@ -116,6 +111,22 @@ public class InputManager : MonoBehaviour {
 
     public string GetKeyTranslationOfAction(KeybindingActions keybindingAction, bool primary = true) {
         return GetKeyTranslation(primary ? GetPrimaryActionKeyCode(keybindingAction) : GetAlternateActionKeyCode(keybindingAction));
+    }
+
+    private void PopulateKeyDict() {
+        keybindingDict.Clear();
+        foreach(Keybindings.KeybindingCheck keybindingCheck in keybindings.keybindingChecks) {
+            keybindingDict.Add(keybindingCheck.keybindingAction, keybindingCheck);
+        }
+    }
+
+    private void PopulateCustomActionsDicts() {
+        customPrimaryActionsDict.Clear();
+        customAlternateActionsDict.Clear();
+        foreach(Keybindings.KeybindingCheck keybindingCheck in keybindings.keybindingChecks) {
+            customPrimaryActionsDict.Add(keybindingCheck.keybindingAction, HasCustomPrimaryKey(keybindingCheck.keybindingAction));
+            customAlternateActionsDict.Add(keybindingCheck.keybindingAction, HasCustomAlternateKey(keybindingCheck.keybindingAction));
+        }
     }
 
     private void PopulateKeyTranslations() {

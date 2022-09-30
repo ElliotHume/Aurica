@@ -264,7 +264,7 @@ public class AoESpell : Spell {
     }
 
     void DisableCollisions() {
-        Debug.Log("Disable Collisions");
+        // Debug.Log("Disable Collisions");
         active = false;
         Collider col = GetComponent<Collider>();
         if (col) col.enabled = false;

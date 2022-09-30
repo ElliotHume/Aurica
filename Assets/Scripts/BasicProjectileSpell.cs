@@ -31,12 +31,12 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public ParticleSystem collisionParticles;
     public AudioClip particleCollisionSound;
     public float clipVolume;
-    private List<ParticleCollisionEvent> collisionEvents;
 
+    private List<ParticleCollisionEvent> collisionEvents;
     private Vector3 startPosition;
     private Vector3 travelDistance = Vector3.zero;
     private Quaternion startRotation;
-    private bool isCollided = false, networkCollided = false, enemyAttack = false;
+    private bool isCollided = false, networkCollided = false, enemyAttack = false, collidersDisabled = false;
     private GameObject HomingTarget, AimAssistTarget;
     private Transform homingTargetT, aimAssistTargetT;
     private Vector3 randomTimeOffset, playerOffset = new Vector3(0f, 1f, 0f);
@@ -81,45 +81,36 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     public void Update() {
-        if (Speed > 60f) {
-            oldPosition = transform.position;
-            UpdateWorldPosition();
-            velocity = transform.position - oldPosition;
-        }
-    }
-
-
-    public void FixedUpdate() {
-        // Local Behaviour
-        if (Speed <= 60f) {
-            oldPosition = transform.position;
-            UpdateWorldPosition();
-            velocity = transform.position - oldPosition;
-        }
-
-        // Remote movement compensation
         if (!photonView.IsMine) {
+            if (!collidersDisabled) DisableCollisions();
             if (!isCollided) {
-                if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
+                if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed) + (velocity * Time.deltaTime);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
 
                 // If no collision has happened locally, but the network shows a collision, determine where the collision should occur and spawn it.
                 if (networkCollided) {
+                    Vector3 hitPosition = networkPosition;
                     if (networkCollidedViewId != -1) {
                         // The spell has collided with a player, we want to make sure this is reflected clientside by moving the projectile towards the player that is hit
                         Transform hitPlayer = PhotonView.Find(networkCollidedViewId).gameObject.transform;
-                        transform.position = ((hitPlayer.position+new Vector3(0f,1f,0f)) + networkPosition)/2f;
+                        hitPosition = ((hitPlayer.position+new Vector3(0f,1f,0f)) + networkPosition)/2f;
+                        transform.position = Vector3.MoveTowards(transform.position, hitPosition, Time.deltaTime * Speed * 2f);
                     } else {
                         // The spell has collided with a non-player object, move it to the networked position on the assumption that the hit object is stationary.
-                        transform.position = networkPosition;
+                        transform.position = Vector3.MoveTowards(transform.position, hitPosition, Time.deltaTime * Speed * 2f);
                     }
-                    transform.rotation = networkRotation;
-                    LocalCollisionBehaviour(transform.position, -transform.forward);
-                    isCollided = true;
+                    if (Vector3.Distance(transform.position, hitPosition) <= 0.1f) {
+                        transform.rotation = networkRotation;
+                        LocalCollisionBehaviour(transform.position, -transform.forward);
+                        isCollided = true;
+                    }
                 }
             }
         }
-        
+
+        oldPosition = transform.position;
+        UpdateWorldPosition();
+        velocity = transform.position - oldPosition;
     }
 
     void OnCollisionEnter(Collision collision) {
@@ -300,7 +291,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
             instance.transform.LookAt(hitpoint + normal + normal * CollisionOffset);
             Destroy(instance, CollisionDestroyTimeDelay);
         }
-        foreach(Collider col in GetComponents<Collider>()) col.enabled = false;
+        DisableCollisions();
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().isKinematic = true;
     }
@@ -344,7 +335,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 foreach (var effect in DeactivateObjectsOnCollision) {
                     if (effect != null) effect.SetActive(false);
                 }
-                foreach(Collider col in GetComponents<Collider>()) col.enabled = false;
+                DisableCollisions();
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<Rigidbody>().isKinematic = true;
                 Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
@@ -443,6 +434,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     public void SetEnemyAttack() {
         enemyAttack = true;
+    }
+
+    public void DisableCollisions() {
+        foreach(Collider col in GetComponents<Collider>()) col.enabled = false;
+        collidersDisabled = true;
     }
 
 
