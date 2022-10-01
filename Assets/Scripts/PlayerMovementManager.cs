@@ -192,10 +192,20 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void EndCast() {
+        StartCoroutine(ResetCasting());
+    }
+
+    private IEnumerator ResetCasting() {
+        float weight = 1f;
+        while (weight > 0f) {
+            weight -= Time.deltaTime * 5f;
+            if (weight <= 0.05f) weight = 0f;
+            animator.SetLayerWeight(1, weight);
+            yield return new WaitForFixedUpdate();
+        }
         casting = false;
         jumping = false;
         animator.SetBool("Cast", casting);
-        animator.SetLayerWeight(1, 0f);
     }
 
     public void Footstep() {
@@ -296,23 +306,9 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void SlowFall(bool sf, float percentage = 0f) {
-        // if (sf) Debug.Log("Activate slow fall %"+percentage);
         slowFall = sf;
         if (percentage != 0f) slowFallPercent = percentage;
         accelerant = 1f;
-
-        // // DOESNT WORK - RE: tried to stop massive gravity after slowfall effect ends
-        // if (!sf) {
-        //     // Reset velocity and acceleration for all rigidbodies of the player.
-        //     Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
-        //     Debug.Log("LIST OF RIGIDBODIES LENGTH: "+rbs.Length);
-        //     foreach(Rigidbody rb in rbs) {
-        //         rb.velocity = Vector3.zero;
-        //         rb.angularVelocity = Vector3.zero;
-        //         rb.Sleep();
-        //         rb.WakeUp();
-        //     }
-        // }
     }
 
     public void Ground(bool sf) {

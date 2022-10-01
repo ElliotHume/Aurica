@@ -73,13 +73,35 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     private Spell attachedSpell;
     private GameObject owner;
     private List<PhotonView> AffectedPlayers;
+    private List<PhotonView> AffectedMobs;
+    private float applicationTimer = 0f;
 
     void Start() {
         attachedSpell = GetComponent<Spell>();
         AffectedPlayers = new List<PhotonView>();
+        AffectedMobs = new List<PhotonView>();
 
         if (attachedSpell != null) {
             Identifier = attachedSpell.auricaSpell.c_name;
+        }
+    }
+
+    void FixedUpdate() {
+        if (!photonView.IsMine || !isContinuous || isManualTriggerOnly || (AffectedPlayers.Count == 0 && AffectedMobs.Count == 0)) return;
+
+        applicationTimer += Time.deltaTime;
+        if (applicationTimer > 0.5f) {
+            applicationTimer = 0f;
+            if (AffectedPlayers.Count > 0) {
+                foreach(PhotonView playerPV in AffectedPlayers) {
+                    ActivateContinuous(playerPV);
+                }
+            }
+            if (AffectedMobs.Count > 0) {
+                foreach(PhotonView mobPV in AffectedMobs) {
+                    ActivateContinuous(mobPV, true);
+                }
+            }
         }
     }
 
@@ -229,11 +251,20 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     }
 
     public void ManualDeactivate() {
-        if (photonView.IsMine && isContinuous && AffectedPlayers != null) {
-            foreach (PhotonView player in AffectedPlayers) {
-                DeactivateContinuous(player, false);
+        if (photonView.IsMine && isContinuous) {
+            if (AffectedPlayers != null) {
+                foreach (PhotonView player in AffectedPlayers) {
+                    DeactivateContinuous(player, false);
+                }
+                AffectedPlayers.Clear();
             }
-            AffectedPlayers.Clear();
+
+            if (AffectedMobs != null) {
+                foreach (PhotonView player in AffectedMobs) {
+                    DeactivateContinuous(player, false, true);
+                }
+                AffectedMobs.Clear();
+            }
         }
     }
 
@@ -241,6 +272,9 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (photonView.IsMine && isContinuous) {
             foreach (PhotonView player in AffectedPlayers) {
                 DeactivateContinuous(player, false);
+            }
+            foreach (PhotonView player in AffectedMobs) {
+                DeactivateContinuous(player, false, true);
             }
         }
     }
@@ -283,7 +317,12 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void ActivateContinuous(PhotonView pv, bool isEnemy = false) {
         if (pv != null) {
-            AffectedPlayers.Add(pv);
+            if (!isEnemy) {
+                if (!AffectedPlayers.Contains(pv)) AffectedPlayers.Add(pv);
+            } else {
+                if (!AffectedMobs.Contains(pv)) AffectedMobs.Add(pv);
+            }
+            
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             // Debug.Log("Activate continuous   mult:" + multiplier);
             if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
@@ -317,7 +356,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
     void DeactivateContinuous(PhotonView pv, bool modify = true, bool isEnemy = false) {
         if (pv != null) {
-            if (modify) AffectedPlayers.Remove(pv);
+            if (modify) {
+                if (!isEnemy) {
+                    if (AffectedPlayers.Contains(pv)) AffectedPlayers.Remove(pv);
+                } else {
+                    if (AffectedMobs.Contains(pv)) AffectedMobs.Remove(pv);
+                }
+            }
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             if (silence) pv.RPC("EndContinuousSilence", RpcTarget.All);
             if (weaken) pv.RPC("EndContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());

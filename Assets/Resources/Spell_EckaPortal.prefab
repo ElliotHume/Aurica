@@ -5277,6 +5277,7 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -5292,6 +5293,7 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 3.8999999, y: 3.8999999, z: 0.13}
   PositionOffset: {x: 0, y: 1.5, z: 2}
   DeactivateObjectsAfterDuration:
   - {fileID: 4245505000801485923}
@@ -5354,13 +5356,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 1, z: 25}
   randomSphereRadius: 0
+  delay: 0
   useNavMesh: 1
   playerOriented: 1
+  isAnchor: 0
+  teleportOwnerOnAwake: 0
   canHitSelf: 1
   onlyHitSelf: 0
   singleUse: 0
   isAffectedBySpellStrength: 1
   NetworkEffectOnTeleport: XCollision_EckaPortal
+  putEffectAtSource: 0
 --- !u!65 &7170307394162397311
 BoxCollider:
   m_ObjectHideFlags: 0

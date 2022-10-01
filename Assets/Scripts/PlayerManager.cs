@@ -1265,7 +1265,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         slowRoutineRunning = false;
 
         // Remove the Identifier from the applied effects list
-        if (appliedSlowEffects.Contains(Identifier)) appliedSlowEffects.Remove(Identifier);
+        appliedSlowEffects.Clear();
     }
     [PunRPC]
     public void ContinuousSlow(string Identifier, float percentage) {
@@ -1326,8 +1326,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         movementManager.ResetMovementSpeed();
         hastened = false;
         hasteRoutineRunning = false;
-
-        if (appliedHasteEffects.Contains(Identifier)) appliedHasteEffects.Remove(Identifier);
+        appliedHasteEffects.Clear();
     }
     [PunRPC]
     public void ContinuousHasten(string Identifier, float percentage) {
@@ -1527,7 +1526,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
         weakenRoutineRunning = false;
 
-        if (appliedWeakenEffects.Contains(Identifier)) appliedWeakenEffects.Remove(Identifier);
+        appliedWeakenEffects.Clear();
     }
     [PunRPC]
     public void ContinuousWeaken(string Identifier, string weakString) {
@@ -1590,7 +1589,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (strengths.GetAggregate() <= 0.1f) strengthened = false;
         strengthenRoutineRunning = false;
 
-        if (appliedStrengthenEffects.Contains(Identifier)) appliedStrengthenEffects.Remove(Identifier);
+        appliedStrengthenEffects.Clear();
     }
 
     [PunRPC]
@@ -1652,7 +1651,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         fragilePercentage = 0f;
         fragileRoutineRunning = false;
 
-        if (appliedFragileEffects.Contains(Identifier)) appliedFragileEffects.Remove(Identifier);
+        appliedFragileEffects.Clear();
     }
     [PunRPC]
     public void ContinuousFragile(string Identifier, float percentage) {
@@ -1706,7 +1705,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         toughPercentage = 0f;
         toughRoutineRunning = false;
 
-        if (appliedToughEffects.Contains(Identifier)) appliedToughEffects.Remove(Identifier);
+        appliedToughEffects.Clear();
     }
     [PunRPC]
     public void ContinuousTough(string Identifier, float percentage) {
@@ -1764,7 +1763,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         manaRestorationRoutineRunning = false;
         manaRestorationPercentage = 0f;
 
-        if (appliedManaRestorationChangeEffects.Contains(Identifier)) appliedManaRestorationChangeEffects.Remove(Identifier);
+        appliedManaRestorationChangeEffects.Clear();
     }
 
     [PunRPC]
