@@ -340,11 +340,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 accumulatingDamageTimer = 0f;
             }
 
-            // Lerp Mana regen towards default if no effects are applied. Because floating point math can create rounding error problems with statuses
-            if (!manaRestorationRoutineRunning && appliedManaRestorationChangeEffects.Count == 0 && !Mathf.Approximately(ManaRegen, defaultManaRegen)){
-                ManaRegen = Mathf.Lerp(ManaRegen, defaultManaRegen, 0.05f * Time.deltaTime);
-                if (Mathf.Approximately(ManaRegen, defaultManaRegen)) manaRestorationChange = false;
-            } 
+            // // Lerp Mana regen towards default if no effects are applied. Because floating point math can create rounding error problems with statuses
+            // if (!manaRestorationRoutineRunning && appliedManaRestorationChangeEffects.Count == 0 && !Mathf.Approximately(ManaRegen, defaultManaRegen)){
+            //     ManaRegen = Mathf.Lerp(ManaRegen, defaultManaRegen, 0.05f * Time.deltaTime);
+            //     if (Mathf.Approximately(ManaRegen, defaultManaRegen)) manaRestorationChange = false;
+            // } 
 
             if (GameUIPanelManager.Instance && GameUIPanelManager.Instance.ShouldProcessInputs()) this.ProcessInputs();
 
@@ -433,7 +433,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 respawning = false;
                 immunityTimer = 0f;
             }
-            manaRestorationBuff = ManaRegen > defaultManaRegen;
+            manaRestorationBuff = ManaRegen >= defaultManaRegen;
         } else {
             if (stunned && animator.speed > 0f) {
                 movementManager.Stun(true);
@@ -1169,6 +1169,68 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
 
+    private float GetHighestEffectValue(Dictionary<string, float> effects) {
+        float highest = 0f;
+        foreach(KeyValuePair<string, float> effect in effects) {
+            if (effect.Value > highest) {
+                highest = effect.Value;
+            }
+        }
+        return highest;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1238,64 +1300,41 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Slow - Decrease animation speed
-    List<string> appliedSlowEffects = new List<string>();
+    Dictionary<string, float> appliedSlowEffects = new Dictionary<string, float>();
 
     [PunRPC]
     void Slow(string Identifier, float duration, float percentage) {
         if (photonView.IsMine && !isShielded) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
-            if (appliedSlowEffects.Contains(Identifier)) {
-                // Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
-                return;
-            }
-            appliedSlowEffects.Add(Identifier);
-
-            slowed = true;
+            if (appliedSlowEffects.ContainsKey(Identifier)) return;
+            appliedSlowEffects.Add(Identifier, percentage);
             slowRoutine = StartCoroutine(SlowRoutine(Identifier, duration, percentage));
         }
     }
     IEnumerator SlowRoutine(string Identifier, float duration, float percentage) {
         slowRoutineRunning = true;
-        animator.speed *= 1f - percentage;
-        movementManager.ChangeMovementSpeed(1f - percentage);
+        ApplyCombinedMovementEffects();
         yield return new WaitForSeconds(duration);
-        animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-        movementManager.ResetMovementSpeed();
-        slowed = false;
+        appliedSlowEffects.Remove(Identifier);
+        ApplyCombinedMovementEffects();
         slowRoutineRunning = false;
 
-        // Remove the Identifier from the applied effects list
-        appliedSlowEffects.Clear();
     }
     [PunRPC]
     public void ContinuousSlow(string Identifier, float percentage) {
         if (photonView.IsMine) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
-            if (appliedSlowEffects.Contains(Identifier)) {
-                // Debug.Log("Nullify duplicate {SLOW} from ["+Identifier+"].");
-                return;
-            }
-            Debug.Log("Apply slow: "+percentage);
-            appliedSlowEffects.Add(Identifier);
-
-            slowed = true;
-            animator.speed *= 1f - percentage;
-            movementManager.ChangeMovementSpeed(1f - percentage);
+            if (appliedSlowEffects.ContainsKey(Identifier)) return;
+            appliedSlowEffects.Add(Identifier, percentage);
+            ApplyCombinedMovementEffects();
         }
     }
     [PunRPC]
     public void EndContinuousSlow(string Identifier) {
         if (photonView.IsMine) {
-            if (appliedSlowEffects.Contains(Identifier)){
-                appliedSlowEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
-
-            animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-            movementManager.ResetMovementSpeed();
-            slowed = false;
+            if (!appliedSlowEffects.ContainsKey(Identifier)) return;
+            appliedSlowEffects.Remove(Identifier);
+            ApplyCombinedMovementEffects();
         }
     }
 
@@ -1305,54 +1344,58 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Hasten - Increase animation speed
-    List<string> appliedHasteEffects = new List<string>();
+    Dictionary<string, float> appliedHasteEffects = new Dictionary<string, float>();
 
     [PunRPC]
     void Hasten(string Identifier, float duration, float percentage) {
         if (photonView.IsMine && !isShielded) {
-            if (appliedHasteEffects.Contains(Identifier)) return;
-            appliedHasteEffects.Add(Identifier);
-
-            hastened = true;
+            if (appliedHasteEffects.ContainsKey(Identifier)) return;
+            appliedHasteEffects.Add(Identifier, percentage);
             hasteRoutine = StartCoroutine(HastenRoutine(Identifier, duration, percentage));
         }
     }
     IEnumerator HastenRoutine(string Identifier, float duration, float percentage) {
         hasteRoutineRunning = true;
-        animator.speed *= 1f + percentage;
-        movementManager.ChangeMovementSpeed(1f + percentage);
+        ApplyCombinedMovementEffects();
         yield return new WaitForSeconds(duration);
-        animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-        movementManager.ResetMovementSpeed();
-        hastened = false;
+        appliedHasteEffects.Remove(Identifier);
+        ApplyCombinedMovementEffects();
         hasteRoutineRunning = false;
-        appliedHasteEffects.Clear();
     }
     [PunRPC]
     public void ContinuousHasten(string Identifier, float percentage) {
         if (photonView.IsMine) {
-            if (appliedHasteEffects.Contains(Identifier)) return;
-            appliedHasteEffects.Add(Identifier);
-
-            hastened = true;
-            animator.speed *= 1f + percentage;
-            movementManager.ChangeMovementSpeed(1f + percentage);
+            if (appliedHasteEffects.ContainsKey(Identifier)) return;
+            appliedHasteEffects.Add(Identifier, percentage);
+            ApplyCombinedMovementEffects();
         }
     }
     [PunRPC]
     public void EndContinuousHasten(string Identifier) {
         if (photonView.IsMine) {
-            if (appliedHasteEffects.Contains(Identifier)){
-                appliedHasteEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
+            if (!appliedHasteEffects.ContainsKey(Identifier)) return;
+            appliedHasteEffects.Remove(Identifier);
+            ApplyCombinedMovementEffects();
+        }
+    }
 
+    private float GetCombinedMovementEffects() {
+        float highestSlow = GetHighestEffectValue(appliedSlowEffects);
+        float highestHaste = GetHighestEffectValue(appliedHasteEffects);
+        return highestHaste - highestSlow;
+    }
+
+    private void ApplyCombinedMovementEffects() {
+        hastened = appliedHasteEffects.Count > 0;
+        slowed = appliedSlowEffects.Count > 0;
+        if (!hastened && !slowed) {
             animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
             movementManager.ResetMovementSpeed();
-            hastened = false;
+            return;
         }
+        float combinedEffects = GetCombinedMovementEffects();
+        animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER + combinedEffects;
+        movementManager.ChangeMovementSpeed(1f + combinedEffects);
     }
 
 
@@ -1505,56 +1548,43 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Weaken - Deal reduced damage of given mana types
-    List<string> appliedWeakenEffects = new List<string>();
+    Dictionary<string, ManaDistribution> appliedWeakenEffects = new Dictionary<string, ManaDistribution>();
 
     [PunRPC]
     void Weaken(string Identifier, float duration, string weaknessString) {
         if (photonView.IsMine && !isShielded) {
-            if (appliedWeakenEffects.Contains(Identifier)) return;
-            appliedWeakenEffects.Add(Identifier);
-
+            if (appliedWeakenEffects.ContainsKey(Identifier)) return;
             ManaDistribution weaknessDist = new ManaDistribution(weaknessString);
-            weakenRoutine = StartCoroutine(WeakenRoutine(Identifier, duration, weaknessDist));
+            appliedWeakenEffects.Add(Identifier, weaknessDist);
+            weakenRoutine = StartCoroutine(WeakenRoutine(Identifier, duration));
         }
     }
-    IEnumerator WeakenRoutine(string Identifier, float duration, ManaDistribution weaknessDist) {
+    IEnumerator WeakenRoutine(string Identifier, float duration) {
         weakenRoutineRunning = true;
-        weakened = true;
-        weaknesses += weaknessDist;
+        ApplyCombinedDamageOutputEffects();
         yield return new WaitForSeconds(duration);
-        weaknesses -= weaknessDist;
-        if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
+        if (appliedWeakenEffects.ContainsKey(Identifier)) {
+            appliedWeakenEffects.Remove(Identifier);
+        }
+        ApplyCombinedDamageOutputEffects();
         weakenRoutineRunning = false;
-
-        appliedWeakenEffects.Clear();
     }
     [PunRPC]
     public void ContinuousWeaken(string Identifier, string weakString) {
         if (photonView.IsMine) {
-            if (appliedWeakenEffects.Contains(Identifier)) return;
-            appliedWeakenEffects.Add(Identifier);
-            
+            if (appliedWeakenEffects.ContainsKey(Identifier)) return;
             ManaDistribution weakDist = new ManaDistribution(weakString);
-            weakened = true;
-            weaknesses += weakDist;
-            //Debug.Log("New Strength: " + weaknesses.ToString());
+            appliedWeakenEffects.Add(Identifier, weakDist);
+            ApplyCombinedDamageOutputEffects();
         }
     }
 
     [PunRPC]
     public void EndContinuousWeaken(string Identifier, string weakString) {
         if (photonView.IsMine) {
-            if (appliedWeakenEffects.Contains(Identifier)){
-                appliedWeakenEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
-
-            ManaDistribution weakDist = new ManaDistribution(weakString);
-            weaknesses -= weakDist;
-            if (weaknesses.GetAggregate() <= 0.1f) weakened = false;
-            //Debug.Log("New Strength after end: " + weaknesses.ToString());
+            if (!appliedStrengthenEffects.ContainsKey(Identifier)) return;
+            appliedStrengthenEffects.Remove(Identifier);
+            ApplyCombinedDamageOutputEffects();
         }
     }
 
@@ -1564,65 +1594,69 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Strengthen - Deal increased damage of given mana types
-    List<string> appliedStrengthenEffects = new List<string>();
+    Dictionary<string, ManaDistribution> appliedStrengthenEffects = new Dictionary<string, ManaDistribution>();
 
     [PunRPC]
     void Strengthen(string Identifier, float duration, string strengthString) {
         if (photonView.IsMine && !isShielded) {
-            if (appliedStrengthenEffects.Contains(Identifier)) {
-                // Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
-                return;
-            }
-            appliedStrengthenEffects.Add(Identifier);
-
+            if (appliedStrengthenEffects.ContainsKey(Identifier)) return;
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
+            appliedStrengthenEffects.Add(Identifier, strengthDist);
             strengthenRoutine = StartCoroutine(StrengthenRoutine(Identifier, duration, strengthDist));
         }
     }
     IEnumerator StrengthenRoutine(string Identifier, float duration, ManaDistribution strengthDist) {
         strengthenRoutineRunning = true;
-        strengthened = true;
-        strengths += strengthDist;
-        //Debug.Log("New Strength: " + strengths.ToString());
+        ApplyCombinedDamageOutputEffects();
         yield return new WaitForSeconds(duration);
-        strengths -= strengthDist;
-        if (strengths.GetAggregate() <= 0.1f) strengthened = false;
+        if (appliedStrengthenEffects.ContainsKey(Identifier)) {
+            appliedStrengthenEffects.Remove(Identifier);
+        }
+        ApplyCombinedDamageOutputEffects();
         strengthenRoutineRunning = false;
-
-        appliedStrengthenEffects.Clear();
     }
 
     [PunRPC]
     public void ContinuousStrengthen(string Identifier, string strengthString) {
         if (photonView.IsMine) {
-            if (appliedStrengthenEffects.Contains(Identifier)) {
-                // Debug.Log("Nullify duplicate {STRENGTHEN} from ["+Identifier+"].");
-                return;
-            }
-            appliedStrengthenEffects.Add(Identifier);
-
+            if (appliedStrengthenEffects.ContainsKey(Identifier)) return;
             ManaDistribution strengthDist = new ManaDistribution(strengthString);
-            strengthened = true;
-            strengths += strengthDist;
-            //Debug.Log("New Strength: " + strengths.ToString());
+            appliedStrengthenEffects.Add(Identifier, strengthDist);
+            ApplyCombinedDamageOutputEffects();
         }
     }
 
     [PunRPC]
     public void EndContinuousStrengthen(string Identifier, string strengthString) {
         if (photonView.IsMine) {
-            if (appliedStrengthenEffects.Contains(Identifier)){
-                appliedStrengthenEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
-
-            ManaDistribution strengthDist = new ManaDistribution(strengthString);
-            strengths -= strengthDist;
-            if (strengths.GetAggregate() <= 0.1f) strengthened = false;
-            //Debug.Log("New Strength after end: " + strengths.ToString());
+            if (!appliedStrengthenEffects.ContainsKey(Identifier)) return;
+            appliedStrengthenEffects.Remove(Identifier);
+            ApplyCombinedDamageOutputEffects();
         }
+    }
+
+    private void ApplyCombinedDamageOutputEffects() {
+        strengthened = appliedStrengthenEffects.Count > 0;
+        if (!strengthened) strengths = new ManaDistribution();
+        
+        weakened = appliedWeakenEffects.Count > 0;
+        if (!weakened) weaknesses = new ManaDistribution();
+
+        if (!strengthened && !weakened) {
+            return;
+        }
+
+        ManaDistribution combinedStrengths = new ManaDistribution();
+        foreach(KeyValuePair<string, ManaDistribution> effect in appliedStrengthenEffects) {
+            combinedStrengths += effect.Value;
+        }
+        strengths = combinedStrengths;
+
+        ManaDistribution combinedWeaknesses = new ManaDistribution();
+        foreach(KeyValuePair<string, ManaDistribution> effect in appliedWeakenEffects) {
+            combinedWeaknesses += effect.Value;
+        }
+        weaknesses = combinedWeaknesses;
     }
 
 
@@ -1631,51 +1665,39 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Fragile - Take increased damage from all sources
-    List<string> appliedFragileEffects = new List<string>();
+    Dictionary<string, float> appliedFragileEffects = new Dictionary<string, float>();
 
     [PunRPC]
     void Fragile(string Identifier, float duration, float percentage) {
         if (photonView.IsMine && !isShielded) {
-            if (appliedFragileEffects.Contains(Identifier)) return;
-            appliedFragileEffects.Add(Identifier);
-
-            fragile = true;
-            fragilePercentage = percentage;
+            if (appliedFragileEffects.ContainsKey(Identifier)) return;
+            appliedFragileEffects.Add(Identifier, percentage);
             fragileRoutine = StartCoroutine(FragileRoutine(Identifier, duration));
         }
     }
     IEnumerator FragileRoutine(string Identifier, float duration) {
         fragileRoutineRunning = true;
+        ApplyCombinedResistanceEffects();
         yield return new WaitForSeconds(duration);
-        fragile = false;
-        fragilePercentage = 0f;
+        if (appliedFragileEffects.ContainsKey(Identifier)) appliedFragileEffects.Remove(Identifier);
+        ApplyCombinedResistanceEffects();
         fragileRoutineRunning = false;
-
-        appliedFragileEffects.Clear();
     }
     [PunRPC]
     public void ContinuousFragile(string Identifier, float percentage) {
-        if (photonView.IsMine) {
-            if (appliedFragileEffects.Contains(Identifier)) return;
-            appliedFragileEffects.Add(Identifier);
-
-            fragile = true;
-            fragilePercentage = percentage;
+        if (photonView.IsMine && !isShielded) {
+            if (appliedFragileEffects.ContainsKey(Identifier)) return;
+            appliedFragileEffects.Add(Identifier, percentage);
+            ApplyCombinedResistanceEffects();
         }
     }
 
     [PunRPC]
     public void EndContinuousFragile(string Identifier) {
         if (photonView.IsMine) {
-            if (appliedFragileEffects.Contains(Identifier)){
-                appliedFragileEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
-
-            fragile = false;
-            fragilePercentage = 0f;
+            if (!appliedFragileEffects.ContainsKey(Identifier)) return;
+            appliedFragileEffects.Remove(Identifier);
+            ApplyCombinedResistanceEffects();
         }
     }
 
@@ -1685,51 +1707,53 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Toughen - Take decreased damage from all sources
-    List<string> appliedToughEffects = new List<string>();
+    Dictionary<string, float> appliedToughEffects = new Dictionary<string, float>();
 
     [PunRPC]
     void Tough(string Identifier, float duration, float percentage) {
         if (photonView.IsMine && !isShielded) {
-            if (appliedToughEffects.Contains(Identifier)) return;
-            appliedToughEffects.Add(Identifier);
-
-            toughRoutine = StartCoroutine(ToughRoutine(Identifier, duration, percentage));
+            if (appliedToughEffects.ContainsKey(Identifier)) return;
+            appliedToughEffects.Add(Identifier, percentage);
+            toughRoutine = StartCoroutine(ToughRoutine(Identifier, duration));
         }
     }
-    IEnumerator ToughRoutine(string Identifier, float duration, float percentage) {
+    IEnumerator ToughRoutine(string Identifier, float duration) {
         toughRoutineRunning = true;
-        tough = true;
-        toughPercentage = percentage;
+        ApplyCombinedResistanceEffects();
         yield return new WaitForSeconds(duration);
-        tough = false;
-        toughPercentage = 0f;
+        if (appliedToughEffects.ContainsKey(Identifier)) appliedToughEffects.Remove(Identifier);
+        ApplyCombinedResistanceEffects();
         toughRoutineRunning = false;
-
-        appliedToughEffects.Clear();
     }
     [PunRPC]
     public void ContinuousTough(string Identifier, float percentage) {
         if (photonView.IsMine) {
-            if (appliedToughEffects.Contains(Identifier)) return;
-            appliedToughEffects.Add(Identifier);
-
-            tough = true;
-            toughPercentage = percentage;
+            if (appliedToughEffects.ContainsKey(Identifier)) return;
+            appliedToughEffects.Add(Identifier, percentage);
+            ApplyCombinedResistanceEffects();
         }
     }
     [PunRPC]
     public void EndContinuousTough(string Identifier) {
         if (photonView.IsMine) {
-            if (appliedToughEffects.Contains(Identifier)){
-                appliedToughEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
-
-            tough = false;
-            toughPercentage = 0f;
+            if (!appliedToughEffects.ContainsKey(Identifier)) return;
+            appliedToughEffects.Remove(Identifier);
+            ApplyCombinedResistanceEffects();
         }
+    }
+
+    private void ApplyCombinedResistanceEffects() {
+        tough = appliedToughEffects.Count > 0;
+        if (!tough) toughPercentage = 0f;
+
+        fragile = appliedFragileEffects.Count > 0;
+        if (!fragile) fragilePercentage = 0f;
+
+        if (!tough && !fragile) {
+            return;
+        }
+        toughPercentage = GetHighestEffectValue(appliedToughEffects);
+        fragilePercentage = GetHighestEffectValue(appliedFragileEffects);
     }
 
 
@@ -1738,62 +1762,55 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // ManaRestoration - change the mana regen rate by a multiplier value
-    List<string> appliedManaRestorationChangeEffects = new List<string>();
+    Dictionary<string, float> appliedManaRestorationChangeEffects = new Dictionary<string, float>();
 
     [PunRPC]
     void ManaRestoration(string Identifier, float duration, float restorationPercentage) {
-        if (photonView.IsMine && !isShielded) {
-            if (appliedManaRestorationChangeEffects.Contains(Identifier)) return;
-            appliedManaRestorationChangeEffects.Add(Identifier);
-
+        if (photonView.IsMine && (!isShielded || restorationPercentage >= 1f)) {
+            if (appliedManaRestorationChangeEffects.ContainsKey(Identifier)) return;
+            appliedManaRestorationChangeEffects.Add(Identifier, restorationPercentage);
             manaRestorationRoutine = StartCoroutine(ManaRestorationRoutine(Identifier, duration, restorationPercentage));
         }
     }
     IEnumerator ManaRestorationRoutine(string Identifier, float duration, float restorationPercentage) {
-        // Debug.Log("Mana restoration mult: "+restorationPercentage+"     for: "+duration+" seconds.");
         manaRestorationRoutineRunning = true;
-        manaRestorationChange = true;
-        ManaRegen *= restorationPercentage;
-        manaRestorationPercentage = restorationPercentage;
-        // Debug.Log("New Mana Regen : " + ManaRegen);
+        ApplyCombinedManaRestorationEffects();
         yield return new WaitForSeconds(duration);
-        if (ManaRegen != defaultManaRegen) ManaRegen /= restorationPercentage;
-        if (Mathf.Approximately(ManaRegen, defaultManaRegen)) manaRestorationChange = false;
-        // Debug.Log("New Mana Regen after end: " + ManaRegen);
+        if (appliedManaRestorationChangeEffects.ContainsKey(Identifier)) appliedManaRestorationChangeEffects.Remove(Identifier);
         manaRestorationRoutineRunning = false;
-        manaRestorationPercentage = 0f;
-
-        appliedManaRestorationChangeEffects.Clear();
+        ApplyCombinedManaRestorationEffects();
     }
 
     [PunRPC]
     public void ContinuousManaRestoration(string Identifier, float restorationPercentage) {
-        if (photonView.IsMine) {
-            if (appliedManaRestorationChangeEffects.Contains(Identifier)) return;
-            appliedManaRestorationChangeEffects.Add(Identifier);
-
-            manaRestorationChange = true;
-            manaRestorationPercentage = restorationPercentage;
-            ManaRegen *= restorationPercentage;
-            // Debug.Log("New Mana Regen : " + ManaRegen);
+        if (photonView.IsMine && (!isShielded || restorationPercentage >= 1f)) {
+            if (appliedManaRestorationChangeEffects.ContainsKey(Identifier)) return;
+            appliedManaRestorationChangeEffects.Add(Identifier, restorationPercentage);
+            ApplyCombinedManaRestorationEffects();
         }
     }
 
     [PunRPC]
     public void EndContinuousManaRestoration(string Identifier, float restorationPercentage) {
         if (photonView.IsMine) {
-            if (appliedManaRestorationChangeEffects.Contains(Identifier)){
-                appliedManaRestorationChangeEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
-
-            if (ManaRegen != defaultManaRegen) ManaRegen /= restorationPercentage;
-            manaRestorationPercentage = 0f;
-            if (ManaRegen == defaultManaRegen) manaRestorationChange = false;
-            //Debug.Log("New Mana Regen after end: " + ManaRegen);
+            if (!appliedManaRestorationChangeEffects.ContainsKey(Identifier)) return;
+            appliedManaRestorationChangeEffects.Remove(Identifier);
+            ApplyCombinedManaRestorationEffects();
         }
+    }
+
+    private void ApplyCombinedManaRestorationEffects() {
+        manaRestorationChange = appliedManaRestorationChangeEffects.Count > 0;
+        if (!manaRestorationChange) {
+            manaRestorationPercentage = 0f;
+            ManaRegen = defaultManaRegen;
+            return;
+        }
+        manaRestorationPercentage = 1f;
+        foreach(KeyValuePair<string, float> effect in appliedManaRestorationChangeEffects) {
+            manaRestorationPercentage *= effect.Value;
+        }
+        ManaRegen = defaultManaRegen * manaRestorationPercentage;
     }
 
 

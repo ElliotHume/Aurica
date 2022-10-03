@@ -192,6 +192,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void EndCast() {
+        jumping = false;
+        animator.SetBool("Cast", false);
         StartCoroutine(ResetCasting());
     }
 
@@ -204,8 +206,6 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             yield return new WaitForFixedUpdate();
         }
         casting = false;
-        jumping = false;
-        animator.SetBool("Cast", casting);
     }
 
     public void Footstep() {
@@ -268,7 +268,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public void ChangeMovementSpeed(float multiplier) {
-        movementSpeed *= multiplier;
+        movementSpeed = (running ? PlayerSpeed : PlayerSpeed / 3f) * multiplier;
     }
 
     public void ResetMovementSpeed() {

@@ -83,6 +83,8 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
 
         if (attachedSpell != null) {
             Identifier = attachedSpell.auricaSpell.c_name;
+        } else {
+            Identifier = gameObject.name;
         }
     }
 
