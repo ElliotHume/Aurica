@@ -4591,6 +4591,7 @@ GameObject:
   - component: {fileID: 6190765987026960363}
   - component: {fileID: 6190765987026960362}
   - component: {fileID: 6190765987026960361}
+  - component: {fileID: -6609870365948233034}
   m_Layer: 6
   m_Name: Spell_BoulderToss
   m_TagString: Spell
@@ -4636,6 +4637,7 @@ MonoBehaviour:
   CastAnimationType: 2
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -4723,6 +4725,27 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 1
+--- !u!114 &-6609870365948233034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6190673007231017983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacementDistance: 5
+  displacementSpeed: 5
+  displacementDirection: {x: 0, y: 0, z: 0}
+  canHitSelf: 0
+  isKnockback: 1
+  isVacuum: 0
+  isFixed: 0
+  isContinuous: 0
+  clip: {fileID: 0}
 --- !u!1 &6190757723862893845
 GameObject:
   m_ObjectHideFlags: 0

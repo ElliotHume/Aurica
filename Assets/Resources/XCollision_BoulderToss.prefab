@@ -9353,6 +9353,7 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 1
@@ -9368,6 +9369,7 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 1, y: 1, z: 1}
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
@@ -9443,7 +9445,7 @@ MonoBehaviour:
   Identifier: SceneObject
   slow: 1
   slowDuration: 1
-  slowPercentage: 30
+  slowPercentage: 50
   hasten: 0
   hastenDuration: 0
   hastenPercentage: 0
@@ -9481,9 +9483,9 @@ MonoBehaviour:
   tough: 0
   toughDuration: 0
   toughPercentage: 0
-  changeManaRegen: 0
+  changeManaRegen: 1
   changeDuration: 0
-  changePercentage: 0
+  changePercentage: 75
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0

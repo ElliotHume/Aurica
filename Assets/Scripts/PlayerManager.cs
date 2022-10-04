@@ -758,7 +758,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ) ||
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE) ||
             InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF))) {
+            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF) ||
+            InputManager.Instance.GetKeyDown(KeybindingActions.Cast))) {
             StopChannelling();
             auricaCaster.ResetCast();
         } else {
