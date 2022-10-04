@@ -287,22 +287,22 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             Debug.Log("Status effect for: "+gameObject+"  cast with multiplier: "+multiplier);
             if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
             if (cure) pv.RPC("Cure", RpcTarget.All);
-            if (silence) pv.RPC("Silence", RpcTarget.All, silenceDuration * multiplier);
+            if (silence) pv.RPC("Silence", RpcTarget.All, Identifier, silenceDuration * multiplier);
             // Cap slow values at 90%, we don't want a 100% slow
             if (slow) pv.RPC("Slow", RpcTarget.All, Identifier, slowDuration * multiplier, Mathf.Clamp(slowPercentage/100f * multiplier, 0f, 90f)) ;
             if (hasten) pv.RPC("Hasten", RpcTarget.All, Identifier, hastenDuration * multiplier, hastenPercentage/100f * multiplier);
-            if (root) pv.RPC("Root", RpcTarget.All, rootDuration * multiplier);
-            if (stun) pv.RPC("Stun", RpcTarget.All, stunDuration * multiplier);
+            if (root) pv.RPC("Root", RpcTarget.All, Identifier, rootDuration * multiplier);
+            if (stun) pv.RPC("Stun", RpcTarget.All, Identifier, stunDuration * multiplier);
             if (weaken) pv.RPC("Weaken", RpcTarget.All, Identifier, weakenDuration * multiplier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("Strengthen", RpcTarget.All, Identifier, strengthenDuration * multiplier, strengthenDistribution.ToString());
             if (fragile) pv.RPC("Fragile", RpcTarget.All, Identifier, fragileDuration * multiplier, fragilePercentage / 100f * multiplier);
             if (tough) pv.RPC("Tough", RpcTarget.All, Identifier, toughDuration * multiplier, toughPercentage / 100f * multiplier);
             
             if (!isEnemy) {
-                if (ground) pv.RPC("Ground", RpcTarget.All, groundDuration * multiplier);
+                if (ground) pv.RPC("Ground", RpcTarget.All, Identifier, groundDuration * multiplier);
                 if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount / 100f * multiplier);
                 if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * multiplier, manaDrainPercentAmount / 100f * multiplier);
-                if (camouflage) pv.RPC("Camouflage", RpcTarget.All, camouflageDuration * multiplier);
+                if (camouflage) pv.RPC("Camouflage", RpcTarget.All, Identifier, camouflageDuration * multiplier);
                 if (slowFall) pv.RPC("SlowFall", RpcTarget.All, Identifier, slowFallDuration * multiplier, slowFallPercent / 100f * multiplier);
                 if (changeManaRegen) {
                 // Do not reduce the duration of a regen debuff, else people will cast spells at deliberately low strength to lessen the debuff
@@ -327,20 +327,20 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
             // Debug.Log("Activate continuous   mult:" + multiplier);
-            if (silence) pv.RPC("ContinuousSilence", RpcTarget.All);
+            if (silence) pv.RPC("ContinuousSilence", RpcTarget.All, Identifier);
             if (weaken) pv.RPC("ContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("ContinuousStrengthen", RpcTarget.All, Identifier, strengthenDistribution.ToString());
             if (slow) pv.RPC("ContinuousSlow", RpcTarget.All, Identifier, Mathf.Clamp(slowPercentage / 100f * multiplier, 0f, 90f));
             if (hasten) pv.RPC("ContinuousHasten", RpcTarget.All, Identifier, hastenPercentage / 100f * multiplier);
-            if (root) pv.RPC("ContinuousRoot", RpcTarget.All);
-            if (stun) pv.RPC("ContinuousStun", RpcTarget.All);
+            if (root) pv.RPC("ContinuousRoot", RpcTarget.All, Identifier);
+            if (stun) pv.RPC("ContinuousStun", RpcTarget.All, Identifier);
             if (fragile) pv.RPC("ContinuousFragile", RpcTarget.All, Identifier, fragilePercentage / 100f * multiplier);
             if (tough) pv.RPC("ContinuousTough", RpcTarget.All, Identifier, toughPercentage / 100f * multiplier);
 
             if (!isEnemy) {
-                if (camouflage) pv.RPC("ContinuousCamouflage", RpcTarget.All);
+                if (camouflage) pv.RPC("ContinuousCamouflage", RpcTarget.All, Identifier);
                 if (slowFall) pv.RPC("ContinuousSlowFall", RpcTarget.All, Identifier, slowFallPercent / 100f * multiplier);
-                if (ground) pv.RPC("ContinuousGround", RpcTarget.All);
+                if (ground) pv.RPC("ContinuousGround", RpcTarget.All, Identifier);
                 if (changeManaRegen) pv.RPC("ContinuousManaRestoration", RpcTarget.All, Identifier, changePercentage / 100f * multiplier);
             }
         }
@@ -366,20 +366,20 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
                 }
             }
             float multiplier = attachedSpell != null && isAffectedBySpellStrength ? attachedSpell.GetSpellStrength() : 1f;
-            if (silence) pv.RPC("EndContinuousSilence", RpcTarget.All);
+            if (silence) pv.RPC("EndContinuousSilence", RpcTarget.All, Identifier);
             if (weaken) pv.RPC("EndContinuousWeaken", RpcTarget.All, Identifier, weakenDistribution.ToString());
             if (strengthen) pv.RPC("EndContinuousStrengthen", RpcTarget.All, Identifier, strengthenDistribution.ToString());
             if (slow) pv.RPC("EndContinuousSlow", RpcTarget.All, Identifier);
             if (hasten) pv.RPC("EndContinuousHasten", RpcTarget.All, Identifier);
-            if (root) pv.RPC("EndContinuousRoot", RpcTarget.All);
-            if (stun) pv.RPC("EndContinuousStun", RpcTarget.All);
+            if (root) pv.RPC("EndContinuousRoot", RpcTarget.All, Identifier);
+            if (stun) pv.RPC("EndContinuousStun", RpcTarget.All, Identifier);
             if (fragile) pv.RPC("EndContinuousFragile", RpcTarget.All, Identifier);
             if (tough) pv.RPC("EndContinuousTough", RpcTarget.All, Identifier);
 
             if (!isEnemy) {
-                if (ground) pv.RPC("EndContinuousGround", RpcTarget.All);
-                if (camouflage) pv.RPC("EndContinuousCamouflage", RpcTarget.All);
-                if (slowFall) pv.RPC("EndContinuousSlowFall", RpcTarget.All);
+                if (ground) pv.RPC("EndContinuousGround", RpcTarget.All, Identifier);
+                if (camouflage) pv.RPC("EndContinuousCamouflage", RpcTarget.All, Identifier);
+                if (slowFall) pv.RPC("EndContinuousSlowFall", RpcTarget.All, Identifier);
                 if (changeManaRegen) pv.RPC("EndContinuousManaRestoration", RpcTarget.All, Identifier, changePercentage / 100f * multiplier);
             }
         }

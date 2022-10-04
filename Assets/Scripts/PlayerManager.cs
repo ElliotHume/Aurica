@@ -1286,6 +1286,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // ManaDrain - drain mana by a flat value and/or a percentage of missing health
     [PunRPC]
     void ManaDrain(float flat, float percentage) {
+        if (isShielded) return;
         particleManager.PlayManaDrainFX();
         if (photonView.IsMine) {
             // Debug.Log("Draining Mana by - flat: "+flat+" & percentage: "+percentage+" = "+(Mana * percentage));
@@ -1322,7 +1323,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
     [PunRPC]
     public void ContinuousSlow(string Identifier, float percentage) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             // If a status effect from the same Identifier has already been applied, do not apply another.
             if (appliedSlowEffects.ContainsKey(Identifier)) return;
             appliedSlowEffects.Add(Identifier, percentage);
@@ -1404,68 +1405,86 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Rooted - Prevent movement, including movement spells
+    List<string> appliedRootEffects = new List<string>();
+
     [PunRPC]
-    void Root(float duration) {
-        if (photonView.IsMine && !rooted && !isShielded) {
-            rooted = true;
-            rootRoutine = StartCoroutine(RootRoutine(duration));
+    void Root(string Identifier, float duration) {
+        if (photonView.IsMine && !isShielded) {
+            if (appliedRootEffects.Contains(Identifier)) return;
+            appliedRootEffects.Add(Identifier);
+            rootRoutine = StartCoroutine(RootRoutine(Identifier, duration));
         }
     }
-    IEnumerator RootRoutine(float duration) {
+    IEnumerator RootRoutine(string Identifier, float duration) {
         rootRoutineRunning = true;
-        movementManager.Root(true);
+        ApplyRootEffects();
         yield return new WaitForSeconds(duration);
-        movementManager.Root(false);
-        rooted = false;
+        if (appliedRootEffects.Contains(Identifier)) appliedRootEffects.Remove(Identifier);
+        ApplyRootEffects();
         rootRoutineRunning = false;
     }
     [PunRPC]
-    public void ContinuousRoot() {
-        if (photonView.IsMine) {
-            rooted = true;
-            movementManager.Root(true);
+    public void ContinuousRoot(string Identifier) {
+        if (photonView.IsMine && !isShielded) {
+            if (appliedRootEffects.Contains(Identifier)) return;
+            appliedRootEffects.Add(Identifier);
+            ApplyRootEffects();
         }
     }
     [PunRPC]
-    public void EndContinuousRoot() {
+    public void EndContinuousRoot(string Identifier) {
         if (photonView.IsMine) {
-            rooted = false;
-            movementManager.Root(false);
+            if (!appliedRootEffects.Contains(Identifier)) return;
+            appliedRootEffects.Remove(Identifier);
+            ApplyRootEffects();
         }
+    }
+    private void ApplyRootEffects() {
+        rooted = appliedRootEffects.Count > 0;
+        movementManager.Root(rooted);
     }
 
     
     
     
     // Grounded - Cannot be displaced
+    List<string> appliedGroundEffects = new List<string>();
+
     [PunRPC]
-    void Ground(float duration) {
+    void Ground(string Identifier, float duration) {
         if (photonView.IsMine && !isShielded) {
-            groundedRoutine = StartCoroutine(GroundedRoutine(duration));
+            if (appliedGroundEffects.Contains(Identifier)) return;
+            appliedGroundEffects.Add(Identifier);
+            groundedRoutine = StartCoroutine(GroundedRoutine(Identifier, duration));
         }
     }
-    IEnumerator GroundedRoutine(float duration) {
+    IEnumerator GroundedRoutine(string Identifier, float duration) {
         groundedRoutineRunning = true;
-        grounded = true;
-        movementManager.Ground(true);
+        ApplyGroundedEffects();
         yield return new WaitForSeconds(duration);
-        grounded = false;
+        if (appliedGroundEffects.Contains(Identifier)) appliedGroundEffects.Remove(Identifier);
+        ApplyGroundedEffects();
         groundedRoutineRunning = false;
-        movementManager.Ground(false);
     }
     [PunRPC]
-    public void ContinuousGround() {
-        if (photonView.IsMine) {
-            grounded = true;
-            movementManager.Ground(true);
+    public void ContinuousGround(string Identifier) {
+        if (photonView.IsMine && !isShielded) {
+            if (appliedGroundEffects.Contains(Identifier)) return;
+            appliedGroundEffects.Add(Identifier);
+            ApplyGroundedEffects();
         }
     }
     [PunRPC]
-    public void EndContinuousGround() {
+    public void EndContinuousGround(string Identifier) {
         if (photonView.IsMine) {
-            grounded = false;
-            movementManager.Ground(false);
+            if (!appliedGroundEffects.Contains(Identifier)) return;
+            appliedGroundEffects.Remove(Identifier);
+            ApplyGroundedEffects();
         }
+    }
+    private void ApplyGroundedEffects() {
+        grounded = appliedGroundEffects.Count > 0;
+        movementManager.Ground(grounded);
     }
 
 
@@ -1475,36 +1494,45 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Stunned - Prevent moving and spellcasting, basically a stacked root and silence
+    List<string> appliedStunEffects = new List<string>();
+
     [PunRPC]
-    void Stun(float duration) {
-        if (photonView.IsMine && !stunned && !isShielded) {
-            stunned = true;
+    void Stun(string Identifier, float duration) {
+        if (photonView.IsMine && !isShielded) {
+            if (appliedStunEffects.Contains(Identifier)) return;
+            appliedStunEffects.Add(Identifier);
             StopChannelling();
-            slowRoutine = StartCoroutine(StunRoutine(duration));
+            slowRoutine = StartCoroutine(StunRoutine(Identifier, duration));
         }
     }
-    IEnumerator StunRoutine(float duration) {
+    IEnumerator StunRoutine(string Identifier, float duration) {
         stunRoutineRunning = true;
-        movementManager.Stun(true);
+        ApplyStunEffects();
         yield return new WaitForSeconds(duration);
-        movementManager.Stun(false);
-        stunned = false;
+        if (appliedStunEffects.Contains(Identifier)) appliedStunEffects.Remove(Identifier);
+        ApplyStunEffects();
         stunRoutineRunning = false;
     }
     [PunRPC]
-    public void ContinuousStun() {
-        if (photonView.IsMine) {
+    public void ContinuousStun(string Identifier) {
+        if (photonView.IsMine && !isShielded) {
+            if (appliedStunEffects.Contains(Identifier)) return;
+            appliedStunEffects.Add(Identifier);
             StopChannelling();
-            stunned = true;
-            movementManager.Stun(true);
+            ApplyStunEffects();
         }
     }
     [PunRPC]
-    public void EndContinuousStun() {
+    public void EndContinuousStun(string Identifier) {
         if (photonView.IsMine) {
-            stunned = false;
-            movementManager.Stun(false);
+            if (!appliedStunEffects.Contains(Identifier)) return;
+            appliedStunEffects.Remove(Identifier);
+            ApplyStunEffects();
         }
+    }
+    private void ApplyStunEffects() {
+        stunned = appliedStunEffects.Count > 0;
+        movementManager.Stun(stunned);
     }
 
 
@@ -1513,33 +1541,45 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Silence - Prevent spellcasting
+    List<string> appliedSilenceEffects = new List<string>();
+
     [PunRPC]
-    void Silence(float duration) {
+    void Silence(string Identifier, float duration) {
         if (photonView.IsMine && !silenced) {
-            silenced = true;
-            StopChannelling();
-            silenceRoutine = StartCoroutine(SilenceRoutine(duration));
+            if (appliedSilenceEffects.Contains(Identifier)) return;
+            appliedSilenceEffects.Add(Identifier);
+            silenceRoutine = StartCoroutine(SilenceRoutine(Identifier, duration));
         }
     }
-    IEnumerator SilenceRoutine(float duration) {
+    IEnumerator SilenceRoutine(string Identifier, float duration) {
         silenceRoutineRunning = true;
+        StopChannelling();
+        ApplySilenceEffects();
         yield return new WaitForSeconds(duration);
-        silenced = false;
+        if (appliedSilenceEffects.Contains(Identifier)) appliedSilenceEffects.Remove(Identifier);
+        ApplySilenceEffects();
         silenceRoutineRunning = false;
     }
     [PunRPC]
-    public void ContinuousSilence() {
+    public void ContinuousSilence(string Identifier) {
         if (photonView.IsMine) {
+            if (appliedSilenceEffects.Contains(Identifier)) return;
+            appliedSilenceEffects.Add(Identifier);
             StopChannelling();
-            silenced = true;
+            ApplySilenceEffects();
         }
     }
 
     [PunRPC]
-    public void EndContinuousSilence() {
+    public void EndContinuousSilence(string Identifier) {
         if (photonView.IsMine) {
-            silenced = false;
+            if (!appliedSilenceEffects.Contains(Identifier)) return;
+            appliedSilenceEffects.Remove(Identifier);
+            ApplySilenceEffects();
         }
+    }
+    private void ApplySilenceEffects() {
+        silenced = appliedSilenceEffects.Count > 0;
     }
 
 
@@ -1571,7 +1611,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
     [PunRPC]
     public void ContinuousWeaken(string Identifier, string weakString) {
-        if (photonView.IsMine) {
+        if (photonView.IsMine && !isShielded) {
             if (appliedWeakenEffects.ContainsKey(Identifier)) return;
             ManaDistribution weakDist = new ManaDistribution(weakString);
             appliedWeakenEffects.Add(Identifier, weakDist);
@@ -1582,8 +1622,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void EndContinuousWeaken(string Identifier, string weakString) {
         if (photonView.IsMine) {
-            if (!appliedStrengthenEffects.ContainsKey(Identifier)) return;
-            appliedStrengthenEffects.Remove(Identifier);
+            if (!appliedWeakenEffects.ContainsKey(Identifier)) return;
+            appliedWeakenEffects.Remove(Identifier);
             ApplyCombinedDamageOutputEffects();
         }
     }
@@ -1819,34 +1859,46 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // Camouflage
+    List<string> appliedCamouflageEffects = new List<string>();
+
     [PunRPC]
-    void Camouflage(float duration) {
-        camouflageRoutine = StartCoroutine(CamouflageRoutine(duration));
+    void Camouflage(string Identifier, float duration) {
+        if (appliedCamouflageEffects.Contains(Identifier)) return;
+        appliedCamouflageEffects.Add(Identifier);
+        camouflageRoutine = StartCoroutine(CamouflageRoutine(Identifier, duration));
     }
-    IEnumerator CamouflageRoutine(float duration) {
+    IEnumerator CamouflageRoutine(string Identifier, float duration) {
         camouflagedRoutineRunning = true;
-        camouflaged = true;
-        materialManager.GoInvisible();
-        Sneak();
+        ApplyCamouflageEffects();
         yield return new WaitForSeconds(duration);
-        materialManager.ResetMaterial();
-        camouflaged = false;
-        EndSneak();
+        if (appliedCamouflageEffects.Contains(Identifier)) appliedCamouflageEffects.Remove(Identifier);
+        ApplyCamouflageEffects();
         camouflagedRoutineRunning = false;
     }
 
     [PunRPC]
-    public void ContinuousCamouflage() {
-        camouflaged = true;
-        materialManager.GoInvisible();
-        Sneak();
+    public void ContinuousCamouflage(string Identifier) {
+        if (appliedCamouflageEffects.Contains(Identifier)) return;
+        appliedCamouflageEffects.Add(Identifier);
+        ApplyCamouflageEffects();
     }
 
     [PunRPC]
-    public void EndContinuousCamouflage() {
-        camouflaged = false;
-        materialManager.ResetMaterial();
-        EndSneak();
+    public void EndContinuousCamouflage(string Identifier) {
+        if (!appliedCamouflageEffects.Contains(Identifier)) return;
+        appliedCamouflageEffects.Remove(Identifier);
+        ApplyCamouflageEffects();
+    }
+
+    private void ApplyCamouflageEffects() {
+        camouflaged = appliedCamouflageEffects.Count > 0;
+        if (!camouflaged) {
+            materialManager.ResetMaterial();
+            EndSneak();
+            return;
+        }
+        materialManager.GoInvisible();
+        Sneak();
     }
 
 
@@ -1854,53 +1906,49 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
 
     // SlowFall - Take decreased damage from all sources
-    List<string> appliedSlowFallEffects = new List<string>();
+    Dictionary<string, float> appliedSlowFallEffects = new Dictionary<string, float>();
 
     [PunRPC]
     void SlowFall(string Identifier, float duration, float percentage) {
         if (photonView.IsMine) {
-            if (appliedSlowFallEffects.Contains(Identifier)){
-                // Debug.Log("Nullify duplicate {SLOW FALL} from ["+Identifier+"].");
-                return;
-            } 
-            appliedSlowFallEffects.Add(Identifier);
-
+            if (appliedSlowFallEffects.ContainsKey(Identifier)) return;
+            appliedSlowFallEffects.Add(Identifier, percentage);
             slowFallRoutine = StartCoroutine(SlowFallRoutine(Identifier, duration, percentage));
         }
     }
     IEnumerator SlowFallRoutine(string Identifier, float duration, float percentage) {
         slowFallRoutineRunning = true;
-        slowFall = true;
-        movementManager.SlowFall(true, percentage);
+        ApplyHighestSlowFallEffect();
         yield return new WaitForSeconds(duration);
-        if (appliedSlowFallEffects.Contains(Identifier)) appliedSlowFallEffects.Remove(Identifier);
-        slowFall = appliedSlowFallEffects.Count > 0;
+        if (appliedSlowFallEffects.ContainsKey(Identifier)) appliedSlowFallEffects.Remove(Identifier);
         slowFallRoutineRunning = false;
-        movementManager.SlowFall(appliedSlowFallEffects.Count > 0);
+        ApplyHighestSlowFallEffect();
     }
     [PunRPC]
     public void ContinuousSlowFall(string Identifier, float percentage) {
         if (photonView.IsMine) {
-            if (appliedSlowFallEffects.Contains(Identifier)) return;
-            appliedSlowFallEffects.Add(Identifier);
-
-            slowFall = true;
-            movementManager.SlowFall(true, percentage);
+            if (appliedSlowFallEffects.ContainsKey(Identifier)) return;
+            appliedSlowFallEffects.Add(Identifier, percentage);
+            ApplyHighestSlowFallEffect();
         }
     }
     [PunRPC]
     public void EndContinuousSlowFall(string Identifier) {
         if (photonView.IsMine) {
-            if (appliedSlowFallEffects.Contains(Identifier)){
-                appliedSlowFallEffects.Remove(Identifier);
-            } else {
-                // Don't remove the effect if it isn't being applied anymore
-                return;
-            }
-
-            slowFall = appliedSlowFallEffects.Count > 0;
-            movementManager.SlowFall(appliedSlowFallEffects.Count > 0);
+            if (appliedSlowFallEffects.ContainsKey(Identifier)) return;
+            appliedSlowFallEffects.Remove(Identifier);
+            ApplyHighestSlowFallEffect();
         }
+    }
+
+    private void ApplyHighestSlowFallEffect() {
+        slowFall = appliedSlowFallEffects.Count > 0;
+        if (!slowFall) {
+            movementManager.SlowFall(false);
+            return;
+        }
+        float highestSlowfall = GetHighestEffectValue(appliedSlowFallEffects);
+        movementManager.SlowFall(true, highestSlowfall);
     }
 
 
@@ -1912,78 +1960,68 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         try {
             if (silenced) {
                 if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
-                silenced = false;
+                appliedSilenceEffects.Clear();
+                ApplySilenceEffects();
             }
             if (slowed) {
                 if (slowRoutineRunning) StopCoroutine(slowRoutine);
-                animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-                movementManager.ResetMovementSpeed();
                 appliedSlowEffects.Clear();
-                slowed = false;
+                ApplyCombinedMovementEffects();
             }
             if (hastened) {
                 if (hasteRoutineRunning) StopCoroutine(hasteRoutine);
-                animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-                movementManager.ResetMovementSpeed();
                 appliedHasteEffects.Clear();
-                hastened = false;
+                ApplyCombinedMovementEffects();
             }
             if (rooted) {
                 if (rootRoutineRunning) StopCoroutine(rootRoutine);
-                movementManager.Root(false);
-                rooted = false;
+                appliedRootEffects.Clear();
+                ApplyRootEffects();
             }
             if (grounded) {
                 if (groundedRoutineRunning) StopCoroutine(rootRoutine);
-                movementManager.Ground(false);
-                grounded = false;
+                appliedGroundEffects.Clear();
+                ApplyGroundedEffects();
             }
             if (stunned) {
                 if (stunRoutineRunning) StopCoroutine(stunRoutine);
-                movementManager.Stun(false);
-                stunned = false;
+                appliedStunEffects.Clear();
+                ApplyStunEffects();
             }
             if (fragile) {
                 if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
-                fragilePercentage = 0f;
                 appliedFragileEffects.Clear();
-                fragile = false;
+                ApplyCombinedResistanceEffects();
             }
             if (tough) {
                 if (toughRoutineRunning) StopCoroutine(toughRoutine);
-                toughPercentage = 0f;
                 appliedToughEffects.Clear();
-                tough = false;
+                ApplyCombinedResistanceEffects();
             }
             if (weakened) {
                 if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
-                weaknesses = new ManaDistribution();
                 appliedWeakenEffects.Clear();
-                weakened = false;
+                ApplyCombinedDamageOutputEffects();
             }
             if (strengthened) {
                 if (strengthenRoutineRunning) StopCoroutine(strengthenRoutine);
-                strengths = new ManaDistribution();
                 appliedStrengthenEffects.Clear();
-                strengthened = false;
+                ApplyCombinedDamageOutputEffects();
             }
             if (manaRestorationChange) {
                 if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
-                ManaRegen = defaultManaRegen;
-                manaRestorationPercentage = 0f;
                 appliedManaRestorationChangeEffects.Clear();
-                manaRestorationChange = false;
+                ApplyCombinedManaRestorationEffects();
             }
             if (camouflaged) {
                 if (camouflagedRoutineRunning) StopCoroutine(camouflageRoutine);
-                materialManager.ResetMaterial();
-                camouflaged = false;
+                appliedCamouflageEffects.Clear();
+                ApplyCamouflageEffects();
             }
             if (slowFall) {
                 if (slowFallRoutineRunning) StopCoroutine(slowFallRoutine);
-                movementManager.SlowFall(false);
                 appliedSlowFallEffects.Clear();
-                slowFall = false;
+                ApplyHighestSlowFallEffect();
             }
         } catch (System.Exception e) {
             Debug.Log("Error trying to cleanse: "+e.Message);
@@ -2001,50 +2039,49 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         try {
             if (slowed) {
                 if (slowRoutineRunning) StopCoroutine(slowRoutine);
-                animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
-                movementManager.ResetMovementSpeed();
-                slowed = false;
                 appliedSlowEffects.Clear();
-            }
-            if (rooted) {
-                if (rootRoutineRunning) StopCoroutine(rootRoutine);
-                movementManager.Root(false);
-                rooted = false;
-            }
-            if (grounded) {
-                if (groundedRoutineRunning) StopCoroutine(rootRoutine);
-                movementManager.Ground(false);
-                grounded = false;
+                ApplyCombinedMovementEffects();
             }
             if (silenced) {
                 if (silenceRoutineRunning) StopCoroutine(silenceRoutine);
-                silenced = false;
+                appliedSilenceEffects.Clear();
+                ApplySilenceEffects();
+            }
+            if (rooted) {
+                if (rootRoutineRunning) StopCoroutine(rootRoutine);
+                appliedRootEffects.Clear();
+                ApplyRootEffects();
+            }
+            if (grounded) {
+                if (groundedRoutineRunning) StopCoroutine(rootRoutine);
+                appliedGroundEffects.Clear();
+                ApplyGroundedEffects();
             }
             if (stunned) {
                 if (stunRoutineRunning) StopCoroutine(stunRoutine);
-                movementManager.Stun(false);
-                stunned = false;
+                appliedStunEffects.Clear();
+                ApplyStunEffects();
             }
             if (fragile) {
                 if (fragileRoutineRunning) StopCoroutine(fragileRoutine);
-                fragilePercentage = 0f;
-                fragile = false;
                 appliedFragileEffects.Clear();
+                ApplyCombinedResistanceEffects();
             }
             if (weakened) {
                 if (weakenRoutineRunning) StopCoroutine(weakenRoutine);
-                weaknesses = new ManaDistribution();
-                weakened = false;
                 appliedWeakenEffects.Clear();
+                ApplyCombinedDamageOutputEffects();
             }
             if (manaRestorationChange) {
-                if (ManaRegen < defaultManaRegen) {
-                    if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
-                    ManaRegen = defaultManaRegen;
-                    manaRestorationPercentage = 0f;
-                    manaRestorationChange = false;
-                    appliedManaRestorationChangeEffects.Clear();
+                if (manaRestorationRoutineRunning) StopCoroutine(manaRestorationRoutine);
+                List<string> toBeRemoved = new List<string>();
+                foreach(KeyValuePair<string, float> effect in appliedManaRestorationChangeEffects) {
+                    if (effect.Value < 1f) toBeRemoved.Add(effect.Key);
                 }
+                foreach(string Identifier in toBeRemoved) {
+                    appliedManaRestorationChangeEffects.Remove(Identifier);
+                }
+                ApplyCombinedManaRestorationEffects();
             }
         } catch (System.Exception e) {
             Debug.Log("Error trying to cleanse: "+e.Message);

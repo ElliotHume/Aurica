@@ -308,7 +308,6 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public void SlowFall(bool sf, float percentage = 0f) {
         slowFall = sf;
         if (percentage != 0f) slowFallPercent = percentage;
-        accelerant = 1f;
     }
 
     public void Ground(bool sf) {
