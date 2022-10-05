@@ -28,7 +28,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private Dictionary<int, string> castAnimationTypes;
     private bool isRooted, isStunned, isChannelling, isBeingDisplaced, jumping, running = true, casting, slowFall, groundedStatusEffect;
     private Vector3 playerVelocity, impact, velocity;
-    private float movementSpeed, slowFallPercent, accelerant = 1f;
+    private float movementSpeed, slowFallPercent, gravity = 9.81f, appliedGravityForce = 0f;
     private float forwardsAcceleration = 0, sidewaysAcceleration = 0;
     private PlayerManager playerManager;
     private PlayerParticleManager particleManager;
@@ -157,23 +157,23 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             }
         }
 
-        // If slowfalling and not grounded, apply upwards force to counteract gravity by a percentage amount
-        if (slowFall) {
-            if (Grounded) {
-                accelerant = 1f;
-            } else {
-                characterController.Move(transform.up * 2f * slowFallPercent * accelerant * Time.deltaTime);
-                accelerant += SlowFallAccelerantScaling * Time.deltaTime;
-            }
-            // Debug.Log("Accelerant scaling: "+SlowFallAccelerantScaling+"      accelerant: "+accelerant);
-        }
-
         // Apply impact force:
         if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
 
         // Consume the impact energy each cycle:
         float impactConsumptionMultiplier = (Grounded ? 5f : 2.5f) * (groundedStatusEffect ? 2f : 1f);
         impact = Vector3.Lerp(impact, Vector3.zero, impactConsumptionMultiplier * Time.deltaTime);
+
+        // Apply gravity
+        if (Grounded){
+            appliedGravityForce = 0f;
+        } else {
+            float addedForce = gravity * Time.deltaTime;
+            if (slowFall) addedForce *= Mathf.Clamp(1f/Mathf.Abs(appliedGravityForce), 0f, 1f) * Mathf.Max(1f - slowFallPercent, 0f);
+            if (groundedStatusEffect) addedForce *= 3f;
+            appliedGravityForce -= addedForce;
+            characterController.Move(transform.up * appliedGravityForce * Time.deltaTime);
+        }
 
         // Calculate velocity for lag compensation
         velocity = transform.position - oldPosition;
