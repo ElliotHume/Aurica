@@ -22,7 +22,7 @@ public class GameUIPanelManager : MonoBehaviour {
         EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
 
     public bool ShouldProcessInputs() {
-        return !spellCraftingPanel.activeInHierarchy && !cloudLoadoutPanel.activeInHierarchy && !settingsPanel.activeInHierarchy;
+        return !spellCraftingPanel.activeInHierarchy && !cloudLoadoutPanel.activeInHierarchy && !settingsPanel.activeInHierarchy && !IsEditingInputField;
     }
 
     void Update() {
