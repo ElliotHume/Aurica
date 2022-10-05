@@ -474,7 +474,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     [PunRPC]
     public void RequestRemoteTitle() {
-        if (titleSet) photonView.RPC("SendRemoteTitle", RpcTarget.All, playerTitle, playerTitleColour);;
+        StartCoroutine(SendTitleWhenReady());
+    }
+    
+    IEnumerator SendTitleWhenReady() {
+        bool sent = false;
+        while (!sent) {
+            if (titleSet) {
+                photonView.RPC("SendRemoteTitle", RpcTarget.All, playerTitle, playerTitleColour);
+                sent = true;
+            }
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     public void HardReset() {
