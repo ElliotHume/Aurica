@@ -146,6 +146,7 @@ public class MasteryManager : MonoBehaviour {
                 TipWindow.Instance.ShowTip(""+category.ToString()+" LEGEND MASTERY", "You have achieved Legendary mastery in "+category.ToString()+" magic. Achieving this milestone progresses your cultivation. Press \"M\" to view your mastery.", 10f);
                 SyncMasteries();
                 MasteryProgressionSound.Play();
+                PlayerUIInfo.Instance.SetPlayerTitle("Archmage");
             }
         }
         synced = false;

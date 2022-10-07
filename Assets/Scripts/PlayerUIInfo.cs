@@ -96,6 +96,34 @@ public class PlayerUIInfo : MonoBehaviour {
         PlayerManager.LocalInstance.SendTitle(playerTitle, playerTitleColour);
     }
 
+    public void SetPlayerTitle(string newTitle){
+        if (playerTitle != "") {
+            Debug.Log("Cannot set player title, title has already been set");
+            return;
+        }
+        var request = new UpdateUserDataRequest {
+            Data = new Dictionary<string, string> {
+                {"Title", newTitle}
+            }
+        };
+        PlayFabClientAPI.UpdateUserData(request, OnTitleSend, OnError);
+    }
+
+    public void SetPlayerTitle(string newTitle, Color color){
+        string colorText = color.r+", "+color.g+", "+color.b;
+        var request = new UpdateUserDataRequest {
+            Data = new Dictionary<string, string> {
+                {"Title", newTitle},
+                {"TitleColour", colorText}
+            }
+        };
+        PlayFabClientAPI.UpdateUserData(request, OnTitleSend, OnError);
+    }
+
+    void OnTitleSend(UpdateUserDataResult result) {
+        FetchPlayerTitle();
+    }
+
     void OnError(PlayFabError error) {
         Debug.LogError(error.GenerateErrorReport());
     }
