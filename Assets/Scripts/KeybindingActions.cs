@@ -23,5 +23,6 @@ public enum KeybindingActions {
     InfoMenu,
     GlyphCastingMenu,
     Menu,
-    Ping
+    Ping,
+    ChatMenu
 }

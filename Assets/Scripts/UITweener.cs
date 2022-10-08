@@ -29,16 +29,6 @@ public class UITweener : MonoBehaviour {
         if (showOnEnable) HandleTween();
     }
 
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     public void HandleTween() {
         if (objectToAnimate == null) objectToAnimate = gameObject;
 

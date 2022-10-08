@@ -31,7 +31,7 @@ public class SpellUIDisplay : MonoBehaviour {
     }
 
     void Update() {
-        if (GameUIPanelManager.Instance.IsEditingInputField) return;
+        if (GameUIPanelManager.Instance.IsEditingInputField()) return;
         if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
             AuricaCaster.LocalCaster.CastBindSlot("1");
             CheckComponents();

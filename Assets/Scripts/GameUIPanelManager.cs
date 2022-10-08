@@ -9,6 +9,7 @@ public class GameUIPanelManager : MonoBehaviour {
     public GameObject menuPanel, spellCraftingPanel, glyphCastingPanel, glyphDrawingFrame, auraPanel, infoPanel, spellListPanel, cultivationPanel, cloudLoadoutPanel, masteryPanel, settingsPanel;
 
     InputManager inputManager;
+    PhotonChatManager chatManager;
 
     [HideInInspector]
     public bool glyphDrawingToggledOn = false;
@@ -18,20 +19,29 @@ public class GameUIPanelManager : MonoBehaviour {
         inputManager = InputManager.Instance;
     }
 
-    public bool IsEditingInputField => 
-        EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
+    public bool IsEditingInputField() {
+        bool selectedInput = EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
+        if (selectedInput) {
+            InputField inputField = EventSystem.current.currentSelectedGameObject.GetComponent<InputField>();
+            if (inputField == null) return false;
+            return inputField.isFocused;
+        }
+        return false;
+    }
+        
 
     public bool ShouldProcessInputs() {
-        return !spellCraftingPanel.activeInHierarchy && !cloudLoadoutPanel.activeInHierarchy && !settingsPanel.activeInHierarchy && !IsEditingInputField;
+        return !spellCraftingPanel.activeInHierarchy && !cloudLoadoutPanel.activeInHierarchy && !settingsPanel.activeInHierarchy && !IsEditingInputField();
     }
 
     void Update() {
-        if (IsEditingInputField) return;
+        if (IsEditingInputField()) return;
         if (inputManager == null) inputManager = InputManager.Instance;
+        if (chatManager == null) chatManager = PhotonChatManager.Instance;
 
         // Bring up the Menu
         if (inputManager.GetKeyDown(KeybindingActions.Menu)) {
-            if (spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy || settingsPanel.activeInHierarchy) {
+            if (spellCraftingPanel.activeInHierarchy || infoPanel.activeInHierarchy || spellListPanel.activeInHierarchy || cultivationPanel.activeInHierarchy || auraPanel.activeInHierarchy || cloudLoadoutPanel.activeInHierarchy || masteryPanel.activeInHierarchy || settingsPanel.activeInHierarchy || chatManager.IsChatActive) {
                 spellCraftingPanel.SetActive(false);
                 infoPanel.SetActive(false);
                 spellListPanel.SetActive(false);
@@ -42,6 +52,7 @@ public class GameUIPanelManager : MonoBehaviour {
                 cloudLoadoutPanel.SetActive(false);
                 masteryPanel.SetActive(false);
                 settingsPanel.SetActive(false);
+                chatManager.UnFocus();
                 return;
             }
             menuPanel.SetActive(!menuPanel.activeInHierarchy);
@@ -94,6 +105,11 @@ public class GameUIPanelManager : MonoBehaviour {
         if (inputManager.GetKeyDown(KeybindingActions.MasteryMenu)) {
             masteryPanel.SetActive(!masteryPanel.activeInHierarchy);
             glyphCastingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
+        }
+
+        // Bring up the chat menu
+        if (inputManager.GetKeyDown(KeybindingActions.ChatMenu)) {
+            chatManager.Focus();
         }
 
         // If no menus are open, and the player is holding right mouse, open the glyphdrawingmenu

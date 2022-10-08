@@ -33,6 +33,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private PlayerManager playerManager;
     private PlayerParticleManager particleManager;
     private CharacterMaterialManager materialManager;
+    private GameUIPanelManager gameUIManager;
 
     Vector3 networkPosition;
     Quaternion networkRotation;
@@ -100,6 +101,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             return;
         }
         if (!animator) return;
+        if (gameUIManager == null) gameUIManager = GameUIPanelManager.Instance;
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -123,7 +125,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             running = true;
         }
 
-        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isChannelling && !isBeingDisplaced);
+        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isChannelling && !isBeingDisplaced && !gameUIManager.IsEditingInputField());
         animator.SetBool("Running", running);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
@@ -133,7 +135,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!isChannelling && !isRooted && !isStunned && !isBeingDisplaced) {
+        if (!isChannelling && !isRooted && !isStunned && !isBeingDisplaced && !gameUIManager.IsEditingInputField()) {
             if ((!casting || (slowFall && !Grounded))) {
                 // Create momentum, speeding up if you move in the same direction
                 if (Mathf.Approximately(v, 0f)){ 
