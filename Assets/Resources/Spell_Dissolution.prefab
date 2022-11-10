@@ -9556,6 +9556,7 @@ MonoBehaviour:
   CastAnimationType: 3
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -9571,11 +9572,15 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 4
   ScalingLimit: 3
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 1, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 8334756916235222484}
   - {fileID: 8334756917242956939}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -9675,7 +9680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Delay: 0
-  MaximumStress: 0.2
+  MaximumStress: 0.3
   Range: 20
 --- !u!1 &2436124845113433922
 GameObject:

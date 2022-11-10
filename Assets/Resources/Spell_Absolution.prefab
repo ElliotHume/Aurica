@@ -29724,6 +29724,7 @@ GameObject:
   - component: {fileID: 6475996832150524799}
   - component: {fileID: 6475996832150524739}
   - component: {fileID: -5928161253954082318}
+  - component: {fileID: -6320990730949403909}
   m_Layer: 7
   m_Name: Spell_Absolution
   m_TagString: Spell
@@ -29773,6 +29774,7 @@ MonoBehaviour:
   CastAnimationType: 8
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 1
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -29955,3 +29957,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-6320990730949403909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475996832150524798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60

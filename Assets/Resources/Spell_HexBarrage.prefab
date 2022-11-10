@@ -9221,6 +9221,7 @@ GameObject:
   - component: {fileID: 8851489460088827791}
   - component: {fileID: 8851489460088827790}
   - component: {fileID: 8851489460088827789}
+  - component: {fileID: 5886183326332668635}
   m_Layer: 0
   m_Name: Spell_HexBarrage
   m_TagString: Untagged
@@ -9265,6 +9266,7 @@ MonoBehaviour:
   CastAnimationType: 8
   CastingAnchor: transform
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 1
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -9340,3 +9342,18 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &5886183326332668635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8851489460088827787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60

@@ -12,6 +12,9 @@ public class AoESpell : Spell {
     public Vector3 PositionOffset = Vector3.zero;
     public GameObject[] DeactivateObjectsAfterDuration;
     public ParticleSystem[] EffectsOnDelayedStartup;
+    public string[] NetworkedEffectsOnDelay;
+    public float NetworkedEffectsDelay;
+    public Vector3 NetworkedEffectsOffset;
 
     public bool ParticleCollisions = false;
     public float DamagePerParticle = 1f;
@@ -39,6 +42,10 @@ public class AoESpell : Spell {
         if (photonView.IsMine) {
             Invoke("DestroySelf", DestroyTimeDelay+StartTimeDelay);
             Invoke("DisableCollisions", Duration+StartTimeDelay);
+
+            if (NetworkedEffectsOnDelay.Length > 0) {
+                Invoke("CreateNetworkedEffects", NetworkedEffectsDelay);
+            }
         }
         if (StartTimeDelay > 0f) {
             active = false;
@@ -255,6 +262,25 @@ public class AoESpell : Spell {
             }
         }
         return TargetingIndicatorScale;
+    }
+
+    void CreateNetworkedEffects() {
+        foreach(string effect in NetworkedEffectsOnDelay) {
+            GameObject instance = PhotonNetwork.Instantiate(effect, transform.position + (transform.forward * NetworkedEffectsOffset.z) + (transform.right * NetworkedEffectsOffset.x) + (transform.up * NetworkedEffectsOffset.y), transform.rotation);
+            Enemy instancedEnemy = instance.GetComponent<Enemy>();
+            if (instancedEnemy != null) {
+                instance.transform.rotation = Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0));
+                instancedEnemy.SetPlayerOwner(GetOwner());
+                instancedEnemy.SetStrength(GetSpellStrength());
+            } else {
+                Spell instanceSpell = instance.GetComponent<Spell>();
+                if (instanceSpell != null) {
+                    instanceSpell.SetSpellStrength(GetSpellStrength());
+                    instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
+                    instanceSpell.SetOwner(GetOwner());
+                }
+            }
+        }
     }
 
     void DestroySelf() {

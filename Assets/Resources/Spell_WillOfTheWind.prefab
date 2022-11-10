@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 530402292273064101}
   - component: {fileID: 530402292273064096}
   - component: {fileID: 530402292273064099}
+  - component: {fileID: 4976982955612006713}
   m_Layer: 6
   m_Name: Spell_WillOfTheWind
   m_TagString: Spell
@@ -461,6 +462,21 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &4976982955612006713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530402292273064103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &4800855256684779225
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 183612360205643289}
   - component: {fileID: 183612360205643291}
   - component: {fileID: 183612360205643290}
+  - component: {fileID: 868916114}
   m_Layer: 0
   m_Name: Flare_01
   m_TagString: Untagged
@@ -4892,6 +4893,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612360205643288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612360215913272
 GameObject:
   m_ObjectHideFlags: 0
@@ -4903,6 +4916,7 @@ GameObject:
   - component: {fileID: 183612360215913273}
   - component: {fileID: 183612360215913275}
   - component: {fileID: 183612360215913274}
+  - component: {fileID: 868916118}
   m_Layer: 0
   m_Name: Indicator_Shadow_01
   m_TagString: Untagged
@@ -9775,6 +9789,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612360215913272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612360226620134
 GameObject:
   m_ObjectHideFlags: 0
@@ -9784,6 +9810,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 183612360226620135}
+  - component: {fileID: 868916119}
   m_Layer: 0
   m_Name: Indicator (1)
   m_TagString: Untagged
@@ -9808,6 +9835,18 @@ Transform:
   m_Father: {fileID: 3255393697214754305}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &868916119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612360226620134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612360518953283
 GameObject:
   m_ObjectHideFlags: 0
@@ -9819,6 +9858,7 @@ GameObject:
   - component: {fileID: 183612360518953284}
   - component: {fileID: 183612360518953286}
   - component: {fileID: 183612360518953285}
+  - component: {fileID: 868916116}
   m_Layer: 0
   m_Name: Indicator_Emissive_02
   m_TagString: Untagged
@@ -14709,6 +14749,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612360518953283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612360710315837
 GameObject:
   m_ObjectHideFlags: 0
@@ -14720,6 +14772,7 @@ GameObject:
   - component: {fileID: 183612360710315838}
   - component: {fileID: 183612360710315808}
   - component: {fileID: 183612360710315839}
+  - component: {fileID: 868916111}
   m_Layer: 0
   m_Name: CenterCurve_01
   m_TagString: Untagged
@@ -19525,6 +19578,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612360710315837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612360783361878
 GameObject:
   m_ObjectHideFlags: 0
@@ -19536,6 +19601,7 @@ GameObject:
   - component: {fileID: 183612360783361879}
   - component: {fileID: 183612360783361881}
   - component: {fileID: 183612360783361880}
+  - component: {fileID: 868916113}
   m_Layer: 0
   m_Name: CenterWave_01
   m_TagString: Untagged
@@ -24341,6 +24407,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612360783361878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612361484131965
 GameObject:
   m_ObjectHideFlags: 0
@@ -24352,6 +24430,7 @@ GameObject:
   - component: {fileID: 183612361484131966}
   - component: {fileID: 183612361484131936}
   - component: {fileID: 183612361484131967}
+  - component: {fileID: 868916109}
   m_Layer: 0
   m_Name: Embers_01
   m_TagString: Untagged
@@ -29215,6 +29294,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612361484131965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612361518662942
 GameObject:
   m_ObjectHideFlags: 0
@@ -29226,6 +29317,7 @@ GameObject:
   - component: {fileID: 183612361518662943}
   - component: {fileID: 183612361518662913}
   - component: {fileID: 183612361518662912}
+  - component: {fileID: 868916110}
   m_Layer: 0
   m_Name: Crystal_01
   m_TagString: Untagged
@@ -34107,6 +34199,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612361518662942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612362091050123
 GameObject:
   m_ObjectHideFlags: 0
@@ -34118,6 +34222,7 @@ GameObject:
   - component: {fileID: 183612362091050124}
   - component: {fileID: 183612362091050126}
   - component: {fileID: 183612362091050125}
+  - component: {fileID: 868916112}
   m_Layer: 0
   m_Name: CenterWave_02
   m_TagString: Untagged
@@ -39008,6 +39113,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612362091050123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612362217519885
 GameObject:
   m_ObjectHideFlags: 0
@@ -39019,6 +39136,7 @@ GameObject:
   - component: {fileID: 183612362217519886}
   - component: {fileID: 183612362217519984}
   - component: {fileID: 183612362217519887}
+  - component: {fileID: 868916107}
   m_Layer: 0
   m_Name: Embers_01_LongLiving
   m_TagString: Untagged
@@ -43882,6 +44000,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612362217519885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612362227776741
 GameObject:
   m_ObjectHideFlags: 0
@@ -43893,6 +44023,7 @@ GameObject:
   - component: {fileID: 183612362227776742}
   - component: {fileID: 183612362227776744}
   - component: {fileID: 183612362227776743}
+  - component: {fileID: 868916117}
   m_Layer: 0
   m_Name: Indicator_Emissive_01
   m_TagString: Untagged
@@ -48765,6 +48896,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612362227776741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612362232264352
 GameObject:
   m_ObjectHideFlags: 0
@@ -48776,6 +48919,7 @@ GameObject:
   - component: {fileID: 183612362232264353}
   - component: {fileID: 183612362232264355}
   - component: {fileID: 183612362232264354}
+  - component: {fileID: 868916108}
   m_Layer: 0
   m_Name: Embers_01_Circle
   m_TagString: Untagged
@@ -53639,6 +53783,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &868916108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612362232264352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183612362240762799
 GameObject:
   m_ObjectHideFlags: 0
@@ -53648,6 +53804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 183612362240762768}
+  - component: {fileID: 868916115}
   m_Layer: 0
   m_Name: Effect (1)
   m_TagString: Untagged
@@ -53677,6 +53834,18 @@ Transform:
   m_Father: {fileID: 3255393697214754305}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &868916115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183612362240762799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3258398061471046827
 GameObject:
   m_ObjectHideFlags: 0
@@ -54004,6 +54173,7 @@ GameObject:
   - component: {fileID: 3259807664682538711}
   - component: {fileID: 2140691909664652673}
   - component: {fileID: 2634770378935056825}
+  - component: {fileID: 868916105}
   m_Layer: 7
   m_Name: Spell_HeartOfBattle
   m_TagString: Spell
@@ -54049,6 +54219,7 @@ MonoBehaviour:
   CastAnimationType: 5
   CastingAnchor: aimpoint
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -54064,10 +54235,14 @@ MonoBehaviour:
   StartTimeDelay: 2
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 0.1, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 3259449575065307661}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -54311,6 +54486,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &868916105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3259203987573129761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 2
+  MaximumStress: 0.15
+  Range: 60
 --- !u!1 &3259449575065307661
 GameObject:
   m_ObjectHideFlags: 0
@@ -54320,6 +54510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3255027032747091431}
+  - component: {fileID: 868916106}
   m_Layer: 7
   m_Name: Audio
   m_TagString: Untagged
@@ -54344,6 +54535,18 @@ Transform:
   m_Father: {fileID: 3255393697214754305}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &868916106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3259449575065307661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3260268769403784161
 GameObject:
   m_ObjectHideFlags: 0

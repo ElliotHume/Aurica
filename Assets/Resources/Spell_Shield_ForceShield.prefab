@@ -10192,6 +10192,7 @@ GameObject:
   - component: {fileID: 6138793448872243386}
   - component: {fileID: 6138793448872243385}
   - component: {fileID: -4030933088506291498}
+  - component: {fileID: 6781729514472436199}
   m_Layer: 8
   m_Name: Spell_Shield_ForceShield
   m_TagString: Shield
@@ -10373,6 +10374,21 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 1
+--- !u!114 &6781729514472436199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140522103110057231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &6140533994092971691
 GameObject:
   m_ObjectHideFlags: 0

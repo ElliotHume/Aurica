@@ -14682,6 +14682,7 @@ GameObject:
   - component: {fileID: 5246284736523950305}
   - component: {fileID: 103664128732642044}
   - component: {fileID: 5246284736523950311}
+  - component: {fileID: -6452479328186566878}
   m_Layer: 6
   m_Name: Spell_PriestSanctuary
   m_TagString: Spell
@@ -14732,6 +14733,7 @@ MonoBehaviour:
   CastAnimationType: 12
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -14770,6 +14772,7 @@ MonoBehaviour:
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
+  NetworkSpawnEffectOnParticleCollision: 
   particleCollisionSound: {fileID: 0}
   clipVolume: 0
 --- !u!114 &5246284736523950308
@@ -14914,3 +14917,18 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &-6452479328186566878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5246284736523950304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60

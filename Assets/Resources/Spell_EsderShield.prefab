@@ -23638,6 +23638,7 @@ GameObject:
   - component: {fileID: 1230241812582798298}
   - component: {fileID: 1230241812582798297}
   - component: {fileID: 1230241812582798296}
+  - component: {fileID: -9154911261005350835}
   m_Layer: 7
   m_Name: Spell_EsderShield
   m_TagString: Spell
@@ -23701,6 +23702,7 @@ MonoBehaviour:
   CastAnimationType: 4
   CastingAnchor: transform
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -23716,10 +23718,14 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 4607521420383800751}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -23890,6 +23896,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 0.38828945, z: 1}
   m_Center: {x: 0, y: 0.04414464, z: -1.64}
+--- !u!114 &-9154911261005350835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875675591948864212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.3
+  Range: 60
 --- !u!1001 &5961450302376338114
 PrefabInstance:
   m_ObjectHideFlags: 0

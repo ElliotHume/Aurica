@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4680943637997499154}
   - component: {fileID: 4680943637997499161}
   - component: {fileID: -5031016033118426032}
+  - component: {fileID: -2967929889954274404}
   m_Layer: 6
   m_Name: Spell_AerusVacuum
   m_TagString: Spell
@@ -59,6 +60,7 @@ MonoBehaviour:
   CastAnimationType: 3
   CastingAnchor: transform
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -74,10 +76,14 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 2, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 6422601695586760521}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -230,6 +236,21 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &-2967929889954274404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4680943637997499164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &6422601695586760521
 GameObject:
   m_ObjectHideFlags: 0

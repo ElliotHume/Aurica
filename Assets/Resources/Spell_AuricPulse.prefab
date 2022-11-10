@@ -9764,6 +9764,7 @@ GameObject:
   - component: {fileID: 5172564374442402142}
   - component: {fileID: 4754144637500669996}
   - component: {fileID: -3758828458682866283}
+  - component: {fileID: 6182452621387558487}
   m_Layer: 6
   m_Name: Spell_AuricPulse
   m_TagString: Spell
@@ -9811,6 +9812,7 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: transform
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -9823,6 +9825,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 8333481494160006866}
   PositionOffset: {x: 0, y: 0, z: 0}
+  statusEffect: {fileID: 0}
+  movementEffect: {fileID: 0}
 --- !u!114 &5172564374442402140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9972,6 +9976,21 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &6182452621387558487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5172564374442402138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60
 --- !u!1 &5265956784908810094
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Introspect
+  m_EditorClassIdentifier: 
+  c_name: Introspect
+  manaType: 6
+  description: Create an ritual circle of water essence tuned to the caster. If the
+    caster walks into the ritual they will receive a strengthening buff, a minor
+    hastening effect, and a grounding effect. If any other caster walks into the
+    circle they will receive a weakening debuff, a minor slowing effect, and will
+    be grounded for a time.
+  targetDistribution:
+    structure: 0.1
+    essence: 0.12
+    fire: 0
+    water: 0.65
+    earth: 0
+    air: 0
+    nature: 0.15
+  keyComponents:
+  - {fileID: 11400000, guid: 9ef6f8c7f41e68341a6fb09f5528ceb4, type: 2}
+  - {fileID: 11400000, guid: cb95420720c52064f92c94dde2aa4a69, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
+  masteries: 060000000d000000
+  isMasterySpell: 1
+  masteryCategory: 6
+  masteryLevel: 0
+  masteryFailedSpellResource: 
+  isAuric: 0
+  baseManaCost: 65
+  componentManaMultiplier: 0.65
+  errorThreshold: 2
+  linkedSpellResource: Spell_Introspect

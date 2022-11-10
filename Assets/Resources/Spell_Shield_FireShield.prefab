@@ -23708,6 +23708,7 @@ GameObject:
   - component: {fileID: 2705723165526579994}
   - component: {fileID: 2705723165526579993}
   - component: {fileID: 2705723165526579992}
+  - component: {fileID: 5063719328563751501}
   m_Layer: 8
   m_Name: Spell_Shield_FireShield
   m_TagString: Shield
@@ -23821,6 +23822,21 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &5063719328563751501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2704735430582166182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &2704758873331949678
 GameObject:
   m_ObjectHideFlags: 0

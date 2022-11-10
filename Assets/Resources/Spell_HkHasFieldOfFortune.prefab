@@ -37124,6 +37124,7 @@ GameObject:
   - component: {fileID: 8591190675537667084}
   - component: {fileID: 8591190675537667091}
   - component: {fileID: 8591190675537667083}
+  - component: {fileID: -6059228577370771724}
   m_Layer: 7
   m_Name: Spell_HkHasFieldOfFortune
   m_TagString: Spell
@@ -37198,6 +37199,9 @@ MonoBehaviour:
   - {fileID: 7932474211345492558}
   - {fileID: 3338036756301805550}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -37403,3 +37407,18 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &-6059228577370771724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8591190675537667085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60

@@ -4591,6 +4591,7 @@ GameObject:
   - component: {fileID: 4038932307135648358}
   - component: {fileID: 4038932307135648357}
   - component: {fileID: 4038932307135648356}
+  - component: {fileID: 3538295878926988806}
   m_Layer: 1
   m_Name: Spell_ArchitectFortress
   m_TagString: Spell
@@ -4658,6 +4659,7 @@ MonoBehaviour:
   AlignToZAxis: 0
   TimeToRise: 0
   StartingOffset: 0
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   RisingParticles:
   - {fileID: 1793526378752072588, guid: 5bf26a915c000f942b0e74f130c833ee, type: 3}
   DestructionParticles:
@@ -4895,6 +4897,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3538295878926988806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4038932307135648355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60
 --- !u!1001 &5459517963670896915
 PrefabInstance:
   m_ObjectHideFlags: 0

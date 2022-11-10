@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Concussion
+  m_EditorClassIdentifier: 
+  c_name: Concussion
+  manaType: 7
+  description: Create a delayed explosion of earth at the targeted location, this
+    explosion will detonate thrice at the same location, growing and dealing more
+    damage with every blast. Additionally, each explosion applies a minor slowing
+    effect, which gets weaker with each blast.
+  targetDistribution:
+    structure: 0.15
+    essence: 0.075
+    fire: 0.12
+    water: 0
+    earth: 0.8
+    air: 0.08
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: 1e6fd499fedae463c8e2e416884ececc, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  - {fileID: 11400000, guid: 3f79dc01f24dc49b7b7d35a67e0eaaf5, type: 2}
+  masteries: 070000000c000000
+  isMasterySpell: 1
+  masteryCategory: 7
+  masteryLevel: 0
+  masteryFailedSpellResource: 
+  isAuric: 0
+  baseManaCost: 35
+  componentManaMultiplier: 0.6
+  errorThreshold: 1.7
+  linkedSpellResource: Spell_Concussion_SQ1

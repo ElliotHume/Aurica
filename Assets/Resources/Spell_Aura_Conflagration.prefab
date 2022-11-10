@@ -14278,6 +14278,7 @@ GameObject:
   - component: {fileID: 6319179522457626864}
   - component: {fileID: 6319179522457626867}
   - component: {fileID: 6319179522457626869}
+  - component: {fileID: -5344723971496188605}
   m_Layer: 7
   m_Name: Spell_Aura_Conflagration
   m_TagString: Spell
@@ -14351,6 +14352,9 @@ MonoBehaviour:
   - {fileID: 2047465271}
   - {fileID: 6319179523684372179}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -14498,6 +14502,21 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &-5344723971496188605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522876751538129049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &6319179523518730980
 GameObject:
   m_ObjectHideFlags: 0

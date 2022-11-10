@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 647934693408936452}
   - component: {fileID: 647934693408936451}
   - component: {fileID: 647934693408936456}
+  - component: {fileID: 5674672309722853738}
   m_Layer: 6
   m_Name: Spell_AtmosphericPull
   m_TagString: Spell
@@ -80,6 +81,9 @@ MonoBehaviour:
   DeactivateObjectsAfterDuration:
   - {fileID: 1236882880307172952}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -158,6 +162,21 @@ MonoBehaviour:
   isFixed: 0
   isContinuous: 0
   clip: {fileID: 0}
+--- !u!114 &5674672309722853738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647934693408936461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &1236882880307172952
 GameObject:
   m_ObjectHideFlags: 0

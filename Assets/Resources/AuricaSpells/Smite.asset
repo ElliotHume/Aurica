@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Smite
+  m_EditorClassIdentifier: 
+  c_name: Smite
+  manaType: 9
+  description: Call down a heavenly ball of judgement on your target
+  targetDistribution:
+    structure: 0.3
+    essence: -0.1
+    fire: 0.15
+    water: 0
+    earth: 0
+    air: 0.15
+    nature: 0.9
+  keyComponents:
+  - {fileID: 11400000, guid: 043efe21e04048d469651b9ed10fce43, type: 2}
+  - {fileID: 11400000, guid: a120a4f0300d24db7a791b077f355087, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  masteries: 09000000
+  isMasterySpell: 1
+  masteryCategory: 9
+  masteryLevel: 0
+  masteryFailedSpellResource: 
+  isAuric: 0
+  baseManaCost: 50
+  componentManaMultiplier: 0.2
+  errorThreshold: 2
+  linkedSpellResource: Spell_Smite

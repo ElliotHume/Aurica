@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 169208110790808370}
   - component: {fileID: 169208110790808329}
   - component: {fileID: 169208110790808328}
+  - component: {fileID: 258061280622985640}
   m_Layer: 7
   m_Name: Spell_ImpishCorridor
   m_TagString: Spell
@@ -91,6 +92,9 @@ MonoBehaviour:
   - {fileID: 6570814775042752724}
   - {fileID: 3123567469568067499}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -222,6 +226,21 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &258061280622985640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169208110790808375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &1130306444978964047
 GameObject:
   m_ObjectHideFlags: 0

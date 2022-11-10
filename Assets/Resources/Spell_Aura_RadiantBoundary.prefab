@@ -15075,6 +15075,7 @@ GameObject:
   - component: {fileID: 3392736301551290034}
   - component: {fileID: 3392736301551290033}
   - component: {fileID: 3392736301551290039}
+  - component: {fileID: 3966189197525688382}
   m_Layer: 7
   m_Name: Spell_Aura_RadiantBoundary
   m_TagString: Spell
@@ -15124,6 +15125,7 @@ MonoBehaviour:
   CastAnimationType: 5
   CastingAnchor: transform
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -15139,6 +15141,7 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: -0.2, y: 1, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 4364852465949505464}
@@ -15146,6 +15149,14 @@ MonoBehaviour:
   - {fileID: 872603217}
   - {fileID: 3392736300630728849}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!135 &3392736301551290036
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15288,3 +15299,18 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &3966189197525688382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216324553300928219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60

@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 2165481531971025785}
   - component: {fileID: 2165481531971028782}
   - component: {fileID: 2165481531971019133}
+  - component: {fileID: 7165654568639277819}
   m_Layer: 6
   m_Name: Spell_MageKiller
   m_TagString: Spell
@@ -434,6 +435,21 @@ MonoBehaviour:
   sceneViewId: 41
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7165654568639277819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2165481531971035299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &6540441557802619557
 GameObject:
   m_ObjectHideFlags: 0

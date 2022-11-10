@@ -4516,6 +4516,7 @@ GameObject:
   - component: {fileID: 2602017314133456977}
   - component: {fileID: 1418626818421746840}
   - component: {fileID: 1596033614091206293}
+  - component: {fileID: -3222791829813441885}
   m_Layer: 7
   m_Name: Spell_HallBreaker
   m_TagString: Spell
@@ -4563,6 +4564,7 @@ MonoBehaviour:
   CastAnimationType: 8
   CastingAnchor: aimpoint
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 1
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -4694,6 +4696,21 @@ MonoBehaviour:
   isFixed: 0
   isContinuous: 1
   clip: {fileID: 0}
+--- !u!114 &-3222791829813441885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602017314133456976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.3
+  Range: 60
 --- !u!1 &2855907912619787299
 GameObject:
   m_ObjectHideFlags: 0

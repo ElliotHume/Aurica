@@ -4790,6 +4790,7 @@ GameObject:
   - component: {fileID: 7741053437508063582}
   - component: {fileID: 7741053437508063581}
   - component: {fileID: 8920556966954430132}
+  - component: {fileID: 3101439540894415774}
   m_Layer: 7
   m_Name: Spell_MalignGrowth
   m_TagString: Spell
@@ -4838,6 +4839,7 @@ MonoBehaviour:
   CastAnimationType: 8
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 1
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -4874,6 +4876,7 @@ MonoBehaviour:
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
+  NetworkSpawnEffectOnParticleCollision: 
   particleCollisionSound: {fileID: 0}
   clipVolume: 0
 --- !u!114 &7741053437508063583
@@ -4945,6 +4948,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3101439540894415774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7741053437508063580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &7741053437508083056
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4449565500873030311}
   - component: {fileID: 4449565500873030308}
   - component: {fileID: 4450673276567457785}
+  - component: {fileID: 9072854797410636574}
   m_Layer: 8
   m_Name: Spell_Shield_DivineShield
   m_TagString: Shield
@@ -199,6 +200,21 @@ MonoBehaviour:
   onlyHitSelf: 1
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 1
+--- !u!114 &9072854797410636574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4450673276567457784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &4450694272343371574
 GameObject:
   m_ObjectHideFlags: 0

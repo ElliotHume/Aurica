@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7313513928875267491}
   - component: {fileID: 7313513928875267492}
   - component: {fileID: -1382880913853662217}
+  - component: {fileID: -8886750620348216756}
   m_Layer: 6
   m_Name: Spell_Distortion
   m_TagString: Spell
@@ -85,6 +86,9 @@ MonoBehaviour:
   - {fileID: 8982840046788784374}
   - {fileID: 8982840045397680502}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -306,6 +310,21 @@ MonoBehaviour:
   onlyHitSelf: 1
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &-8886750620348216756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7313513928875267498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60
 --- !u!1 &8982840045397680502
 GameObject:
   m_ObjectHideFlags: 0

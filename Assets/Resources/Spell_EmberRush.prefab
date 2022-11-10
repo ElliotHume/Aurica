@@ -19362,6 +19362,7 @@ GameObject:
   - component: {fileID: 5737462848157162660}
   - component: {fileID: 5736511280317384354}
   - component: {fileID: 5736511280317384353}
+  - component: {fileID: 3386061698682617412}
   m_Layer: 6
   m_Name: Spell_EmberRush
   m_TagString: Spell
@@ -19407,6 +19408,7 @@ MonoBehaviour:
   CastAnimationType: 2
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -19414,6 +19416,7 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 0
+  IgnoreNonPlayerCollision: 0
   AimAssistedProjectile: 1
   AimAssistTurningSpeed: 10
   PerfectHomingProjectile: 0
@@ -24129,6 +24132,21 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &3386061698682617412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5736511280317384352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &5736519865105998230
 GameObject:
   m_ObjectHideFlags: 0

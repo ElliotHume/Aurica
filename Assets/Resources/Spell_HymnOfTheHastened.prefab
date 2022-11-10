@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 918897183329356214}
   - component: {fileID: 918897183329356212}
   - component: {fileID: 918897183329356215}
+  - component: {fileID: 3634873315317371510}
   m_Layer: 6
   m_Name: Spell_HymnOfTheHastened
   m_TagString: Spell
@@ -64,6 +65,7 @@ MonoBehaviour:
   CastAnimationType: 6
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 1
@@ -74,6 +76,8 @@ MonoBehaviour:
   DestroyTimeDelay: 5
   DeactivateObjectsAfterDuration: []
   PositionOffset: {x: 0, y: 0, z: 0}
+  statusEffect: {fileID: 0}
+  movementEffect: {fileID: 0}
 --- !u!114 &918897183329356222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +508,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3634873315317371510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918897183329356211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &1519739853221531110
 GameObject:
   m_ObjectHideFlags: 0

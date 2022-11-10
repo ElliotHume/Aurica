@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 919553133327374646}
   - component: {fileID: 919553133327374645}
   - component: {fileID: 919553133327374644}
+  - component: {fileID: -4453066884907084099}
   m_Layer: 7
   m_Name: Spell_CrystalBloom
   m_TagString: Spell
@@ -64,6 +65,7 @@ MonoBehaviour:
   CastAnimationType: 12
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 1
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -4949,6 +4951,21 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &-4453066884907084099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919553133327374643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &5352507464212078395
 GameObject:
   m_ObjectHideFlags: 0
