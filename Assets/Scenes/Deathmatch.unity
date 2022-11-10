@@ -40813,9 +40813,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ee1c62c905bb24ea7c9cf3d9d40b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TraumaExponent: 1
-  MaximumAngularShake: {x: 5, y: 5, z: 5}
-  MaximumTranslationShake: {x: 0.75, y: 0.75, z: 0.75}
+  TraumaBaseOffset: 0.02
+  TraumaMultiplier: 1.2
+  TraumaExponent: 0.75
+  MaximumAngularShake: {x: 5, y: 1, z: 5}
+  MaximumTranslationShake: {x: 3, y: 3, z: 3}
 --- !u!1001 &1152443784
 PrefabInstance:
   m_ObjectHideFlags: 0

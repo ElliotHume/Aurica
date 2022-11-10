@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9065064246163735453}
   - component: {fileID: 9065064246163735452}
   - component: {fileID: 4465748345190613958}
+  - component: {fileID: 7177823569047834444}
   m_Layer: 0
   m_Name: XCollision_RipRift
   m_TagString: Untagged
@@ -184,6 +185,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lifetime: 3
+--- !u!114 &7177823569047834444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9065064246163735451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.3
+  Range: 60
 --- !u!1 &9065064246164265728
 GameObject:
   m_ObjectHideFlags: 0

@@ -19833,7 +19833,6 @@ GameObject:
   - component: {fileID: 8789622851887889202}
   - component: {fileID: 9156764298632178987}
   - component: {fileID: 5670757525543605859}
-  - component: {fileID: 6410453661295032148}
   - component: {fileID: 8107499794368671966}
   m_Layer: 7
   m_Name: Spell_Concussion_SQ3
@@ -20049,18 +20048,6 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
---- !u!114 &6410453661295032148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5043021282821471863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8107499794368671966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20074,7 +20061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Delay: 0.88
-  MaximumStress: 0.23
+  MaximumStress: 0.55
   Range: 45
 --- !u!1 &5457075316428941928
 GameObject:

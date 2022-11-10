@@ -4887,6 +4887,7 @@ GameObject:
   - component: {fileID: 1639649196461478897}
   - component: {fileID: 1359126350}
   - component: {fileID: -48231826203131873}
+  - component: {fileID: -8771191528793028397}
   m_Layer: 0
   m_Name: XCollision_EckaPortal
   m_TagString: Untagged
@@ -5059,6 +5060,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lifetime: 3
+--- !u!114 &-8771191528793028397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639649196461478899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60
 --- !u!1 &1639649197327625041
 GameObject:
   m_ObjectHideFlags: 0

@@ -14613,7 +14613,6 @@ GameObject:
   - component: {fileID: 1347737552281444916}
   - component: {fileID: 1347737552281444923}
   - component: {fileID: 1837410659000769765}
-  - component: {fileID: 1840760352}
   m_Layer: 7
   m_Name: XCollision_EmberSphere
   m_TagString: Spell
@@ -14759,6 +14758,9 @@ MonoBehaviour:
   - {fileID: 3011297622387511452}
   - {fileID: 3011505446509903194}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -14778,19 +14780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Delay: 0
   MaximumStress: 0.4
-  Range: 45
---- !u!114 &1840760352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3011558856843849854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  Range: 60
 --- !u!1 &3011608416722564798
 GameObject:
   m_ObjectHideFlags: 0

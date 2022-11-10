@@ -14215,6 +14215,7 @@ GameObject:
   - component: {fileID: 1173006846591398231}
   - component: {fileID: 1173006846591398225}
   - component: {fileID: 1173006846591398230}
+  - component: {fileID: 2399453664516434618}
   m_Layer: 6
   m_Name: Spell_BitingWind
   m_TagString: Spell
@@ -14285,6 +14286,9 @@ MonoBehaviour:
   - {fileID: 1173006846461439555}
   - {fileID: 689328668326786317}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -14432,3 +14436,18 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &2399453664516434618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173006846591398232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60

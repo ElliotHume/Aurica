@@ -13884,6 +13884,7 @@ GameObject:
   - component: {fileID: 8742591927773826207}
   - component: {fileID: 7749146619313849308}
   - component: {fileID: 8742591927773826205}
+  - component: {fileID: 145800920925847636}
   m_Layer: 6
   m_Name: Spell_Refresh
   m_TagString: Spell
@@ -13930,6 +13931,7 @@ MonoBehaviour:
   CastAnimationType: 0
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
@@ -14250,6 +14252,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &145800920925847636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8742591927773826203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.1
+  Range: 60
 --- !u!1 &8742591928797109154
 GameObject:
   m_ObjectHideFlags: 0

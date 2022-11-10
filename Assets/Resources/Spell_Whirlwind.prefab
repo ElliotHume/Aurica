@@ -14701,6 +14701,7 @@ GameObject:
   - component: {fileID: 3929269787345832022}
   - component: {fileID: 3613088458791928867}
   - component: {fileID: 6947289790428888175}
+  - component: {fileID: 5678695472418883847}
   m_Layer: 6
   m_Name: Spell_Whirlwind
   m_TagString: Spell
@@ -14766,6 +14767,9 @@ MonoBehaviour:
   DeactivateObjectsAfterDuration:
   - {fileID: 5925777814153516465}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -14919,6 +14923,21 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 0
   isManualTriggerOnly: 0
+--- !u!114 &5678695472418883847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929269787345832016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60
 --- !u!1 &5925777814153516465
 GameObject:
   m_ObjectHideFlags: 0

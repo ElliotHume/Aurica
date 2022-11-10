@@ -19159,6 +19159,7 @@ GameObject:
   - component: {fileID: 8106579709625183577}
   - component: {fileID: 8106579709625183586}
   - component: {fileID: 8106579709625183587}
+  - component: {fileID: 259550434454304605}
   m_Layer: 7
   m_Name: Spell_BattleWall_Demonic
   m_TagString: Spell
@@ -19210,6 +19211,7 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: aimpoint
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -19225,6 +19227,7 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 6449254425550229915}
@@ -19236,6 +19239,14 @@ MonoBehaviour:
   - {fileID: 6449254424136530368}
   - {fileID: 9040651979953846829}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &8106579709625183576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19362,6 +19373,21 @@ MonoBehaviour:
   onlyHitSelf: 1
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &259550434454304605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106579709625183580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60
 --- !u!1 &9040651979953846829
 GameObject:
   m_ObjectHideFlags: 0

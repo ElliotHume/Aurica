@@ -28110,6 +28110,7 @@ GameObject:
   - component: {fileID: 8901719568807650046}
   - component: {fileID: 8901719568807650042}
   - component: {fileID: 8901719568807650021}
+  - component: {fileID: 6205214325963705063}
   m_Layer: 7
   m_Name: Spell_VitalisticSiphon
   m_TagString: Spell
@@ -28181,6 +28182,9 @@ MonoBehaviour:
   DeactivateObjectsAfterDuration:
   - {fileID: 7108518501157940408}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -28312,3 +28316,18 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &6205214325963705063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901719568807650043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.3
+  Range: 60

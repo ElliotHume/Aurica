@@ -58575,8 +58575,8 @@ GameObject:
   - component: {fileID: 6233739677955368197}
   - component: {fileID: 6233739677955368194}
   - component: {fileID: 7352930179354398292}
-  - component: {fileID: -6872790876046244529}
   - component: {fileID: 4697425218246680259}
+  - component: {fileID: -2688934863784489828}
   m_Layer: 7
   m_Name: Spell_Concussion_SQ1
   m_TagString: Spell
@@ -58792,18 +58792,6 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
---- !u!114 &-6872790876046244529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6234279563256623604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4697425218246680259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58819,6 +58807,18 @@ MonoBehaviour:
   Delay: 0.88
   MaximumStress: 0.23
   Range: 45
+--- !u!114 &-2688934863784489828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234279563256623604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6234871278427243622
 GameObject:
   m_ObjectHideFlags: 0

@@ -14634,6 +14634,7 @@ GameObject:
   - component: {fileID: 1862140893200602026}
   - component: {fileID: 1862140893200602028}
   - component: {fileID: 1862140893200602027}
+  - component: {fileID: 5573463275901041854}
   m_Layer: 6
   m_Name: Spell_ChaoticFog
   m_TagString: Spell
@@ -14682,6 +14683,7 @@ MonoBehaviour:
   CastAnimationType: 5
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -14697,10 +14699,14 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0.2
   ScalingLimit: 0.75
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 801200112}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -14848,6 +14854,21 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 0
+--- !u!114 &5573463275901041854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862140893200602021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.2
+  Range: 60
 --- !u!1 &1862140893376853146
 GameObject:
   m_ObjectHideFlags: 0

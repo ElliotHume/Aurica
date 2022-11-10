@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 291470239874370528}
   - component: {fileID: 782749870873564790}
   - component: {fileID: 5572002692735954235}
+  - component: {fileID: 5168989441492646816}
   m_Layer: 1
   m_Name: Spell_WallConstruct_Order
   m_TagString: Spell
@@ -500,6 +501,21 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &5168989441492646816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973535255836908761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 0
+  MaximumStress: 0.3
+  Range: 60
 --- !u!1 &974905079961126716
 GameObject:
   m_ObjectHideFlags: 0
