@@ -92,7 +92,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
             string level = "BattlegroundsDefault";
             switch (arena) {
                 case "FreePlay":
-                    level = "Battlegrounds1";
+                    level = "Realistic";
                     break;
                 case "Default Free for All":
                     level = "BattlegroundsDefault";
