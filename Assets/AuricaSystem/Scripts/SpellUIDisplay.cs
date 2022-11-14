@@ -19,6 +19,7 @@ public class SpellUIDisplay : MonoBehaviour {
     public AuricaSpell spell;
     private bool isHidden = true;
     private Glyph[] allComponentGlyphs;
+    private bool addAttempted = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -59,7 +60,18 @@ public class SpellUIDisplay : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Return)) {
-            AddComponentFromComponentDisplay();
+            // If the player double taps enter when searching for a component, add the component to the spell.
+            if (GameUIPanelManager.Instance.HasSelectedInputField()) {
+                if (addAttempted) {
+                    AddComponentFromComponentDisplay();
+                    addAttempted = false;
+                } else {
+                    addAttempted = true;
+                }
+            } else {
+                AddComponentFromComponentDisplay();
+            }
+            
         }
     }
 

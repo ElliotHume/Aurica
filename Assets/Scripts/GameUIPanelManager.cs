@@ -28,6 +28,11 @@ public class GameUIPanelManager : MonoBehaviour {
         }
         return false;
     }
+
+    public bool HasSelectedInputField() {
+        bool selectedInput = EventSystem.current.currentSelectedGameObject?.TryGetComponent(out InputField _) ?? false;
+        return selectedInput;
+    }
         
 
     public bool ShouldProcessInputs() {
@@ -108,7 +113,7 @@ public class GameUIPanelManager : MonoBehaviour {
         }
 
         // Bring up the chat menu
-        if (inputManager.GetKeyDown(KeybindingActions.ChatMenu)) {
+        if (!HasSelectedInputField() && inputManager.GetKeyDown(KeybindingActions.ChatMenu)) {
             chatManager.Focus();
         }
 
