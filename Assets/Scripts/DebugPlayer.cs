@@ -18,7 +18,7 @@ public class DebugPlayer : MonoBehaviourPun
             } else if (Input.GetKeyDown("m")) {
                 CastDebugSpell("XCollision_AngelWisp");
             } else if (Input.GetKeyDown("b")) {
-                CastDebugSpell("Spell_AuricBolt");
+                CastDebugSpell("Spell_ManaBall_Fire");
             } else if (Input.GetKeyDown("v")) {
                 CastDebugSpell("Spell_CMB_Condense");
             } else if (Input.GetKeyDown("k")) {
@@ -59,8 +59,14 @@ public class DebugPlayer : MonoBehaviourPun
         }
     }
 
-    public GameObject CastDebugSpell(string prefabName) {
-        return PhotonNetwork.Instantiate(prefabName, transform.position + transform.up + transform.forward, transform.rotation);
+    public void CastDebugSpell(string prefabName) {
+        GameObject s = PhotonNetwork.Instantiate(prefabName, transform.position + transform.up + transform.forward + transform.forward, transform.rotation);
+        BasicProjectileSpell bps = s.GetComponent<BasicProjectileSpell>();
+        if (bps != null) {
+            bps.AimAssistedProjectile = false;
+            bps.TrackingProjectile = false;
+            bps.PerfectHomingProjectile = false;
+        }
     }
 
     // void OnCollisionEnter(Collision collision) {

@@ -36,7 +36,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     private Vector3 startPosition;
     private Vector3 travelDistance = Vector3.zero;
     private Quaternion startRotation;
-    private bool isCollided = false, networkCollided = false, enemyAttack = false, collidersDisabled = false;
+    private bool isCollided = false, networkCollided = false, enemyAttack = false, collidersDisabled = false, layerSwitched = false;
     private GameObject HomingTarget, AimAssistTarget;
     private Transform homingTargetT, aimAssistTargetT;
     private Vector3 randomTimeOffset, playerOffset = new Vector3(0f, 1f, 0f);
@@ -82,7 +82,11 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
     public void Update() {
         if (!photonView.IsMine) {
-            if (!collidersDisabled) DisableCollisions();
+            if (!layerSwitched) {
+                int SpellCollisionLayer = LayerMask.NameToLayer("SpellCollider");
+                gameObject.layer = SpellCollisionLayer;
+                layerSwitched = true;
+            }
             if (!isCollided) {
                 if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed) + (velocity * Time.deltaTime);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
