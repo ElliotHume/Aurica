@@ -9,7 +9,7 @@ public class SpellLoadoutDropSlot : MonoBehaviour {
     public bool CloudLoadoutSlot;
 
     public void OnSpellDrop(string SpellText) {
-        Debug.Log("OnSpellDrop");
+        Debug.Log("OnSpellDrop: "+SpellText);
         if (CloudLoadoutSlot) {
             CloudLoadoutManager.Instance.Bind(BindKeyID, SpellText);
         } else {
