@@ -426,6 +426,26 @@ public class BasicProjectileSpell : Spell, IPunObservable
         homingTargetT = go.transform;
     }
 
+    public override void SetExpertiseParameters(int exp) {
+        if (!photonView.IsMine) return;
+        expertise = exp;
+
+        if (expertise >= ExpertiseManager.ARCHMAGUS_EXPERTISE) {
+            Debug.Log("Archumagus spell");
+            TrackingProjectile = true;
+            TrackingTurnSpeed += 40f;
+            AimAssistTurningSpeed = Mathf.Max(2f, AimAssistTurningSpeed-15f);
+        } else if (expertise >= ExpertiseManager.MASTER_EXPERTISE) {
+            Debug.Log("Master spell");
+            TrackingProjectile = true;
+            TrackingTurnSpeed += 10f;
+            AimAssistTurningSpeed = Mathf.Max(5f, AimAssistTurningSpeed-10f);
+        } else if (expertise >= ExpertiseManager.JOURNEYMAN_EXPERTISE) {
+            Debug.Log("Journeyman spell");
+            AimAssistTurningSpeed += 10f;
+        }
+    }
+
     public void SetAimAssistTarget(GameObject go) {
         if (go == null) {
             AimAssistTarget = null;

@@ -1082,6 +1082,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     spell.SetSpellStrength(auricaCaster.GetSpellStrength());
                     spell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
                     spell.SetOwner(gameObject);
+                    spell.SetExpertiseParameters(ExpertiseManager.Instance.GetExpertise());
                     Mana += spell.ManaRefund;
                 } else {
                     Debug.Log("Could not grab <Spell> Object from newly instantiated spell");

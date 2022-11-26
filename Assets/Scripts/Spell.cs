@@ -32,11 +32,11 @@ public class Spell : MonoBehaviourPun {
 
     public bool IsChannel = false, IsSelfTargeted = false, IsOpponentTargeted = false;
 
-    private float spellStrength = 1f;
-    private GameObject owner;
-    private PlayerManager ownerPM;
-    private ManaDistribution damageModifier;
-    private bool canHitOwner = true;
+    protected float spellStrength = 1f, expertise = -1f;
+    protected GameObject owner;
+    protected PlayerManager ownerPM;
+    protected ManaDistribution damageModifier;
+    protected bool canHitOwner = true;
 
     public virtual void SetSpellStrength(float newStrength) {
         // Debug.Log("New Spell Strength: "+newStrength);
@@ -72,6 +72,10 @@ public class Spell : MonoBehaviourPun {
 
     public PlayerManager GetOwnerPM() {
         return ownerPM;
+    }
+
+    public virtual void SetExpertiseParameters(int exp) {
+        expertise = exp;
     }
 
     protected void FlashHitMarker(bool majorDamage) {
