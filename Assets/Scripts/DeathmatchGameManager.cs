@@ -66,12 +66,10 @@ public class DeathmatchGameManager : MonoBehaviourPunCallbacks {
             if (receivedBlueSideNames.Contains(player.GetUniqueName())) {
                 blueSide.Add(player);
                 player.SetNameColor(blueNameColor);
-                if (blueSidePlayerMaterial != null) player.SetPlayerMaterial(blueSidePlayerMaterial);
                 player.SetPlayerOutline(blueNameColor);
             } else if (receivedRedSideNames.Contains(player.GetUniqueName())) {
                 redSide.Add(player);
                 player.SetNameColor(redNameColor);
-                if (redSidePlayerMaterial != null) player.SetPlayerMaterial(redSidePlayerMaterial);
                 player.SetPlayerOutline(redNameColor);
             } else {
                 Debug.Log("Player ["+player.GetUniqueName()+"] not found on either team");

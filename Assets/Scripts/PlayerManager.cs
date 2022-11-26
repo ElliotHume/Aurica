@@ -90,7 +90,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private string lastPlayerToDamageSelf;
     private float immunityTimer = 0f;
     private string playerTitle, playerTitleColour;
-    private bool titleSet = false;
+    private bool titleSet = false, expertiseSet = false;
+    private int expertise = -1;
 
     // Targeting Indicator System
     private bool preparedSpell = false;
@@ -268,6 +269,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 characterUI.PermanentlyHide();
             } else {
                 RequestTitle();
+                RequestExpertise();
             }
         } else {
             Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
@@ -488,6 +490,38 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    public void SendExpertise(int exp) {
+        expertiseSet = true;
+        expertise = exp;
+        PlayerManager.LocalInstance.SetExpertiseMaterials(exp);
+    }
+
+    [PunRPC]
+    public void SendRemoteExpertise(int exp) {
+        if (materialManager != null) materialManager.SetExpertiseMaterials(exp);
+    }
+
+    // When spawning a remote player, ask for their expertise
+    public void RequestExpertise() {
+        photonView.RPC("RequestRemoteExpertise", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void RequestRemoteExpertise() {
+        StartCoroutine(SendExpertiseWhenReady());
+    }
+    
+    IEnumerator SendExpertiseWhenReady() {
+        bool sent = false;
+        while (!sent) {
+            if (expertiseSet) {
+                photonView.RPC("SendRemoteExpertise", RpcTarget.All, expertise);
+                sent = true;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
     public void HardReset() {
         if (!photonView.IsMine) return;
         // Reset health and mana
@@ -596,6 +630,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     public void ResetPlayerMaterial() {
         materialManager.ResetPlayerMaterial();
+    }
+
+    public void SetExpertiseMaterials(int expertise) {
+        materialManager.SetExpertiseMaterials(expertise);
     }
 
     public void SetPlayerOutline(Color color) {

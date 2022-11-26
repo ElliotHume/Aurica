@@ -7,9 +7,10 @@ public class CharacterMaterialManager : MonoBehaviourPun
 {
     public CharacterUI characterUI;
     public Material defaultMaterial, invisibleMaterial;
-    public List<GameObject> toggleObjects, adminToggleObjects;
+    public List<GameObject> toggleObjects, adminToggleObjects, journeymanObjects, masterObjects, archmagusObjects;
     public Mesh adminMesh;
-    public Material adminMaterial;
+    public Material adminMaterial, masterMaterial, archmagusMaterial;
+    public GameObject basicHelm;
 
     Material baseMaterial;
     bool isInvisible = false, isAdmin = false;
@@ -84,6 +85,35 @@ public class CharacterMaterialManager : MonoBehaviourPun
     public void ShowOutline() {
         if (outline != null) {
             outline.OutlineWidth = (!outlineSet && photonView.IsMine) ? 0f : outlineSet ? 1.5f : 1f;
+        }
+    }
+
+    public void SetExpertiseMaterials(int expertise) {
+        if (isAdmin) return;
+        if (expertise >= ExpertiseManager.ARCHMAGUS_EXPERTISE) {
+            SetPlayerMaterial(archmagusMaterial);
+            basicHelm.SetActive(false);
+            foreach(var obj in toggleObjects) obj.SetActive(false);
+            toggleObjects = archmagusObjects;
+            foreach(var obj in toggleObjects) obj.SetActive(true);
+        } else if (expertise >= ExpertiseManager.MASTER_EXPERTISE) {
+            SetPlayerMaterial(masterMaterial);
+            basicHelm.SetActive(false);
+            foreach(var obj in toggleObjects) obj.SetActive(false);
+            toggleObjects = masterObjects;
+            foreach(var obj in toggleObjects) obj.SetActive(true);
+        } else if (expertise >= ExpertiseManager.JOURNEYMAN_EXPERTISE) {
+            SetPlayerMaterial(defaultMaterial);
+            foreach(var obj in toggleObjects) obj.SetActive(false);
+            basicHelm.SetActive(true);
+            toggleObjects = journeymanObjects;
+            foreach(var obj in toggleObjects) obj.SetActive(true);
+        } else {
+            SetPlayerMaterial(defaultMaterial);
+            foreach(var obj in toggleObjects) obj.SetActive(false);
+            basicHelm.SetActive(true);
+            toggleObjects.Clear();
+            toggleObjects.Add(basicHelm);
         }
     }
 

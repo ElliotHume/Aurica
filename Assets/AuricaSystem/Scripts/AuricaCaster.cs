@@ -27,6 +27,10 @@ public class AuricaCaster : MonoBehaviourPun {
     private AuricaSpell currentSpellMatch;
     private ComponentUIPanel cpUI;
     private DistributionUIDisplay distDisplay;
+    private ExpertiseManager expertiseManager;
+
+    private float STARTING_EXPERTISE_MULTIPLIER = 1f, STARTING_EXPERTISE_BASE = 0.5f, STARTING_EXPERTISE_MINIMUM = 0.5f;
+    private float expertiseMultiplier, expertiseBase, expertiseMinimum;
 
     // Start is called before the first frame update
     void Start() {
@@ -90,6 +94,8 @@ public class AuricaCaster : MonoBehaviourPun {
         } catch {
             // do nothing
         }
+
+        expertiseManager = ExpertiseManager.Instance;
     }
 
     void Awake() {
@@ -106,6 +112,13 @@ public class AuricaCaster : MonoBehaviourPun {
     public void RetrieveDiscoveredSpells() {
         // Debug.Log("Aurica Caster: Retrieved discovered spells.");
         discoveredSpells = DiscoveryManager.Instance.GetDiscoveredSpells();
+    }
+
+    public void RecalculateExpertise(int expertise) {
+        expertiseMultiplier = STARTING_EXPERTISE_MULTIPLIER - (0.02f * expertise);
+        expertiseBase = STARTING_EXPERTISE_BASE + (0.015f * expertise);
+        expertiseMinimum = Mathf.Clamp(STARTING_EXPERTISE_MINIMUM - (0.02f * expertise), 0.05f, STARTING_EXPERTISE_MINIMUM);
+        Debug.Log("AuricaCaster has calculated expertise values -> multiplier: "+expertiseMultiplier+"  base: "+ expertiseBase+"  minimum: "+expertiseMinimum);
     }
 
     public void AddComponent(string componentName) {
@@ -216,8 +229,9 @@ public class AuricaCaster : MonoBehaviourPun {
             if (s.CheckComponents(components) && s.GetNumberOfMatchingComponents(components) > bestMatchCorrectComponents) {
                 spellMatch = s;
                 bestMatchCorrectComponents = s.GetNumberOfMatchingComponents(components);
-                spellStrength = (spellMatch.errorThreshold - s.GetError(distribution)) / spellMatch.errorThreshold + 0.5f;
-                if (spellStrength < 0.5f) spellStrength = 0.5f;
+                // Debug.Log("Error: "+ s.GetError(distribution)+"     threshold: "+spellMatch.errorThreshold+"     adjusted threshold: "+(spellMatch.errorThreshold * expertiseMultiplier));
+                spellStrength = ((spellMatch.errorThreshold * expertiseMultiplier) - s.GetError(distribution)) / (spellMatch.errorThreshold * expertiseMultiplier) + (expertiseBase);
+                if (spellStrength < expertiseMinimum) spellStrength = expertiseMinimum;
             }
         }
 
@@ -231,8 +245,8 @@ public class AuricaCaster : MonoBehaviourPun {
             // Debug.Log("Check Pure Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(s.GetManaType(distribution), distribution));
             if (s.CheckComponents(components, distribution)) {
                 spellMatch = s;
-                spellStrength = (spellMatch.errorThreshold - s.GetError(s.GetManaType(distribution), distribution)) / spellMatch.errorThreshold + 0.5f;
-                if (spellStrength < 0.5f) spellStrength = 0.5f;
+                spellStrength = ((spellMatch.errorThreshold * expertiseMultiplier) - s.GetError(s.GetManaType(distribution), distribution)) / (spellMatch.errorThreshold * expertiseMultiplier) + (expertiseBase);
+                if (spellStrength < expertiseMinimum) spellStrength = expertiseMinimum;
                 // Debug.Log("Pure match: "+s.c_name+"   mana type:"+s.GetManaType(distribution)+"  error:"+s.GetError(s.GetManaType(distribution), distribution));
             }
         }
