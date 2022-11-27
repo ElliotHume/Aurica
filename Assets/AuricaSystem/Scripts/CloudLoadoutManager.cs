@@ -63,6 +63,40 @@ public class CloudLoadoutManager : MonoBehaviour {
         return loadout;
     }
 
+    public Dictionary<string, string> GetPagedLoadout(int page) {
+        Dictionary<string, string> loadout = new Dictionary<string, string>();
+        if (page == 0) {
+            loadout.Add("1", page0Key1);
+            loadout.Add("2", page0Key2);
+            loadout.Add("3", page0Key3);
+            loadout.Add("4", page0Key4);
+            loadout.Add("Q", page0KeyQ);
+            loadout.Add("E", page0KeyE);
+            loadout.Add("R", page0KeyR);
+            loadout.Add("F", page0KeyF);
+        } else if (page == 1) {
+            loadout.Add("1", page1Key1);
+            loadout.Add("2", page1Key2);
+            loadout.Add("3", page1Key3);
+            loadout.Add("4", page1Key4);
+            loadout.Add("Q", page1KeyQ);
+            loadout.Add("E", page1KeyE);
+            loadout.Add("R", page1KeyR);
+            loadout.Add("F", page1KeyF);
+        } else if (page == 2) {
+            loadout.Add("1", page2Key1);
+            loadout.Add("2", page2Key2);
+            loadout.Add("3", page2Key3);
+            loadout.Add("4", page2Key4);
+            loadout.Add("Q", page2KeyQ);
+            loadout.Add("E", page2KeyE);
+            loadout.Add("R", page2KeyR);
+            loadout.Add("F", page2KeyF);
+        }
+
+        return loadout;
+    }
+
     public string GetLoadoutKey(string key) {
         Dictionary<string, string> loadout = GetLoadout();
         return loadout[key.ToUpper()];

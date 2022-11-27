@@ -67,6 +67,6 @@ public class TargetDummy : MonoBehaviourPun
             aoeDamageTick += finalDamage;
         }
     
-        if (ownerID != "") Debug.Log("Target Dummy hit by ["+ownerID+"]");
+        // if (ownerID != "") Debug.Log("Target Dummy hit by ["+ownerID+"]");
     }
 }

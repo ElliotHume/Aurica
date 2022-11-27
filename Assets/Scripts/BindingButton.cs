@@ -22,7 +22,7 @@ public class BindingButton : MonoBehaviour
             SpellIcon.sprite = ResourceManager.Instance.AuricIcon;
             return;
         }
-        Debug.Log("Set button graphics for: "+gameObject+" with spell: "+s.c_name+"  components: "+components);
+        // Debug.Log("Set button graphics for: "+gameObject+" with spell: "+s.c_name+"  components: "+components);
 
         spell = s;
         if (SpellText != null) SpellText.text = spell.c_name;

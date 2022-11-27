@@ -9,7 +9,7 @@ public class CloudLoadoutUIPanel : MonoBehaviour
     public BindingButton bind1, bind2, bind3, bind4, bindQ, bindE, bindR, bindF;
     public BindingButton bind11, bind21, bind31, bind41, bindQ1, bindE1, bindR1, bindF1;
     public BindingButton bind12, bind22, bind32, bind42, bindQ2, bindE2, bindR2, bindF2;
-    private Dictionary<string, BindingButton> dict;
+    private Dictionary<string, BindingButton> dict, loadout0, loadout1, loadout2;
     private string bindingspell;
 
     void Awake() {
@@ -66,17 +66,17 @@ public class CloudLoadoutUIPanel : MonoBehaviour
     }
 
     public void SetBindSlotVisuals(string key, string sp) {
-        Debug.Log("Try set visuals for key: "+key+"    spell: "+sp);
+        // Debug.Log("Try set visuals for key: "+key+"    spell: "+sp);
         if (AuricaCaster.LocalCaster == null) return;
         AuricaSpell spell = AuricaCaster.LocalCaster.CastSpellByName(sp);
         AuricaCaster.LocalCaster.ResetCast();
         if (spell == null) return;
-        Debug.Log("Setting visuals");
+        // Debug.Log("Setting visuals");
         dict[key.ToLower()].SetButtonGraphics(spell, sp);
     }
 
     public void TakePersonalLoadout(int page) {
-        Dictionary<string, string> loadout = CloudLoadoutManager.Instance.GetLoadout();
+        Dictionary<string, string> loadout = CloudLoadoutManager.Instance.GetPagedLoadout(page);
         foreach(KeyValuePair<string, string> entry in loadout) {
             AuricaCaster.LocalCaster.CacheSpell(entry.Key, entry.Value);
         }

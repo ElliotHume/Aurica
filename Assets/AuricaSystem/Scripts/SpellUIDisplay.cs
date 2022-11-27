@@ -83,6 +83,7 @@ public class SpellUIDisplay : MonoBehaviour {
 
     public void CheckComponents() {
         if (AuricaCaster.LocalCaster == null) return;
+        addAttempted = false;
         spell = AuricaCaster.LocalCaster.Cast();
         try {
             if (spell.c_name != null) {
