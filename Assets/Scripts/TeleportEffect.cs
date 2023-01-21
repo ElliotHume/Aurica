@@ -89,7 +89,7 @@ public class TeleportEffect : MonoBehaviourPun {
                 NavMeshHit hit;
                 if (NavMesh.SamplePosition(destination, out hit, 5f, NavMesh.AllAreas)) {
                     pv.RPC("TeleportEffect", RpcTarget.All, hit.position);
-                    PhotonNetwork.Instantiate(NetworkEffectOnTeleport, hit.position, Quaternion.identity);
+                    if (NetworkEffectOnTeleport != "") PhotonNetwork.Instantiate(NetworkEffectOnTeleport, hit.position, Quaternion.identity);
                     return;
                 }
             }
@@ -99,7 +99,7 @@ public class TeleportEffect : MonoBehaviourPun {
             if (!Physics.CheckSphere(destination, 2f, 0, QueryTriggerInteraction.Ignore) && Physics.SphereCast(destination, 2, Vector3.down, out rayHit, Mathf.Max(randomSphereRadius, 25f))){
                 pv.RPC("TeleportEffect", RpcTarget.All, destination);
                 if (NetworkEffectOnTeleport != "") {
-                    PhotonNetwork.Instantiate(NetworkEffectOnTeleport, destination, Quaternion.identity);
+                    if (NetworkEffectOnTeleport != "")PhotonNetwork.Instantiate(NetworkEffectOnTeleport, destination, Quaternion.identity);
                     if (putEffectAtSource) PhotonNetwork.Instantiate(NetworkEffectOnTeleport, player.transform.position, Quaternion.identity);
                 }
                 return;
@@ -108,7 +108,7 @@ public class TeleportEffect : MonoBehaviourPun {
                 if (NavMesh.SamplePosition(destination, out hit, Mathf.Max(randomSphereRadius, 10f), NavMesh.AllAreas)) {
                     pv.RPC("TeleportEffect", RpcTarget.All, hit.position);
                     if (NetworkEffectOnTeleport != "") {
-                        PhotonNetwork.Instantiate(NetworkEffectOnTeleport, hit.position, Quaternion.identity);
+                        if (NetworkEffectOnTeleport != "")PhotonNetwork.Instantiate(NetworkEffectOnTeleport, hit.position, Quaternion.identity);
                         if (putEffectAtSource) PhotonNetwork.Instantiate(NetworkEffectOnTeleport, player.transform.position, Quaternion.identity);
                     }
                     return;

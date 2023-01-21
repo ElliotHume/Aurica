@@ -65,6 +65,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public Aura aura;
 
+    [HideInInspector]
+    public Dictionary<KeybindingActions, RecastSpell> activeRecastSpells = new Dictionary<KeybindingActions, RecastSpell>();
+
     public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound, HitMarkerAoESound;
 
     private Animator animator;
@@ -583,7 +586,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void TeleportEffect(Vector3 newPosition) {
         if (!photonView.IsMine || grounded) return;
-        // Debug.Log("Teleporting " + gameObject + "  to " + newPosition);
+        Debug.Log("Teleporting " + gameObject + "  to " + newPosition);
         transform.position = newPosition;
     }
 
@@ -773,11 +776,37 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     void ProcessInputs() {
         if (silenced || stunned || !photonView.IsMine) return;
 
-        if (movementManager.CanCast()) {
+        if (activeRecastSpells.Count > 0) {
+            foreach(KeyValuePair<KeybindingActions, RecastSpell> entry in activeRecastSpells) {
+                if (InputManager.Instance.GetKeyDown(entry.Key)) {
+                    if (entry.Value != null) entry.Value.InitiateRecast();
+                    activeRecastSpells.Remove(entry.Key);
+                    break;
+                }
+            }
+        } else if (movementManager.CanCast()) {
             if (InputManager.Instance.GetKeyDown(KeybindingActions.Cast)) {
-                PrepareSpellCast(auricaCaster.CastFinal(), KeybindingActions.Cast);
-            }else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
+                if (activeRecastSpells.ContainsKey(KeybindingActions.Cast)) {
+                    activeRecastSpells[KeybindingActions.Cast].InitiateRecast();
+                    activeRecastSpells.Remove(KeybindingActions.Cast);
+                } else {
+                    PrepareSpellCast(auricaCaster.CastFinal(), KeybindingActions.Cast);
+                }
+            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
+                Debug.Log("HERE");
+                if (activeRecastSpells.ContainsKey(KeybindingActions.SpellSlot1)) {
+                    Debug.Log("HERE2");
+                    try {
+                        Debug.Log("HERE3");
+                        activeRecastSpells[KeybindingActions.SpellSlot1].InitiateRecast();
+                    } catch {
+                        Debug.Log("ERROR");
+                    }
+                    activeRecastSpells.Remove(KeybindingActions.SpellSlot1);
+                    Debug.Log("HERE4");
+                } else {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
+                }
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2)) {
                 PrepareSpellCast(auricaCaster.CastBindSlot("2"), KeybindingActions.SpellSlot2);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3)) {
@@ -1086,6 +1115,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     Mana += spell.ManaRefund;
                 } else {
                     Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
+                }
+
+                RecastSpell newRecastSpell = newSpell.GetComponent<RecastSpell>();
+                if (newRecastSpell != null) {
+                    newRecastSpell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                    newRecastSpell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
+                    newRecastSpell.SetOwner(gameObject);
+                    newRecastSpell.SetExpertiseParameters(ExpertiseManager.Instance.GetExpertise());
+
+                    activeRecastSpells.Add(preparedSpellKey, newRecastSpell);
                 }
 
                 if (currentSpellIsSelfTargeted) {

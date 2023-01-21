@@ -9,6 +9,8 @@ public class BindingUIPanel : MonoBehaviour {
     public static BindingUIPanel LocalInstance;
     private Dictionary<string, BindingButton> dict = new Dictionary<string, BindingButton>();
 
+    private AuricaCaster caster;
+
     void Awake() {
         BindingUIPanel.LocalInstance = this;
 
@@ -23,39 +25,46 @@ public class BindingUIPanel : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (AuricaCaster.LocalCaster == null || !AuricaCaster.LocalCaster.spellManasCached) return;
+        if (caster == null) {
+            caster = AuricaCaster.LocalCaster;
+        }
+        if (caster == null || !caster.spellManasCached) return;
         float availableMana = PlayerManager.LocalInstance.Mana;
+        Dictionary<KeybindingActions, RecastSpell> activeRecastSpells = PlayerManager.LocalInstance.activeRecastSpells;
         foreach(string key in dict.Keys) {
-            dict[key].CanCast(AuricaCaster.LocalCaster.CanCastCachedSpell(key, availableMana));
+            dict[key].CanCast(caster.CanCastCachedSpell(key, availableMana));
         }
     }
 
     public void Startup() {
+        if (caster == null) {
+            caster = AuricaCaster.LocalCaster;
+        }
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
-            SetBind("e", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_e")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotE));
+            SetBind("e", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_e")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotE));
         }
         if (PlayerPrefs.HasKey("CachedSpell_q")) {
-            SetBind("q", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_q")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotQ));
+            SetBind("q", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_q")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotQ));
         }
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
-            SetBind("1", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_1")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot1));
+            SetBind("1", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_1")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot1));
         }
         if (PlayerPrefs.HasKey("CachedSpell_2")) {
-            SetBind("2", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_2")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot2));
+            SetBind("2", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_2")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot2));
         }
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
-            SetBind("3", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_3")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot3));
+            SetBind("3", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_3")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot3));
         }
         if (PlayerPrefs.HasKey("CachedSpell_4")) {
-            SetBind("4", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_4")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot4));
+            SetBind("4", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_4")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot4));
         }
         if (PlayerPrefs.HasKey("CachedSpell_f")) {
-            SetBind("f", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_f")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotF));
+            SetBind("f", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_f")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotF));
         }
         if (PlayerPrefs.HasKey("CachedSpell_r")) {
-            SetBind("r", AuricaCaster.LocalCaster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_r")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotR));
+            SetBind("r", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_r")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotR));
         }
-        AuricaCaster.LocalCaster.ResetCast();
+        caster.ResetCast();
     }
 
     public void SetBind(string key, AuricaSpell spell, string keybind="") {
@@ -65,6 +74,6 @@ public class BindingUIPanel : MonoBehaviour {
     }
 
     public void Bind(string key) {
-        AuricaCaster.LocalCaster.CacheCurrentSpell(key);
+        caster.CacheCurrentSpell(key);
     }
 }
