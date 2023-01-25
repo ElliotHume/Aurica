@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: IgnitionStrike
+  m_EditorClassIdentifier: 
+  c_name: Ignition Strike
+  manaType: 5
+  description: Cast forward a hardened shell of fire mana. When recast the spell
+    will erupt into a ball of fire that damages anything caught within the effect.
+    The spell will also detonate similarly on contact.
+  targetDistribution:
+    structure: -0.15
+    essence: 0.05
+    fire: 0.75
+    water: 0.05
+    earth: 0.15
+    air: 0.15
+    nature: 0.1
+  keyComponents:
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
+  - {fileID: 11400000, guid: d4e98e168819744fd8980d3b105e8577, type: 2}
+  - {fileID: 11400000, guid: dee83bdf582aa4d6e93a2a11ec12f08d, type: 2}
+  - {fileID: 11400000, guid: 2e7a652ca2549df4cb50457a9ed70619, type: 2}
+  - {fileID: 11400000, guid: 9cc612e133970471a9c06607f83b7762, type: 2}
+  masteries: 050000000c000000
+  isMasterySpell: 1
+  masteryCategory: 5
+  masteryLevel: 0
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 60
+  componentManaMultiplier: 0.5
+  errorThreshold: 2
+  linkedSpellResource: Spell_IgnitionStrike

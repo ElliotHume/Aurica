@@ -92,7 +92,9 @@ public class RecastSpell : MonoBehaviourPun {
             }
         }
 
-        GameObject networkEffect = PhotonNetwork.Instantiate(networkEffectOnRecast, spawnPosition, spawnRotation);
+        if (networkEffectOnRecast != null && networkEffectOnRecast != "") {
+            PhotonNetwork.Instantiate(networkEffectOnRecast, spawnPosition, spawnRotation);
+        }
 
         PhotonNetwork.Destroy(gameObject);
     }

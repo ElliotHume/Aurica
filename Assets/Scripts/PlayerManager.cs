@@ -781,32 +781,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 if (InputManager.Instance.GetKeyDown(entry.Key)) {
                     if (entry.Value != null) entry.Value.InitiateRecast();
                     activeRecastSpells.Remove(entry.Key);
-                    break;
+                    return;
                 }
             }
-        } else if (movementManager.CanCast()) {
+        }
+        
+        if (movementManager.CanCast()) {
             if (InputManager.Instance.GetKeyDown(KeybindingActions.Cast)) {
-                if (activeRecastSpells.ContainsKey(KeybindingActions.Cast)) {
-                    activeRecastSpells[KeybindingActions.Cast].InitiateRecast();
-                    activeRecastSpells.Remove(KeybindingActions.Cast);
-                } else {
-                    PrepareSpellCast(auricaCaster.CastFinal(), KeybindingActions.Cast);
-                }
+                PrepareSpellCast(auricaCaster.CastFinal(), KeybindingActions.Cast);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
-                Debug.Log("HERE");
-                if (activeRecastSpells.ContainsKey(KeybindingActions.SpellSlot1)) {
-                    Debug.Log("HERE2");
-                    try {
-                        Debug.Log("HERE3");
-                        activeRecastSpells[KeybindingActions.SpellSlot1].InitiateRecast();
-                    } catch {
-                        Debug.Log("ERROR");
-                    }
-                    activeRecastSpells.Remove(KeybindingActions.SpellSlot1);
-                    Debug.Log("HERE4");
-                } else {
-                    PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
-                }
+                 PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2)) {
                 PrepareSpellCast(auricaCaster.CastBindSlot("2"), KeybindingActions.SpellSlot2);
             } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3)) {

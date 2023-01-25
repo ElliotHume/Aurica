@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public enum UIAnimationTypes {
     Move,
     Scale,
-    Fade
+    Fade,
+    Rotate
 }
 
 public class UITweener : MonoBehaviour {
@@ -42,6 +43,9 @@ public class UITweener : MonoBehaviour {
             case UIAnimationTypes.Scale:
                 Scale();
                 break;
+            case UIAnimationTypes.Rotate:
+                Rotate();
+                break;
         }
 
         _tweenObject.setDelay(delay);
@@ -58,6 +62,10 @@ public class UITweener : MonoBehaviour {
                 objectToAnimate.SetActive(false);
             });
         }
+    }
+
+    public void StopTween() {
+        _tweenObject.cancel(objectToAnimate);
     }
 
     public void Fade() {
@@ -80,5 +88,10 @@ public class UITweener : MonoBehaviour {
             objectToAnimate.GetComponent<RectTransform>().localScale = from;
         }
         _tweenObject = LeanTween.scale(objectToAnimate, to, duration);
+    }
+
+    public void Rotate() {
+        objectToAnimate.transform.rotation = Quaternion.Euler(from);
+        _tweenObject = LeanTween.rotateAround(objectToAnimate, -Vector3.forward, to.z, duration);
     }
 }

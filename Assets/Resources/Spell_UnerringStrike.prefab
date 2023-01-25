@@ -4737,7 +4737,7 @@ MonoBehaviour:
   TrackingProjectile: 0
   TrackingTurnSpeed: 40
   CollisionOffset: 0
-  CollisionDestroyTimeDelay: 5
+  CollisionDestroyTimeDelay: 0.1
   MaxDistance: 0
   AirDrag: 0
   MinSpeed: 0
@@ -4841,8 +4841,10 @@ MonoBehaviour:
   spellOnRecastPrefabName: YRecast_UnerringStrike
   networkEffectOnRecast: XCollision_UnerringStrike
   positionOffset: {x: 0, y: 0, z: 0}
-  useRotationOffset: 0
+  createRecastAtOwner: 0
   rotationOffset: {x: 0, y: 0, z: 0}
+  useRotationOffset: 0
+  turnRecastSpellTowardsAimPoint: 0
 --- !u!1 &2224223502975117486
 GameObject:
   m_ObjectHideFlags: 0

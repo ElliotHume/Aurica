@@ -8,6 +8,7 @@ public class BindingUIPanel : MonoBehaviour {
     public BindingButton bind1, bind2, bind3, bind4, bindQ, bindE, bindR, bindF;
     public static BindingUIPanel LocalInstance;
     private Dictionary<string, BindingButton> dict = new Dictionary<string, BindingButton>();
+    private Dictionary<KeybindingActions, string> keyBindingDict = new Dictionary<KeybindingActions, string>();
 
     private AuricaCaster caster;
 
@@ -22,6 +23,15 @@ public class BindingUIPanel : MonoBehaviour {
         dict.Add("2", bind2);
         dict.Add("3", bind3);
         dict.Add("4", bind4);
+
+        keyBindingDict.Add(KeybindingActions.SpellSlotQ, "q");
+        keyBindingDict.Add(KeybindingActions.SpellSlotE, "e");
+        keyBindingDict.Add(KeybindingActions.SpellSlotR, "r");
+        keyBindingDict.Add(KeybindingActions.SpellSlotF, "f");
+        keyBindingDict.Add(KeybindingActions.SpellSlot1, "1");
+        keyBindingDict.Add(KeybindingActions.SpellSlot2, "2");
+        keyBindingDict.Add(KeybindingActions.SpellSlot3, "3");
+        keyBindingDict.Add(KeybindingActions.SpellSlot4, "4");
     }
 
     void FixedUpdate() {
@@ -30,9 +40,14 @@ public class BindingUIPanel : MonoBehaviour {
         }
         if (caster == null || !caster.spellManasCached) return;
         float availableMana = PlayerManager.LocalInstance.Mana;
-        Dictionary<KeybindingActions, RecastSpell> activeRecastSpells = PlayerManager.LocalInstance.activeRecastSpells;
         foreach(string key in dict.Keys) {
             dict[key].CanCast(caster.CanCastCachedSpell(key, availableMana));
+        }
+
+        Dictionary<KeybindingActions, RecastSpell> activeRecastSpells = PlayerManager.LocalInstance.activeRecastSpells;
+        foreach(KeyValuePair<KeybindingActions, string> entry in keyBindingDict) {
+            bool canRecast = activeRecastSpells.ContainsKey(entry.Key) && activeRecastSpells[entry.Key] != null;
+            dict[entry.Value].CanRecast(canRecast);
         }
     }
 

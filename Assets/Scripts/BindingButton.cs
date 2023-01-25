@@ -11,9 +11,10 @@ public class BindingButton : MonoBehaviour
     public Image SpellIcon;
     public Color CannotCastColorTint;
     public Text SpellComponents;
+    public GameObject Spinner;
 
     private AuricaSpell spell;
-    private bool canCast;
+    private bool canCast, canRecast;
 
     public void SetButtonGraphics(AuricaSpell s, string components="") {
         if (s == null) {
@@ -39,6 +40,19 @@ public class BindingButton : MonoBehaviour
         else if (!flag && canCast) {
             canCast = false;
             SpellIcon.color = CannotCastColorTint;
+        }
+    }
+
+    public void CanRecast(bool flag) {
+        if (flag && !canRecast) {
+            canRecast = true;
+            Spinner.SetActive(true);
+            SpellIcon.color = CannotCastColorTint;
+        }
+        else if (!flag && canRecast) {
+            canRecast = false;
+            Spinner.SetActive(false);
+            SpellIcon.color = new Color(1f, 1f, 1f);
         }
     }
 

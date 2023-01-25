@@ -143,7 +143,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         LocalCollisionBehaviour(hit.point, hit.normal);
 
         if (photonView.IsMine) {
-            Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
+            Invoke("DestroySelf", CollisionDestroyTimeDelay);
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
                 string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
@@ -276,7 +276,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         LocalCollisionBehaviour(transform.position, -transform.forward);
         isCollided = true;
         if (photonView.IsMine) {
-            Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
+            Invoke("DestroySelf", CollisionDestroyTimeDelay);
             NetworkCollisionBehaviour(transform.position, Vector3.up);
         }
     }
@@ -293,7 +293,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         foreach (var effect in EffectsOnCollision) {
             GameObject instance = Instantiate(effect, hitpoint + normal * CollisionOffset, new Quaternion());
             instance.transform.LookAt(hitpoint + normal + normal * CollisionOffset);
-            Destroy(instance, CollisionDestroyTimeDelay);
+            Destroy(instance, CollisionDestroyTimeDelay+1f);
         }
         DisableCollisions();
         GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -342,20 +342,23 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 DisableCollisions();
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<Rigidbody>().isKinematic = true;
-                Invoke("DestroySelf", CollisionDestroyTimeDelay+1f);
+                Invoke("DestroySelf", CollisionDestroyTimeDelay);
             }
             isCollided = true;
             return;
         }
 
+        GameObject crossHairHit = crosshair.GetPlayerHit(1f);
+
         // If aim assisted, get the player that is being aimed at from the crosshair and set them as the target
         if (AimAssistedProjectile && !enemyAttack) {
-            GameObject crossHairHit = crosshair.GetPlayerHit(1f);
             SetAimAssistTarget(crossHairHit);
-            if (PerfectHomingProjectile && crossHairHit != null && (crossHairHit.transform.position-transform.position).magnitude <= HomingDetectionSphereRadius) {
-                // Debug.Log("Set homing target to aim targeted player.");
-                SetHomingTarget(crossHairHit);
-            }
+        }
+
+        // If homing projectile, get the player that is being aimed at and if they are within homing range, set them as the homing target.
+        if (PerfectHomingProjectile && !enemyAttack && crossHairHit != null && (crossHairHit.transform.position-transform.position).magnitude <= HomingDetectionSphereRadius) {
+            // Debug.Log("Set homing target to aim targeted player.");
+            SetHomingTarget(crossHairHit);
         }
 
         Vector3 randomOffset = Vector3.zero;
