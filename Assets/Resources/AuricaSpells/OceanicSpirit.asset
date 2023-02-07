@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: OceanicSpirit
+  m_EditorClassIdentifier: 
+  c_name: Oceanic Spirit
+  manaType: 6
+  description: Summon a spirit of the boundless ocean that ascends to the heavens
+    before crashing back to the earth. The spirit will rob mages of their mana and
+    cripple their regeneration for a moderate duration.
+  targetDistribution:
+    structure: 0
+    essence: 0.5
+    fire: 0
+    water: 1
+    earth: 0
+    air: 0
+    nature: 0.1
+  keyComponents:
+  - {fileID: 11400000, guid: d82da2bc39437474b8c9d066190ac6c2, type: 2}
+  - {fileID: 11400000, guid: 23ce2eaf25c734cd595e223bb4a1f1fd, type: 2}
+  - {fileID: 11400000, guid: d23d009b76dc34b109881c908dc56133, type: 2}
+  - {fileID: 11400000, guid: 1695c1f276952436ab72f5a2f31e1c4e, type: 2}
+  masteries: 060000000c000000
+  isMasterySpell: 1
+  masteryCategory: 6
+  masteryLevel: 2
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 100
+  componentManaMultiplier: 0.4
+  errorThreshold: 1.5
+  linkedSpellResource: Spell_OceanicSpirit

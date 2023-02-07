@@ -361,7 +361,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
 
             // If there is healing to be done, do it
-            if (healing > 0f && Health < maxHealth) {
+            if (healing >= 0.1f && Health < maxHealth) {
                 float healingDone = healing * Time.deltaTime * HealingRate;
                 Health += healingDone;
                 healing -= healingDone;
@@ -959,9 +959,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         TargetedSpell ts = dataObject.GetComponent<TargetedSpell>();
         SummonSpell ss = dataObject.GetComponent<SummonSpell>();
 
+        // Get spell strength
+        float currentSpellStrength = auricaCaster.GetSpellStrength();
+        Debug.Log("Spell strength: "+currentSpellStrength);
+
        
         if ( aoe != null) {
-            crosshair.ActivateTargetingIndicator(aoe.GetTargetingIndicatorScale(), aoe.UseAimPointNormal, aoe.IsSelfTargeted || aoe.CastingAnchor == "transform", aoe.IsOpponentTargeted, aoe.PositionOffset);
+            crosshair.ActivateTargetingIndicator(aoe.GetTargetingIndicatorScale(currentSpellStrength), aoe.UseAimPointNormal, aoe.IsSelfTargeted || aoe.CastingAnchor == "transform", aoe.IsOpponentTargeted, aoe.PositionOffset);
         } else if ( ts != null) {
             crosshair.ActivateTargetingIndicator(Vector3.one * 2f, false, ts.IsSelfTargeted, ts.IsOpponentTargeted, Vector3.up);
         } else if ( ss != null) {

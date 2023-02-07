@@ -63,7 +63,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         if (!animator) {
             Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
         }
-        animator.speed *= GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
+        animator.speed = GameManager.GLOBAL_ANIMATION_SPEED_MULTIPLIER;
         movementSpeed = PlayerSpeed;
 
         playerManager = GetComponent<PlayerManager>();

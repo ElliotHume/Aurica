@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public static float GLOBAL_SHIELD_HEALTH_MULTIPLIER = 1f;
 
-    public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.5f;
+    public static float GLOBAL_ANIMATION_SPEED_MULTIPLIER = 1.85f;
     public static float GLOBAL_PLAYER_MOVEMENT_SPEED_MULTIPLIER = 1.1f;
 
     public static float GLOBAL_MANA_COST_MULTIPLIER = 1f;

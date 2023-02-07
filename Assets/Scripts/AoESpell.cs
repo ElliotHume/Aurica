@@ -243,25 +243,31 @@ public class AoESpell : Spell {
         }
     }
 
-    public Vector3 GetTargetingIndicatorScale() {
-        if (TargetingIndicatorScale == Vector3.zero || TargetingIndicatorScale == Vector3.one) {
-            TargetingIndicatorScale = Vector3.one;
+    public Vector3 GetTargetingIndicatorScale(float currentSpellStrength = 1f) {
+        Vector3 indicatorScale = TargetingIndicatorScale;
+        if (indicatorScale == Vector3.zero || indicatorScale == Vector3.one) {
+            indicatorScale = Vector3.one;
             SphereCollider sphereCollider = GetComponent<SphereCollider>();
             if (sphereCollider != null) {
-                TargetingIndicatorScale = (sphereCollider.radius * 2) * transform.lossyScale;
+                // Debug.Log("Sphere indicator - diameter:"+(sphereCollider.radius * 2)+" scale: "+transform.lossyScale);
+                indicatorScale = (sphereCollider.radius * 2) * transform.lossyScale;
             } else {
                 CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
                 if (capsuleCollider != null) {
-                    TargetingIndicatorScale = (capsuleCollider.radius * 2) * transform.lossyScale;
+                    indicatorScale = (capsuleCollider.radius * 2) * transform.lossyScale;
                 } else {
                     BoxCollider boxCollider = GetComponent<BoxCollider>();
                     if (boxCollider != null) {
-                        TargetingIndicatorScale = Vector3.Scale(boxCollider.size, transform.lossyScale);
+                        indicatorScale = Vector3.Scale(boxCollider.size, transform.lossyScale);
                     }
                 }
             }
         }
-        return TargetingIndicatorScale;
+        if (SpellStrengthChangesScale) {
+            // Debug.Log("Indicator scale: "+indicatorScale+"   adjusted: "+(indicatorScale*currentSpellStrength));
+            indicatorScale *= currentSpellStrength;
+        }
+        return indicatorScale;
     }
 
     void CreateNetworkedEffects() {

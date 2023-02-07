@@ -4,11 +4,12 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: ModelSplashes3D
   m_Shader: {fileID: 4800000, guid: 3b5eaa5a09e6b204085004ea02b03e38, type: 3}
-  m_ShaderKeywords: USE_FRESNEL _ZWRITEMODE_ON
+  m_ShaderKeywords: USE_FRESNEL
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -117,16 +118,17 @@ Material:
     - _UseRefractive: 0
     - _UseSoft: 0
     - _ZWrite: 1
-    - _ZWriteMode: 1
+    - _ZWriteMode: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CutoutColor: {r: 1, g: 1, b: 1, a: 1}
     - _DropWavesScale: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 0.46961504, g: 0.5505832, b: 0.74264705, a: 1}
+    - _FresnelColor: {r: 0.10012458, g: 0.31720626, b: 0.8490566, a: 1}
     - _HeightUVScrollDistort: {r: 8, g: 12, b: 0, a: 0}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
     - _NoiseScale: {r: 1, g: 1, b: 1, a: 0.2}
     - _RimColor: {r: 0.21323532, g: 0.21323532, b: 0.21323532, a: 0.378}
     - _Speed: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.9632353, g: 0.98174435, b: 1, a: 1}
+  m_BuildTextureStacks: []

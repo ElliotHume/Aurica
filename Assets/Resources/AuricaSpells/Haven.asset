@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: Haven
+  m_EditorClassIdentifier: 
+  c_name: Haven
+  manaType: 3
+  description: Create a ritual circle blessed by life mana. In the circle you can
+    barely be harmed, but you will also not be permitted to harm others. The Haven
+    ritual is meant for peace.
+  targetDistribution:
+    structure: -0.2
+    essence: 0.83
+    fire: 0
+    water: 0.1
+    earth: 0
+    air: 0.1
+    nature: 0.1
+  keyComponents:
+  - {fileID: 11400000, guid: ddab4c958b760457d8a7b68e3f8cb208, type: 2}
+  - {fileID: 11400000, guid: 310184bc9d5bd47c088cfdc3f5e6cd99, type: 2}
+  - {fileID: 11400000, guid: ec341d06fe0184444983a2205987618b, type: 2}
+  - {fileID: 11400000, guid: 7d48f6da462ea234ba0cb08e272ef07f, type: 2}
+  masteries: 030000000d000000
+  isMasterySpell: 1
+  masteryCategory: 3
+  masteryLevel: 0
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 50
+  componentManaMultiplier: 0.65
+  errorThreshold: 2
+  linkedSpellResource: Spell_Haven

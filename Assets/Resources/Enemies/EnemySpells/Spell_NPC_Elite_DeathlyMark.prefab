@@ -842,14 +842,16 @@ MonoBehaviour:
   CastAnimationType: 2
   CastingAnchor: front
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
-  Speed: 40
+  Speed: 45
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 1
-  AimAssistedProjectile: 1
+  IgnoreNonPlayerCollision: 0
+  AimAssistedProjectile: 0
   AimAssistTurningSpeed: 40
   PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 0
@@ -858,7 +860,7 @@ MonoBehaviour:
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
-  AirDrag: 8
+  AirDrag: 2
   MinSpeed: 0
   ExplodeOnReachMaxDistance: 0
   EffectsOnCollision:

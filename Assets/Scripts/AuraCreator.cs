@@ -307,7 +307,7 @@ public class AuraCreator : MonoBehaviour
         auraGenerationSectionValues.SetDistribution(finalAura);
         if (auraGenerationSectionDisplay != null) auraGenerationSectionDisplay.SetDistribution(finalAura);
 
-        aggregatePowerText.text = "Max Mana Pool: "+(aggregatePower * 100f).ToString();
+        // aggregatePowerText.text = "Max Mana Pool: "+(aggregatePower * 100f).ToString();
         if (AuraText != null) AuraText.text = "["+finalAura.ToString()+"]";
         if (AuraJson != null) AuraJson.text = finalAura.GetJson();
     }
