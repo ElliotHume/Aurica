@@ -46,8 +46,9 @@ public class BindingUIPanel : MonoBehaviour {
 
         Dictionary<KeybindingActions, RecastSpell> activeRecastSpells = PlayerManager.LocalInstance.activeRecastSpells;
         foreach(KeyValuePair<KeybindingActions, string> entry in keyBindingDict) {
-            bool canRecast = activeRecastSpells.ContainsKey(entry.Key) && activeRecastSpells[entry.Key] != null;
-            dict[entry.Value].CanRecast(canRecast);
+            bool recastActive = activeRecastSpells.ContainsKey(entry.Key) && activeRecastSpells[entry.Key] != null;
+            bool canRecast = recastActive && activeRecastSpells[entry.Key].CanRecast();
+            dict[entry.Value].CanRecast(recastActive, canRecast);
         }
     }
 

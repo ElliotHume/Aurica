@@ -12,11 +12,28 @@ public class RecastSpell : MonoBehaviourPun {
     public Vector3 rotationOffset;
     public bool useRotationOffset = false;
     public bool turnRecastSpellTowardsAimPoint = false;
+    public float delayBeforeRecast = 0f;
 
     protected float spellStrength = 1f, expertise = -1f;
     protected ManaDistribution damageModifier;
     protected GameObject owner;
     protected PlayerManager ownerPM;
+    protected bool allowRecast = true;
+
+    void Start() {
+        if (delayBeforeRecast > 0f) {
+            allowRecast = false;
+            Invoke("AllowRecast", delayBeforeRecast);
+        }
+    }
+
+    void AllowRecast() {
+        allowRecast = true;
+    }
+
+    public bool CanRecast() {
+        return allowRecast;
+    }
 
     public virtual void SetSpellStrength(float newStrength) {
         spellStrength = newStrength;
@@ -73,7 +90,7 @@ public class RecastSpell : MonoBehaviourPun {
 
 
     public void InitiateRecast(){
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine || !allowRecast) return;
         Vector3 spawnPosition = GetSpawnPosition();
         Quaternion spawnRotation = GetSpawnRotation();
         GameObject instance = PhotonNetwork.Instantiate(spellOnRecastPrefabName, spawnPosition, spawnRotation);

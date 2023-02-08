@@ -779,7 +779,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (activeRecastSpells.Count > 0) {
             foreach(KeyValuePair<KeybindingActions, RecastSpell> entry in activeRecastSpells) {
                 if (InputManager.Instance.GetKeyDown(entry.Key)) {
-                    if (entry.Value != null) entry.Value.InitiateRecast();
+                    if (entry.Value != null) {
+                        if (entry.Value.CanRecast()) {
+                            entry.Value.InitiateRecast();
+                        } else {
+                            continue;
+                        }
+                    }
                     activeRecastSpells.Remove(entry.Key);
                     return;
                 }
@@ -931,6 +937,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             CastFizzle();
             manaBar.BlinkText();
             auricaCaster.ResetCast();
+            return;
+        }
+
+        if (activeRecastSpells.ContainsKey(key)) {
             return;
         }
 
