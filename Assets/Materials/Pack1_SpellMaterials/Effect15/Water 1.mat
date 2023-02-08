@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Water 1
   m_Shader: {fileID: 4800000, guid: dfe6e51c0ffb87246af0df6ac28d4a6e, type: 3}
-  m_ShaderKeywords: USE_CUTOUT USE_FRESNEL USE_HEIGHT USE_REFRACTIVE _ZWRITEMODE_ON
+  m_ShaderKeywords: USE_CUTOUT USE_FRESNEL USE_HEIGHT USE_REFRACTIVE
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -95,7 +95,7 @@ Material:
     - _UseMainTex: 0
     - _UseRefractive: 1
     - _UseSoft: 0
-    - _ZWriteMode: 1
+    - _ZWriteMode: 0
     m_Colors:
     - _Color: {r: 0.94963247, g: 1.0291586, b: 1.0852942, a: 1}
     - _CutoutColor: {r: 0.25735295, g: 0.25735295, b: 0.25735295, a: 1}
@@ -109,3 +109,4 @@ Material:
     - _Test: {r: 8, g: 12, b: 1, a: 1500}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVScrollDistort: {r: 8, g: 12, b: 1, a: 1500}
+  m_BuildTextureStacks: []

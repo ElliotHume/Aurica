@@ -210,7 +210,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 }
             }
             
-            NetworkCollisionBehaviour(hit.point, hit.normal);
+            NetworkCollisionBehaviour(hit.point, hit.normal, collision.gameObject);
         }
     }
 
@@ -300,7 +300,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
-    void NetworkCollisionBehaviour(Vector3 hitPoint, Vector3 hitNormal) {
+    void NetworkCollisionBehaviour(Vector3 hitPoint, Vector3 hitNormal, GameObject hitEntity = null) {
         Vector3 normal = NetworkCollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
         if (NetworkCollisionEffectsOnlyOnHitGround && Vector3.Dot(hitNormal, Vector3.up) < 0.707f) return;
         foreach(string effect in NetworkedEffectsOnCollision) {
@@ -319,6 +319,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
                     instanceSpell.SetOwner(GetOwner());
                 }
+                TargetedSpell targetedSpell = instanceSpell.GetComponent<TargetedSpell>();
+                if (targetedSpell != null && hitEntity != null && (hitEntity.tag == "Player" || hitEntity.tag == "Enemy")) targetedSpell.SetTarget(hitEntity);
+                AoESpell aoeSpell = instanceSpell.GetComponent<AoESpell>();
+                if (aoeSpell != null && hitEntity != null && (hitEntity.tag == "Player" || hitEntity.tag == "Enemy")) aoeSpell.SetTarget(hitEntity);
             }
         }
     }

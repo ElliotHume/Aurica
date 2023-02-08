@@ -9479,7 +9479,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8600857994565441298}
-  - component: {fileID: 1046480046}
   m_Layer: 7
   m_Name: Audio
   m_TagString: Untagged
@@ -9503,18 +9502,6 @@ Transform:
   m_Father: {fileID: 8593859194143753132}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &1046480046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8595154183718395686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8595172513292800514
 GameObject:
   m_ObjectHideFlags: 0
@@ -9587,7 +9574,7 @@ MonoBehaviour:
   attachToTarget: 0
   canHitSelf: 0
   growBeforeStart: 0
-  SpellStrengthChangesDuration: 1
+  SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 1
   DestroyTimeDelay: 13
   StartTimeDelay: 0
@@ -10016,6 +10003,7 @@ GameObject:
   - component: {fileID: 8591187069528341300}
   - component: {fileID: 8583609637044404134}
   - component: {fileID: 8564239675225419190}
+  - component: {fileID: 8997409627292673410}
   m_Layer: 7
   m_Name: Decal
   m_TagString: Untagged
@@ -10102,6 +10090,65 @@ MonoBehaviour:
   UseRandomRotationAndScale: 0
   randomScalePercent: 20
   IsScreenSpace: 1
+--- !u!114 &8997409627292673410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595642642652800864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf72b0980504fa479ffc44710238493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShaderFloatProperty: 5
+  FloatCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.003780365
+      value: 0.7077637
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.08534101
+      value: 0.005973816
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.123327576
+    - serializedVersion: 3
+      time: 0.8575756
+      value: 0.0017539263
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10158547
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.9975281
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  GraphTimeMultiplier: 10
+  GraphIntensityMultiplier: 1
+  IsLoop: 0
+  UseSharedMaterial: 0
 --- !u!1 &8595927039457763956
 GameObject:
   m_ObjectHideFlags: 0
@@ -10114,6 +10161,7 @@ GameObject:
   - component: {fileID: 8591717748400096900}
   - component: {fileID: 8583249430265475048}
   - component: {fileID: 8562490342927028324}
+  - component: {fileID: 1005070499556787205}
   m_Layer: 7
   m_Name: DecalCore
   m_TagString: Untagged
@@ -10129,7 +10177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8595927039457763956}
   m_LocalRotation: {x: -0, y: 0.28674844, z: -1.7763566e-15, w: 0.95800596}
-  m_LocalPosition: {x: -0, y: -0.385, z: 0}
+  m_LocalPosition: {x: 0, y: -0.385, z: 0}
   m_LocalScale: {x: 2.1376092, y: 0.66672033, z: 2.1376092}
   m_Children: []
   m_Father: {fileID: 8593859194143753132}
@@ -10200,3 +10248,62 @@ MonoBehaviour:
   UseRandomRotationAndScale: 0
   randomScalePercent: 20
   IsScreenSpace: 1
+--- !u!114 &1005070499556787205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595927039457763956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf72b0980504fa479ffc44710238493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShaderFloatProperty: 5
+  FloatCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.003780365
+      value: 0.7077637
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.08534101
+      value: 0.005973816
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.123327576
+    - serializedVersion: 3
+      time: 0.8575756
+      value: 0.0017539263
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10158547
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.9975281
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  GraphTimeMultiplier: 10
+  GraphIntensityMultiplier: 1
+  IsLoop: 0
+  UseSharedMaterial: 0

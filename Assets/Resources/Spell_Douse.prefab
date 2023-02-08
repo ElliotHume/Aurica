@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8cf69ecb70c1474b9ff3d78268b10f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 12
+  Damage: 8
   auricaSpell: {fileID: 11400000, guid: bef9d3177aeb44186b1e48fd4ae421d6, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -90,11 +90,12 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
   FiringAngle: 15
-  Gravity: 25
+  Gravity: 35
   Target: {x: 0, y: 0, z: 0}
   CrosshairTargeted: 1
   CollisionOffset: 0
@@ -156,7 +157,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 9064220549118733514}
   - {fileID: 9064220549118733518}
-  sceneViewId: 0
+  sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &9064220549118733518
@@ -1423,7 +1424,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 15
+      scalar: 6
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6246,7 +6247,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 15
+      scalar: 6
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -43163,7 +43164,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 907ce548f7cf96c43934545be6c52e18, type: 2}
+  - {fileID: 2100000, guid: 11fc90cbe00d49e4db0f29efa3264f1b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
