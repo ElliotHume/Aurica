@@ -11,7 +11,7 @@ public class BindingButton : MonoBehaviour
     public Image SpellIcon;
     public Color CannotCastColorTint;
     public Text SpellComponents;
-    public GameObject Spinner;
+    public GameObject Spinner, FlashingFrame;
 
     private AuricaSpell spell;
     private bool canCast;
@@ -52,6 +52,7 @@ public class BindingButton : MonoBehaviour
         if (newRecastState != recastState) {
             recastState = newRecastState;
             Spinner.SetActive(displaySpinner);
+            FlashingFrame.SetActive(flag);
             SpellIcon.color = flag ? CannotCastColorTint : new Color(1f, 1f, 1f);
         }
     }

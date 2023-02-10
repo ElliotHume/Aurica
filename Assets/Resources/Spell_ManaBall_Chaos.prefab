@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e806c67adac946de9b1cf8b26ecfdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 7
+  Damage: 6.5
   auricaSpell: {fileID: 11400000, guid: f832b95b3cc9c6741a8515accad3b02d, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
@@ -59,6 +59,7 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: front
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
