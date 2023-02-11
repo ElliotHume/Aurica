@@ -59,7 +59,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
-  Duration: 2
+  Duration: 0.5
   CastAnimationType: 10
   CastingAnchor: aimpoint
   TurnToAimPoint: 1
@@ -81,8 +81,7 @@ MonoBehaviour:
   ScalingLimit: 0
   TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 0, z: 0}
-  DeactivateObjectsAfterDuration:
-  - {fileID: 6626175595226313538}
+  DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
   NetworkedEffectsOnDelay: []
   NetworkedEffectsDelay: 0

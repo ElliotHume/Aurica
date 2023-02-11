@@ -5277,7 +5277,7 @@ MonoBehaviour:
   CanHitSelf: 0
   IgnoreNonPlayerCollision: 0
   AimAssistedProjectile: 1
-  AimAssistTurningSpeed: 20
+  AimAssistTurningSpeed: 5
   PerfectHomingProjectile: 0
   HomingDetectionSphereRadius: 0
   TrackingProjectile: 0
@@ -5392,6 +5392,7 @@ MonoBehaviour:
   rotationOffset: {x: 0, y: 0, z: 0}
   useRotationOffset: 0
   turnRecastSpellTowardsAimPoint: 0
+  delayBeforeRecast: 0
 --- !u!1 &7274892463357770077
 GameObject:
   m_ObjectHideFlags: 0

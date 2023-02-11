@@ -4806,9 +4806,8 @@ GameObject:
   - component: {fileID: 1366575532507033696}
   - component: {fileID: 1333316056320740780}
   - component: {fileID: 1345575616680229366}
-  - component: {fileID: 1400369224387548576}
-  - component: {fileID: 1399936482088861112}
   - component: {fileID: 269533079368298007}
+  - component: {fileID: 1011603444}
   m_Layer: 0
   m_Name: Decal
   m_TagString: Untagged
@@ -4823,13 +4822,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1368137203104853190}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.141, y: 0.255, z: -0}
-  m_LocalScale: {x: 2, y: 1.4643, z: 2}
+  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071069}
+  m_LocalPosition: {x: 0, y: 1e-15, z: -0.0000000074506}
+  m_LocalScale: {x: 2.7448, y: 2.0096054, z: 2.7448}
   m_Children: []
   m_Father: {fileID: 1362893497094268198}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 90}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &1333316056320740780
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4857,7 +4856,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c694bd354ba9db94bb314909dbaf3870, type: 2}
+  - {fileID: 2100000, guid: 454887385fcf4b64a9e2476d5d20fc80, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4879,68 +4878,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1400369224387548576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368137203104853190}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e21670774e265b4f8fd1a32b2a739a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsScreenSpace: 1
---- !u!114 &1399936482088861112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368137203104853190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fb14f28e19473c44a41de27336e9cb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShaderFloatProperty: 5
-  FloatCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 4.96135
-      outSlope: 4.96135
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.099999994
-      value: 0.5
-      inSlope: 0.045469437
-      outSlope: 0.045469437
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -0
-      outSlope: -0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  GraphTimeMultiplier: 3.5
-  GraphIntensityMultiplier: 1
-  IsLoop: 0
 --- !u!114 &269533079368298007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4957,6 +4894,56 @@ MonoBehaviour:
   UseRandomRotationAndScale: 0
   randomScalePercent: 20
   IsScreenSpace: 1
+--- !u!114 &1011603444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368137203104853190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf72b0980504fa479ffc44710238493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShaderFloatProperty: 5
+  FloatCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0054397583
+      value: 0.99746704
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.059194714
+      value: 0.49998027
+      inSlope: 0.012798916
+      outSlope: 0.012798916
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.25832894
+    - serializedVersion: 3
+      time: 0.98321533
+      value: 1.0001373
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  GraphTimeMultiplier: 3.5
+  GraphIntensityMultiplier: 1
+  IsLoop: 0
+  UseSharedMaterial: 0
 --- !u!1 &1368187594001219686
 GameObject:
   m_ObjectHideFlags: 0

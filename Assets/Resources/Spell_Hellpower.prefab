@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9086482322556243329}
   - component: {fileID: 8995679473173416725}
   - component: {fileID: 8994290068084358867}
+  - component: {fileID: 995491340162046846}
   m_Layer: 7
   m_Name: Particles3
   m_TagString: Untagged
@@ -703,7 +704,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3000
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4591,6 +4592,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &995491340162046846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9083796205626971211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9083827336044273463
 GameObject:
   m_ObjectHideFlags: 0
@@ -10560,6 +10573,7 @@ GameObject:
   - component: {fileID: 9086506962788526201}
   - component: {fileID: 8995081196316609085}
   - component: {fileID: 8994369603789470889}
+  - component: {fileID: 6208120018027420629}
   m_Layer: 7
   m_Name: Particles2
   m_TagString: Untagged
@@ -11252,7 +11266,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2000
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15140,6 +15154,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6208120018027420629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9084346009396924753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9084349007164845639
 GameObject:
   m_ObjectHideFlags: 0
@@ -15632,7 +15658,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 9085698444767215687}
-  sceneViewId: 32
+  sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &9085698444767215687

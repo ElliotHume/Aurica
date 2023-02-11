@@ -9930,6 +9930,7 @@ MonoBehaviour:
   CastAnimationType: 2
   CastingAnchor: front
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -9937,7 +9938,7 @@ MonoBehaviour:
   RandomMoveRadius: 0
   RandomMoveSpeedScale: 0
   CanHitSelf: 1
-  ContinuesPastCollision: 0
+  IgnoreNonPlayerCollision: 0
   AimAssistedProjectile: 0
   AimAssistTurningSpeed: 0
   PerfectHomingProjectile: 0
