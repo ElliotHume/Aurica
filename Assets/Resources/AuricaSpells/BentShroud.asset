@@ -16,7 +16,7 @@ MonoBehaviour:
   manaType: 2
   description: Bend and distort the light around the caster to create a camouflaging
     effect for a moderate amount of time. The effect will also thicken the air surrounding
-    the caster, inflicting a movement speed debuff.
+    the caster, inflicting a minor slowing debuff.
   targetDistribution:
     structure: -0.66
     essence: 0.11
@@ -38,5 +38,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 40
   componentManaMultiplier: 0.5
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_BentShroud

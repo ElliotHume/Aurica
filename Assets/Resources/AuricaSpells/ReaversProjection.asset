@@ -15,7 +15,7 @@ MonoBehaviour:
   c_name: Reaver's Projection
   manaType: 4
   description: Channel an aura of deathly mana around the caster. The spell will
-    grow stronger as the channel is held.
+    grow larger and stronger as the channel is held.
   targetDistribution:
     structure: 0.15
     essence: -0.88
@@ -37,5 +37,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 10
   componentManaMultiplier: 0.5
-  errorThreshold: 3
+  difficultyRank: 1
   linkedSpellResource: Spell_ReaversProjection

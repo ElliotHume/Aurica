@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: CMB Wrath Dart
   manaType: 9
-  description: Cast a dart of divine wrath
+  description: Cast a dart of divine wrath, the dart will deal damage to it's target
+    and apply a minor fragile debuff.
   targetDistribution:
     structure: 0.15
     essence: 0
@@ -37,5 +38,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 75
   componentManaMultiplier: 0.2
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_CMB_WrathDart

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Pallid Curse
   manaType: 3
-  description: Channel to create an area of life mana that compels victims bodies
+  description: Channel to control an area of life mana that compels victims bodies
     to forcefully expel stored Mana. The spell will follow where the caster directs
     it.
   targetDistribution:
@@ -38,5 +38,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 20
   componentManaMultiplier: 0.5
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_PallidCurse

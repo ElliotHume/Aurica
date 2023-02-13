@@ -15,8 +15,8 @@ MonoBehaviour:
   c_name: Ir'Le'To's Battery
   manaType: 10
   description: Channel energy from Ir'Le'To's den to send a battery of tainted mana
-    bolts in every direction. The spells have strong tracking capabilities so long
-    as the caster has an opponent in their sights.
+    bolts in every direction. The bolts released have strong tracking capabilities
+    so long as the caster has an opponent in their sights.
   targetDistribution:
     structure: -0.31
     essence: -0.15
@@ -39,5 +39,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 40
   componentManaMultiplier: 0.5
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_IrLeTosBattery

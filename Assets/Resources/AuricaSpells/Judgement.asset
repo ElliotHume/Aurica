@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Judgement
   manaType: 9
-  description: Create a delayed explosion underneath an opponent, if they are within
-    after the time they will take heavy damage and be stunned for a moderate duration.
+  description: Create a delayed explosion underneath an opponent, if they are caught
+    within after the delay they will take heavy damage and be stunned for a moderate
+    duration.
   targetDistribution:
     structure: 0.11
     essence: 0
@@ -37,5 +38,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 55
   componentManaMultiplier: 0.5
-  errorThreshold: 1.5
+  difficultyRank: 1
   linkedSpellResource: Spell_Judgement

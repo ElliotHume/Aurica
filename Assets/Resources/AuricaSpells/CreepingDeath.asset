@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Creeping Death
   manaType: 4
-  description: Create an orb of death that will seek out the closest enemy and deal
-    massive damage over time.
+  description: Create a slow moving orb of death that will seek out the targeted
+    enemy and deal massive damage over time.
   targetDistribution:
     structure: 0.2
     essence: -1
@@ -37,5 +37,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 50
   componentManaMultiplier: 0.5
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_CreepingDeath

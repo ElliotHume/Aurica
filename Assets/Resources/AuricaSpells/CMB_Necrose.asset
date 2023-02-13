@@ -15,7 +15,8 @@ MonoBehaviour:
   c_name: CMB Necrose
   manaType: 3
   description: Fire a bolt of malignant life essence that will kill living tissue
-    it touches.
+    it touches. The spell will target the mana channels of a mage, applying a minor
+    mana regeneration debuff.
   targetDistribution:
     structure: -0.075
     essence: 0.85
@@ -38,5 +39,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 75
   componentManaMultiplier: 0.2
-  errorThreshold: 3
+  difficultyRank: 1
   linkedSpellResource: Spell_CMB_Necrose

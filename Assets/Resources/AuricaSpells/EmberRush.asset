@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Ember Rush
   manaType: 5
-  description: Throw a cloud of embers that hang in the air and deal damage to anything
+  description: Throw a stream of embers that hang in the air and deal damage to anything
     that contacts them.
   targetDistribution:
     structure: -0.225
@@ -36,5 +36,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 60
   componentManaMultiplier: 0.5
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_EmberRush

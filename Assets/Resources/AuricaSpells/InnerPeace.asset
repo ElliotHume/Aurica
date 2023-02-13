@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Inner Peace
   manaType: 6
-  description: Create a dome of blesed water that will restore mana and health to
-    the caster. Others will be pushed out of the area of influence
+  description: Create a dome of blessed water that will restore mana, minorly heal,
+    and strengthen water magic for all inside the spell's dome.
   targetDistribution:
     structure: 0.1
     essence: 0.55
@@ -37,5 +37,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 50
   componentManaMultiplier: 0.5
-  errorThreshold: 1.5
+  difficultyRank: 1
   linkedSpellResource: Spell_InnerPeace

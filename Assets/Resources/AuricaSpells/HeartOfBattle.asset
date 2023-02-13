@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Heart of Battle
   manaType: 10
-  description: 'ADEPT SPELL: Manifest a heart of battle, the heart will grant a strong
-    toughness buff and a moderate strengthening effect. In exchange the spell will
-    drain the mana of those around it.'
+  description: Manifest a heart of battle, the heart will grant a strong toughness
+    buff and a moderate strengthening effect. In exchange the spell will drain the
+    mana of those around it.
   targetDistribution:
     structure: -0.1
     essence: 0.15
@@ -39,5 +39,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 50
   componentManaMultiplier: 0.5
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_HeartOfBattle

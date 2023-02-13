@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Douse
   manaType: 6
-  description: Throw a large ball of water that will knockback those it hits and
-    greatly weaken fire damage for the victim. The mana-charged water also forcefully
-    dispurses some of the victims mana.
+  description: Throw a ball of water that will knockback those it hits and greatly
+    weaken fire damage for the victim. The mana-charged water also forcefully dispurses
+    some of the victims mana.
   targetDistribution:
     structure: 0.15
     essence: 0.06
@@ -37,5 +37,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 20
   componentManaMultiplier: 0.65
-  errorThreshold: 1.75
+  difficultyRank: 1
   linkedSpellResource: Spell_Douse

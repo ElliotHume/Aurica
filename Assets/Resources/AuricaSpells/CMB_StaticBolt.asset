@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: CMB Static Bolt
   manaType: 8
-  description: Release a concentrated stream of static energy, travels very fast
+  description: Release a concentrated stream of static energy, the stream travels
+    very fast but slows down as it travels further.
   targetDistribution:
     structure: -0.1
     essence: 0.1
@@ -37,5 +38,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 75
   componentManaMultiplier: 0.2
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_CMB_StaticBolt

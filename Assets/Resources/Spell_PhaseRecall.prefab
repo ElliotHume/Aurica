@@ -595,8 +595,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellOnRecastPrefabName: YRecast_PhaseRecall
+  networkEffectOnRecast: 
   positionOffset: {x: 0, y: 0, z: 0}
+  createRecastAtOwner: 0
   rotationOffset: {x: 0, y: 0, z: 0}
+  useRotationOffset: 0
+  turnRecastSpellTowardsAimPoint: 0
+  delayBeforeRecast: 0
 --- !u!54 &4708262398122754162
 Rigidbody:
   m_ObjectHideFlags: 0
