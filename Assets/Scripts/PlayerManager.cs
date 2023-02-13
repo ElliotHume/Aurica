@@ -98,6 +98,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private string playerTitle, playerTitleColour;
     private bool titleSet = false, expertiseSet = false;
     private int expertise = -1;
+    private ExpertiseManager expertiseManager;
 
     // Targeting Indicator System
     private bool preparedSpell = false;
@@ -294,6 +295,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Get movement manager
         movementManager = GetComponent<PlayerMovementManager>();
 
+        expertiseManager = ExpertiseManager.Instance;
+
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         manaBar.SetMaxHealth(PlayerManager.MAXIMUM_MANA);
@@ -398,7 +401,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             // Reduce cooldown for boost charges
             if (boostCharge1 < BoostCooldown) {
-                boostCharge1 += Time.deltaTime * boostCooldownMultiplier;
+                if (expertiseManager == null) expertiseManager = ExpertiseManager.Instance;
+                float expertiseMultiplier = 1f - ( 0.0075f * expertiseManager.GetExpertise());
+                boostCharge1 += Time.deltaTime * boostCooldownMultiplier * expertiseMultiplier;
                 if (hasBoostCharge1) {
                     boostIndicator1.SetActive(false);
                 }
@@ -409,7 +414,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
 
             if (boostCharge2 < BoostCooldown) {
-                boostCharge2 += Time.deltaTime * boostCooldownMultiplier;
+                if (expertiseManager == null) expertiseManager = ExpertiseManager.Instance;
+                float expertiseMultiplier = 1f - ( 0.0075f * expertiseManager.GetExpertise());
+                boostCharge1 += Time.deltaTime * boostCooldownMultiplier * expertiseMultiplier;
                 if (hasBoostCharge2) {
                     boostIndicator2.SetActive(false);
                 }
