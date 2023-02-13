@@ -8,6 +8,10 @@ public class AuricaSpell : ScriptableObject {
         Auric, Order, Chaos, Life, Death, Fire, Water, Earth, Air, Divine, Demonic
     };
 
+    public enum DifficultyRank {
+        Rank1, Rank2, Rank3, Rank4
+    };
+
     public string c_name;
     public ManaType manaType;
     [TextArea(15, 3)]
@@ -20,7 +24,8 @@ public class AuricaSpell : ScriptableObject {
     public MasteryManager.MasteryLevel masteryLevel;
     public string masteryFailedSpellResource = "";
     public bool isAuric = false;
-    public float baseManaCost = 20f, componentManaMultiplier = 0.5f, errorThreshold = 3.0f;
+    public float baseManaCost = 20f, componentManaMultiplier = 0.5f;
+    public DifficultyRank difficultyRank = DifficultyRank.Rank2;
     public string linkedSpellResource = "";
 
 

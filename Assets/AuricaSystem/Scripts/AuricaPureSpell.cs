@@ -13,7 +13,8 @@ public class AuricaPureSpell : ScriptableObject {
     public AuricaSpellComponent.Classification SpellForm;
     public AuricaSpellComponent.Classification SpellFocus;
     public AuricaSpellComponent.Classification SpellAction;
-    public float addedManaCost = 0f, errorThreshold = 3.0f;
+    public float addedManaCost = 0f;
+    public AuricaSpell.DifficultyRank difficultyRank;
 
     public AuricaSpell OrderSpell = null;
     public AuricaSpell ChaosSpell = null;

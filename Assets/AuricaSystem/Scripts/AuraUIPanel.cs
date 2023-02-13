@@ -22,7 +22,7 @@ public class AuraUIPanel : MonoBehaviour {
         auraValues.SetDistribution(aura.GetAura());
         resistanceValues.SetDistribution(aura.GetInnateStrength());
         if (strengthValues != null) strengthValues.SetDistribution(aura.GetInnateStrength());
-        manaText.text = "Maximum Mana: " + aura.GetMaximumMana();
+        manaText.text = "Maximum Mana: " + PlayerManager.MAXIMUM_MANA;
 
         gameObject.SetActive(false);
     }

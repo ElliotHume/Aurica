@@ -18,7 +18,6 @@ public class RewardsManager : MonoBehaviour {
 
     private bool fetched = false, fetching = false;
     private ManaDistribution modifiedAura;
-    private float newExtraMana = 0f;
 
     void Start() {
         RewardsManager.Instance = this;
@@ -66,27 +65,16 @@ public class RewardsManager : MonoBehaviour {
         GetRewards();
     }
 
-    public void SpendRewardsPoints(ManaDistribution newAuraAdditions, float addMana, float spentRewardPoints) {
+    public void SpendRewardsPoints(ManaDistribution newAuraAdditions, float spentRewardPoints) {
         if (spentRewardPoints > rewardPoints+0.0001f) {
             Debug.LogError("Tried to use more reward points than are available! SPENT: ["+spentRewardPoints+"]  AVAILABLE: ["+rewardPoints+"]");
             return;
         }
-        if (newAuraAdditions.GetAggregate() == 0f && addMana == 0f) {
+        if (newAuraAdditions.GetAggregate() == 0f) {
             Debug.Log("Tried to spend no reward points, cancelling operation.");
             return;
         }
         ManaDistribution currentAura = new ManaDistribution(PlayerPrefs.GetString("Aura"));
-
-        if (PlayerPrefs.HasKey("ExtraMana")) {
-            float currentExtraMana = float.Parse(PlayerPrefs.GetString("ExtraMana"));
-            if (currentExtraMana >= MAXIMUM_TOTAL_MANA_THRESHOLD) {
-                Debug.LogError("Player is over the mana cap, no more extra mana can be added.  Tried to add ["+addMana+"] to an existing ["+currentExtraMana+"] Mana.");
-                return;
-            }
-            newExtraMana = Mathf.Round((currentExtraMana + addMana) * 1000f) / 1000f;
-        } else {
-            newExtraMana = Mathf.Round(addMana * 1000f) / 1000f;
-        }
         
         modifiedAura = currentAura + newAuraAdditions;
         
@@ -95,7 +83,6 @@ public class RewardsManager : MonoBehaviour {
             Data = new Dictionary<string, string> {
                 {"ModifiedAura", modifiedAura.ToString()},
                 {"RewardPoints", points.ToString()},
-                {"ExtraMana", newExtraMana.ToString()}
             }
         };
         PlayFabClientAPI.UpdateUserData(request, OnNewAuraSend, OnError);
@@ -103,7 +90,6 @@ public class RewardsManager : MonoBehaviour {
 
     void OnNewAuraSend(UpdateUserDataResult result) {
         Debug.Log("Modified Aura Sent to Cloud : "+modifiedAura.ToString());
-        PlayerPrefs.SetString("ExtraMana", newExtraMana.ToString());
         PlayerManager.LocalInstance.aura.SetAura(modifiedAura);
         PlayerManager.LocalInstance.PlayCultivationEffect();
         GetRewards();

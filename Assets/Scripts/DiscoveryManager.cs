@@ -10,6 +10,7 @@ public class DiscoveryManager : MonoBehaviour {
 
     public static DiscoveryManager Instance;
     public List<AuricaSpell> StarterSpells;
+    public GrimoireSpellUIDisplay popupDisplay;
     public AudioSource DiscoverySound;
 
     private string rawDiscoveries = "[]";
@@ -84,8 +85,10 @@ public class DiscoveryManager : MonoBehaviour {
         };
 
         PlayFabClientAPI.UpdateUserData(request, OnDiscoveriesDataSend, OnError);
-        NotificationText.Instance.ShowDiscovery(spell.c_name);
-        if (TipWindow.Instance) TipWindow.Instance.ShowTip("Tip", "See the newly discovered spell in your Grimoire by pressing \"z\".", 3f);
+        popupDisplay.gameObject.SetActive(true);
+        popupDisplay.PopulateFromSpell(spell);
+        // NotificationText.Instance.ShowDiscovery(spell.c_name);
+        // if (TipWindow.Instance) TipWindow.Instance.ShowTip("Tip", "See the newly discovered spell in your Grimoire by pressing \"z\".", 3f);
 
         // Recolor discovery pillars if you discover their spell
         SpellDiscoveryPillar[] spellDiscoveries = FindObjectsOfType<SpellDiscoveryPillar>();

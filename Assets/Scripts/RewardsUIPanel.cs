@@ -13,15 +13,14 @@ public class RewardsUIPanel : MonoBehaviour {
     public Text rewardPointsText;
     public DistributionUIDisplay distributionDisplay;
     public DistributionUIDisplayValues distributionDisplayValues;
-    public Text structureText, essenceText, fireText, waterText, earthText, airText, natureText, baseManaText, addedManaText, expertiseText;
-    public Button addManaButton, decreaseManaButton;
+    public Text structureText, essenceText, fireText, waterText, earthText, airText, natureText, expertiseText;
     public Button addExpertiseButton, decreaseExpertiseButton;
     public Slider expertiseSlider;
     public GameObject advicePanel;
     public List<Button> toggleButtonsWhenPointsAvailable, toggleButtonsWhenPointsSpent;
 
     private ManaDistribution currentAura, addedDistribution;
-    private float rewardPoints, usedRewardPoints, addedMana, usedRewardPointsForMana, usedRewardPointsForExpertise;
+    private float rewardPoints, usedRewardPoints, usedRewardPointsForExpertise;
     private int expertise, addedExpertise;
 
     // Start is called before the first frame update
@@ -38,26 +37,13 @@ public class RewardsUIPanel : MonoBehaviour {
 
     public void Rerender() {
         currentAura = new ManaDistribution(PlayerPrefs.GetString("Aura"));
-        float points = Mathf.Round((rewardPoints-usedRewardPoints-usedRewardPointsForMana-usedRewardPointsForExpertise) * 1000f) / 1000f;
+        float points = Mathf.Round((rewardPoints-usedRewardPoints-usedRewardPointsForExpertise) * 1000f) / 1000f;
         rewardPointsText.text = "Available Cultivation Points: "+(Mathf.Round(points * 1000f)).ToString();
         distributionDisplay.SetDistribution(currentAura+addedDistribution);
         distributionDisplayValues.SetDistribution(currentAura+addedDistribution);
 
         foreach (var obj in toggleButtonsWhenPointsAvailable) obj.interactable = (rewardPoints > 0f);
-        foreach (var obj in toggleButtonsWhenPointsSpent) obj.interactable = (usedRewardPoints > 0f || usedRewardPointsForMana > 0f || usedRewardPointsForExpertise > 0f);
-
-        baseManaText.text = PlayerManager.LocalInstance.aura.GetMaximumMana().ToString();
-        
-        if (PlayerManager.LocalInstance.aura.GetMaximumMana() >= RewardsManager.MAXIMUM_TOTAL_MANA_THRESHOLD) {
-            addManaButton.interactable = false;
-            decreaseManaButton.interactable = false;
-        } else {
-            if (PlayerManager.LocalInstance.aura.GetMaximumMana() + addedMana >= RewardsManager.MAXIMUM_TOTAL_MANA_THRESHOLD) {
-                addManaButton.interactable = false;
-            } else {
-                addManaButton.interactable = true;
-            }
-        }
+        foreach (var obj in toggleButtonsWhenPointsSpent) obj.interactable = (usedRewardPoints > 0f || usedRewardPointsForExpertise > 0f);
 
         if (ExpertiseManager.Instance != null) {
             expertise = ExpertiseManager.Instance.GetExpertise();
@@ -69,13 +55,6 @@ public class RewardsUIPanel : MonoBehaviour {
                 expertiseSlider.value = 0;
             }
             
-        }
-
-        addedManaText.text = "+ "+addedMana.ToString();
-        if (addedMana > 0) {
-            addedManaText.color = modifiedValueColor;
-        } else {
-            addedManaText.color = baseValueColor;
         }
 
         if (addedExpertise != 0) {
@@ -123,7 +102,7 @@ public class RewardsUIPanel : MonoBehaviour {
     }
 
     public void ModifyDistribution(string key) {
-        if ((usedRewardPoints + usedRewardPointsForMana + usedRewardPointsForExpertise) >= rewardPoints) return;
+        if ((usedRewardPoints + usedRewardPointsForExpertise) >= rewardPoints) return;
         switch (key) {
             case "order":
                 addedDistribution.structure += changePerButtonPress;
@@ -173,26 +152,12 @@ public class RewardsUIPanel : MonoBehaviour {
         Rerender();
     }
 
-    public void AddMana() {
-        if ((usedRewardPoints + usedRewardPointsForMana + usedRewardPointsForExpertise) >= rewardPoints) return;
-        addedMana = Mathf.Round((addedMana + (changePerButtonPress * 1000f)) * 1000f) / 1000f;
-        usedRewardPointsForMana += changePerButtonPress;
-        Rerender();
-    }
-
-    public void RemoveExtraMana() {
-        if (addedMana == 0f || usedRewardPointsForMana < changePerButtonPress) return;
-        addedMana = Mathf.Round((addedMana - (changePerButtonPress * 1000f)) * 1000f) / 1000f;
-        usedRewardPointsForMana -= changePerButtonPress;
-        Rerender();
-    }
-
     public void SetExpertiseValue() {
         Rerender();
     }
 
     public void AddExpertise() {
-        if ((expertise + addedExpertise) == ExpertiseManager.MAXIMUM_EXPERTISE || (usedRewardPoints + usedRewardPointsForMana + usedRewardPointsForExpertise) >= rewardPoints) return;
+        if ((expertise + addedExpertise) == ExpertiseManager.MAXIMUM_EXPERTISE || (usedRewardPoints + usedRewardPointsForExpertise) >= rewardPoints) return;
         addedExpertise += 1;
         usedRewardPointsForExpertise = Mathf.Abs(addedExpertise) * changePerExpertiseButtonPress;
         Rerender();
@@ -213,17 +178,15 @@ public class RewardsUIPanel : MonoBehaviour {
 
     public void Reset() {
         addedDistribution = new ManaDistribution();
-        addedMana = 0;
         rewardPoints = RewardsManager.Instance.rewardPoints;
         usedRewardPoints = 0f;
-        usedRewardPointsForMana = 0f;
         usedRewardPointsForExpertise = 0f;
         addedExpertise = 0;
         Rerender();
     }
 
     public void SubmitAuraChanges() {
-        RewardsManager.Instance.SpendRewardsPoints(addedDistribution, addedMana, Mathf.Round((usedRewardPoints+usedRewardPointsForMana) * 1000f) / 1000f);
+        RewardsManager.Instance.SpendRewardsPoints(addedDistribution, Mathf.Round((usedRewardPoints) * 1000f) / 1000f);
         ExpertiseManager.Instance.SetExpertise(expertise + addedExpertise);
         Reset();
         Rerender();

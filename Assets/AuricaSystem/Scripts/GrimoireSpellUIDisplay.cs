@@ -7,13 +7,15 @@ using TMPro;
 
 public class GrimoireSpellUIDisplay : MonoBehaviour {
     public Text title, description;
-    public TMP_Text auraCompatibilityText, spellStrengthText;
-    public Image auraCompatibilityColor;
+    public TMP_Text auraCompatibilityText, spellStrengthText, difficultyRankText;
+    public Image auraCompatibilityColor, difficultyRankColour;
     public DistributionUIDisplay targetDistDisplay;
     public GameObject placeholder, displayPanel;
     public List<UIGlyphDisplay> glyphDisplays;
 
     public Color excellentColor, goodColor, moderateColor, poorColor, terribleColor;
+    public Color rank1, rank2, rank3, rank4;
+    public bool standalone = false;
 
     public AuricaSpell spell;
     private bool isHidden = true;
@@ -21,12 +23,14 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        HideSpell();
+        if (!standalone) HideSpell();
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
     }
 
     public void PopulateFromSpell(AuricaSpell s) {
-        if (isHidden) ShowSpell();
+        ShowSpell();
+        Debug.Log("SHOWING SPELL: "+s.c_name);
+        if (allComponentGlyphs == null || allComponentGlyphs.Length == 0) allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
 
         spell = s;
         title.text = spell.c_name;
@@ -66,6 +70,20 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
         }
         spellStrengthText.text = string.Format("{0:N2}", spellStrength * 100f) + "%";
 
+        if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank1) {
+            difficultyRankText.text = "Rank 1 - Easy";
+            difficultyRankColour.color = rank1;
+        } else if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank2) {
+            difficultyRankText.text = "Rank 2 - Moderate";
+            difficultyRankColour.color = rank2;
+        } else if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank3) {
+            difficultyRankText.text = "Rank 3 - Hard";
+            difficultyRankColour.color = rank3;
+        } else if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank4) {
+            difficultyRankText.text = "Rank 4 - Punishing";
+            difficultyRankColour.color = rank4;
+        }
+
         if (gameObject.activeInHierarchy) StartCoroutine(SetTargetDist(spell.targetDistribution));
     }
 
@@ -84,6 +102,7 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
         displayPanel.SetActive(false);
         placeholder.SetActive(true);
         isHidden = true;
+        Debug.Log("HIDE SPELL");
     }
 
     public void CastSpellComponents() {

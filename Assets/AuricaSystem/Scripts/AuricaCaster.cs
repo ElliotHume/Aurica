@@ -32,6 +32,9 @@ public class AuricaCaster : MonoBehaviourPun {
     private float STARTING_EXPERTISE_MULTIPLIER = 1f, STARTING_EXPERTISE_BASE = 0.5f, STARTING_EXPERTISE_MINIMUM = 0.5f;
     private float expertiseMultiplier, expertiseBase, expertiseMinimum;
 
+    private float DIFFICULTY_RANK1_THRESHOLD = 3f, DIFFICULTY_RANK2_THRESHOLD = 2f, DIFFICULTY_RANK3_THRESHOLD = 1.25f, DIFFICULTY_RANK4_THRESHOLD = 0.66f;
+    private Dictionary<AuricaSpell.DifficultyRank, float> DifficultyThresholds;
+
     // Start is called before the first frame update
     void Start() {
         if (aura == null) aura = GetComponent<Aura>();
@@ -85,9 +88,6 @@ public class AuricaCaster : MonoBehaviourPun {
             CacheSpell("f", "expel, mana, purify, self");
         }
 
-
-
-        // GAME SPECIFIC
         cpUI = GameObject.Find("ComponentPanel").GetComponent<ComponentUIPanel>();
         try {
             distDisplay = GameObject.Find("LocalDistributionDisplay").GetComponent<DistributionUIDisplay>();
@@ -96,6 +96,12 @@ public class AuricaCaster : MonoBehaviourPun {
         }
 
         expertiseManager = ExpertiseManager.Instance;
+
+        DifficultyThresholds = new Dictionary<AuricaSpell.DifficultyRank, float>();
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank1, DIFFICULTY_RANK1_THRESHOLD);
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank2, DIFFICULTY_RANK2_THRESHOLD);
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank3, DIFFICULTY_RANK3_THRESHOLD);
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank4, DIFFICULTY_RANK4_THRESHOLD);
     }
 
     void Awake() {
@@ -117,8 +123,12 @@ public class AuricaCaster : MonoBehaviourPun {
     public void RecalculateExpertise(int expertise) {
         expertiseMultiplier = STARTING_EXPERTISE_MULTIPLIER - (0.02f * expertise);
         expertiseBase = STARTING_EXPERTISE_BASE + (0.015f * expertise);
-        expertiseMinimum = Mathf.Clamp(STARTING_EXPERTISE_MINIMUM - (0.02f * expertise), 0.05f, STARTING_EXPERTISE_MINIMUM);
-        Debug.Log("AuricaCaster has calculated expertise values -> multiplier: "+expertiseMultiplier+"  base: "+ expertiseBase+"  minimum: "+expertiseMinimum);
+        expertiseMinimum = Mathf.Clamp(STARTING_EXPERTISE_MINIMUM - (0.011f * expertise), 0.05f, STARTING_EXPERTISE_MINIMUM);
+        // Debug.Log("AuricaCaster has calculated expertise values -> multiplier: "+expertiseMultiplier+"  base: "+ expertiseBase+"  minimum: "+expertiseMinimum);
+    }
+
+    float GetErrorThresholdFromDifficultyRank(AuricaSpell.DifficultyRank rank) {
+        return DifficultyThresholds[rank];
     }
 
     public void AddComponent(string componentName) {
@@ -229,9 +239,7 @@ public class AuricaCaster : MonoBehaviourPun {
             if (s.CheckComponents(components) && s.GetNumberOfMatchingComponents(components) > bestMatchCorrectComponents) {
                 spellMatch = s;
                 bestMatchCorrectComponents = s.GetNumberOfMatchingComponents(components);
-                // Debug.Log("Error: "+ s.GetError(distribution)+"     threshold: "+spellMatch.errorThreshold+"     adjusted threshold: "+(spellMatch.errorThreshold * expertiseMultiplier));
-                spellStrength = ((spellMatch.errorThreshold * expertiseMultiplier) - s.GetError(distribution)) / (spellMatch.errorThreshold * expertiseMultiplier) + (expertiseBase);
-                if (spellStrength < expertiseMinimum) spellStrength = expertiseMinimum;
+                spellStrength = CalculateSpellStrength(spellMatch.difficultyRank, spellMatch.GetError(distribution));
             }
         }
 
@@ -245,13 +253,39 @@ public class AuricaCaster : MonoBehaviourPun {
             // Debug.Log("Check Pure Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(s.GetManaType(distribution), distribution));
             if (s.CheckComponents(components, distribution)) {
                 spellMatch = s;
-                spellStrength = ((spellMatch.errorThreshold * expertiseMultiplier) - s.GetError(s.GetManaType(distribution), distribution)) / (spellMatch.errorThreshold * expertiseMultiplier) + (expertiseBase);
-                if (spellStrength < expertiseMinimum) spellStrength = expertiseMinimum;
+                spellStrength = CalculateSpellStrength(spellMatch.difficultyRank, s.GetError(s.GetManaType(distribution), distribution));
                 // Debug.Log("Pure match: "+s.c_name+"   mana type:"+s.GetManaType(distribution)+"  error:"+s.GetError(s.GetManaType(distribution), distribution));
             }
         }
         currentSpellMatch = spellMatch == null ? null : spellMatch.GetAuricaSpell(spellMatch.GetManaType(currentDistribution));
         return spellMatch == null ? null : spellMatch;
+    }
+
+    private float CalculateSpellStrength(AuricaSpell.DifficultyRank rank, float error) {
+        float strength;
+        // Get the error threshold for the rank of the spell, this determines how aggresive the calculation for error is.
+        // The higher the threshold, the more lenient the spell strengh calculations are on errors in the mana distribution.
+        float errorThreshold = GetErrorThresholdFromDifficultyRank(rank);
+
+        // Calculate the spell strength based on the error threshold of the target spell and the mana distribution error between the casted spell and the ideal for the target spell.
+        strength = ((errorThreshold * expertiseMultiplier) - error) / (errorThreshold * expertiseMultiplier) + (expertiseBase);
+
+        // Get the minimum percent strength possible, this is based on the player's expertise and spell difficulty rank.
+        float minimumStrength = GetStrengthMinimumByDifficultyRank(strength, rank);
+
+        // If the spell strength is below the minimum, clamp it to the minimum.
+        if (strength < minimumStrength) strength = minimumStrength;
+
+        return strength;
+    }
+
+    private float GetStrengthMinimumByDifficultyRank(float strength, AuricaSpell.DifficultyRank rank) {
+        if (rank == AuricaSpell.DifficultyRank.Rank1 || rank == AuricaSpell.DifficultyRank.Rank2) {
+            return expertiseMinimum;
+        } else if (rank == AuricaSpell.DifficultyRank.Rank3) {
+            return expertiseMinimum * 0.5f;
+        }
+        return expertiseMinimum * 0.25f;
     }
 
     public void ResetCast() {
@@ -329,9 +363,9 @@ public class AuricaCaster : MonoBehaviourPun {
         AuricaSpell match = CastSpellByName(spell);
 
         // DISCOVER SPELL
-        if (match != null && discoveredSpells.Count > 0 && !discoveredSpells.Contains(match) && (!match.isMasterySpell || MasteryManager.Instance.HasMasteryForSpell(match))) {
-            DiscoveryManager.Instance.Discover(match);
-        }
+        // if (match != null && discoveredSpells.Count > 0 && !discoveredSpells.Contains(match) && (!match.isMasterySpell || MasteryManager.Instance.HasMasteryForSpell(match))) {
+        //     DiscoveryManager.Instance.Discover(match);
+        // }
         
         // GAME SPECIFIC
         try {

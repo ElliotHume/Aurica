@@ -12,6 +12,9 @@ using Photon.Realtime;
 /// Handles fire Input and Beams.
 /// </summary>
 public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
+
+    public static float MAXIMUM_MANA = 500f;
+
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
     private float healing = 0f;
@@ -240,7 +243,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     }
 
     void Start() {
-        maxMana = Mana;
+        maxMana = PlayerManager.MAXIMUM_MANA;
+        Mana = maxMana;
         maxHealth = Health;
 
         boostCharge1 = BoostCooldown;
@@ -292,6 +296,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
+        manaBar.SetMaxHealth(PlayerManager.MAXIMUM_MANA);
         boostCooldownBar1 = GameObject.Find("BoostCooldownBar1").GetComponent<HealthBar>();
         boostIndicator1 = GameObject.Find("BoostIndicator1");
         boostCooldownBar2 = GameObject.Find("BoostCooldownBar2").GetComponent<HealthBar>();
@@ -870,16 +875,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
-    public void SetMaxMana(float newMax) {
-        if (photonView.IsMine) {
-            maxMana = newMax;
-            Mana = newMax;
-            manaBar.SetMaxHealth(maxMana);
-
-            // Debug.Log("New Max mana: " + maxMana + " " + Mana);
-        }
-    }
-
     public void ConfirmAura() {
         if (!photonView.IsMine) return;
         spellCraftingDisplay = GameManager.Instance.GetSpellCraftingPanel();
@@ -971,7 +966,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         // Get spell strength
         float currentSpellStrength = auricaCaster.GetSpellStrength();
-        Debug.Log("Spell strength: "+currentSpellStrength);
+        // Debug.Log("Spell strength: "+currentSpellStrength);
 
        
         if ( aoe != null) {
@@ -1083,7 +1078,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         preparedSpell = false;
 
         // ADD MASTERY
-        if (MasteryManager.Instance != null) MasteryManager.Instance.AddMasteries(spell.masteries);
+        if (MasteryManager.Instance != null) MasteryManager.Instance.AddMasteries(spell.masteries, spell.difficultyRank);
 
         if (spellCraftingDisplay != null) {
             SpellCraftingUIDisplay sp = spellCraftingDisplay.GetComponent<SpellCraftingUIDisplay>();

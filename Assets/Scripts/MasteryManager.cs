@@ -37,6 +37,7 @@ public class MasteryManager : MonoBehaviour {
 
     private bool fetched = false, fetching = false;
     private Dictionary<string, MasteryCategories> cloudKeys;
+    private Dictionary<AuricaSpell.DifficultyRank, int> MasteryPerRank;
     
 
     void Start() {
@@ -75,6 +76,12 @@ public class MasteryManager : MonoBehaviour {
         Masteries.Add(MasteryCategories.Support, SupportMastery);
         Masteries.Add(MasteryCategories.Defender, DefenderMastery);
         StartCoroutine(SyncTimer());
+
+        MasteryPerRank = new Dictionary<AuricaSpell.DifficultyRank, int>();
+        MasteryPerRank.Add(AuricaSpell.DifficultyRank.Rank1, 0);
+        MasteryPerRank.Add(AuricaSpell.DifficultyRank.Rank2, 1);
+        MasteryPerRank.Add(AuricaSpell.DifficultyRank.Rank3, 2);
+        MasteryPerRank.Add(AuricaSpell.DifficultyRank.Rank4, 4);
     }
 
     void FixedUpdate() {
@@ -121,10 +128,10 @@ public class MasteryManager : MonoBehaviour {
         fetching = false;
     }
 
-    public void AddMasteries(List<MasteryCategories> categories) {
-        if (categories.Count == 0) return;
+    public void AddMasteries(List<MasteryCategories> categories, AuricaSpell.DifficultyRank rank) {
+        if (categories.Count == 0 || rank == AuricaSpell.DifficultyRank.Rank1) return;
         foreach(MasteryCategories category in categories){
-            Masteries[category] += 1;
+            Masteries[category] += MasteryPerRank[rank];
             // Debug.Log("Added 1 mastery to "+category.ToString()+"  total mastery: "+Masteries[category]);
             if (Masteries[category] == 10) {
                 RewardsManager.Instance.AddRewards(0.01f);
