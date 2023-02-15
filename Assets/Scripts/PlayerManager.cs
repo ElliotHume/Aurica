@@ -975,6 +975,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         float currentSpellStrength = auricaCaster.GetSpellStrength();
         // Debug.Log("Spell strength: "+currentSpellStrength);
 
+        if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank3 && currentSpellStrength < 0.5f) {
+            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 3 difficulty spell, you must cast it at a spell strength of 50% or higher.", 2f);
+            CastFizzle();
+            auricaCaster.ResetCast();
+            return;
+        }
+        if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank4 && currentSpellStrength < 0.35f) {
+            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 4 difficulty spell, you must cast it at a spell strength of 35% or higher.", 2f);
+            CastFizzle();
+            auricaCaster.ResetCast();
+            return;
+        }
+
        
         if ( aoe != null) {
             crosshair.ActivateTargetingIndicator(aoe.GetTargetingIndicatorScale(currentSpellStrength), aoe.UseAimPointNormal, aoe.IsSelfTargeted || aoe.CastingAnchor == "transform", aoe.IsOpponentTargeted, aoe.PositionOffset);

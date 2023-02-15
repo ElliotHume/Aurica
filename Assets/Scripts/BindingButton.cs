@@ -11,11 +11,12 @@ public class BindingButton : MonoBehaviour
     public Image SpellIcon;
     public Color CannotCastColorTint;
     public Text SpellComponents;
-    public GameObject Spinner, FlashingFrame;
+    public GameObject Spinner, FlashingFrame, InsufficientStrengthOverlay;
 
     private AuricaSpell spell;
     private bool canCast;
     private int recastState;
+    private bool hasSufficientStrength;
 
     public void SetButtonGraphics(AuricaSpell s, string components="") {
         if (s == null) {
@@ -42,6 +43,12 @@ public class BindingButton : MonoBehaviour
             canCast = false;
             SpellIcon.color = CannotCastColorTint;
         }
+    }
+
+    public void HasNecessarySpellStrength(bool flag) {
+        if (flag == hasSufficientStrength) return;
+        hasSufficientStrength = flag;
+        InsufficientStrengthOverlay.SetActive(flag);
     }
 
     public void CanRecast(bool flag, bool displaySpinner) {

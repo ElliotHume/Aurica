@@ -7,13 +7,14 @@ public class FloatingObject : MonoBehaviour
     Vector3 resetPosition, rotationAngles;
 
     public bool bobs = true, rotates = true;
+    public Vector3 spinVector = new Vector3(0.1f, 0.1f, 0.1f);
     public float bobbingSpeed, bobbingHeight;
 
     // Start is called before the first frame update
     void Start()
     {
         resetPosition = transform.position;
-        rotationAngles = new Vector3(Random.Range(0f, 0.1f), Random.Range(0f, 0.1f), Random.Range(0f, 0.1f));
+        rotationAngles = new Vector3(Random.Range(0f, spinVector.x), Random.Range(0f, spinVector.y), Random.Range(0f, spinVector.z));
     }
 
     // Update is called once per frame
