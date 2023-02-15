@@ -69,10 +69,11 @@ public class CloudLoadoutUIPanel : MonoBehaviour
         // Debug.Log("Try set visuals for key: "+key+"    spell: "+sp);
         if (AuricaCaster.LocalCaster == null) return;
         AuricaSpell spell = AuricaCaster.LocalCaster.CastSpellByName(sp);
+        float spellStrength = AuricaCaster.LocalCaster.GetSpellStrength();
         AuricaCaster.LocalCaster.ResetCast();
         if (spell == null) return;
         // Debug.Log("Setting visuals");
-        dict[key.ToLower()].SetButtonGraphics(spell, sp);
+        dict[key.ToLower()].SetButtonGraphics(spell, sp, spellStrength);
     }
 
     public void TakePersonalLoadout(int page) {

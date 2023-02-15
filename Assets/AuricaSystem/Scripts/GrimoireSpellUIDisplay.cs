@@ -102,7 +102,6 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
         displayPanel.SetActive(false);
         placeholder.SetActive(true);
         isHidden = true;
-        Debug.Log("HIDE SPELL");
     }
 
     public void CastSpellComponents() {

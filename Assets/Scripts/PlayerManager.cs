@@ -946,6 +946,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             return;
         }
 
+        // Get spell strength
+        float currentSpellStrength = auricaCaster.GetSpellStrength();
+        // Debug.Log("Spell strength: "+currentSpellStrength);
+
+        if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank3 && currentSpellStrength < AuricaSpell.RANK3_SPELL_STRENGTH_CUTOFF) {
+            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 3 difficulty spell, you must cast it at a spell strength of 50% or higher.", 2f);
+            CastFizzle();
+            auricaCaster.ResetCast();
+            return;
+        }
+        if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank4 && currentSpellStrength < AuricaSpell.RANK4_SPELL_STRENGTH_CUTOFF) {
+            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 4 difficulty spell, you must cast it at a spell strength of 35% or higher.", 2f);
+            CastFizzle();
+            auricaCaster.ResetCast();
+            return;
+        }
+
         // If another key is pressed while there is a spell prepared, cancel previous preparation
         if (key != preparedSpellKey && preparedSpellCast != null) {
             preparedSpellCast = null;
@@ -971,22 +988,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         TargetedSpell ts = dataObject.GetComponent<TargetedSpell>();
         SummonSpell ss = dataObject.GetComponent<SummonSpell>();
 
-        // Get spell strength
-        float currentSpellStrength = auricaCaster.GetSpellStrength();
-        // Debug.Log("Spell strength: "+currentSpellStrength);
-
-        if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank3 && currentSpellStrength < 0.5f) {
-            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 3 difficulty spell, you must cast it at a spell strength of 50% or higher.", 2f);
-            CastFizzle();
-            auricaCaster.ResetCast();
-            return;
-        }
-        if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank4 && currentSpellStrength < 0.35f) {
-            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 4 difficulty spell, you must cast it at a spell strength of 35% or higher.", 2f);
-            CastFizzle();
-            auricaCaster.ResetCast();
-            return;
-        }
 
        
         if ( aoe != null) {

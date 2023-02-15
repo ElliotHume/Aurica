@@ -12,6 +12,9 @@ public class AuricaSpell : ScriptableObject {
         Rank1, Rank2, Rank3, Rank4
     };
 
+    public static float RANK3_SPELL_STRENGTH_CUTOFF = 0.5f;
+    public static float RANK4_SPELL_STRENGTH_CUTOFF = 0.35f;
+
     public string c_name;
     public ManaType manaType;
     [TextArea(15, 3)]
@@ -135,5 +138,11 @@ public class AuricaSpell : ScriptableObject {
         }
         componentString = componentString.Substring(0, componentString.Length-2);
         return componentString;
+    }
+
+    public bool CanCastWithSpellStrength(float spellStrength) {
+        if (difficultyRank == DifficultyRank.Rank3 && spellStrength < RANK3_SPELL_STRENGTH_CUTOFF) return false;
+        if (difficultyRank == DifficultyRank.Rank4 && spellStrength < RANK4_SPELL_STRENGTH_CUTOFF) return false;
+        return true;
     }
 }

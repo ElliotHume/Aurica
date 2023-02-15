@@ -18,7 +18,7 @@ public class BindingButton : MonoBehaviour
     private int recastState;
     private bool hasSufficientStrength;
 
-    public void SetButtonGraphics(AuricaSpell s, string components="") {
+    public void SetButtonGraphics(AuricaSpell s, string components="", float spellStrength=-1f) {
         if (s == null) {
             if (SpellText != null) SpellText.text = "NONE";
             if (AlternateSpellText != null) AlternateSpellText.text = "NONE";
@@ -32,6 +32,7 @@ public class BindingButton : MonoBehaviour
         if (AlternateSpellText != null) AlternateSpellText.text = spell.c_name;
         SpellIcon.sprite = !spell.isMasterySpell ? ResourceManager.Instance.GetIcon(spell.manaType) : ResourceManager.Instance.GetMasteryIcon(spell.manaType);
         if (SpellComponents != null) SpellComponents.text = components;
+        if (spellStrength != -1f) HasNecessarySpellStrength(spell.CanCastWithSpellStrength(spellStrength));
     }
 
     public void CanCast(bool flag) {
@@ -48,7 +49,7 @@ public class BindingButton : MonoBehaviour
     public void HasNecessarySpellStrength(bool flag) {
         if (flag == hasSufficientStrength) return;
         hasSufficientStrength = flag;
-        InsufficientStrengthOverlay.SetActive(flag);
+        if (InsufficientStrengthOverlay != null) InsufficientStrengthOverlay.SetActive(!flag);
     }
 
     public void CanRecast(bool flag, bool displaySpinner) {

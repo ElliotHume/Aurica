@@ -56,36 +56,40 @@ public class BindingUIPanel : MonoBehaviour {
         if (caster == null) {
             caster = AuricaCaster.LocalCaster;
         }
+        AuricaSpell cast;
+        float strength;
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
-            SetBind("e", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_e")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotE));
+            cast = caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_e"));
+            strength = caster.GetSpellStrengthForSpell(PlayerPrefs.GetString("CachedSpell_e"));
+            SetBind("e", cast, strength, InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotE));
         }
         if (PlayerPrefs.HasKey("CachedSpell_q")) {
-            SetBind("q", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_q")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotQ));
+            SetBind("q", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_q")), caster.GetSpellStrength(), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotQ));
         }
         if (PlayerPrefs.HasKey("CachedSpell_1")) {
-            SetBind("1", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_1")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot1));
+            SetBind("1", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_1")), caster.GetSpellStrength(), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot1));
         }
         if (PlayerPrefs.HasKey("CachedSpell_2")) {
-            SetBind("2", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_2")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot2));
+            SetBind("2", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_2")), caster.GetSpellStrength(), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot2));
         }
         if (PlayerPrefs.HasKey("CachedSpell_3")) {
-            SetBind("3", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_3")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot3));
+            SetBind("3", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_3")), caster.GetSpellStrength(), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot3));
         }
         if (PlayerPrefs.HasKey("CachedSpell_4")) {
-            SetBind("4", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_4")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot4));
+            SetBind("4", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_4")), caster.GetSpellStrength(), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlot4));
         }
         if (PlayerPrefs.HasKey("CachedSpell_f")) {
-            SetBind("f", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_f")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotF));
+            SetBind("f", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_f")), caster.GetSpellStrength(), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotF));
         }
         if (PlayerPrefs.HasKey("CachedSpell_r")) {
-            SetBind("r", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_r")), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotR));
+            SetBind("r", caster.CastSpellByName(PlayerPrefs.GetString("CachedSpell_r")), caster.GetSpellStrength(), InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.SpellSlotR));
         }
         caster.ResetCast();
     }
 
-    public void SetBind(string key, AuricaSpell spell, string keybind="") {
+    public void SetBind(string key, AuricaSpell spell, float spellStrength=-1f, string keybind="") {
         if (spell == null) return;
-        dict[key].SetButtonGraphics(spell);
+        dict[key].SetButtonGraphics(spell, "", spellStrength);
         if (keybind != "") dict[key].SetKeyText(keybind);
     }
 

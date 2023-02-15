@@ -50,6 +50,7 @@ public class ExpertiseManager : MonoBehaviour {
         if (RewardsUIPanel.Instance != null) RewardsUIPanel.Instance.SetExpertiseValue();
         if (AuricaCaster.LocalCaster != null) AuricaCaster.LocalCaster.RecalculateExpertise(expertise);
         if (PlayerManager.LocalInstance != null) PlayerManager.LocalInstance.SendExpertise(expertise);
+        if (BindingUIPanel.LocalInstance != null) BindingUIPanel.LocalInstance.Startup();
     }
 
     public void SetExpertise(int newExpertise) {
