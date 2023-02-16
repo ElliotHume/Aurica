@@ -951,7 +951,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Debug.Log("Spell strength: "+currentSpellStrength);
 
         if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank3 && currentSpellStrength < AuricaSpell.RANK3_SPELL_STRENGTH_CUTOFF) {
-            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 3 difficulty spell, you must cast it at a spell strength of 50% or higher.", 2f);
+            TipWindow.Instance.ShowTip("Spell Failure", "To cast a rank 3 difficulty spell, you must cast it at a spell strength of 50% or higher. Use the spell crafting menu to improve the spell strength.", 2f);
             CastFizzle();
             auricaCaster.ResetCast();
             return;

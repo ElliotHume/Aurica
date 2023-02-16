@@ -27,9 +27,9 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
     }
 
-    public void PopulateFromSpell(AuricaSpell s) {
+    public void PopulateFromSpell(AuricaSpell s, float ss=-1f) {
         ShowSpell();
-        Debug.Log("SHOWING SPELL: "+s.c_name);
+        // Debug.Log("SHOWING SPELL: "+s.c_name);
         if (allComponentGlyphs == null || allComponentGlyphs.Length == 0) allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
 
         spell = s;
@@ -52,6 +52,8 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
 
         AuricaCaster.LocalCaster.CastSpellByObject(s);
         float spellStrength = AuricaCaster.LocalCaster.GetSpellStrength();
+        AuricaCaster.LocalCaster.ResetCast();
+
         if (spellStrength <= 0.5) {
             auraCompatibilityText.text = "Terrible";
             auraCompatibilityColor.color = terribleColor;
