@@ -74,7 +74,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound, HitMarkerAoESound;
 
     private Animator animator;
-    private string currentSpellCast = "", currentChannelledSpell = "";
+    private string currentSpellCast = null, currentChannelledSpell = null;
     private Transform currentCastingTransform;
     private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, sneaking = false, respawning = false;
     private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
@@ -99,6 +99,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private bool titleSet = false, expertiseSet = false;
     private int expertise = -1;
     private ExpertiseManager expertiseManager;
+    private BindingUIPanel bindingUIPanel;
+    private bool showingTabSpell = false, showingRecastTabSpell;
 
     // Targeting Indicator System
     private bool preparedSpell = false;
@@ -307,6 +309,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         crosshair = Object.FindObjectOfType(typeof(Crosshair)) as Crosshair;
 
         aimPointAnchorManager = aimPointAnchor.GetComponent<AimpointAnchor>();
+
+        bindingUIPanel = BindingUIPanel.LocalInstance;
     }
 
     void Awake() {
@@ -362,7 +366,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (GameUIPanelManager.Instance && GameUIPanelManager.Instance.ShouldProcessInputs()) this.ProcessInputs();
 
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Backspace)) {
-                AuricaCaster.LocalCaster.RemoveLastComponent();
+                auricaCaster.RemoveLastComponent();
             }
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown("m")) {
                 MasteryManager.Instance.SyncMasteries();
@@ -451,6 +455,32 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 immunityTimer = 0f;
             }
             manaRestorationBuff = ManaRegen >= defaultManaRegen;
+
+            if (bindingUIPanel == null) bindingUIPanel = BindingUIPanel.LocalInstance;
+
+            if (activeRecastSpells.ContainsKey(KeybindingActions.Cast) && activeRecastSpells[KeybindingActions.Cast] != null) {
+                AuricaSpell aSpell = activeRecastSpells[KeybindingActions.Cast].GetAttachedSpell().auricaSpell;
+                float strength = activeRecastSpells[KeybindingActions.Cast].GetAttachedSpell().GetSpellStrength();
+                bindingUIPanel.ShowTabSpell(aSpell, strength);
+                showingRecastTabSpell = true;
+            } else {
+                if (showingRecastTabSpell) {
+                    bindingUIPanel.HideTabSpell();
+                    showingRecastTabSpell = false;
+                }
+            }
+
+            if (!showingRecastTabSpell) {
+                if (!preparedSpell && currentSpellCast == null && auricaCaster.GetCurrentSpellMatch() != null) {
+                    bindingUIPanel.ShowTabSpell(auricaCaster.GetCurrentSpellMatch(), auricaCaster.GetSpellStrength());
+                    showingTabSpell = true;
+                } else {
+                    if (showingTabSpell) {
+                        bindingUIPanel.HideTabSpell();
+                        showingTabSpell = false;
+                    }
+                }
+            }   
         } else {
             if (stunned && animator.speed > 0f) {
                 movementManager.Stun(true);
@@ -1039,7 +1069,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             return;
         }
 
-        if (foundSpell.Damage > 0f) Debug.Log("Spell " + spell.c_name+" Adjusted Damage/Mana: "+((foundSpell.Damage * auricaCaster.GetSpellStrength()) / auricaCaster.GetManaCost())+" Base Damage/Mana: "+(foundSpell.Damage / auricaCaster.GetManaCost()));
+        // if (foundSpell.Damage > 0f) Debug.Log("Spell " + spell.c_name+" Adjusted Damage/Mana: "+((foundSpell.Damage * auricaCaster.GetSpellStrength()) / auricaCaster.GetManaCost())+" Base Damage/Mana: "+(foundSpell.Damage / auricaCaster.GetManaCost()));
 
         // Change the casting anchor (where the spell spawns from)
         switch (foundSpell.CastingAnchor) {

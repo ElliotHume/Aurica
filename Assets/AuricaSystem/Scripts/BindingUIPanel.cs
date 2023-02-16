@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class BindingUIPanel : MonoBehaviour {
 
-    public BindingButton bind1, bind2, bind3, bind4, bindQ, bindE, bindR, bindF;
+    public BindingButton bind1, bind2, bind3, bind4, bindQ, bindE, bindR, bindF, tabBind;
     public static BindingUIPanel LocalInstance;
     private Dictionary<string, BindingButton> dict = new Dictionary<string, BindingButton>();
     private Dictionary<KeybindingActions, string> keyBindingDict = new Dictionary<KeybindingActions, string>();
 
     private AuricaCaster caster;
+    private bool setTabKeyText = false;
 
     void Awake() {
         BindingUIPanel.LocalInstance = this;
@@ -32,11 +33,17 @@ public class BindingUIPanel : MonoBehaviour {
         keyBindingDict.Add(KeybindingActions.SpellSlot2, "2");
         keyBindingDict.Add(KeybindingActions.SpellSlot3, "3");
         keyBindingDict.Add(KeybindingActions.SpellSlot4, "4");
+
+        tabBind.gameObject.SetActive(false);
     }
 
     void FixedUpdate() {
         if (caster == null) {
             caster = AuricaCaster.LocalCaster;
+        }
+        if (!setTabKeyText && InputManager.Instance != null) {
+            tabBind.SetKeyText(InputManager.Instance.GetKeyTranslationOfAction(KeybindingActions.Cast));
+            setTabKeyText = true;
         }
         if (caster == null || !caster.spellManasCached) return;
         float availableMana = PlayerManager.LocalInstance.Mana;
@@ -49,6 +56,11 @@ public class BindingUIPanel : MonoBehaviour {
             bool recastActive = activeRecastSpells.ContainsKey(entry.Key) && activeRecastSpells[entry.Key] != null;
             bool canRecast = recastActive && activeRecastSpells[entry.Key].CanRecast();
             dict[entry.Value].CanRecast(recastActive, canRecast);
+        }
+        if (tabBind.gameObject.activeInHierarchy) {
+            bool recastActive = activeRecastSpells.ContainsKey(KeybindingActions.Cast) && activeRecastSpells[KeybindingActions.Cast] != null;
+            bool canRecast = recastActive && activeRecastSpells[KeybindingActions.Cast].CanRecast();
+            tabBind.CanRecast(recastActive, canRecast);
         }
     }
 
@@ -95,5 +107,14 @@ public class BindingUIPanel : MonoBehaviour {
 
     public void Bind(string key) {
         caster.CacheCurrentSpell(key);
+    }
+
+    public void ShowTabSpell(AuricaSpell spell, float spellStrength=-1f) {
+        if (spell == null) return;
+        tabBind.gameObject.SetActive(true);
+        tabBind.SetButtonGraphics(spell, "", spellStrength);
+    }
+    public void HideTabSpell(){
+        tabBind.gameObject.SetActive(false);
     }
 }

@@ -319,9 +319,9 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     instanceSpell.SetSpellDamageModifier(GetSpellDamageModifier());
                     instanceSpell.SetOwner(GetOwner());
                 }
-                TargetedSpell targetedSpell = instanceSpell.GetComponent<TargetedSpell>();
+                TargetedSpell targetedSpell = instance.GetComponent<TargetedSpell>();
                 if (targetedSpell != null && hitEntity != null && (hitEntity.tag == "Player" || hitEntity.tag == "Enemy")) targetedSpell.SetTarget(hitEntity);
-                AoESpell aoeSpell = instanceSpell.GetComponent<AoESpell>();
+                AoESpell aoeSpell = instance.GetComponent<AoESpell>();
                 if (aoeSpell != null && hitEntity != null && (hitEntity.tag == "Player" || hitEntity.tag == "Enemy")) aoeSpell.SetTarget(hitEntity);
             }
         }

@@ -19,12 +19,14 @@ public class RecastSpell : MonoBehaviourPun {
     protected GameObject owner;
     protected PlayerManager ownerPM;
     protected bool allowRecast = true;
+    protected Spell attachedSpell;
 
     void Start() {
         if (delayBeforeRecast > 0f) {
             allowRecast = false;
             Invoke("AllowRecast", delayBeforeRecast);
         }
+        attachedSpell = GetComponent<Spell>();
     }
 
     void AllowRecast() {
@@ -49,6 +51,10 @@ public class RecastSpell : MonoBehaviourPun {
 
     public ManaDistribution GetSpellDamageModifier() {
         return damageModifier;
+    }
+
+    public Spell GetAttachedSpell() {
+        return attachedSpell;
     }
 
     public virtual void SetOwner(GameObject ownerGO) {

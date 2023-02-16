@@ -52,7 +52,7 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
 
         AuricaCaster.LocalCaster.CastSpellByObject(s);
         float spellStrength = AuricaCaster.LocalCaster.GetSpellStrength();
-        AuricaCaster.LocalCaster.ResetCast();
+        if (standalone) AuricaCaster.LocalCaster.ResetCast();
 
         if (spellStrength <= 0.5) {
             auraCompatibilityText.text = "Terrible";

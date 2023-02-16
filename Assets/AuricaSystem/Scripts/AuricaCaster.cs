@@ -305,6 +305,7 @@ public class AuricaCaster : MonoBehaviourPun {
         currentComponents.Clear();
         currentManaCost = 0f;
         currentDistribution = new ManaDistribution();
+        currentSpellMatch = null;
         if (cpUI != null) cpUI.HideAllComponents();
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
     }
@@ -412,6 +413,10 @@ public class AuricaCaster : MonoBehaviourPun {
 
     public List<AuricaSpellComponent> GetCurrentComponents() {
         return currentComponents;
+    }
+
+    public AuricaSpell GetCurrentSpellMatch() {
+        return currentSpellMatch;
     }
     
 
