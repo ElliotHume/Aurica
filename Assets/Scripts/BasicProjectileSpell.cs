@@ -293,7 +293,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
         foreach (var effect in EffectsOnCollision) {
             GameObject instance = Instantiate(effect, hitpoint + normal * CollisionOffset, new Quaternion());
             instance.transform.LookAt(hitpoint + normal + normal * CollisionOffset);
-            Destroy(instance, CollisionDestroyTimeDelay+1f);
+            Destroy(instance, CollisionDestroyTimeDelay+4f);
         }
         DisableCollisions();
         GetComponent<Rigidbody>().velocity = Vector3.zero;
