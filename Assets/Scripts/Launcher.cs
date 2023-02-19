@@ -94,6 +94,9 @@ public class Launcher : MonoBehaviourPunCallbacks {
                 case "FreePlay":
                     level = "Battlegrounds1";
                     break;
+                case "Tutorial":
+                    level = "Tutorial";
+                    break;
                 case "Default Free for All":
                     level = "BattlegroundsDefault";
                     break;
@@ -146,6 +149,12 @@ public class Launcher : MonoBehaviourPunCallbacks {
     public void FreePlay() {
         roomName = "FreePlay";
         arena = "FreePlay";
+        Connect();
+    }
+
+    public void Tutorial() {
+        roomName = "Tutorial";
+        arena = "Tutorial";
         Connect();
     }
 
