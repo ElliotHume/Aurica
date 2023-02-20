@@ -29,7 +29,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private bool isRooted, isStunned, isChannelling, isBeingDisplaced, jumping, running = true, casting, slowFall, groundedStatusEffect;
     private Vector3 playerVelocity, impact, velocity;
     private float movementSpeed, slowFallPercent, gravity = 9.81f, appliedGravityForce = 0f;
-    private float forwardsAcceleration = 0, sidewaysAcceleration = 0;
+    private float forwardsAcceleration = 0f, sidewaysAcceleration = 0f, lerpedAcceleration = 0f;
     private PlayerManager playerManager;
     private PlayerParticleManager particleManager;
     private CharacterMaterialManager materialManager;
@@ -176,6 +176,12 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             appliedGravityForce -= addedForce;
             characterController.Move(transform.up * appliedGravityForce * Time.deltaTime);
         }
+
+        // Set acceleration value of the animator for running animation speed.
+        float totalAcceleration = Mathf.Min(Mathf.Abs(forwardsAcceleration)+Mathf.Abs(sidewaysAcceleration), 0.5f)*2f;
+        lerpedAcceleration = Mathf.Lerp(lerpedAcceleration, totalAcceleration, 0.33f);
+        animator.SetFloat("Acceleration", lerpedAcceleration);
+        // Debug.Log("Acceleration: "+totalAcceleration+"   lerped: "+lerpedAcceleration);
 
         // Calculate velocity for lag compensation
         velocity = transform.position - oldPosition;
