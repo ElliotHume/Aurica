@@ -256,6 +256,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public void Boost() {
         Vector3 boostDirection = jumping ? JumpBoostVector : GroundBoostVector;
         Displace(boostDirection, BoostDistance, BoostSpeed, false);
+        animator.SetTrigger("Boost");
         if (boostSound != null) boostSound.Play();
     }
 

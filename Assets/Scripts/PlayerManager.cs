@@ -889,6 +889,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Boost) || Input.GetKeyDown(KeyCode.Mouse2)) {
             if (hasBoost && !stunned && !silenced && !isShielded) {
                 movementManager.Boost();
+                particleManager.PlayBoostParticles();
                 PhotonNetwork.Instantiate("XCollision_Boost", transform.position, transform.rotation);
                 if (hasBoostCharge1) {
                     boostCharge1 = 0f;
