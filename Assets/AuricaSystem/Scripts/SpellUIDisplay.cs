@@ -20,11 +20,13 @@ public class SpellUIDisplay : MonoBehaviour {
     private bool isHidden = true;
     private Glyph[] allComponentGlyphs;
     private bool addAttempted = false;
+    private InputManager inputManager;
 
     // Start is called before the first frame update
     void Start() {
         HideSpell();
         allComponentGlyphs = Resources.LoadAll<Glyph>("Glyphs");
+        inputManager = InputManager.Instance;
     }
 
     void OnEnable() {
@@ -33,28 +35,29 @@ public class SpellUIDisplay : MonoBehaviour {
 
     void Update() {
         if (GameUIPanelManager.Instance.IsEditingInputField()) return;
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
+        if (inputManager == null) inputManager = InputManager.Instance;
+        if (inputManager.GetKeyDown(KeybindingActions.SpellSlot1)) {
             AuricaCaster.LocalCaster.CastBindSlot("1");
             CheckComponents();
-        } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2))) {
+        } else if ((inputManager.GetKeyDown(KeybindingActions.SpellSlot2))) {
             AuricaCaster.LocalCaster.CastBindSlot("2");
             CheckComponents();
-        } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3))) {
+        } else if ((inputManager.GetKeyDown(KeybindingActions.SpellSlot3))) {
             AuricaCaster.LocalCaster.CastBindSlot("3");
             CheckComponents();
-        } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot4))) {
+        } else if ((inputManager.GetKeyDown(KeybindingActions.SpellSlot4))) {
             AuricaCaster.LocalCaster.CastBindSlot("4");
             CheckComponents();
-        } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE))) {
+        } else if ((inputManager.GetKeyDown(KeybindingActions.SpellSlotE))) {
             AuricaCaster.LocalCaster.CastBindSlot("e");
             CheckComponents();
-        } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ))) {
+        } else if ((inputManager.GetKeyDown(KeybindingActions.SpellSlotQ))) {
             AuricaCaster.LocalCaster.CastBindSlot("q");
             CheckComponents();
-        } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR))) {
+        } else if ((inputManager.GetKeyDown(KeybindingActions.SpellSlotR))) {
             AuricaCaster.LocalCaster.CastBindSlot("r");
             CheckComponents();
-        } else if ((InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF))) {
+        } else if ((inputManager.GetKeyDown(KeybindingActions.SpellSlotF))) {
             AuricaCaster.LocalCaster.CastBindSlot("f");
             CheckComponents();
         }

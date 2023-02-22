@@ -101,6 +101,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private ExpertiseManager expertiseManager;
     private BindingUIPanel bindingUIPanel;
     private bool showingTabSpell = false, showingRecastTabSpell;
+    private InputManager inputManager;
 
     // Targeting Indicator System
     private bool preparedSpell = false;
@@ -311,6 +312,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         aimPointAnchorManager = aimPointAnchor.GetComponent<AimpointAnchor>();
 
         bindingUIPanel = BindingUIPanel.LocalInstance;
+        inputManager = InputManager.Instance;
     }
 
     void Awake() {
@@ -457,6 +459,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             manaRestorationBuff = ManaRegen >= defaultManaRegen;
 
             if (bindingUIPanel == null) bindingUIPanel = BindingUIPanel.LocalInstance;
+            if (inputManager == null) inputManager = InputManager.Instance;
 
             if (activeRecastSpells.ContainsKey(KeybindingActions.Cast) && activeRecastSpells[KeybindingActions.Cast] != null) {
                 AuricaSpell aSpell = activeRecastSpells[KeybindingActions.Cast].GetAttachedSpell().auricaSpell;
@@ -820,7 +823,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (activeRecastSpells.Count > 0) {
             foreach(KeyValuePair<KeybindingActions, RecastSpell> entry in activeRecastSpells) {
-                if (InputManager.Instance.GetKeyDown(entry.Key)) {
+                if (inputManager.GetKeyDown(entry.Key)) {
                     if (entry.Value != null) {
                         if (entry.Value.CanRecast()) {
                             entry.Value.InitiateRecast();
@@ -835,60 +838,82 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
         
         if (movementManager.CanCast()) {
-            if (InputManager.Instance.GetKeyDown(KeybindingActions.Cast)) {
-                PrepareSpellCast(auricaCaster.CastFinal(), KeybindingActions.Cast);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1)) {
-                 PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("2"), KeybindingActions.SpellSlot2);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("3"), KeybindingActions.SpellSlot3);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot4)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("4"), KeybindingActions.SpellSlot4);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("e"), KeybindingActions.SpellSlotE);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("q"), KeybindingActions.SpellSlotQ);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("r"), KeybindingActions.SpellSlotR);
-            } else if (InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF)) {
-                PrepareSpellCast(auricaCaster.CastBindSlot("f"), KeybindingActions.SpellSlotF);
-            }
+            if (Input.GetKey(KeyCode.LeftAlt)) {
+                // Ctrl casting casts the components for the bound spell but doesnt actually fire off the spell 
+                if (inputManager.GetKeyDown(KeybindingActions.SpellSlot1)) {
+                    auricaCaster.CastBindSlot("1");
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlot2)) {
+                    auricaCaster.CastBindSlot("2");
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlot3)) {
+                    auricaCaster.CastBindSlot("3");
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlot4)) {
+                    auricaCaster.CastBindSlot("4");
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotE)) {
+                    auricaCaster.CastBindSlot("e");
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotQ)) {
+                    auricaCaster.CastBindSlot("q");
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotR)) {
+                    auricaCaster.CastBindSlot("r");
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotF)) {
+                    auricaCaster.CastBindSlot("f");
+                }
+            } else {
+                if (inputManager.GetKeyDown(KeybindingActions.Cast)) {
+                    PrepareSpellCast(auricaCaster.CastFinal(), KeybindingActions.Cast);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlot1)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("1"), KeybindingActions.SpellSlot1);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlot2)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("2"), KeybindingActions.SpellSlot2);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlot3)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("3"), KeybindingActions.SpellSlot3);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlot4)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("4"), KeybindingActions.SpellSlot4);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotE)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("e"), KeybindingActions.SpellSlotE);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotQ)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("q"), KeybindingActions.SpellSlotQ);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotR)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("r"), KeybindingActions.SpellSlotR);
+                } else if (inputManager.GetKeyDown(KeybindingActions.SpellSlotF)) {
+                    PrepareSpellCast(auricaCaster.CastBindSlot("f"), KeybindingActions.SpellSlotF);
+                }
 
-            if (preparedSpell) {
-                if (!InputManager.Instance.GetKey(preparedSpellKey)) {
-                    CastAuricaSpell(preparedSpellCast);
+                if (preparedSpell) {
+                    if (!inputManager.GetKey(preparedSpellKey)) {
+                        CastAuricaSpell(preparedSpellCast);
+                    }
                 }
             }
         } else if (isChannelling && (
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot1) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot2) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot3) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlot4) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotQ) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotE) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotR) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.SpellSlotF) ||
-            InputManager.Instance.GetKeyDown(KeybindingActions.Cast))) {
+            inputManager.GetKeyDown(KeybindingActions.SpellSlot1) ||
+            inputManager.GetKeyDown(KeybindingActions.SpellSlot2) ||
+            inputManager.GetKeyDown(KeybindingActions.SpellSlot3) ||
+            inputManager.GetKeyDown(KeybindingActions.SpellSlot4) ||
+            inputManager.GetKeyDown(KeybindingActions.SpellSlotQ) ||
+            inputManager.GetKeyDown(KeybindingActions.SpellSlotE) ||
+            inputManager.GetKeyDown(KeybindingActions.SpellSlotR) ||
+            inputManager.GetKeyDown(KeybindingActions.SpellSlotF) ||
+            inputManager.GetKeyDown(KeybindingActions.Cast))) {
             StopChannelling();
             auricaCaster.ResetCast();
         } else {
             if (preparedSpell) {
-                if (!InputManager.Instance.GetKey(preparedSpellKey)) {
+                if (!inputManager.GetKey(preparedSpellKey)) {
                     CancelPreparedCast();
                 }
             }
         }
 
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Ping)) {
+        if (inputManager.GetKeyDown(KeybindingActions.Ping)) {
             PhotonNetwork.Instantiate("Ping", crosshair.GetWorldPoint(), Quaternion.identity);
         }
         
 
         // Use Boost
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Boost) || Input.GetKeyDown(KeyCode.Mouse2)) {
+        if (inputManager.GetKeyDown(KeybindingActions.Boost) || Input.GetKeyDown(KeyCode.Mouse2)) {
             if (hasBoost && !stunned && !silenced && !isShielded) {
                 movementManager.Boost();
+                particleManager.PlayBoostParticles();
                 PhotonNetwork.Instantiate("XCollision_Boost", transform.position, transform.rotation);
                 if (hasBoostCharge1) {
                     boostCharge1 = 0f;

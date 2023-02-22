@@ -10,7 +10,7 @@ public class PlayerParticleManager : MonoBehaviour {
     public GameObject l_auric, l_order, l_chaos, l_life, l_death, l_fire, l_water, l_earth, l_air, l_divine, l_demonic;
 
     public List<GameObject> slowFX, hasteFX, rootFX, groundFX, stunFX, silenceFX, weakenFX, strengthenFX, fragileFX, toughFX, manaBuffFX, manaDebuffFX, healingFX, slowfallFX;
-    public List<ParticleSystem> cleanseFX, cureFX, manaDrainFX;
+    public List<ParticleSystem> cleanseFX, cureFX, manaDrainFX, boostFX;
     private bool slowed, hastened, rooted, grounded, stunned, silenced, weakened, strengthened, fragile, tough, manaBuff, manaDebuff, healing, slowfall;
 
     PlayerManager playerManager;
@@ -267,5 +267,11 @@ public class PlayerParticleManager : MonoBehaviour {
         }
 
         if (shouldStartDefaultParticles) StartDefaultParticles();
+    }
+
+    public void PlayBoostParticles(){
+        foreach(ParticleSystem go in boostFX) {
+            go.Play();
+        }
     }
 }

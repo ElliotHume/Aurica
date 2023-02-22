@@ -89,7 +89,7 @@ public class Launcher : MonoBehaviourPunCallbacks {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             // #Critical
             // Load the Room Level.
-            string level = "BattlegroundsDefault";
+            string level = "BattlegroundsAdvanced";
             switch (arena) {
                 case "FreePlay":
                     level = "Battlegrounds1";
