@@ -4,16 +4,17 @@ using UnityEngine;
 using Photon.Pun;
 
 public class TargetedSpell : Spell {
-    public bool OneShotEffect = true, UNIMPLEMENTEDLastingEffect = false, FollowsTarget = true, SpellStrengthChangesDuration = true;
+    public bool OneShotEffect = true, FollowsTarget = true, SpellStrengthChangesDuration = true;
     public float DestroyTimeDelay = 15f;
     public GameObject[] DeactivateObjectsAfterDuration;
     public Vector3 PositionOffset = Vector3.zero;
     public StatusEffect statusEffect;
     public MovementEffect movementEffect;
 
-    private GameObject TargetGO;
+    private GameObject TargetGO = null;
     private PlayerManager TargetPM;
     private Enemy TargetEM;
+    private TargetDummy TargetTD;
 
     private bool hasActivated = false, durationEnded = false;
 
@@ -28,7 +29,6 @@ public class TargetedSpell : Spell {
         DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
 
         if (photonView.IsMine) {
-            if (OneShotEffect && TargetGO != null) OneShot();
             Invoke("DestroySelf", DestroyTimeDelay);
         }
         Invoke("EndSpell", Duration);
@@ -39,15 +39,12 @@ public class TargetedSpell : Spell {
         if (FollowsTarget && TargetGO != null && !durationEnded) {
             transform.position = TargetGO.transform.position + PositionOffset;
         }
+    }
 
+    void FixedUpdate() {
         if (!photonView.IsMine) return;
-
-        if (!hasActivated && OneShotEffect && TargetGO != null) {
+        if (!hasActivated && OneShotEffect && TargetGO != null ) {
             OneShot();
-        }
-
-        if (UNIMPLEMENTEDLastingEffect) {
-            Lasting();
         }
     }
 
@@ -55,15 +52,12 @@ public class TargetedSpell : Spell {
         TargetGO = targetGO;
         TargetPM = targetGO.GetComponent<PlayerManager>();
         TargetEM = targetGO.GetComponent<Enemy>();
+        TargetTD = targetGO.GetComponent<TargetDummy>();
 
         transform.position = targetGO.transform.position + PositionOffset;
         transform.rotation = targetGO.transform.rotation;
 
         if (TargetPM != null) photonView.RPC("NetworkSetPlayerTarget", RpcTarget.All, TargetPM.GetUniqueName());
-
-        if (!hasActivated && OneShotEffect) {
-            OneShot();
-        }
     }
 
     [PunRPC]
@@ -79,6 +73,7 @@ public class TargetedSpell : Spell {
     }
 
     void OneShot() {
+        if (hasActivated) return;
         hasActivated = true;
         if (Damage > 0f && TargetPM != null) {
             PhotonView pv = PhotonView.Get(TargetPM);
@@ -93,12 +88,14 @@ public class TargetedSpell : Spell {
             if (pv != null)
                 pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
         }
+        if (Damage > 0f && TargetTD != null) {
+            PhotonView pv = PhotonView.Get(TargetTD);
+            string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+            if (pv != null)
+                pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+        }
         if (statusEffect != null) statusEffect.ManualActivation(TargetGO);
         if (movementEffect != null) movementEffect.ManualActivation(TargetGO);
-    }
-
-    void Lasting() {
-        // TODO: Do nothing, so far unneeded
     }
 
     void DestroySelf() {

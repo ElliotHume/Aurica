@@ -17,6 +17,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     public float HomingDetectionSphereRadius = 1.5f;
     public bool TrackingProjectile = false;
     public float TrackingTurnSpeed = 10f;
+    public bool SpellStrengthChangesSpeed = false;
     public float CollisionOffset = 0;
     public float CollisionDestroyTimeDelay = 5;
     public float MaxDistance = 0f, AirDrag = 0f, MinSpeed = 0f;
@@ -301,6 +302,7 @@ public class BasicProjectileSpell : Spell, IPunObservable
     }
 
     void NetworkCollisionBehaviour(Vector3 hitPoint, Vector3 hitNormal, GameObject hitEntity = null) {
+        if (!photonView.IsMine) return;
         Vector3 normal = NetworkCollisionEffectsUseHitNormal ? hitNormal : Vector3.up;
         if (NetworkCollisionEffectsOnlyOnHitGround && Vector3.Dot(hitNormal, Vector3.up) < 0.707f) return;
         foreach(string effect in NetworkedEffectsOnCollision) {
@@ -476,5 +478,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
     void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, HomingDetectionSphereRadius);
+    }
+
+    public override void SetSpellStrength(float newStrength) {
+        spellStrength = newStrength;
+        if (SpellStrengthChangesSpeed) Speed *= spellStrength;
     }
 }

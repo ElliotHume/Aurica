@@ -422,7 +422,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (boostCharge2 < BoostCooldown) {
                 if (expertiseManager == null) expertiseManager = ExpertiseManager.Instance;
                 float expertiseMultiplier = 1f - ( 0.0075f * expertiseManager.GetExpertise());
-                boostCharge1 += Time.deltaTime * boostCooldownMultiplier * expertiseMultiplier;
+                boostCharge2 += Time.deltaTime * boostCooldownMultiplier * expertiseMultiplier;
                 if (hasBoostCharge2) {
                     boostIndicator2.SetActive(false);
                 }

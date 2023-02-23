@@ -143,11 +143,13 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         PlayerManager pm = playerGO.GetComponent<PlayerManager>();
         if (pm != null) {
             PhotonView pv = PhotonView.Get(pm);
+            ApplyContinuous(pv);
             ActivateContinuous(pv);
         } else {
             Enemy enemy = playerGO.GetComponent<Enemy>();
             if (enemy != null) {
                 PhotonView pv = PhotonView.Get(enemy);
+                ApplyContinuous(pv, true);
                 ActivateContinuous(pv, true);
             }
         }   
