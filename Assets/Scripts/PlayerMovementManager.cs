@@ -20,6 +20,10 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     public float GroundedOffset = -0.14f;
     [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
     public float GroundedRadius = 0.28f;
+    [Tooltip("Distance from the ground that the player should snap to, helps with ramps")]
+    public float GroundSnapDistance = 0.1f;
+    [Tooltip("Force with which to snap the player to the ground.")]
+    public float GroundSnapForce = 15f;
     [Tooltip("What layers the character uses as ground")]
     public LayerMask GroundLayers;
 
@@ -175,6 +179,17 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             if (groundedStatusEffect) addedForce *= 3f;
             appliedGravityForce -= addedForce;
             characterController.Move(transform.up * appliedGravityForce * Time.deltaTime);
+
+            if (!jumping && !isBeingDisplaced && appliedGravityForce > -1.5f) {
+                // If not grounded but the ground is very close below, pull the player downwards.
+                // This helps keep the player snapped to slopes and stairs
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, GroundSnapDistance, GroundLayers)) {
+                    float velocityMultiplier = Mathf.Clamp(appliedGravityForce/-1.5f, 0.5f, 1f);
+                    characterController.Move(-transform.up * Time.deltaTime * velocityMultiplier * GroundSnapForce);
+                    GroundedCheck();
+                }
+            }
         }
 
         // Set acceleration value of the animator for running animation speed.
@@ -333,5 +348,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         
         // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
         Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+
+        Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 1f);
+        Gizmos.DrawLine(transform.position, transform.position+(Vector3.down * GroundSnapDistance));
     }
 }

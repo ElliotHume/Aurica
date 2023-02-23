@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Create Earth Golem
   manaType: 7
-  description: Throw a ball of mana that will create an earth golem if it impacts
-    the ground. The earth golem will be hostile to any other mage than the caster.
+  description: Throw a ball of mana that will create an earth golem, but only if
+    the spell hits the ground. The earth golem will be hostile to any other mage
+    than the caster.
   targetDistribution:
     structure: 0.3
     essence: 0.25

@@ -18,7 +18,6 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
     public bool standalone = false;
 
     public AuricaSpell spell;
-    private bool isHidden = true;
     private Glyph[] allComponentGlyphs;
 
     // Start is called before the first frame update
@@ -97,13 +96,11 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
     public void ShowSpell() {
         displayPanel.SetActive(true);
         placeholder.SetActive(false);
-        isHidden = false;
     }
 
     public void HideSpell() {
         displayPanel.SetActive(false);
         placeholder.SetActive(true);
-        isHidden = true;
     }
 
     public void CastSpellComponents() {

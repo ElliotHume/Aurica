@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_name: Earth Shield
   manaType: 7
-  description: Create a shield of strongly magnetized rocks. Has a very large health
-    pool and provides complete resistance to earth spells
+  description: Create a shield of strongly magnetized rocks. This shield has a large
+    health pool and provides complete resistance to earth spells. When the shield
+    breaks it will apply a minor toughening effect to the caster.
   targetDistribution:
     structure: 0.2
     essence: 0

@@ -16,7 +16,9 @@ MonoBehaviour:
   manaType: 1
   description: Create a shield of force around you, this shield has a moderate health
     pool high resistances to all aligned mana types, but takes full damage from the
-    elements
+    elements. When the shield breaks it will grant the caster a moderate strengthening
+    effect for structure magic, and a minor strengthening effect for water and earth
+    magic.
   targetDistribution:
     structure: 1
     essence: -0.1

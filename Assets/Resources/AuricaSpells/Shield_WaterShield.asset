@@ -16,7 +16,8 @@ MonoBehaviour:
   manaType: 6
   description: Create a shield of flowing water around the caster, has a moderate
     health pool but provides great resistance to most fire and air spells, and complete
-    resistance to water spells
+    resistance to water spells. When this shield breaks it will cleanse the caster
+    of all buffs and debuffs.
   targetDistribution:
     structure: 0.35
     essence: 0.1
