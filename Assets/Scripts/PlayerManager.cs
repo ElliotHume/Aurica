@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
     private float healing = 0f;
+    private float greyHealth = 0f;
 
     [Tooltip("The current Mana pool of our player")]
     public float Mana = 100f;
@@ -79,7 +80,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private bool isChannelling = false, currentSpellIsSelfTargeted = false, currentSpellIsOpponentTargeted = false, isShielded = false, sneaking = false, respawning = false;
     private GameObject channelledSpell, spellCraftingDisplay, glyphCastingPanel;
     private PlayerMovementManager movementManager;
-    private HealthBar healthBar, manaBar, boostCooldownBar1, boostCooldownBar2;
+    private HealthBar healthBar, manaBar, boostCooldownBar1, boostCooldownBar2, greyHealthBar;
     private GameObject boostIndicator1, boostIndicator2;
     private bool hasBoostCharge1, hasBoostCharge2;
     private float boostCharge1, boostCharge2;
@@ -200,9 +201,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             // CRITICAL DATA
             stream.SendNext(Health);
             stream.SendNext(Mana);
-
-            // Boost data
+            
+            // Player Card Display Data
             stream.SendNext(hasBoost);
+            stream.SendNext(greyHealth);
 
             // Status Effect data
             stream.SendNext(slowed);
@@ -227,6 +229,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             // Boost data
             this.hasBoost = (bool)stream.ReceiveNext();
+            this.greyHealth = (float)stream.ReceiveNext();
 
             // Status Effect data
             this.slowed = (bool)stream.ReceiveNext();
@@ -301,6 +304,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         expertiseManager = ExpertiseManager.Instance;
 
         healthBar = GameObject.Find("LocalHealthBar").GetComponent<HealthBar>();
+        greyHealthBar = GameObject.Find("LocalGreyHealthBar").GetComponent<HealthBar>();
         manaBar = GameObject.Find("LocalManaBar").GetComponent<HealthBar>();
         manaBar.SetMaxHealth(PlayerManager.MAXIMUM_MANA);
         boostCooldownBar1 = GameObject.Find("BoostCooldownBar1").GetComponent<HealthBar>();
@@ -379,6 +383,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 float healingDone = healing * Time.deltaTime * HealingRate;
                 Health += healingDone;
                 healing -= healingDone;
+                if (Health >= maxHealth-greyHealth) {
+                    Health = maxHealth-greyHealth;
+                    healing = 0f;
+                }
             } else {
                 healing = 0f;
             }
@@ -438,6 +446,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             // Display health and mana values
             healthBar.SetHealth(Health);
             manaBar.SetHealth(Mana);
+
+            // Display grey health
+            if (greyHealth > 0f) greyHealthBar.LerpTowards(greyHealth);
 
             // Display Boost cooldowns
             boostCooldownBar1.SetHealth(boostCharge1);
@@ -575,6 +586,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         // Reset health and mana
         Health = maxHealth;
         Mana = maxMana;
+        greyHealth = 0f;
+        greyHealthBar.SetHealth(greyHealth);
         healthBar.SetHealth(Health);
         manaBar.SetHealth(Mana);
 
@@ -600,6 +613,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         animator.enabled = false;
         RootBone.transform.parent = null;
         healthBar.SetHealth(0);
+        greyHealthBar.SetHealth(0);
         manaBar.SetHealth(0);
 
         if (DeathSound != null) DeathSound.Play();
@@ -1417,9 +1431,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // Heal - restore health by a flat value and/or a percentage of missing health
     [PunRPC]
     void Heal(float flat, float percentage) {
+        float greyHealthMultiplier = 0.5f;
         if (photonView.IsMine) {
             // Debug.Log("HEAL FOR: ["+flat+"] flat + ["+percentage+"] percent missing health");
-            healing += (flat + ((maxHealth - Health) * percentage)) * GameManager.GLOBAL_SPELL_HEALING_MULTIPLIER;
+            float newHeal = (flat + ((maxHealth - Health) * percentage)) * GameManager.GLOBAL_SPELL_HEALING_MULTIPLIER;
+            healing += newHeal;
+
+            // Increase grey health proportional to how much healing needs to be applied
+            if (Health < maxHealth-greyHealth){
+                greyHealth += Mathf.Min(newHeal * greyHealthMultiplier, maxHealth-greyHealth-Health);
+            } 
         }
     }
 

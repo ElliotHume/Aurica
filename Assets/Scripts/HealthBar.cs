@@ -14,6 +14,11 @@ public class HealthBar : MonoBehaviour
         if (text != null) text.text = health.ToString(health >= 10 ? "F0" : "F2");
     }
 
+    public void LerpTowards(float health) {
+        slider.value = Mathf.Lerp(slider.value, health, Time.deltaTime);
+        if (text != null) text.text = health.ToString(health >= 10 ? "F0" : "F2");
+    }
+
     public void SetMaxHealth(float health) {
         slider.maxValue = health;
     }
