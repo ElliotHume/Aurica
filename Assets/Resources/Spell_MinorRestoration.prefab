@@ -9251,7 +9251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 0
-  auricaSpell: {fileID: 11400000, guid: 07e04655c48bc4418960820182da7cb3, type: 2}
+  auricaSpell: {fileID: 11400000, guid: 5d73b7ef0eeb94367990c73855d1db32, type: 2}
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: healing
@@ -9259,11 +9259,11 @@ MonoBehaviour:
   CastAnimationType: 0
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 1
   OneShotEffect: 1
-  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 0
   SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 5
@@ -9272,6 +9272,8 @@ MonoBehaviour:
   - {fileID: 4718893882407581519}
   - {fileID: 4718893881128463331}
   PositionOffset: {x: 0, y: 2, z: 0}
+  statusEffect: {fileID: 0}
+  movementEffect: {fileID: 0}
 --- !u!114 &4718893882218331352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9331,6 +9333,7 @@ MonoBehaviour:
   healing: 1
   healFlatAmount: 10
   healPercentAmount: 10
+  healGreyHealthMultiplier: 0.75
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0

@@ -15,7 +15,8 @@ MonoBehaviour:
   c_name: Life Shield
   manaType: 3
   description: Create a shield of living energy that will heal the caster when the
-    shield is struck. The shield has a small health pool to compensate.
+    shield is struck. The shield has a small health pool to compensate. The healing
+    effect will reduce maximum health by three-quarters of the amount that is healed.
   targetDistribution:
     structure: -0.15
     essence: 1

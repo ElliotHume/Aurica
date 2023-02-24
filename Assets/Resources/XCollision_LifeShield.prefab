@@ -4871,21 +4871,34 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
   LastingDamage: 0
   OneShotEffect: 1
   LastingEffect: 0
+  attachToTarget: 0
   canHitSelf: 1
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
+  SpellStrengthChangesScale: 0
   DestroyTimeDelay: 15
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
+  PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration: []
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
+  ParticleCollisions: 0
+  DamagePerParticle: 1
+  collisionParticles: {fileID: 0}
+  particleCollisionSound: {fileID: 0}
+  clipVolume: 0
 --- !u!114 &4187469579007403406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4898,6 +4911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Identifier: SceneObject
   slow: 0
   slowDuration: 0
   slowPercentage: 0
@@ -4906,6 +4920,8 @@ MonoBehaviour:
   hastenPercentage: 0
   root: 0
   rootDuration: 0
+  ground: 0
+  groundDuration: 0
   silence: 0
   silenceDuration: 0
   stun: 0
@@ -4940,13 +4956,24 @@ MonoBehaviour:
   changeDuration: 0
   changePercentage: 0
   healing: 1
-  healFlatAmount: 0
+  healFlatAmount: 3
   healPercentAmount: 10
+  healGreyHealthMultiplier: 0.75
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
+  cleanse: 0
+  cure: 0
   isContinuous: 0
   canHitSelf: 1
+  onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!135 &4187469579007403405
 SphereCollider:
   m_ObjectHideFlags: 0

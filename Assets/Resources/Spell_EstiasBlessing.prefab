@@ -57,11 +57,11 @@ MonoBehaviour:
   CastAnimationType: 5
   CastingAnchor: transform
   TurnToAimPoint: 0
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
   OneShotEffect: 1
-  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 1
   SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 12
@@ -127,7 +127,8 @@ MonoBehaviour:
   changePercentage: 60
   healing: 1
   healFlatAmount: 0
-  healPercentAmount: 60
+  healPercentAmount: 75
+  healGreyHealthMultiplier: 0.2
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0

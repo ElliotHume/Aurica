@@ -15,7 +15,9 @@ MonoBehaviour:
   c_name: Minor Heal
   manaType: 3
   description: Heal yourself for a small flat amount and a small amount of missing
-    health. Doing so will inflict a minor mana regeneration debuff.
+    health. Doing so will inflict a minor mana regeneration debuff. This spell is
+    not well stabilized and will reduce your maximum health by an equal amount to
+    what it heals.
   targetDistribution:
     structure: -0.15
     essence: 0.75

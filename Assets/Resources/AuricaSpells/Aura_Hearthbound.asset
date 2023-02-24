@@ -16,7 +16,8 @@ MonoBehaviour:
   manaType: 3
   description: Channel the restorative power of the hearth. The mana from this spell
     will cleanse, toughen, hasten, and restore some health. This effect can be spread
-    to others if they are close-by.
+    to others if they are close-by. The healing effect of this spell will reduce
+    maximum health by half of the amount that is healed.
   targetDistribution:
     structure: -0.17
     essence: 0.93
@@ -38,5 +39,5 @@ MonoBehaviour:
   isAuric: 0
   baseManaCost: 75
   componentManaMultiplier: 0.5
-  errorThreshold: 2
+  difficultyRank: 1
   linkedSpellResource: Spell_Aura_Hearthbound

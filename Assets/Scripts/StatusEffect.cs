@@ -49,7 +49,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
     public float changeDuration, changePercentage = 0f;
 
     public bool healing = false;
-    public float healFlatAmount = 0f, healPercentAmount = 0f;
+    public float healFlatAmount = 0f, healPercentAmount = 0f, healGreyHealthMultiplier = 0.5f;
 
     public bool manaDrain = false;
     public float manaDrainFlatAmount = 0f, manaDrainPercentAmount = 0f;
@@ -302,7 +302,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
             
             if (!isEnemy) {
                 if (ground) pv.RPC("Ground", RpcTarget.All, Identifier, groundDuration * multiplier);
-                if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount / 100f * multiplier);
+                if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * multiplier, healPercentAmount / 100f * multiplier, healGreyHealthMultiplier);
                 if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * multiplier, manaDrainPercentAmount / 100f * multiplier);
                 if (camouflage) pv.RPC("Camouflage", RpcTarget.All, Identifier, camouflageDuration * multiplier);
                 if (slowFall) pv.RPC("SlowFall", RpcTarget.All, Identifier, slowFallDuration * multiplier, slowFallPercent / 100f * multiplier);
@@ -353,7 +353,7 @@ public class StatusEffect : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestro
         if (cleanse) pv.RPC("Cleanse", RpcTarget.All);
         if (cure) pv.RPC("Cure", RpcTarget.All);
         if (!isEnemy) {
-            if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * Time.deltaTime * multiplier, healPercentAmount/100f * Time.deltaTime * multiplier);
+            if (healing) pv.RPC("Heal", RpcTarget.All, healFlatAmount * Time.deltaTime * multiplier, healPercentAmount/100f * Time.deltaTime * multiplier, healGreyHealthMultiplier);
             if (manaDrain) pv.RPC("ManaDrain", RpcTarget.All, manaDrainFlatAmount * Time.deltaTime * multiplier, manaDrainPercentAmount/100f * Time.deltaTime * multiplier);
         }
     }

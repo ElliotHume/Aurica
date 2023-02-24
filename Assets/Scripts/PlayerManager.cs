@@ -1430,8 +1430,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
     // Heal - restore health by a flat value and/or a percentage of missing health
     [PunRPC]
-    void Heal(float flat, float percentage) {
-        float greyHealthMultiplier = 0.5f;
+    void Heal(float flat, float percentage, float greyHealthMultiplier) {
         if (photonView.IsMine) {
             // Debug.Log("HEAL FOR: ["+flat+"] flat + ["+percentage+"] percent missing health");
             float newHeal = (flat + ((maxHealth - Health) * percentage)) * GameManager.GLOBAL_SPELL_HEALING_MULTIPLIER;

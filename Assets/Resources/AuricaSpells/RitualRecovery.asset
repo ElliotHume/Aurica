@@ -15,7 +15,10 @@ MonoBehaviour:
   c_name: Ritual Recovery
   manaType: 3
   description: Create a ring of healing mana, all within the boundary will slowly
-    be healed. The caster will be healed for less than others are.
+    be healed. The caster will be healed for less than others are. Since the heal
+    is applied over time, the maximum health reduction is not as pronounced as other
+    healing spells. Maximum health will be reduced by slightly less than half of
+    the amount that the spells heals for.
   targetDistribution:
     structure: -0.1
     essence: 0.9

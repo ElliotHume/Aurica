@@ -13936,7 +13936,6 @@ MonoBehaviour:
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
   OneShotEffect: 1
-  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 0
   SpellStrengthChangesDuration: 1
   DestroyTimeDelay: 5
@@ -14004,8 +14003,9 @@ MonoBehaviour:
   changeDuration: 0
   changePercentage: 0
   healing: 1
-  healFlatAmount: 2
+  healFlatAmount: 5
   healPercentAmount: 10
+  healGreyHealthMultiplier: 0.5
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0

@@ -16,7 +16,9 @@ MonoBehaviour:
   manaType: 9
   description: Channel divine and life energies to create a barrier around the caster
     that will protect against projectile spells. Anyone within the effect will be
-    slowly healed over time.
+    slowly healed over time, this healing is not particularly well suited for the
+    body and will incur a maximum health reduction of the full amount that the spell
+    heals for.
   targetDistribution:
     structure: 0.05
     essence: 0.33
