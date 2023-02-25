@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class TargetedSpell : Spell {
     public bool OneShotEffect = true, FollowsTarget = true, SpellStrengthChangesDuration = true;
-    public float DestroyTimeDelay = 15f;
+    public float DestroyTimeDelay = 15f, StartTimeDelay = 0f;
     public GameObject[] DeactivateObjectsAfterDuration;
     public Vector3 PositionOffset = Vector3.zero;
     public StatusEffect statusEffect;
@@ -16,7 +16,7 @@ public class TargetedSpell : Spell {
     private Enemy TargetEM;
     private TargetDummy TargetTD;
 
-    private bool hasActivated = false, durationEnded = false;
+    private bool hasActivated = false, durationEnded = false, active = true;
 
     void Start() {
         statusEffect = GetComponent<StatusEffect>();
@@ -24,14 +24,19 @@ public class TargetedSpell : Spell {
         if (SpellStrengthChangesDuration) {
             Duration *= GetSpellStrength();
             DestroyTimeDelay *= GetSpellStrength();
+            StartTimeDelay *= GetSpellStrength();
         }
         Duration *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
         DestroyTimeDelay *= GameManager.GLOBAL_SPELL_DURATION_MULTIPLIER;
 
         if (photonView.IsMine) {
-            Invoke("DestroySelf", DestroyTimeDelay);
+            Invoke("DestroySelf", DestroyTimeDelay+StartTimeDelay);
         }
-        Invoke("EndSpell", Duration);
+        if (StartTimeDelay > 0f) {
+            active = false;
+            Invoke("Activate", StartTimeDelay);
+        }
+        Invoke("EndSpell", Duration+StartTimeDelay);
     }
 
     // Update is called once per frame
@@ -43,9 +48,13 @@ public class TargetedSpell : Spell {
 
     void FixedUpdate() {
         if (!photonView.IsMine) return;
-        if (!hasActivated && OneShotEffect && TargetGO != null ) {
+        if (active && !hasActivated && OneShotEffect && TargetGO != null ) {
             OneShot();
         }
+    }
+
+    private void Activate() {
+        active = true;
     }
 
     public void SetTarget(GameObject targetGO) {
