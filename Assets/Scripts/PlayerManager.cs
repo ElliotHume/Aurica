@@ -379,16 +379,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             }
 
             // If there is healing to be done, do it
-            if (healing >= 0.1f && Health < maxHealth) {
+            if (healing >= 0.001f && Health < maxHealth) {
                 float healingDone = healing * Time.deltaTime * HealingRate;
                 Health += healingDone;
                 healing -= healingDone;
+                if (healing < 0.01f) healing = 0f;
                 if (Health >= maxHealth-greyHealth) {
                     Health = maxHealth-greyHealth;
                     healing = 0f;
                 }
-            } else {
-                healing = 0f;
             }
 
             // If health should regen, do it
