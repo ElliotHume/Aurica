@@ -9,6 +9,8 @@ public class CloudLoadoutUIPanel : MonoBehaviour
     public BindingButton bind1, bind2, bind3, bind4, bindQ, bindE, bindR, bindF;
     public BindingButton bind11, bind21, bind31, bind41, bindQ1, bindE1, bindR1, bindF1;
     public BindingButton bind12, bind22, bind32, bind42, bindQ2, bindE2, bindR2, bindF2;
+    public BindingButton bind13, bind23, bind33, bind43, bindQ3, bindE3, bindR3, bindF3;
+    public BindingButton bind14, bind24, bind34, bind44, bindQ4, bindE4, bindR4, bindF4;
     private Dictionary<string, BindingButton> dict, loadout0, loadout1, loadout2;
     private string bindingspell;
 
@@ -41,6 +43,24 @@ public class CloudLoadoutUIPanel : MonoBehaviour
         dict.Add("2-2", bind22);
         dict.Add("3-2", bind32);
         dict.Add("4-2", bind42);
+
+        dict.Add("q-3", bindQ3);
+        dict.Add("e-3", bindE3);
+        dict.Add("r-3", bindR3);
+        dict.Add("f-3", bindF3);
+        dict.Add("1-3", bind13);
+        dict.Add("2-3", bind33);
+        dict.Add("3-3", bind33);
+        dict.Add("4-3", bind43);
+
+        dict.Add("q-4", bindQ4);
+        dict.Add("e-4", bindE4);
+        dict.Add("r-4", bindR4);
+        dict.Add("f-4", bindF4);
+        dict.Add("1-4", bind14);
+        dict.Add("2-4", bind34);
+        dict.Add("3-4", bind34);
+        dict.Add("4-4", bind44);
     }
 
     void Start() {

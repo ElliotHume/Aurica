@@ -388,6 +388,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                     Health = maxHealth-greyHealth;
                     healing = 0f;
                 }
+            } else {
+                healing = 0f;
             }
 
             // If health should regen, do it

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: ReapersShadow
+  m_EditorClassIdentifier: 
+  c_name: Reaper's Shadow
+  manaType: 4
+  description: Call upon the reaper to transport you into the shadow of your target.
+    This spell is the oldest known spell of death, modern mages continue to study
+    why the reaper allows itself to be called and uses chaos magic when it is a being
+    of order itself.
+  targetDistribution:
+    structure: -0.15
+    essence: -0.9
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  keyComponents:
+  - {fileID: 11400000, guid: 751db08e913374239a7d5ff6b0ba730e, type: 2}
+  - {fileID: 11400000, guid: 2c16fa44aac434c128740b9c51ca6fb1, type: 2}
+  - {fileID: 11400000, guid: 9665561dfbacb4175b289685ee628d66, type: 2}
+  - {fileID: 11400000, guid: 1695c1f276952436ab72f5a2f31e1c4e, type: 2}
+  - {fileID: 11400000, guid: 5e55728996062467aaee2076ed4c668c, type: 2}
+  masteries: 04000000
+  isMasterySpell: 1
+  masteryCategory: 4
+  masteryLevel: 2
+  masteryFailedSpellResource: XCollision_Fizzle
+  isAuric: 0
+  baseManaCost: 125
+  componentManaMultiplier: 0.6
+  difficultyRank: 3
+  linkedSpellResource: Spell_ReapersShadow

@@ -22,6 +22,12 @@ public class CloudLoadoutManager : MonoBehaviour {
 
     [HideInInspector]
     public string page2Key1, page2Key2, page2Key3, page2Key4, page2KeyQ, page2KeyE, page2KeyR, page2KeyF;
+
+    [HideInInspector]
+    public string page3Key1, page3Key2, page3Key3, page3Key4, page3KeyQ, page3KeyE, page3KeyR, page3KeyF;
+
+    [HideInInspector]
+    public string page4Key1, page4Key2, page4Key3, page4Key4, page4KeyQ, page4KeyE, page4KeyR, page4KeyF;
     
 
     void Start() {
@@ -60,6 +66,24 @@ public class CloudLoadoutManager : MonoBehaviour {
         loadout.Add("E-2", page2KeyE);
         loadout.Add("R-2", page2KeyR);
         loadout.Add("F-2", page2KeyF);
+
+        loadout.Add("1-3", page3Key1);
+        loadout.Add("2-3", page3Key2);
+        loadout.Add("3-3", page3Key3);
+        loadout.Add("4-3", page3Key4);
+        loadout.Add("Q-3", page3KeyQ);
+        loadout.Add("E-3", page3KeyE);
+        loadout.Add("R-3", page3KeyR);
+        loadout.Add("F-3", page3KeyF);
+
+        loadout.Add("1-4", page4Key1);
+        loadout.Add("2-4", page4Key2);
+        loadout.Add("3-4", page4Key3);
+        loadout.Add("4-4", page4Key4);
+        loadout.Add("Q-4", page4KeyQ);
+        loadout.Add("E-4", page4KeyE);
+        loadout.Add("R-4", page4KeyR);
+        loadout.Add("F-4", page4KeyF);
         return loadout;
     }
 
@@ -92,6 +116,24 @@ public class CloudLoadoutManager : MonoBehaviour {
             loadout.Add("E", page2KeyE);
             loadout.Add("R", page2KeyR);
             loadout.Add("F", page2KeyF);
+        } else if (page == 3) {
+            loadout.Add("1", page3Key1);
+            loadout.Add("2", page3Key2);
+            loadout.Add("3", page3Key3);
+            loadout.Add("4", page3Key4);
+            loadout.Add("Q", page3KeyQ);
+            loadout.Add("E", page3KeyE);
+            loadout.Add("R", page3KeyR);
+            loadout.Add("F", page3KeyF);
+        } else if (page == 4) {
+            loadout.Add("1", page4Key1);
+            loadout.Add("2", page4Key2);
+            loadout.Add("3", page4Key3);
+            loadout.Add("4", page4Key4);
+            loadout.Add("Q", page4KeyQ);
+            loadout.Add("E", page4KeyE);
+            loadout.Add("R", page4KeyR);
+            loadout.Add("F", page4KeyF);
         }
 
         return loadout;
@@ -135,6 +177,24 @@ public class CloudLoadoutManager : MonoBehaviour {
         if (result.Data.ContainsKey("LoadoutKeyE-2")) page2KeyE = result.Data["LoadoutKeyE-2"].Value;
         if (result.Data.ContainsKey("LoadoutKeyR-2")) page2KeyR = result.Data["LoadoutKeyR-2"].Value;
         if (result.Data.ContainsKey("LoadoutKeyF-2")) page2KeyF = result.Data["LoadoutKeyF-2"].Value;
+
+        if (result.Data.ContainsKey("LoadoutKey1-3")) page3Key1 = result.Data["LoadoutKey1-3"].Value;
+        if (result.Data.ContainsKey("LoadoutKey2-3")) page3Key2 = result.Data["LoadoutKey2-3"].Value;
+        if (result.Data.ContainsKey("LoadoutKey3-3")) page3Key3 = result.Data["LoadoutKey3-3"].Value;
+        if (result.Data.ContainsKey("LoadoutKey4-3")) page3Key4 = result.Data["LoadoutKey4-3"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyQ-3")) page3KeyQ = result.Data["LoadoutKeyQ-3"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyE-3")) page3KeyE = result.Data["LoadoutKeyE-3"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyR-3")) page3KeyR = result.Data["LoadoutKeyR-3"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyF-3")) page3KeyF = result.Data["LoadoutKeyF-3"].Value;
+
+        if (result.Data.ContainsKey("LoadoutKey1-4")) page4Key1 = result.Data["LoadoutKey1-4"].Value;
+        if (result.Data.ContainsKey("LoadoutKey2-4")) page4Key2 = result.Data["LoadoutKey2-4"].Value;
+        if (result.Data.ContainsKey("LoadoutKey3-4")) page4Key3 = result.Data["LoadoutKey3-4"].Value;
+        if (result.Data.ContainsKey("LoadoutKey4-4")) page4Key4 = result.Data["LoadoutKey4-4"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyQ-4")) page4KeyQ = result.Data["LoadoutKeyQ-4"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyE-4")) page4KeyE = result.Data["LoadoutKeyE-4"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyR-4")) page4KeyR = result.Data["LoadoutKeyR-4"].Value;
+        if (result.Data.ContainsKey("LoadoutKeyF-4")) page4KeyF = result.Data["LoadoutKeyF-4"].Value;
 
         fetched = true;
         fetching = false;
