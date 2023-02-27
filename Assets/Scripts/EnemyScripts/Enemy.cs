@@ -451,7 +451,7 @@ public class Enemy : MonoBehaviourPunCallbacks {
 
     // Silence - Prevent spellcasting
     [PunRPC]
-    public void Silence(float duration) {
+    public void Silence(string Identifier, float duration) {
         if (photonView.IsMine && !silenced) {
             silenced = true;
             silenceRoutine = StartCoroutine(SilenceRoutine(duration));
