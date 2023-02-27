@@ -81,8 +81,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e1703d4d60c1d91408b8054ba1213429, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.8
+  m_Pitch: 0.8
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -175,7 +175,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9b409b2e65af3cf44b3fc61491dce714, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f2ec368a7c7c5374fa0796f491174671, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.725
   m_Pitch: 1
@@ -221,7 +221,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.95
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -271,10 +271,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 05f7e107e67fece469b382c40f118238, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 00d6deb53c2a7924d831fde829edb766, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.8
+  m_Pitch: 0.6
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -367,7 +367,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 08881346b0b271c47bd2eca382a81e7f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 66831bd5380855b40885a10ffca8bc2b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -413,7 +413,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.95
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 857651759959768617}
   - component: {fileID: 857651759959768618}
   - component: {fileID: 8789620303245777911}
+  - component: {fileID: 268333711}
   m_Layer: 6
   m_Name: YRecast_SkyStrike
   m_TagString: Spell
@@ -527,7 +528,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 1
-  DestroyTimeDelay: 1
+  DestroyTimeDelay: 3
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -590,7 +591,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856600067049628460}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47b6b88d425f7234aae309cb9a973743, type: 3}
   m_Name: 
@@ -612,6 +613,81 @@ CapsuleCollider:
   m_Height: 65
   m_Direction: 1
   m_Center: {x: 0, y: -28.59, z: 0}
+--- !u!114 &268333711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856600067049628460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8eaa8d719784bab926c2992562206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Identifier: SceneObject
+  slow: 0
+  slowDuration: 0
+  slowPercentage: 0
+  hasten: 0
+  hastenDuration: 0
+  hastenPercentage: 0
+  root: 0
+  rootDuration: 0
+  ground: 0
+  groundDuration: 0
+  silence: 0
+  silenceDuration: 0
+  stun: 1
+  stunDuration: 1.5
+  weaken: 0
+  weakenDuration: 0
+  weakenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  strengthen: 0
+  strengthenDuration: 0
+  strengthenDistribution:
+    structure: 0
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0
+    air: 0
+    nature: 0
+  fragile: 0
+  fragileDuration: 0
+  fragilePercentage: 0
+  tough: 0
+  toughDuration: 0
+  toughPercentage: 0
+  changeManaRegen: 0
+  changeDuration: 0
+  changePercentage: 0
+  healing: 0
+  healFlatAmount: 0
+  healPercentAmount: 0
+  healGreyHealthMultiplier: 0.5
+  manaDrain: 0
+  manaDrainFlatAmount: 0
+  manaDrainPercentAmount: 0
+  camouflage: 0
+  camouflageDuration: 0
+  slowFall: 0
+  slowFallDuration: 0
+  slowFallPercent: 0
+  cleanse: 0
+  cure: 0
+  isContinuous: 0
+  canHitSelf: 0
+  onlyHitSelf: 0
+  isAffectedBySpellStrength: 1
+  isManualTriggerOnly: 0
 --- !u!1 &856683439302583088
 GameObject:
   m_ObjectHideFlags: 0
