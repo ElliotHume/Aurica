@@ -110,7 +110,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Jump) && !isRooted && !isStunned && !isChannelling && !isBeingDisplaced && !jumping && Grounded && !groundedStatusEffect) {
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Jump) && !isRooted && !isStunned && !isChannelling && !jumping && Grounded && !groundedStatusEffect) {
             animator.SetTrigger("Jump");
             jumping = true;
         }
@@ -129,7 +129,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
             running = true;
         }
 
-        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isChannelling && !isBeingDisplaced && !gameUIManager.IsEditingInputField());
+        animator.SetBool("Moving", (h != 0f || v != 0f) && !isRooted && !isChannelling && !gameUIManager.IsEditingInputField());
         animator.SetBool("Running", running);
         animator.SetFloat("Forwards-Backwards", h);
         animator.SetFloat("Right-Left", v);
@@ -139,7 +139,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
         // Apply motion after turning
         Vector3 oldPosition = transform.position;
-        if (!isChannelling && !isRooted && !isStunned && !isBeingDisplaced && !gameUIManager.IsEditingInputField()) {
+        if (!isChannelling && !isRooted && !isStunned && !gameUIManager.IsEditingInputField()) {
             if ((!casting || (slowFall && !Grounded))) {
                 // Create momentum, speeding up if you move in the same direction
                 if (Mathf.Approximately(v, 0f)){ 
@@ -164,7 +164,12 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         }
 
         // Apply impact force:
-        if (impact.magnitude > 0.2) characterController.Move(impact * Time.deltaTime);
+        if (impact.magnitude > 0.2) {
+            isBeingDisplaced = true;
+            characterController.Move(impact * Time.deltaTime);
+        } else {
+            isBeingDisplaced = false;
+        }
 
         // Consume the impact energy each cycle:
         float impactConsumptionMultiplier = (Grounded ? 5f : 2.5f) * (groundedStatusEffect ? 2f : 1f);
@@ -211,7 +216,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     }
 
     public bool CanCast() {
-        return !isStunned && !casting && (Grounded || slowFall) && !isBeingDisplaced && (!jumping || slowFall);
+        return !isStunned && !casting && (Grounded || slowFall) && (!jumping || slowFall);
     }
 
     public void EndCast() {
@@ -277,7 +282,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
     public void Displace(Vector3 direction, float distance, float speed, bool isWorldSpaceDirection) {
         // TODO: Animation system
-        if (isBeingDisplaced || groundedStatusEffect) return;
+        if (groundedStatusEffect) return;
         AddImpact(direction, distance * speed, isWorldSpaceDirection);
     }
 

@@ -49,7 +49,7 @@ public class CloudLoadoutUIPanel : MonoBehaviour
         dict.Add("r-3", bindR3);
         dict.Add("f-3", bindF3);
         dict.Add("1-3", bind13);
-        dict.Add("2-3", bind33);
+        dict.Add("2-3", bind23);
         dict.Add("3-3", bind33);
         dict.Add("4-3", bind43);
 
@@ -58,7 +58,7 @@ public class CloudLoadoutUIPanel : MonoBehaviour
         dict.Add("r-4", bindR4);
         dict.Add("f-4", bindF4);
         dict.Add("1-4", bind14);
-        dict.Add("2-4", bind34);
+        dict.Add("2-4", bind24);
         dict.Add("3-4", bind34);
         dict.Add("4-4", bind44);
     }

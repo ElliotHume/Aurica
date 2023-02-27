@@ -21312,10 +21312,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1883121797763144209, guid: 93bfa0c9171d033499bd84bd727dd52d,
+        type: 3}
+      propertyPath: playerOriented
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1883121797763144210, guid: 93bfa0c9171d033499bd84bd727dd52d,
         type: 3}
       propertyPath: m_Name
       value: Spell_ReapersShadow
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1934621399876103998, guid: 93bfa0c9171d033499bd84bd727dd52d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 93bfa0c9171d033499bd84bd727dd52d, type: 3}

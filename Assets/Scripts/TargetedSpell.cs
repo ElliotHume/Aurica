@@ -42,7 +42,7 @@ public class TargetedSpell : Spell {
     // Update is called once per frame
     void Update() {
         if (FollowsTarget && TargetGO != null && !durationEnded) {
-            transform.position = TargetGO.transform.position + PositionOffset;
+            transform.position = TargetGO.transform.position + (TargetGO.transform.right * PositionOffset.x) + (TargetGO.transform.up * PositionOffset.y) + (TargetGO.transform.forward * PositionOffset.z);
         }
     }
 
@@ -63,8 +63,8 @@ public class TargetedSpell : Spell {
         TargetEM = targetGO.GetComponent<Enemy>();
         TargetTD = targetGO.GetComponent<TargetDummy>();
 
-        transform.position = targetGO.transform.position + PositionOffset;
-        transform.rotation = targetGO.transform.rotation;
+        transform.position = TargetGO.transform.position + (TargetGO.transform.right * PositionOffset.x) + (TargetGO.transform.up * PositionOffset.y) + (TargetGO.transform.forward * PositionOffset.z);
+        transform.rotation = TargetGO.transform.rotation;
 
         if (TargetPM != null) photonView.RPC("NetworkSetPlayerTarget", RpcTarget.All, TargetPM.GetUniqueName());
     }
@@ -77,7 +77,7 @@ public class TargetedSpell : Spell {
         TargetGO = pm.gameObject;
         TargetPM = pm;
 
-        transform.position = TargetGO.transform.position + PositionOffset;
+        transform.position = TargetGO.transform.position + (TargetGO.transform.right * PositionOffset.x) + (TargetGO.transform.up * PositionOffset.y) + (TargetGO.transform.forward * PositionOffset.z);
         transform.rotation = TargetGO.transform.rotation;
     }
 
