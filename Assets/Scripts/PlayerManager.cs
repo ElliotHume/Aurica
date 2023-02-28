@@ -1046,6 +1046,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (spell.isMasterySpell && !MasteryManager.Instance.HasMasteryForSpell(spell)) {
             linkedSpellResource = spell.masteryFailedSpellResource != "" ? spell.masteryFailedSpellResource : "XCollision_Fizzle";
             TipWindow.Instance.ShowTip("Not Enough Mastery", "To cast this spell properly you need more mastery with "+spell.masteryCategory.ToString()+" spells", 4f);
+            auricaCaster.ResetCast();
         }
 
         // Load spell resource

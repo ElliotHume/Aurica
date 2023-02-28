@@ -38,6 +38,11 @@ public class AuricaCaster : MonoBehaviourPun {
     // Start is called before the first frame update
     void Start() {
         if (aura == null) aura = GetComponent<Aura>();
+        DifficultyThresholds = new Dictionary<AuricaSpell.DifficultyRank, float>();
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank1, DIFFICULTY_RANK1_THRESHOLD);
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank2, DIFFICULTY_RANK2_THRESHOLD);
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank3, DIFFICULTY_RANK3_THRESHOLD);
+        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank4, DIFFICULTY_RANK4_THRESHOLD);
 
         if (PlayerPrefs.HasKey("CachedSpell_e")) {
             cachedSpells.Add("e", new CachedSpell(PlayerPrefs.GetString("CachedSpell_e")));
@@ -96,12 +101,6 @@ public class AuricaCaster : MonoBehaviourPun {
         }
 
         expertiseManager = ExpertiseManager.Instance;
-
-        DifficultyThresholds = new Dictionary<AuricaSpell.DifficultyRank, float>();
-        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank1, DIFFICULTY_RANK1_THRESHOLD);
-        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank2, DIFFICULTY_RANK2_THRESHOLD);
-        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank3, DIFFICULTY_RANK3_THRESHOLD);
-        DifficultyThresholds.Add(AuricaSpell.DifficultyRank.Rank4, DIFFICULTY_RANK4_THRESHOLD);
     }
 
     void Awake() {

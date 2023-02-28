@@ -61,21 +61,20 @@ public class SpellUIDisplay : MonoBehaviour {
             AuricaCaster.LocalCaster.CastBindSlot("f");
             CheckComponents();
         }
-
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            // If the player double taps enter when searching for a component, add the component to the spell.
-            if (GameUIPanelManager.Instance.HasSelectedInputField()) {
-                if (addAttempted) {
-                    AddComponentFromComponentDisplay();
-                    addAttempted = false;
-                } else {
-                    addAttempted = true;
-                }
-            } else {
-                AddComponentFromComponentDisplay();
-            }
-            
-        }
+        
+        // if (Input.GetKeyDown(KeyCode.Return)) {
+        //     // If the player double taps enter when searching for a component, add the component to the spell.
+        //     if (GameUIPanelManager.Instance.HasSelectedInputField()) {
+        //         if (addAttempted) {
+        //             AddComponentFromComponentDisplay();
+        //             addAttempted = false;
+        //         } else {
+        //             addAttempted = true;
+        //         }
+        //     } else {
+        //         AddComponentFromComponentDisplay();
+        //     }
+        // }
     }
 
     public void AddComponentFromComponentDisplay() {

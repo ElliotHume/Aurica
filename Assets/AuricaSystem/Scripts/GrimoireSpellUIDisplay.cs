@@ -70,7 +70,14 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
             auraCompatibilityText.text = "Excellent";
             auraCompatibilityColor.color = excellentColor;
         }
-        if (spellStrengthText != null) spellStrengthText.text = string.Format("{0:N2}", spellStrength * 100f) + "%";
+        if (spellStrengthText != null) {
+            spellStrengthText.text = string.Format("{0:N2}", spellStrength * 100f) + "%";
+            if ((spell.difficultyRank == AuricaSpell.DifficultyRank.Rank3 && spellStrength < AuricaSpell.RANK3_SPELL_STRENGTH_CUTOFF) || (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank4 && spellStrength < AuricaSpell.RANK4_SPELL_STRENGTH_CUTOFF)) {
+                spellStrengthText.color = Color.red;
+            } else {
+                spellStrengthText.color = Color.black;
+            }
+        }
         if (startingManaCostText != null) startingManaCostText.text = string.Format("{0:N2}", startingManaCost);
 
         if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank1) {

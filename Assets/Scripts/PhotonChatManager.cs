@@ -120,7 +120,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener {
 		}
 	}
 
-	private void SendChatMessage(string inputLine) {
+	public void SendChatMessage(string inputLine) {
 		if (string.IsNullOrEmpty(inputLine)) {
 			return;
 		}
@@ -142,7 +142,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener {
 	}
 
 	public void OnSubscribed(string[] channels, bool[] results) {
-		this.chatClient.PublishMessage(Channel, "says 'hi'."); // you don't HAVE to send a msg on join but you could.
+		this.chatClient.PublishMessage(Channel, "has joined."); // you don't HAVE to send a msg on join but you could.
 	}
 
     /// <inheritdoc />

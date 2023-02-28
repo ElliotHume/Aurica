@@ -16,7 +16,8 @@ public class GrimoirePureSpellUIDisplay : MonoBehaviour {
     private bool isHidden = true;
     private Glyph[] allComponentGlyphs;
     private AuricaSpellComponent[] allSpellComponents;
-    private List<UIGlyphDisplay> allGlyphDisplays; 
+    private List<UIGlyphDisplay> allGlyphDisplays;
+    private List<AuricaSpellComponent> basisComponents, formComponents, focusComponents, actionComponents;
 
     // Start is called before the first frame update
     void Start() {
@@ -53,11 +54,13 @@ public class GrimoirePureSpellUIDisplay : MonoBehaviour {
         divine.SetActive(spell.DivineSpell != null);
         demonic.SetActive(spell.DemonicSpell != null);
 
-        List<AuricaSpellComponent> basisComponents = allSpellComponents.Where((s) => s.classification == spell.SpellBasis).ToList();
-        List<AuricaSpellComponent> formComponents = allSpellComponents.Where((s) => s.classification == spell.SpellForm).ToList();
-        List<AuricaSpellComponent> focusComponents = allSpellComponents.Where((s) => s.classification == spell.SpellFocus).ToList();
-        List<AuricaSpellComponent> actionComponents = allSpellComponents.Where((s) => s.classification == spell.SpellAction).ToList();
+        basisComponents = allSpellComponents.Where((s) => s.classification == spell.SpellBasis).ToList();
+        formComponents = allSpellComponents.Where((s) => s.classification == spell.SpellForm).ToList();
+        focusComponents = allSpellComponents.Where((s) => s.classification == spell.SpellFocus).ToList();
+        actionComponents = allSpellComponents.Where((s) => s.classification == spell.SpellAction).ToList();
 
+        CastSpellComponents();
+        
         int i = 0;
         foreach( var glyphDisplay in basis) {
             if (i > basisComponents.Count-1) continue;
@@ -87,6 +90,16 @@ public class GrimoirePureSpellUIDisplay : MonoBehaviour {
             i++;
         }
 
+    }
+
+    public void CastSpellComponents() {
+        if (spell != null && spell.c_name != null && basisComponents.Count > 0 && formComponents.Count > 0 && focusComponents.Count > 0 && actionComponents.Count > 0 ) {
+            AuricaCaster.LocalCaster.ResetCast();
+            AuricaCaster.LocalCaster.AddComponent(basisComponents[0]);
+            AuricaCaster.LocalCaster.AddComponent(formComponents[0]);
+            AuricaCaster.LocalCaster.AddComponent(focusComponents[0]);
+            AuricaCaster.LocalCaster.AddComponent(actionComponents[0]);
+        }
     }
 
     public void ShowSpell() {

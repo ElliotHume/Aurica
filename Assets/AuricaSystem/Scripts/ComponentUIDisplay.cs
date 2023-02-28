@@ -55,7 +55,7 @@ public class ComponentUIDisplay : MonoBehaviour {
 
     public void UpdateComponentByName(string componentName) {
         foreach (AuricaSpellComponent c in allComponents) {
-            if (c.c_name == componentName) {
+            if (c.c_name.ToLower() == componentName.ToLower()) {
                 UpdateComponent(c);
                 break;
             }

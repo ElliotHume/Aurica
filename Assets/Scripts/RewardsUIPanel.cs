@@ -147,7 +147,7 @@ public class RewardsUIPanel : MonoBehaviour {
                 addedDistribution.nature -= changePerButtonPress;
                 break;
         }
-        usedRewardPoints = addedDistribution.GetAggregate();
+        usedRewardPoints = Mathf.Round(addedDistribution.GetAggregate() * 1000f) / 1000f;
         // Debug.Log("Used reward points: "+usedRewardPoints+"      dist: "+addedDistribution.ToString());
         Rerender();
     }

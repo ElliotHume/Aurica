@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void StartRoomLeave() {
         if (!MasteryManager.Instance.synced) MasteryManager.Instance.SyncMasteries();
+        if (PhotonChatManager.Instance != null) PhotonChatManager.Instance.SendChatMessage("has left.");
         StartCoroutine(WaitLeaveRoom());
     }
 
