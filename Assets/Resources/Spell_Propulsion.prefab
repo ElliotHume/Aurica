@@ -66,10 +66,10 @@ MonoBehaviour:
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
   OneShotEffect: 1
-  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 0
   SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 5
+  StartTimeDelay: 0
   DeactivateObjectsAfterDuration:
   - {fileID: 4229060496445319031}
   - {fileID: 4229467806137410759}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displacementDistance: 15
   displacementSpeed: 12
-  displacementDirection: {x: 0, y: 2, z: -1}
+  displacementDirection: {x: 0, y: 2, z: 2}
   canHitSelf: 1
   isKnockback: 0
   isVacuum: 0

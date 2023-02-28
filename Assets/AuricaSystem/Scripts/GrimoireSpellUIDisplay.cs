@@ -7,7 +7,7 @@ using TMPro;
 
 public class GrimoireSpellUIDisplay : MonoBehaviour {
     public Text title, description;
-    public TMP_Text auraCompatibilityText, spellStrengthText, difficultyRankText;
+    public TMP_Text auraCompatibilityText, spellStrengthText, difficultyRankText, startingManaCostText;
     public Image auraCompatibilityColor, difficultyRankColour;
     public DistributionUIDisplay targetDistDisplay;
     public GameObject placeholder, displayPanel;
@@ -51,6 +51,7 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
 
         AuricaCaster.LocalCaster.CastSpellByObject(s);
         float spellStrength = AuricaCaster.LocalCaster.GetSpellStrength();
+        float startingManaCost = AuricaCaster.LocalCaster.GetManaCost();
         if (standalone) AuricaCaster.LocalCaster.ResetCast();
 
         if (spellStrength <= 0.5) {
@@ -69,7 +70,8 @@ public class GrimoireSpellUIDisplay : MonoBehaviour {
             auraCompatibilityText.text = "Excellent";
             auraCompatibilityColor.color = excellentColor;
         }
-        spellStrengthText.text = string.Format("{0:N2}", spellStrength * 100f) + "%";
+        if (spellStrengthText != null) spellStrengthText.text = string.Format("{0:N2}", spellStrength * 100f) + "%";
+        if (startingManaCostText != null) startingManaCostText.text = string.Format("{0:N2}", startingManaCost);
 
         if (spell.difficultyRank == AuricaSpell.DifficultyRank.Rank1) {
             difficultyRankText.text = "Rank 1 - Easy";

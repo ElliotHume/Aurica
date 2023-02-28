@@ -38,6 +38,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
     private PlayerParticleManager particleManager;
     private CharacterMaterialManager materialManager;
     private GameUIPanelManager gameUIManager;
+    private InputManager inputManager;
 
     Vector3 networkPosition;
     Quaternion networkRotation;
@@ -89,6 +90,8 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         castAnimationTypes.Add(9, "2H Hand Channel");
         castAnimationTypes.Add(10, "2H Clap Cast");
         castAnimationTypes.Add(11, "2h Explosion Cast FAST");
+
+        inputManager = InputManager.Instance;
     }
 
     // Update is called once per frame
@@ -106,16 +109,17 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         }
         if (!animator) return;
         if (gameUIManager == null) gameUIManager = GameUIPanelManager.Instance;
+        if (inputManager == null) inputManager = InputManager.Instance;
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Jump) && !isRooted && !isStunned && !isChannelling && !jumping && Grounded && !groundedStatusEffect) {
+        if (inputManager.GetKeyDown(KeybindingActions.Jump) && (gameUIManager != null && gameUIManager.ShouldProcessInputs()) && !isRooted && !isStunned && !isChannelling && !jumping && Grounded && !groundedStatusEffect) {
             animator.SetTrigger("Jump");
             jumping = true;
         }
 
-        if (InputManager.Instance.GetKey(KeybindingActions.Sneak)) {
+        if (inputManager.GetKey(KeybindingActions.Sneak)) {
             if (running) {
                 movementSpeed /= 3f;
                 playerManager.Sneak();
