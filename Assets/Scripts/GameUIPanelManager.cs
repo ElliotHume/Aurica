@@ -61,8 +61,11 @@ public class GameUIPanelManager : MonoBehaviour {
         cloudLoadoutPanel.activeInHierarchy ||
         masteryPanel.activeInHierarchy ||
         settingsPanel.activeInHierarchy ||
-        chatManager.IsChatActive ||
         spellDiscoveryPopupPanel.activeInHierarchy);
+    }
+
+    public bool IsChatOpen() {
+        return chatManager.IsChatActive;
     }
 
     public void CloseAllMenus(GameObject exception=null) {
@@ -84,7 +87,7 @@ public class GameUIPanelManager : MonoBehaviour {
 
         // Bring up the Menu
         if (inputManager.GetKeyDown(KeybindingActions.Menu)) {
-            if (IsAMenuOpen()) {
+            if (IsAMenuOpen() || IsChatOpen()) {
                 CloseAllMenus();
                 return;
             }
@@ -99,14 +102,14 @@ public class GameUIPanelManager : MonoBehaviour {
 
         // Bring up the spell crafting menu
         if (inputManager.GetKeyDown(KeybindingActions.CraftingMenu)) {
-            if (IsAMenuOpen()) CloseAllMenus(spellCraftingPanel);
+            if (IsAMenuOpen() || IsChatOpen()) CloseAllMenus(spellCraftingPanel);
             spellCraftingPanel.SetActive(!spellCraftingPanel.activeInHierarchy);
             glyphDrawingToggledOn = false;
         }
 
         // Bring up spell list menu
         if (inputManager.GetKeyDown(KeybindingActions.GrimoireMenu)) {
-            if (IsAMenuOpen()) CloseAllMenus(spellListPanel);
+            if (IsAMenuOpen() || IsChatOpen()) CloseAllMenus(spellListPanel);
             spellListPanel.SetActive(!spellListPanel.activeInHierarchy);
         }
 

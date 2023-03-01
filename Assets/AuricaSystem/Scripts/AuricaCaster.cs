@@ -16,6 +16,7 @@ public class AuricaCaster : MonoBehaviourPun {
 
     // Lists of all components and spells
     private AuricaSpellComponent[] allComponents;
+    private AuricaCompoundComponent[] allCompoundComponents;
     private AuricaSpell[] allSpells;
     private AuricaPureSpell[] allPureSpells;
 
@@ -106,6 +107,7 @@ public class AuricaCaster : MonoBehaviourPun {
     void Awake() {
         if (photonView.IsMine) AuricaCaster.LocalCaster = this;
         allComponents = Resources.LoadAll<AuricaSpellComponent>("AuricaSpellComponents");
+        allCompoundComponents = Resources.LoadAll<AuricaCompoundComponent>("AuricaCompoundComponents");
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
         allPureSpells = Resources.LoadAll<AuricaPureSpell>("AuricaPureSpells");
         currentComponents = new List<AuricaSpellComponent>();
@@ -134,6 +136,14 @@ public class AuricaCaster : MonoBehaviourPun {
         foreach (AuricaSpellComponent c in allComponents) {
             if (c.c_name == componentName) {
                 AddComponent(c);
+                break;
+            }
+        }
+        foreach (AuricaCompoundComponent c in allCompoundComponents) {
+            if (c.c_name == componentName) {
+                foreach (AuricaSpellComponent sc in c.components) {
+                    AddComponent(sc);
+                }
                 break;
             }
         }
