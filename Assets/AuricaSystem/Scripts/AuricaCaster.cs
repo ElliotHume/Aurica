@@ -305,6 +305,11 @@ public class AuricaCaster : MonoBehaviourPun {
         }
         if (spellMatch != null) {
             spellStrength = CalculateSpellStrength(spellMatch.difficultyRank, spellMatch.GetError(spellMatch.GetManaType(distribution), distribution));
+            if (spellMatch.CheckComponents(drawnComponents, distribution)) {
+                // Drawn out spells have a static spell strength addition
+                // This is so that higher difficulty spells can be drawn out and still have a chance at success.
+                spellStrength += expertiseAdjustedMagewritStrengthBonus;
+            }
             currentSpellMatch = spellMatch.GetAuricaSpell(spellMatch.GetManaType(currentDistribution));
             return spellMatch;
         }

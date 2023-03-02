@@ -15092,7 +15092,7 @@ Transform:
   m_GameObject: {fileID: 9216324553300928219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.235912, y: 2.44, z: -7.003351}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 3392736300630728850}
   - {fileID: 4364852465949505469}
@@ -15284,6 +15284,7 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  healGreyHealthMultiplier: 0.5
   manaDrain: 1
   manaDrainFlatAmount: 40
   manaDrainPercentAmount: 20
