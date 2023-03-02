@@ -72,6 +72,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [HideInInspector]
     public Dictionary<KeybindingActions, RecastSpell> activeRecastSpells = new Dictionary<KeybindingActions, RecastSpell>();
 
+    // Is the player actively drawing glyphs
+    [HideInInspector]
+    public bool isDrawing = false;
+
     public AudioSource CastingSound, DeathSound, HitSound, HitMarkerSound, HitMarkerAoESound;
 
     private Animator animator;
@@ -221,6 +225,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             stream.SendNext(manaRestorationBuff);
             stream.SendNext(camouflaged);
             stream.SendNext(slowFall);
+
+            // Auxiliary effects data
+            stream.SendNext(isDrawing);
         } else {
             // Network player, receive data
             // CRITICAL DATA
@@ -246,6 +253,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             this.manaRestorationBuff = (bool)stream.ReceiveNext();
             this.camouflaged = (bool)stream.ReceiveNext();
             this.slowFall = (bool)stream.ReceiveNext();
+
+            // Auxiliary effects data
+            this.isDrawing = (bool)stream.ReceiveNext();
         }
     }
 
@@ -1342,6 +1352,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     public void EndCast() {
         particleManager.StopHandParticles(!sneaking);
     }
+
+    public void ToggleDrawingEffects(bool flag) {
+        isDrawing = flag;
+    }
+
+    // public void StartDrawing() {
+    //     particleManager.StartDrawingParticles();
+    // }
+
+    // public void StopDrawing() {
+    //     particleManager.StopDrawingParticles();
+    // }
 
 
     private float GetHighestEffectValue(Dictionary<string, float> effects) {

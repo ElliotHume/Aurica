@@ -22,13 +22,14 @@ public class AuricaCaster : MonoBehaviourPun {
 
     // Runtime variables
     private List<AuricaSpell> discoveredSpells;
-    private List<AuricaSpellComponent> currentComponents;
+    private List<AuricaSpellComponent> currentComponents, drawnComponents;
     private ManaDistribution currentDistribution;
     private float currentManaCost, spellStrength;
     private AuricaSpell currentSpellMatch;
     private ComponentUIPanel cpUI;
     private DistributionUIDisplay distDisplay;
     private ExpertiseManager expertiseManager;
+    private PlayerManager playerManager;
 
     private float STARTING_EXPERTISE_MULTIPLIER = 1f, STARTING_EXPERTISE_BASE = 0.5f, STARTING_EXPERTISE_MINIMUM = 0.5f;
     private float expertiseMultiplier, expertiseBase, expertiseMinimum;
@@ -102,6 +103,7 @@ public class AuricaCaster : MonoBehaviourPun {
         }
 
         expertiseManager = ExpertiseManager.Instance;
+        playerManager = GetComponent<PlayerManager>();
     }
 
     void Awake() {
@@ -111,6 +113,7 @@ public class AuricaCaster : MonoBehaviourPun {
         allSpells = Resources.LoadAll<AuricaSpell>("AuricaSpells");
         allPureSpells = Resources.LoadAll<AuricaPureSpell>("AuricaPureSpells");
         currentComponents = new List<AuricaSpellComponent>();
+        drawnComponents = new List<AuricaSpellComponent>();
         currentDistribution = new ManaDistribution();
         cachedSpells = new Dictionary<string, CachedSpell>();
         discoveredSpells = new List<AuricaSpell>();
@@ -132,24 +135,28 @@ public class AuricaCaster : MonoBehaviourPun {
         return DifficultyThresholds[rank];
     }
 
-    public void AddComponent(string componentName) {
+    public void AddComponent(string componentName, bool drawn=false) {
         foreach (AuricaSpellComponent c in allComponents) {
             if (c.c_name == componentName) {
-                AddComponent(c);
-                break;
+                AddComponent(c, drawn);
+                return;
             }
         }
         foreach (AuricaCompoundComponent c in allCompoundComponents) {
             if (c.c_name == componentName) {
-                foreach (AuricaSpellComponent sc in c.components) {
-                    AddComponent(sc);
+                if (!MasteryManager.Instance.HasMasteryForCompoundComponent(c)) {
+                    TipWindow.Instance.ShowTip("Not Enough Mastery", "To cast this compound component properly you need more mastery in magewrighting.", 4f);
+                    return;
                 }
-                break;
+                foreach (AuricaSpellComponent sc in c.components) {
+                    AddComponent(sc, drawn);
+                }
+                return;
             }
         }
     }
 
-    public void AddComponent(AuricaSpellComponent newComponent) {
+    public void AddComponent(AuricaSpellComponent newComponent, bool drawn=false) {
         currentComponents.Add(newComponent);
         currentManaCost += newComponent.GetManaCost(aura.GetAura());
         ManaDistribution oldMd = currentDistribution;
@@ -160,6 +167,10 @@ public class AuricaCaster : MonoBehaviourPun {
 
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
         if (cpUI != null) cpUI.AddComponent(newComponent);
+        if (drawn) {
+            drawnComponents.Add(newComponent);
+            playerManager.ToggleDrawingEffects(true);
+        }
     }
 
     public void RemoveLastComponent() {
@@ -247,6 +258,9 @@ public class AuricaCaster : MonoBehaviourPun {
             if (discoveredSpells.Count > 0 && !discoveredSpells.Contains(spell) && (!spell.isMasterySpell || MasteryManager.Instance.HasMasteryForSpell(spell))) {
                 DiscoveryManager.Instance.Discover(spell);
             }
+            if (!spell.keyComponents.Except(drawnComponents).Any()) {
+                MasteryManager.Instance.AddMasteries(new List<MasteryManager.MasteryCategories>(){MasteryManager.MasteryCategories.Magewright}, spell.difficultyRank);
+            }
             return spell;
         }
         return null;
@@ -312,11 +326,13 @@ public class AuricaCaster : MonoBehaviourPun {
     public void ResetCast() {
         // Debug.Log("Resetting Aurica Cast");
         currentComponents.Clear();
+        drawnComponents.Clear();
         currentManaCost = 0f;
         currentDistribution = new ManaDistribution();
         currentSpellMatch = null;
         if (cpUI != null) cpUI.HideAllComponents();
         if (distDisplay != null) distDisplay.SetDistribution(currentDistribution);
+        playerManager.ToggleDrawingEffects(false);
     }
 
     public AuricaSpell CastBindSlot(string slot) {

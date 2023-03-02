@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class PlayerParticleManager : MonoBehaviour {
 
     public GameObject defaultParticles;
-    private bool defaultParticlesPlaying = true;
+    private bool defaultParticlesPlaying = true, drawingParticlesPlaying = false;
     public GameObject r_auric, r_order, r_chaos, r_life, r_death, r_fire, r_water, r_earth, r_air, r_divine, r_demonic;
     public GameObject l_auric, l_order, l_chaos, l_life, l_death, l_fire, l_water, l_earth, l_air, l_divine, l_demonic;
 
     public List<GameObject> slowFX, hasteFX, rootFX, groundFX, stunFX, silenceFX, weakenFX, strengthenFX, fragileFX, toughFX, manaBuffFX, manaDebuffFX, healingFX, slowfallFX;
     public List<ParticleSystem> cleanseFX, cureFX, manaDrainFX, boostFX;
+    public List<GameObject> drawingParticles;
+    private bool isDrawing;
     private bool slowed, hastened, rooted, grounded, stunned, silenced, weakened, strengthened, fragile, tough, manaBuff, manaDebuff, healing, slowfall;
 
     PlayerManager playerManager;
@@ -145,6 +148,14 @@ public class PlayerParticleManager : MonoBehaviour {
                 manaDebuff = false;
             }
         }
+
+        if (playerManager.isDrawing && !isDrawing && !playerManager.camouflaged) {
+            StartDrawingParticles();
+            isDrawing = true;
+        } else if ((!playerManager.isDrawing && isDrawing) || (isDrawing && playerManager.camouflaged)) {
+            StopDrawingParticles();
+            isDrawing = false;
+        }
     }
 
     public void ActivateEffectParticles(List<GameObject> effects) {
@@ -273,5 +284,34 @@ public class PlayerParticleManager : MonoBehaviour {
         foreach(ParticleSystem go in boostFX) {
             go.Play();
         }
+    }
+
+    public void StartDrawingParticles() {
+        if (drawingParticlesPlaying) return;
+        foreach(var particle in drawingParticles) particle.SetActive(true);
+        ParticleSystem[] particles = new ParticleSystem[]{};
+        VisualEffect[] visualFX = new VisualEffect[]{};
+        foreach(var particleGO in drawingParticles) {
+            particles = particleGO.GetComponentsInChildren<ParticleSystem>();
+            foreach(var particle in particles) particle.Play();
+            visualFX = particleGO.GetComponentsInChildren<VisualEffect>();
+            foreach(var effect in visualFX) effect.Play();
+        }
+        StopDefaultParticles();
+        drawingParticlesPlaying = true;
+    }
+
+    public void StopDrawingParticles() {
+        if (!drawingParticlesPlaying) return;
+        ParticleSystem[] particles = new ParticleSystem[]{};
+        VisualEffect[] visualFX = new VisualEffect[]{};
+        foreach(var particleGO in drawingParticles) {
+            particles = particleGO.GetComponentsInChildren<ParticleSystem>();
+            foreach(var particle in particles) particle.Stop();
+            visualFX = particleGO.GetComponentsInChildren<VisualEffect>();
+            foreach(var effect in visualFX) effect.Stop();
+        }
+        StartDefaultParticles();
+        drawingParticlesPlaying = false;
     }
 }

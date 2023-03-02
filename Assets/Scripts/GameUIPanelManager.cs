@@ -129,13 +129,13 @@ public class GameUIPanelManager : MonoBehaviour {
 
         // Bring up the personal class loadout menu
         if (inputManager.GetKeyDown(KeybindingActions.LoadoutMenu)) {
-            if (IsAMenuOpen()) CloseAllMenus(cloudLoadoutPanel);
+            if (IsAMenuOpen() || IsChatOpen()) CloseAllMenus(cloudLoadoutPanel);
             cloudLoadoutPanel.SetActive(!cloudLoadoutPanel.activeInHierarchy);
         }
 
         // Bring up the spell mastery loadout menu
         if (inputManager.GetKeyDown(KeybindingActions.MasteryMenu)) {
-            if (IsAMenuOpen()) CloseAllMenus(masteryPanel);
+            if (IsAMenuOpen() || IsChatOpen()) CloseAllMenus(masteryPanel);
             masteryPanel.SetActive(!masteryPanel.activeInHierarchy);
         }
 

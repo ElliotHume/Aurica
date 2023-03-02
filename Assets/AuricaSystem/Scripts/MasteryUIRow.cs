@@ -13,6 +13,7 @@ public class MasteryUIRow : MonoBehaviour {
     public Text noviceSpellText, adeptSpellText, masterSpellText, legendSpellText, ValueText;
     public Image noviceSpellIcon, adeptSpellIcon, masterSpellIcon, legendSpellIcon;
     public Color lockedColor;
+    public GameObject noviceCompoundComponents, adeptCompoundComponents, masterCompoundComponents, legendCompoundComponents;
 
     private AuricaSpell[] allSpells;
     private List<AuricaSpell> spellsList = new List<AuricaSpell>();
@@ -41,6 +42,35 @@ public class MasteryUIRow : MonoBehaviour {
         if (ValueText != null) ValueText.text = mastery.ToString();
         float sliderValue = Mathf.Min(mastery, 10f) + (22 * Mathf.Clamp(mastery-10f, 0f, 90f)/100f) + (34 * Mathf.Clamp(mastery-110f, 0f, 890f)/1000f) + (45 * Mathf.Clamp(mastery-1110f, 0f, 8890f)/10000f);
         masterySlider.value = Mathf.Clamp(sliderValue, 0f, 100f);
+
+        if (noviceCompoundComponents != null) {
+            if (mastery >= MasteryManager.MasteryThresholds[MasteryManager.MasteryLevel.Novice]) {
+                noviceCompoundComponents.SetActive(true);
+            } else {
+                noviceCompoundComponents.SetActive(false);
+            }
+        }
+        if (adeptCompoundComponents != null) {
+            if (mastery >= MasteryManager.MasteryThresholds[MasteryManager.MasteryLevel.Adept]) {
+                adeptCompoundComponents.SetActive(true);
+            } else {
+                adeptCompoundComponents.SetActive(false);
+            }
+        }
+        if (masterCompoundComponents != null) {
+            if (mastery >= MasteryManager.MasteryThresholds[MasteryManager.MasteryLevel.Master]) {
+                masterCompoundComponents.SetActive(true);
+            } else {
+                masterCompoundComponents.SetActive(false);
+            }
+        }
+        if (legendCompoundComponents != null) {
+            if (mastery >= MasteryManager.MasteryThresholds[MasteryManager.MasteryLevel.Legend]) {
+                legendCompoundComponents.SetActive(true);
+            } else {
+                legendCompoundComponents.SetActive(false);
+            }
+        }
 
         if (spellsList != null && spellsList.Count == 0) {
             Debug.Log("No mastery spells found for: "+category.ToString());

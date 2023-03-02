@@ -4865,14 +4865,15 @@ MonoBehaviour:
   CastAnimationType: 7
   CastingAnchor: transform
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 1
   OneShotEffect: 1
-  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 1
   SpellStrengthChangesDuration: 1
   DestroyTimeDelay: 5
+  StartTimeDelay: 0
   DeactivateObjectsAfterDuration:
   - {fileID: 6469829141419433482}
   PositionOffset: {x: 0, y: 1, z: 0}
@@ -4937,6 +4938,7 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 5
   healPercentAmount: 5
+  healGreyHealthMultiplier: 0.5
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
@@ -4964,8 +4966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacementDistance: 10
-  displacementSpeed: 15
+  displacementDistance: 20
+  displacementSpeed: 10
   displacementDirection: {x: 0, y: 0.33, z: 1}
   canHitSelf: 0
   isKnockback: 0

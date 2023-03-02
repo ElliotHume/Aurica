@@ -11,15 +11,15 @@ public class MasteryManager : MonoBehaviour {
         Novice, Adept, Master, Legend
     };
     public static Dictionary<MasteryLevel, int> MasteryThresholds = new Dictionary<MasteryLevel, int>{
-        {MasteryManager.MasteryLevel.Novice, 10},
-        {MasteryManager.MasteryLevel.Adept, 100},
-        {MasteryManager.MasteryLevel.Master, 1000},
-        {MasteryManager.MasteryLevel.Legend, 10000},
+        {MasteryLevel.Novice, 10},
+        {MasteryLevel.Adept, 100},
+        {MasteryLevel.Master, 1000},
+        {MasteryLevel.Legend, 10000},
     };
 
     public enum MasteryCategories {
         Auric, Order, Chaos, Life, Death, Fire, Water, Earth, Air, Divine, Demonic,
-        Movement, Battlemage, Support, Defender
+        Movement, Battlemage, Support, Defender, Magewright
     };
 
     public static MasteryManager Instance;
@@ -27,7 +27,7 @@ public class MasteryManager : MonoBehaviour {
     [HideInInspector]
     public int AuricMastery, OrderMastery, ChaosMastery, LifeMastery, DeathMastery, FireMastery, WaterMastery, EarthMastery, AirMastery, DivineMastery, DemonicMastery;
     [HideInInspector]
-    public int MovementMastery, BattlemageMastery, SupportMastery, DefenderMastery;
+    public int MovementMastery, BattlemageMastery, SupportMastery, DefenderMastery, MagewrightMastery;
     [HideInInspector]
     public Dictionary<MasteryCategories, int> Masteries = new Dictionary<MasteryCategories, int>();
     [HideInInspector]
@@ -58,6 +58,7 @@ public class MasteryManager : MonoBehaviour {
         cloudKeys.Add("BattlemageMastery", MasteryCategories.Battlemage);
         cloudKeys.Add("SupportMastery", MasteryCategories.Support);
         cloudKeys.Add("DefenderMastery", MasteryCategories.Defender);
+        cloudKeys.Add("MagewrightMastery", MasteryCategories.Magewright);
 
         Masteries = new Dictionary<MasteryCategories, int>();
         Masteries.Add(MasteryCategories.Auric, AuricMastery);
@@ -75,6 +76,7 @@ public class MasteryManager : MonoBehaviour {
         Masteries.Add(MasteryCategories.Battlemage, BattlemageMastery);
         Masteries.Add(MasteryCategories.Support, SupportMastery);
         Masteries.Add(MasteryCategories.Defender, DefenderMastery);
+        Masteries.Add(MasteryCategories.Magewright, MagewrightMastery);
         StartCoroutine(SyncTimer());
 
         MasteryPerRank = new Dictionary<AuricaSpell.DifficultyRank, int>();
@@ -108,6 +110,11 @@ public class MasteryManager : MonoBehaviour {
         return !spell.isMasterySpell || (Masteries[spell.masteryCategory] >= MasteryThresholds[spell.masteryLevel]);
     }
 
+    public bool HasMasteryForCompoundComponent(AuricaCompoundComponent component) {
+        Debug.Log("Check mastery for compound component ["+component.c_name+"]  isMasterySpell: "+component.needsMastery+"   required mastery: "+MasteryThresholds[component.masteryLevel]+" player mastery: "+Masteries[MasteryCategories.Magewright]+"     FINAL VERDICT = "+(!component.needsMastery || (Masteries[MasteryCategories.Magewright] >= MasteryThresholds[component.masteryLevel])));
+        return !component.needsMastery || (Masteries[MasteryCategories.Magewright] >= MasteryThresholds[component.masteryLevel]);
+    }
+
     public void FetchMasteries() {
         fetching = true;
         PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);
@@ -132,7 +139,7 @@ public class MasteryManager : MonoBehaviour {
         if (categories.Count == 0 || rank == AuricaSpell.DifficultyRank.Rank1) return;
         foreach(MasteryCategories category in categories){
             Masteries[category] += MasteryPerRank[rank];
-            // Debug.Log("Added 1 mastery to "+category.ToString()+"  total mastery: "+Masteries[category]);
+            // Debug.Log("Added "+MasteryPerRank[rank]+" mastery to "+category.ToString()+"  total mastery: "+Masteries[category]);
             if (Masteries[category] == 10) {
                 RewardsManager.Instance.AddRewards(0.01f);
                 TipWindow.Instance.ShowTip(""+category.ToString()+" Novice Mastery", "You have achieved Novice mastery in "+category.ToString()+" magic. Achieving this milestone progresses your cultivation. Press \"M\" to view your mastery.", 10f);
@@ -214,5 +221,4 @@ public class MasteryManager : MonoBehaviour {
             Masteries[category] = int.Parse(splitMastery[1]);
         }
     }
-
 }
