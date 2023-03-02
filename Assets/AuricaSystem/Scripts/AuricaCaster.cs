@@ -37,6 +37,9 @@ public class AuricaCaster : MonoBehaviourPun {
     private float DIFFICULTY_RANK1_THRESHOLD = 3f, DIFFICULTY_RANK2_THRESHOLD = 2f, DIFFICULTY_RANK3_THRESHOLD = 1.25f, DIFFICULTY_RANK4_THRESHOLD = 0.66f;
     private Dictionary<AuricaSpell.DifficultyRank, float> DifficultyThresholds;
 
+    private float MAGEWRIT_STRENGTH_BONUS = 0.325f;
+    private float expertiseAdjustedMagewritStrengthBonus;
+
     // Start is called before the first frame update
     void Start() {
         if (aura == null) aura = GetComponent<Aura>();
@@ -103,6 +106,7 @@ public class AuricaCaster : MonoBehaviourPun {
         }
 
         expertiseManager = ExpertiseManager.Instance;
+        expertiseAdjustedMagewritStrengthBonus = MAGEWRIT_STRENGTH_BONUS;
         playerManager = GetComponent<PlayerManager>();
     }
 
@@ -128,6 +132,7 @@ public class AuricaCaster : MonoBehaviourPun {
         expertiseMultiplier = STARTING_EXPERTISE_MULTIPLIER - (0.02f * expertise);
         expertiseBase = STARTING_EXPERTISE_BASE + (0.015f * expertise);
         expertiseMinimum = Mathf.Clamp(STARTING_EXPERTISE_MINIMUM - (0.011f * expertise), 0.05f, STARTING_EXPERTISE_MINIMUM);
+        expertiseAdjustedMagewritStrengthBonus = MAGEWRIT_STRENGTH_BONUS + (0.004f * expertise);
         // Debug.Log("AuricaCaster has calculated expertise values -> multiplier: "+expertiseMultiplier+"  base: "+ expertiseBase+"  minimum: "+expertiseMinimum);
     }
 
@@ -274,12 +279,20 @@ public class AuricaCaster : MonoBehaviourPun {
             if (s.CheckComponents(components) && s.GetNumberOfMatchingComponents(components) > bestMatchCorrectComponents) {
                 spellMatch = s;
                 bestMatchCorrectComponents = s.GetNumberOfMatchingComponents(components);
-                spellStrength = CalculateSpellStrength(spellMatch.difficultyRank, spellMatch.GetError(distribution));
             }
         }
-
-        currentSpellMatch = spellMatch == null ? null : spellMatch;
-        return currentSpellMatch;
+        if (spellMatch != null)  {
+            spellStrength = CalculateSpellStrength(spellMatch.difficultyRank, spellMatch.GetError(distribution));
+            if (!spellMatch.keyComponents.Except(drawnComponents).Any()) {
+                // Drawn out spells have a static spell strength addition
+                // This is so that higher difficulty spells can be drawn out and still have a chance at success.
+                spellStrength += expertiseAdjustedMagewritStrengthBonus;
+            }
+            currentSpellMatch = spellMatch;
+            return spellMatch;
+        }
+        currentSpellMatch = null;
+        return null;
     }
 
     public AuricaPureSpell GetPureMagicSpellMatch(List<AuricaSpellComponent> components, ManaDistribution distribution) {
@@ -288,12 +301,15 @@ public class AuricaCaster : MonoBehaviourPun {
             // Debug.Log("Check Pure Spell: " + s.c_name + "   IsMatch: " + s.CheckComponents(components) + "     Error:  " + s.GetError(s.GetManaType(distribution), distribution));
             if (s.CheckComponents(components, distribution)) {
                 spellMatch = s;
-                spellStrength = CalculateSpellStrength(spellMatch.difficultyRank, s.GetError(s.GetManaType(distribution), distribution));
-                // Debug.Log("Pure match: "+s.c_name+"   mana type:"+s.GetManaType(distribution)+"  error:"+s.GetError(s.GetManaType(distribution), distribution));
             }
         }
-        currentSpellMatch = spellMatch == null ? null : spellMatch.GetAuricaSpell(spellMatch.GetManaType(currentDistribution));
-        return spellMatch == null ? null : spellMatch;
+        if (spellMatch != null) {
+            spellStrength = CalculateSpellStrength(spellMatch.difficultyRank, spellMatch.GetError(spellMatch.GetManaType(distribution), distribution));
+            currentSpellMatch = spellMatch.GetAuricaSpell(spellMatch.GetManaType(currentDistribution));
+            return spellMatch;
+        }
+        currentSpellMatch = null;
+        return null;
     }
 
     private float CalculateSpellStrength(AuricaSpell.DifficultyRank rank, float error) {
