@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5acb7855c0e4fbca88d7ab62c96283, type: 3}
+  m_Name: AzmodansArena
+  m_EditorClassIdentifier: 
+  c_name: Azmodan's Arena
+  manaType: 10
+  description: 
+  targetDistribution:
+    structure: -0.2
+    essence: 0
+    fire: 0
+    water: 0
+    earth: 0.34
+    air: 0.13
+    nature: -0.85
+  keyComponents:
+  - {fileID: 11400000, guid: 751db08e913374239a7d5ff6b0ba730e, type: 2}
+  - {fileID: 11400000, guid: 1875e51a877c04dfd8a3337fec277761, type: 2}
+  - {fileID: 11400000, guid: 3cf948b2b89c1d141a59b48da8203c3a, type: 2}
+  - {fileID: 11400000, guid: c07f05fff5b634d4fa3765f236bb7e70, type: 2}
+  - {fileID: 11400000, guid: 3b94403fe60b4433f8914e88089b077a, type: 2}
+  masteries: 0a0000000c000000
+  isMasterySpell: 0
+  masteryCategory: 0
+  masteryLevel: 0
+  masteryFailedSpellResource: 
+  isAuric: 0
+  baseManaCost: 40
+  componentManaMultiplier: 0.5
+  difficultyRank: 1
+  linkedSpellResource: Spell_AzmodansArena

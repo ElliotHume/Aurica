@@ -1201,43 +1201,49 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
                 GameObject newSpell = PhotonNetwork.Instantiate(currentSpellCast, aimTransform.position, aimTransform.rotation);
                 Mana -= auricaCaster.GetManaCost();
 
-                Spell spell = newSpell.GetComponent<Spell>();
-                if (spell != null) {
-                    spell.SetSpellStrength(auricaCaster.GetSpellStrength());
-                    spell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
-                    spell.SetOwner(gameObject);
-                    spell.SetExpertiseParameters(ExpertiseManager.Instance.GetExpertise());
-                    Mana += spell.ManaRefund;
-                } else {
-                    Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
+                Spell[] spells = newSpell.GetComponentsInChildren<Spell>();
+                foreach(Spell spell in spells) {
+                    // Spell spell = newSpell.GetComponent<Spell>();
+                    if (spell != null) {
+                        spell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                        spell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
+                        spell.SetOwner(gameObject);
+                        spell.SetExpertiseParameters(ExpertiseManager.Instance.GetExpertise());
+                        Mana += spell.ManaRefund;
+                    } else {
+                        Debug.Log("Could not grab <Spell> Object from newly instantiated spell");
+                    }
                 }
 
-                RecastSpell newRecastSpell = newSpell.GetComponent<RecastSpell>();
-                if (newRecastSpell != null) {
-                    newRecastSpell.SetSpellStrength(auricaCaster.GetSpellStrength());
-                    newRecastSpell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
-                    newRecastSpell.SetOwner(gameObject);
-                    newRecastSpell.SetExpertiseParameters(ExpertiseManager.Instance.GetExpertise());
+                
+                RecastSpell[] recastSpells = newSpell.GetComponentsInChildren<RecastSpell>();
+                foreach(RecastSpell newRecastSpell in recastSpells) {
+                    // RecastSpell newRecastSpell = newSpell.GetComponent<RecastSpell>();
+                    if (newRecastSpell != null) {
+                        newRecastSpell.SetSpellStrength(auricaCaster.GetSpellStrength());
+                        newRecastSpell.SetSpellDamageModifier(aura.GetInnateStrength() + strengths - weaknesses);
+                        newRecastSpell.SetOwner(gameObject);
+                        newRecastSpell.SetExpertiseParameters(ExpertiseManager.Instance.GetExpertise());
 
-                    activeRecastSpells.Add(preparedSpellKey, newRecastSpell);
+                        activeRecastSpells.Add(preparedSpellKey, newRecastSpell);
+                    }
                 }
 
                 if (currentSpellIsSelfTargeted) {
                     currentSpellIsSelfTargeted = false;
-                    TargetedSpell targetedSpell = newSpell.GetComponent<TargetedSpell>();
-                    if (targetedSpell != null) targetedSpell.SetTarget(gameObject);
-                    AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
-                    if (aoeSpell != null) aoeSpell.SetTarget(gameObject);
+                    TargetedSpell[] targetedSpells = newSpell.GetComponentsInChildren<TargetedSpell>();
+                    AoESpell[] aoeSpells = newSpell.GetComponentsInChildren<AoESpell>();
+                    foreach(TargetedSpell targetedSpell in targetedSpells) targetedSpell.SetTarget(gameObject);
+                    foreach(AoESpell aoeSpell in aoeSpells) aoeSpell.SetTarget(gameObject);
                 } else if (currentSpellIsOpponentTargeted) {
                     currentSpellIsOpponentTargeted = false;
-                    TargetedSpell ts = newSpell.GetComponent<TargetedSpell>();
-                    AoESpell aoeSpell = newSpell.GetComponent<AoESpell>();
+                    TargetedSpell[] targetedSpells = newSpell.GetComponentsInChildren<TargetedSpell>();
+                    AoESpell[] aoeSpells = newSpell.GetComponentsInChildren<AoESpell>();
 
                     GameObject target = GetPlayerWithinAimTolerance(2f);
                     if (target != null) {
-                        // Debug.Log("Target found: " + target);
-                        if (ts != null) ts.SetTarget(target);
-                        if (aoeSpell != null) aoeSpell.SetTarget(target);
+                        foreach(TargetedSpell targetedSpell in targetedSpells) targetedSpell.SetTarget(target);
+                        foreach(AoESpell aoeSpell in aoeSpells) aoeSpell.SetTarget(target);
                     }
                 }
             } else {
