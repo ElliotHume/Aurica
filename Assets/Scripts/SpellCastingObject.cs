@@ -18,11 +18,11 @@ public class SpellCastingObject : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate() {
         if (active) {
-            cooldown += Time.deltaTime;
-            if (cooldown >= timeBetweenCasts) {
+            if (cooldown <= 0.1f) {
                 Shoot();
-                cooldown = 0f;
+                cooldown = timeBetweenCasts;
             }
+            cooldown -= Time.deltaTime;
         }
     }
 

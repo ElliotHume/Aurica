@@ -18854,7 +18854,6 @@ GameObject:
   - component: {fileID: 1173006846591398225}
   - component: {fileID: 1173006846591398230}
   - component: {fileID: 2399453664516434618}
-  - component: {fileID: 2768878566221550494}
   m_Layer: 6
   m_Name: Spell_BitingWind
   m_TagString: Spell
@@ -18991,6 +18990,7 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  healGreyHealthMultiplier: 0.5
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
@@ -19089,18 +19089,6 @@ MonoBehaviour:
   Delay: 0
   MaximumStress: 0.2
   Range: 60
---- !u!114 &2768878566221550494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173006846591398232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2439291270131189407
 GameObject:
   m_ObjectHideFlags: 0

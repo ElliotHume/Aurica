@@ -9793,6 +9793,7 @@ MonoBehaviour:
   HomingDetectionSphereRadius: 1.5
   TrackingProjectile: 1
   TrackingTurnSpeed: 100
+  SpellStrengthChangesSpeed: 0
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 2
   MaxDistance: 0
@@ -9805,11 +9806,7 @@ MonoBehaviour:
   LocalCollisionEffectsUseHitNormal: 1
   NetworkCollisionEffectsUseHitNormal: 1
   NetworkCollisionEffectsOnlyOnHitGround: 0
-  DeactivateObjectsOnCollision:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  DeactivateObjectsOnCollision: []
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}

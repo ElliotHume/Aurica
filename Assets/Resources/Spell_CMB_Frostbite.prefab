@@ -28232,6 +28232,7 @@ MonoBehaviour:
   HomingDetectionSphereRadius: 1
   TrackingProjectile: 0
   TrackingTurnSpeed: 0
+  SpellStrengthChangesSpeed: 0
   CollisionOffset: 0
   CollisionDestroyTimeDelay: 5
   MaxDistance: 0
@@ -28313,6 +28314,7 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  healGreyHealthMultiplier: 0.5
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
@@ -28388,7 +28390,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5380626153865885591}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
