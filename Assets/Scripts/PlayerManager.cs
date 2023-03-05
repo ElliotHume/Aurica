@@ -18,7 +18,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [Tooltip("The current Health of our player")]
     public float Health = 100f;
     private float healing = 0f;
-    private float greyHealth = 0f;
+
+    [HideInInspector]
+    public float greyHealth = 0f;
 
     [Tooltip("The current Mana pool of our player")]
     public float Mana = 100f;
@@ -228,6 +230,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             // Auxiliary effects data
             stream.SendNext(isDrawing);
+            // stream.SendNext(isShielded);
         } else {
             // Network player, receive data
             // CRITICAL DATA
@@ -256,6 +259,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
             // Auxiliary effects data
             this.isDrawing = (bool)stream.ReceiveNext();
+            // this.isShielded = (bool)stream.ReceiveNext();
         }
     }
 
@@ -471,6 +475,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (Health <= 0f && !dead) {
             Die();
         }
+        
         if (photonView.IsMine) {
             if (respawning && !dead && immunityTimer <= 2f) {
                 immunityTimer += Time.deltaTime;
@@ -639,6 +644,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (photonView.IsMine && lastPlayerToDamageSelf != GetUniqueName()) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
         }
 
+        photonView.RPC("SendDeathEvent", RpcTarget.All, lastPlayerToDamageSelf);
+
         ObjectiveSphere[] objectiveSpheres = FindObjectsOfType<ObjectiveSphere>();
         foreach( ObjectiveSphere os in objectiveSpheres) os.DropIfHolding(this); 
     }
@@ -651,6 +658,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         RootBone.transform.parent = transform;
 
         HardReset();
+    }
+
+    [PunRPC]
+    public void SendDeathEvent(string killerID) {
+        Debug.Log("Player ["+killerID+"] got a kill!");
+        if (photonView.IsMine && killerID == GetUniqueName()){
+            Debug.Log("I Killed someone");
+            greyHealth = Mathf.Max(0f, greyHealth-25f);
+            healing += 10f;
+        }
     }
 
     [PunRPC]
@@ -1495,7 +1512,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     // ManaDrain - drain mana by a flat value and/or a percentage of missing health
     [PunRPC]
     void ManaDrain(float flat, float percentage) {
-        if (isShielded) return;
         particleManager.PlayManaDrainFX();
         if (photonView.IsMine) {
             // Debug.Log("Draining Mana by - flat: "+flat+" & percentage: "+percentage+" = "+(Mana * percentage));

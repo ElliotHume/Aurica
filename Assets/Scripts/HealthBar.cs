@@ -15,7 +15,7 @@ public class HealthBar : MonoBehaviour
     }
 
     public void LerpTowards(float health) {
-        slider.value = Mathf.Lerp(slider.value, health, Time.deltaTime);
+        slider.value = Mathf.Lerp(slider.value, health, Time.deltaTime * 2f);
         if (text != null) text.text = health.ToString(health >= 10 ? "F0" : "F2");
     }
 

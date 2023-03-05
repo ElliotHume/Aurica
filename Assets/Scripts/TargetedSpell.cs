@@ -82,7 +82,7 @@ public class TargetedSpell : Spell {
     }
 
     void OneShot() {
-        if (hasActivated) return;
+        if (hasActivated || !photonView.IsMine) return;
         hasActivated = true;
         if (Damage > 0f && TargetPM != null) {
             PhotonView pv = PhotonView.Get(TargetPM);

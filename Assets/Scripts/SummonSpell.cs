@@ -32,7 +32,6 @@ public class SummonSpell : Spell, IPunObservable {
             networkPosition = (Vector3) stream.ReceiveNext();
             networkRotation = (Quaternion) stream.ReceiveNext();
             transform.localScale = (Vector3)stream.ReceiveNext();
-
             float lag = Mathf.Abs((float) (PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (velocity * lag);
         }
@@ -46,10 +45,11 @@ public class SummonSpell : Spell, IPunObservable {
                 Duration *= GetSpellStrength();
                 DestroyTimeDelay *= GetSpellStrength();
             }
-            if (DestroyTimeDelay > 0f) Invoke("DestroySelf", DestroyTimeDelay);
-            if (Duration > 0f) Invoke("DisableCollisions", Duration);
-            
+            Invoke("DestroySelf", DestroyTimeDelay+StartTimeDelay);
+            Invoke("DisableCollisions", Duration+StartTimeDelay);
+            Invoke("EndSpell", Duration+StartTimeDelay);
         }
+
         if (Rising) {
             if (Destination == Vector3.zero) Destination = transform.localPosition;
             transform.position -= AlignToZAxis ? transform.forward * StartingOffset : transform.up * StartingOffset;
@@ -61,8 +61,6 @@ public class SummonSpell : Spell, IPunObservable {
             DisableCollisions();
             Invoke("Enable", StartTimeDelay);
         }
-        if (Duration > 0f) Invoke("DisableParticlesAfterDuration", Duration);
-        if (DestroyTimeDelay > 0f) Invoke("PlayDestructionParticles", DestroyTimeDelay - 0.1f);
         //if (RotationOffset != Vector3.zero) transform.Rotate(RotationOffset);
 
         foreach (var effect in RisingParticles) {
@@ -108,12 +106,24 @@ public class SummonSpell : Spell, IPunObservable {
 
     void DisableCollisions() {
         active = false;
-        if (GetComponent<Collider>() != null) GetComponent<Collider>().enabled = false;
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach(Collider collider in colliders ) collider.enabled = false;
     }
 
     void Enable() {
         active = true;
-        GetComponent<Collider>().enabled = true;
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach(Collider collider in colliders ) collider.enabled = true;
+    }
+
+    void EndSpell() {
+        photonView.RPC("StopParticles", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void StopParticles() {
+        DisableParticlesAfterDuration();
+        PlayDestructionParticles();
     }
 
     void PlayDestructionParticles() {
@@ -126,6 +136,10 @@ public class SummonSpell : Spell, IPunObservable {
     void DisableParticlesAfterDuration() {
         foreach (var effect in DeactivateObjectsAfterDuration) {
             if (effect != null) effect.SetActive(false);
+        }
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (var effect in particles) {
+            if (effect != null) effect.Stop();
         }
     }
 

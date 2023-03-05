@@ -23,6 +23,10 @@ public class CharacterUI : MonoBehaviourPun {
     [SerializeField]
     private Slider playerHealthSlider;
 
+    [Tooltip("UI Slider to display Player's Grey Health")]
+    [SerializeField]
+    private Slider playerGreyHealthSlider;
+
     public GameObject boostIndicator, boostIndicatorContainer;
     public Transform cam;
 
@@ -62,6 +66,11 @@ public class CharacterUI : MonoBehaviourPun {
         // Reflect the Player Health
         if (playerHealthSlider != null) {
             playerHealthSlider.value = target.Health;
+        }
+
+        // Reflect the Player Grey Health
+        if (playerGreyHealthSlider != null) {
+            playerGreyHealthSlider.value = target.greyHealth;
         }
 
         List<string> statusEffects = new List<string>();

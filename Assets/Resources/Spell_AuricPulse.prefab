@@ -9838,9 +9838,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c9232d3e194aaf8a4b3849dc116fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacementDistance: 15
-  displacementSpeed: 12
-  displacementDirection: {x: 0, y: 0.5, z: 1.5}
+  displacementDistance: 10
+  displacementSpeed: 10
+  displacementDirection: {x: 0, y: 0.75, z: 1.5}
   canHitSelf: 1
   isKnockback: 0
   isVacuum: 0
@@ -9940,8 +9940,8 @@ MonoBehaviour:
   toughDuration: 0
   toughPercentage: 0
   changeManaRegen: 1
-  changeDuration: 2
-  changePercentage: 40
+  changeDuration: 5
+  changePercentage: 20
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
@@ -9957,8 +9957,8 @@ MonoBehaviour:
   cleanse: 0
   cure: 0
   isContinuous: 0
-  canHitSelf: 0
-  onlyHitSelf: 0
+  canHitSelf: 1
+  onlyHitSelf: 1
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
 --- !u!114 &6182452621387558487
