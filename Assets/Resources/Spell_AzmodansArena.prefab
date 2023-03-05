@@ -61783,7 +61783,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 35
+  DestroyTimeDelay: 66
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -80852,6 +80852,7 @@ GameObject:
   - component: {fileID: 1244512492771466517}
   - component: {fileID: 1244512492771466522}
   - component: {fileID: 1244512492771466523}
+  - component: {fileID: 1693418971}
   m_Layer: 7
   m_Name: Spell_AzmodansArenaWall
   m_TagString: Spell
@@ -80911,7 +80912,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 35
+  DestroyTimeDelay: 66
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -81055,6 +81056,18 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &1693418971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244512492771466526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1244512492887629184
 GameObject:
   m_ObjectHideFlags: 0
@@ -85898,7 +85911,7 @@ GameObject:
   - component: {fileID: 1244512492965197299}
   - component: {fileID: 1244512492965197296}
   - component: {fileID: 1244512492965197297}
-  - component: {fileID: 1099062587}
+  - component: {fileID: 404214323}
   m_Layer: 7
   m_Name: Spell_AzmodansArenaWall
   m_TagString: Spell
@@ -85958,7 +85971,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 35
+  DestroyTimeDelay: 66
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -86102,7 +86115,7 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
---- !u!114 &1099062587
+--- !u!114 &404214323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105237,6 +105250,7 @@ GameObject:
   - component: {fileID: 2322515761337290391}
   - component: {fileID: 2322515761337290412}
   - component: {fileID: 2322515761337290413}
+  - component: {fileID: 1693418972}
   m_Layer: 7
   m_Name: Spell_AzmodansArenaWall
   m_TagString: Spell
@@ -105296,7 +105310,7 @@ MonoBehaviour:
   growBeforeStart: 0
   SpellStrengthChangesDuration: 0
   SpellStrengthChangesScale: 0
-  DestroyTimeDelay: 35
+  DestroyTimeDelay: 66
   StartTimeDelay: 0
   ScalingFactor: 0
   ScalingLimit: 0
@@ -105440,6 +105454,18 @@ MonoBehaviour:
   onlyHitSelf: 0
   isAffectedBySpellStrength: 1
   isManualTriggerOnly: 0
+--- !u!114 &1693418972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2322515761337290386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a054274092705d47b8cc27f27aab3bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2477575895978426396
 GameObject:
   m_ObjectHideFlags: 0

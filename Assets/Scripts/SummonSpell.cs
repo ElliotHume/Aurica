@@ -129,7 +129,7 @@ public class SummonSpell : Spell, IPunObservable {
     void PlayDestructionParticles() {
         foreach (var effect in DestructionParticles) {
             GameObject newEffect = Instantiate(effect, transform.position, transform.rotation);
-            Destroy(newEffect, DestroyTimeDelay);
+            Destroy(newEffect, 5f);
         }
     }
 
