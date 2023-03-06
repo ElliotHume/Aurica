@@ -644,7 +644,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             if (photonView.IsMine && lastPlayerToDamageSelf != GetUniqueName()) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
         }
 
-        photonView.RPC("SendDeathEvent", RpcTarget.All, lastPlayerToDamageSelf);
+        if (photonView.IsMine) photonView.RPC("SendDeathEvent", RpcTarget.All, lastPlayerToDamageSelf);
 
         ObjectiveSphere[] objectiveSpheres = FindObjectsOfType<ObjectiveSphere>();
         foreach( ObjectiveSphere os in objectiveSpheres) os.DropIfHolding(this); 
@@ -663,11 +663,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     public void SendDeathEvent(string killerID) {
         Debug.Log("Player ["+killerID+"] got a kill!");
-        if (photonView.IsMine && killerID == GetUniqueName()){
-            Debug.Log("I Killed someone");
-            greyHealth = Mathf.Max(0f, greyHealth-25f);
-            healing += 10f;
+        if (killerID != GetUniqueName() && killerID == PlayerManager.LocalInstance.GetUniqueName()) {
+            PlayerManager.LocalInstance.GetKillHealing();
         }
+    }
+
+    public void GetKillHealing() {
+        greyHealth = Mathf.Max(0f, greyHealth-25f);
+        healing += 10f;
     }
 
     [PunRPC]

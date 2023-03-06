@@ -147,6 +147,7 @@ public class CharacterUI : MonoBehaviourPun {
         playerTitleText.gameObject.SetActive(false);
         statusEffectText.gameObject.SetActive(false);
         playerHealthSlider.gameObject.SetActive(false);
+        playerGreyHealthSlider.gameObject.SetActive(false);
         boostIndicatorContainer.SetActive(false);
         permanentlyHidden = true;
     }
@@ -157,6 +158,7 @@ public class CharacterUI : MonoBehaviourPun {
         playerTitleText.gameObject.SetActive(false);
         statusEffectText.gameObject.SetActive(false);
         playerHealthSlider.gameObject.SetActive(false);
+        playerGreyHealthSlider.gameObject.SetActive(false);
         boostIndicatorContainer.SetActive(false);
         hidden = true;
     }
@@ -167,6 +169,7 @@ public class CharacterUI : MonoBehaviourPun {
         playerTitleText.gameObject.SetActive(true);
         statusEffectText.gameObject.SetActive(true);
         playerHealthSlider.gameObject.SetActive(true);
+        playerGreyHealthSlider.gameObject.SetActive(true);
         boostIndicatorContainer.SetActive(true);
         hidden = false;
     }
