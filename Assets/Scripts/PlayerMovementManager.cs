@@ -96,6 +96,7 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
 
     // Update is called once per frame
     void Update() {
+        Vector3 oldPosition = transform.position;
         if (!photonView.IsMine && PhotonNetwork.IsConnected) {
             float lerpSpeed = Mathf.Clamp(Vector3.Distance(transform.position, networkPosition), 3f, 10f);
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * movementSpeed * lerpSpeed);
@@ -143,7 +144,6 @@ public class PlayerMovementManager : MonoBehaviourPun, IPunObservable {
         transform.rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
 
         // Apply motion after turning
-        Vector3 oldPosition = transform.position;
         if (!isChannelling && !isRooted && !isStunned && !gameUIManager.IsEditingInputField()) {
             if ((!casting || (slowFall && !Grounded))) {
                 // Create momentum, speeding up if you move in the same direction

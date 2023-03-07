@@ -89,8 +89,10 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 layerSwitched = true;
             }
             if (!isCollided) {
-                if (networkPosition.magnitude > 0.05f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed) + (velocity * Time.deltaTime);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000);
+                oldPosition = transform.position;
+                if (networkPosition.magnitude > 0f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000f);
+                velocity = transform.position - oldPosition;
 
                 // If no collision has happened locally, but the network shows a collision, determine where the collision should occur and spawn it.
                 if (networkCollided) {
@@ -113,9 +115,8 @@ public class BasicProjectileSpell : Spell, IPunObservable
             }
         }
 
-        oldPosition = transform.position;
         UpdateWorldPosition();
-        velocity = transform.position - oldPosition;
+        
     }
 
     void OnCollisionEnter(Collision collision) {
@@ -145,9 +146,9 @@ public class BasicProjectileSpell : Spell, IPunObservable
 
         if (photonView.IsMine) {
             Invoke("DestroySelf", CollisionDestroyTimeDelay);
+            string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
             if (collision.gameObject.tag == "Player") {
                 PlayerManager pm = collision.gameObject.GetComponent<PlayerManager>();
-                string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
                 if (pm != null) {
                     PhotonView pv = PhotonView.Get(pm);
                     if (pv != null) {
@@ -168,7 +169,6 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 }
             } else if (collision.gameObject.tag == "Enemy") {
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-                string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
                 if (enemy != null) {
                     PhotonView pv = PhotonView.Get(enemy);
                     if (pv != null) {
@@ -176,6 +176,15 @@ public class BasicProjectileSpell : Spell, IPunObservable
                         pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
                         collidedViewId = pv.ViewID;
                         FlashHitMarker(true);
+                    }
+                }
+            } else if (collision.gameObject.tag == "Structure") {
+                Structure dmgobj = collision.gameObject.GetComponent<Structure>();
+                if (dmgobj != null) {
+                    PhotonView pv = PhotonView.Get(dmgobj);
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                        FlashHitMarker(!dmgobj.IsImmune() && !dmgobj.IsBroken());
                     }
                 }
             }

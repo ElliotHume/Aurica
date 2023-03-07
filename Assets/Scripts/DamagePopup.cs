@@ -124,6 +124,23 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
         StartCoroutine(FadeOut());
     }
 
+    public void ShowText(string newText) {
+        damage = 1f;
+
+        // Update text
+        text.text = newText;
+        damageSet = true;
+
+        // Unparent this object, we want it to appear in world space.
+        gameObject.transform.SetParent(null);
+
+        // Start drifting upwards
+        drift = true;
+
+        // Start the fade out after delay
+        StartCoroutine(FadeOut());
+    }
+
     public void AccumulatingDamagePopup(float dmg) {
         damageSet = true;
         damage = dmg;

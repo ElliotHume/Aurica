@@ -5496,10 +5496,10 @@ MonoBehaviour:
   IsSelfTargeted: 0
   IsOpponentTargeted: 1
   OneShotEffect: 1
-  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 1
   SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 10
+  StartTimeDelay: 0
   DeactivateObjectsAfterDuration:
   - {fileID: 5502465169403658299}
   - {fileID: 735445663314708253}
@@ -5604,6 +5604,7 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  healGreyHealthMultiplier: 0.5
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
