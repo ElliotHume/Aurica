@@ -56,14 +56,6 @@ public class Tower : Structure, IPunObservable {
         if (broken) return;
 
         if (photonView.IsMine) {
-            // Check if the structure has no more health.
-            if (Health <= 0f) {
-                Health = 0f;
-                LocalEffectExplode();
-                NetworkExplode();
-                return;
-            }
-
             // Get players inside the firing radius
             playersInRadius = GetPlayersInRadius();
 
@@ -91,14 +83,6 @@ public class Tower : Structure, IPunObservable {
                     break;
                 }
             }
-
-
-
-        } else {
-            // Remote clients
-            if (networkBroken && !broken) {
-                LocalEffectExplode();
-            }
         }
     }
 
@@ -109,11 +93,6 @@ public class Tower : Structure, IPunObservable {
             // Destroy any attacks left when the tower breaks
             foreach(GameObject playerGO in firingAtPlayers) {
                 PhotonNetwork.Destroy(activeAttacks[playerGO].gameObject);
-            }
-
-            // Remove the immunity for the next structures
-            foreach(Structure structure in EnableNextStructures) {
-                structure.SetImmunity(false);
             }
         }
         //TODO: Call MOBAMatchManager to do something when the tower explodes

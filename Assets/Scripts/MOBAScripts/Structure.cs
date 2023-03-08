@@ -31,6 +31,10 @@ public abstract class Structure : MonoBehaviourPun {
     [Tooltip("Disable the immunity of these structures when this one breaks")]
     [SerializeField]
     protected List<Structure> EnableNextStructures;
+
+    [Tooltip("Events to fire off when the structure takes damage")]
+    [SerializeField]
+    protected UnityEvent OnTakeDamage;
     
     [Tooltip("Transform to anchor the structure ui display")]
     [SerializeField]
@@ -46,7 +50,7 @@ public abstract class Structure : MonoBehaviourPun {
 
 
     protected float Health;
-    protected bool broken = false, networkBroken = false;
+    protected bool broken = false;
     protected GameObject UIDisplayGO;
     protected StructureUIDisplay UIDisplay;
 
@@ -54,13 +58,9 @@ public abstract class Structure : MonoBehaviourPun {
         if (stream.IsWriting) {
             // CRITICAL DATA
             stream.SendNext(Health);
-            stream.SendNext(Immune);
-            stream.SendNext(broken);
         } else {
             // CRITICAL DATA
             this.Health = (float)stream.ReceiveNext();
-            this.Immune = (bool)stream.ReceiveNext();
-            networkBroken = (bool)stream.ReceiveNext();
         }
     }
     
@@ -75,32 +75,6 @@ public abstract class Structure : MonoBehaviourPun {
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate() {
-        // If the structure has been broken, nothing more needs to be done to it.
-        if (broken) return;
-
-        if (photonView.IsMine) {
-            // Owner of the structure
-            if (Health <= 0f) {
-                Health = 0f;
-                LocalEffectExplode();
-                NetworkExplode();
-                return;
-            }
-        } else {
-            // Remote clients
-            if (networkBroken && !broken) {
-                LocalEffectExplode();
-            }
-        }
-    }
-
-    protected abstract void NetworkExplode();
-
-    protected abstract void LocalEffectExplode();
-
-
     [PunRPC]
     public virtual void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID = "") {
         if (!photonView.IsMine || broken) return;
@@ -109,6 +83,10 @@ public abstract class Structure : MonoBehaviourPun {
         // Apply the damage
         float finalDamage = Immune ? 0f : Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
         Health -= finalDamage;
+
+        if (finalDamage > 0f) {
+            photonView.RPC("TookDamage", RpcTarget.All);
+        }
 
         // Create damage popup
         GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", DamagePopupAnchor.position, DamagePopupAnchor.rotation, 0);
@@ -123,29 +101,59 @@ public abstract class Structure : MonoBehaviourPun {
         }
 
         Debug.Log("Structure ["+GetName()+"] was hit by ["+ownerID+"] for ["+finalDamage+"] damage. Remaining health: "+Health+ (Immune ? ". Structure is Immune!" : "."));
+
+
+        if (Health <= 0f) {
+            Health = 0f;
+            photonView.RPC("LocalBreak", RpcTarget.All);
+            NetworkBreakStructure();
+            NetworkExplode();
+        }
     }
+
+    [PunRPC]
+    public void TookDamage() {
+        OnTakeDamage.Invoke();
+    }
+
+    [PunRPC]
+    public void LocalBreak() {
+        LocalEffectExplode();
+    }
+
+    // ONLY RUN BY THE OWNER
+    // This method handles the events for breaking a structure that are common to all structures
+    private void NetworkBreakStructure() {
+        // Remove the immunity for the next structures
+        foreach(Structure structure in EnableNextStructures) {
+            structure.NetworkSetImmunity(false);
+        }
+    }
+
+    public void NetworkSetImmunity(bool immunity) {
+        if (photonView.IsMine) photonView.RPC("SetImmunity", RpcTarget.All, immunity);
+    }
+
+    [PunRPC]
+    public void SetImmunity(bool immunity) {
+        Immune = immunity;
+    }
+
+    /* -------------- ABSTRACT METHODS --------------------- */
+    protected abstract void NetworkExplode();
+
+    protected abstract void LocalEffectExplode();
 
     public abstract void Restore();
 
     public abstract string GetName();
 
-    public bool IsBroken() {
-        return broken;
-    }
+    /* -------------- GET METHODS --------------------- */
+    public bool IsBroken() { return broken; }
+    
+    public bool IsImmune() { return Immune; }
 
-    public bool IsImmune() {
-        return Immune;
-    }
+    public float GetHealth() { return Health; }
 
-    public void SetImmunity(bool immunity) {
-        Immune = immunity;
-    }
-
-    public float GetHealth() {
-        return Health;
-    }
-
-    public float GetStartingHealth() {
-        return StartingHealth;
-    }
+    public float GetStartingHealth() { return StartingHealth; }
 }
