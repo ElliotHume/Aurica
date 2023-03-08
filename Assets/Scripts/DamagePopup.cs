@@ -19,6 +19,7 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
     Vector3 velocity = Vector3.zero, startScale = Vector3.one;
     bool drift = false, damageSet = false, resized = false, shrunk = false;
     float damage;
+    string displayText;
 
 
     bool startAccumulatingDamage=false, endAccumulatingDamage=false;
@@ -26,10 +27,12 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
             stream.SendNext(damage);
+            stream.SendNext(displayText);
             stream.SendNext(startAccumulatingDamage);
             stream.SendNext(endAccumulatingDamage);
         } else {
             this.damage = (float)stream.ReceiveNext();
+            this.displayText = (string)stream.ReceiveNext();
             this.startAccumulatingDamage = (bool)stream.ReceiveNext();
             this.endAccumulatingDamage = (bool)stream.ReceiveNext();
         }
@@ -41,6 +44,10 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
 
     void Update() {
         if (!photonView.IsMine) {
+            if (displayText != null) {
+                text.text = displayText;
+                damageSet = true;
+            }
             if (startAccumulatingDamage) {
                 text.text = damage.ToString("F2");
                 damageSet = true;
@@ -125,7 +132,8 @@ public class DamagePopup : MonoBehaviourPun, IPunObservable
     }
 
     public void ShowText(string newText) {
-        damage = 1f;
+        damage = 0f;
+        displayText = newText;
 
         // Update text
         text.text = newText;

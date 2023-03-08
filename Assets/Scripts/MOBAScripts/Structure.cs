@@ -14,7 +14,8 @@ public abstract class Structure : MonoBehaviourPun {
 
     [Tooltip("Does the structure start with immunity")]
     [SerializeField]
-    protected bool Immune = false;
+    protected bool StartsImmune = false;
+    protected bool Immune;
 
     [Tooltip("How much health the nexus starts with")]
     [SerializeField]
@@ -67,11 +68,13 @@ public abstract class Structure : MonoBehaviourPun {
     // Start is called before the first frame update
     void Start() {
         Health = StartingHealth;
+        Immune = StartsImmune;
 
         if (StructureUIPrefab != null) {
             UIDisplayGO = Instantiate(StructureUIPrefab, UIDisplayAnchor.position, UIDisplayAnchor.rotation, transform);
             UIDisplay = UIDisplayGO.GetComponent<StructureUIDisplay>();
             UIDisplay.SetStructure(this);
+            UIDisplay.SetImmunity(Immune);
         }
     }
 
@@ -80,28 +83,32 @@ public abstract class Structure : MonoBehaviourPun {
         if (!photonView.IsMine || broken) return;
         ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
 
-        // Apply the damage
-        float finalDamage = Immune ? 0f : Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
+        // Check if the player is on the allied team
+        MOBAPlayer attackingPlayer = MOBAPlayer.GetMOBAPlayerFromID(ownerID);
+        bool isAllied = attackingPlayer.Side == Team;
+
+        // Apply the damage if the structure is not immune and the player is not on the same team
+        float finalDamage = Immune || isAllied ? 0f : Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
         Health -= finalDamage;
 
         if (finalDamage > 0f) {
             photonView.RPC("TookDamage", RpcTarget.All);
         }
 
-        // Create damage popup
-        GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", DamagePopupAnchor.position, DamagePopupAnchor.rotation, 0);
-        DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
-        if (dmgPopup != null) {
-            if (Immune) {
-                dmgPopup.ShowText("Immune");
-            } else {
-                dmgPopup.ShowDamage(finalDamage);
+        // Create damage popup if the player is on the opposing team
+        if (!isAllied) {
+            GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", DamagePopupAnchor.position, DamagePopupAnchor.rotation, 0);
+            DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
+            if (dmgPopup != null) {
+                if (Immune) {
+                    dmgPopup.ShowText("Immune");
+                } else {
+                    dmgPopup.ShowDamage(finalDamage);
+                }
+                dmgPopup.isSceneObject = true;
             }
-            dmgPopup.isSceneObject = true;
+            Debug.Log("Structure ["+GetName()+"] was hit by ["+ownerID+"] for ["+finalDamage+"] damage. Remaining health: "+Health+ (Immune ? ". Structure is Immune!" : "."));
         }
-
-        Debug.Log("Structure ["+GetName()+"] was hit by ["+ownerID+"] for ["+finalDamage+"] damage. Remaining health: "+Health+ (Immune ? ". Structure is Immune!" : "."));
-
 
         if (Health <= 0f) {
             Health = 0f;
@@ -123,11 +130,21 @@ public abstract class Structure : MonoBehaviourPun {
 
     // ONLY RUN BY THE OWNER
     // This method handles the events for breaking a structure that are common to all structures
-    private void NetworkBreakStructure() {
+    protected void NetworkBreakStructure() {
         // Remove the immunity for the next structures
         foreach(Structure structure in EnableNextStructures) {
             structure.NetworkSetImmunity(false);
         }
+    }
+
+    public void NetworkRestoreStructure() {
+        if (!photonView.IsMine) return;
+        photonView.RPC("ClientRestore", RpcTarget.All);
+    }
+
+    [PunRPC]
+    protected void ClientRestore() {
+        Restore();
     }
 
     public void NetworkSetImmunity(bool immunity) {
@@ -137,6 +154,21 @@ public abstract class Structure : MonoBehaviourPun {
     [PunRPC]
     public void SetImmunity(bool immunity) {
         Immune = immunity;
+        UIDisplay.SetImmunity(Immune);
+    }
+
+    public void NetworkResetImmunity() {
+        if (photonView.IsMine) photonView.RPC("ResetImmunity", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void ResetImmunity() {
+        Immune = StartsImmune;
+        UIDisplay.SetImmunity(Immune);
+    }
+
+    public void SetColors() {
+        UIDisplay.SetColors(MOBAPlayer.LocalPlayer.Side == Team);
     }
 
     /* -------------- ABSTRACT METHODS --------------------- */

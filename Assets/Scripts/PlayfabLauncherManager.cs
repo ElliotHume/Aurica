@@ -73,6 +73,7 @@ public class PlayfabLauncherManager : MonoBehaviourPun
     void OnLoginSuccess(LoginResult result) {
         MessageText.text = "Successful login!";
         GetAura();
+        GetPlayfabAccountInfo();
     }
 
     public void ResetPasswordButton () {
@@ -87,6 +88,14 @@ public class PlayfabLauncherManager : MonoBehaviourPun
         MessageText.text = "Password reset email sent!";
     }
 
+    public void GetPlayfabAccountInfo() {
+        PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), OnAccountRecieved, OnError);
+    }
+
+    void OnAccountRecieved (GetAccountInfoResult result) {
+        Debug.Log("Account found [PlayFabId: "+result.AccountInfo.PlayFabId+"]");
+        PlayerPrefs.SetString("PlayFabId", result.AccountInfo.PlayFabId);
+    }
 
     public void GetAura() {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);

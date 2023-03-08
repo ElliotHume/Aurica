@@ -51,7 +51,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener {
         this.chatClient.UseBackgroundWorkerForSending = true;
         this.chatClient.AuthValues = new AuthenticationValues(this.UserName);
 		this.chatClient.ConnectUsingSettings(this.chatAppSettings);
-		Debug.Log("Connecting as: " + this.UserName);
+		Debug.Log("Connecting to chat as: " + this.UserName);
 	}
 
     /// <summary>To avoid that the Editor becomes unresponsive, disconnect all Photon connections in OnDestroy.</summary>

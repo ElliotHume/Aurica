@@ -24,6 +24,7 @@ public class Nexus : Structure, IPunObservable {
         if (!photonView.IsMine) return;
         Debug.Log("Nexus NetworkExplode");
         //TODO: Call MOBAMatchManager to do something when the nexus explodes
+        MOBAMatchManager.Instance.NetworkMasterNexusBroken(Team);
     }
 
     protected override void LocalEffectExplode() {

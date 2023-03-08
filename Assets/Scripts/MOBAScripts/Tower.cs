@@ -61,6 +61,13 @@ public class Tower : Structure, IPunObservable {
 
             // For each player in the radius, if we dont already have an attack being fired at them, create the attack and set them as the target.
             foreach(GameObject playerGO in playersInRadius) {
+                MOBAPlayer mp = playerGO.GetComponent<MOBAPlayer>();
+                PlayerManager pm = playerGO.GetComponent<PlayerManager>();
+                // Do not attack players on the allied team
+                if (mp != null && mp.Side == Team) continue;
+                // Do not attack dead players
+                if (pm != null && pm.dead) continue;
+
                 if (!firingAtPlayers.Contains(playerGO)) {
                     firingAtPlayers.Add(playerGO);
                     GameObject newAttack = PhotonNetwork.Instantiate("ZZZTowerAttack", FiringAnchor.position, FiringAnchor.rotation);
@@ -73,9 +80,11 @@ public class Tower : Structure, IPunObservable {
                 }
             }
 
-            // For each player we are firing an attack at, check if they are still in the radius, if they are not, destroy the beam attacking them.
+            // For each player we are firing an attack at, check if they are still eligible to be attacked
+            // Players are no longer eligible if they are outside of the radius or they are dead
             foreach(GameObject playerGO in firingAtPlayers) {
-                if (!playersInRadius.Contains(playerGO)) {
+                PlayerManager pm = playerGO.GetComponent<PlayerManager>();
+                if (!playersInRadius.Contains(playerGO) || pm.dead) {
                     TowerAttack attackToDestroy = activeAttacks[playerGO];
                     activeAttacks.Remove(playerGO);
                     PhotonNetwork.Destroy(attackToDestroy.gameObject);
@@ -96,6 +105,7 @@ public class Tower : Structure, IPunObservable {
             }
         }
         //TODO: Call MOBAMatchManager to do something when the tower explodes
+        MOBAMatchManager.Instance.NetworkMasterTowerBroken(Team);
     }
 
     protected override void LocalEffectExplode() {

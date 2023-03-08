@@ -27,17 +27,21 @@ public class StructureUIDisplay : MonoBehaviour
     [SerializeField]
     public Color baseNameTextColor = Color.white;
 
-    [Tooltip("Base color for the structure's name")]
+    [Tooltip("Base color for the structure's health bar when it is on the opposing team")]
     [SerializeField]
-    public Color baseHealthFillColor = Color.red;
+    public Color baseOpponentHealthFillColor = Color.red;
+
+    [Tooltip("Base color for the structure's health bar when it is on the allied team")]
+    [SerializeField]
+    public Color baseAllyHealthFillColor = Color.green;
 
     [Tooltip("Color for the structure's name when it is Immune")]
     [SerializeField]
     private Color ImmuneColor = Color.cyan;
 
     private Structure structure = null;
-    private bool hidden = false, setImmunity = false;
-    private Color initialNameTextColor;
+    private bool hidden = false, setImmunity = false, immune = false, isAllied = false;
+    private Color initialNameTextColor, baseColor;
     private Transform cam;
 
     // Start is called before the first frame update
@@ -51,20 +55,6 @@ public class StructureUIDisplay : MonoBehaviour
         if (structure != null && !hidden) {
             // Set health bar value
             structureHealthSlider.value = structure.GetHealth();
-
-            // Set immunity icon and name text color
-            if (setImmunity != structure.IsImmune()) {
-                if (structure.IsImmune()) {
-                    immunityIndicator.SetActive(true);
-                    structureNameText.color = ImmuneColor;
-                    healthBarFill.color = ImmuneColor;
-                } else {
-                    immunityIndicator.SetActive(false);
-                    structureNameText.color = baseNameTextColor;
-                    healthBarFill.color = baseHealthFillColor;
-                }
-                setImmunity = structure.IsImmune();
-            }
         }
     }
 
@@ -76,6 +66,18 @@ public class StructureUIDisplay : MonoBehaviour
         structure = newStructure;
         structureNameText.text = newStructure.GetName();
         structureHealthSlider.maxValue = newStructure.GetStartingHealth();
+    }
+
+    public void SetImmunity(bool immunity) {
+        immune = immunity;
+        immunityIndicator.SetActive(immune);
+        structureNameText.color = immune ? ImmuneColor : baseNameTextColor;
+        healthBarFill.color = immune ? ImmuneColor : isAllied ? baseAllyHealthFillColor : baseOpponentHealthFillColor;
+    }
+
+    public void SetColors(bool ally) {
+        isAllied = ally;
+        healthBarFill.color = structure.IsImmune() ? ImmuneColor : isAllied ? baseAllyHealthFillColor : baseOpponentHealthFillColor;
     }
 
     public void Hide() {

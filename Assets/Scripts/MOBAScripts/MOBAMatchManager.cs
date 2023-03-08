@@ -26,6 +26,10 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     [SerializeField]
     private Transform EldenRespawnAnchor;
 
+    [Tooltip("Player spawn anchor for when the match is not started")]
+    [SerializeField]
+    private Transform GameStartSpawnAnchor;
+
     [Tooltip("List of all Novus structures")]
     [SerializeField]
     private List<Structure> NovusStructures;
@@ -34,9 +38,22 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     [SerializeField]
     private List<Structure> EldenStructures;
 
-    private float timer = 0f;
-    private bool matchStarted = false;
+    [Tooltip("How long to wait before ending the match after a nexus is destroyed")]
+    [SerializeField]
+    private float GameEndDelay;
 
+    [Tooltip("Music to play during the match")]
+    [SerializeField]
+    private AudioSource MatchMusic;
+    
+
+    private float timer = 0f;
+    private bool matchStarted = false, matchEnded = false;
+    private MOBATeam.Team winningTeam = MOBATeam.Team.None;
+    private List<Structure> AllStructures;
+
+    
+     /* HEADLINE: --------- PHOTON IPUNOBSERVABLE---------------------------------------------------------------------------------------------------------*/
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
             // CRITICAL DATA
@@ -47,6 +64,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         }
     }
 
+     /* HEADLINE: --------- MONOBEHAVIOUR METHODS---------------------------------------------------------------------------------------------------------*/
     // Awake is called when the object is instantiated
     void Awake() {
         MOBAMatchManager.Instance = this;
@@ -54,47 +72,266 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
     // Start is called before the first frame update
     void Start() {
-
+        AllStructures = new List<Structure>();
+        AllStructures.AddRange(NovusStructures);
+        AllStructures.AddRange(EldenStructures);
     }
 
-    // Update is called once per frame
     void FixedUpdate() {
         if (photonView.IsMine) {
-            if (matchStarted) {
+            if (matchStarted && !matchEnded) {
                 timer += Time.deltaTime;
+            } else {
+                timer = 0f;
             }
         } else {
 
         }
     }
 
-    public void NetworkStartMatch() {
+    void Update() {
+        if (photonView.IsMine && Input.GetKeyDown("u")) {
+            NetworkMasterStartMatch();
+        }
+        if (Input.GetKey("d") && Input.GetKey("e") && Input.GetKeyDown("b")) {
+            Debug.LogError("DEBUG --> Master client: "+photonView.IsMine);
+            Debug.LogError("timer: "+timer);
+            Debug.LogError("matchStarted: "+matchStarted+"   matchEnded: "+matchEnded);
+            Debug.LogError("winning team: "+winningTeam.ToString());
+            string novusplayers = "";
+            foreach(MOBAPlayer p in NovusTeam.GetPlayers()) { novusplayers += p.GetUniqueName()+" ";}
+            Debug.LogError("Novus players: "+novusplayers);
+            string eldenplayers = "";
+            foreach(MOBAPlayer p in EldenTeam.GetPlayers()) { eldenplayers += p.GetUniqueName()+" ";}
+            Debug.LogError("Elden players: "+eldenplayers);
+        }
+    }
+
+
+
+
+
+
+
+    /* HEADLINE: --------- MATCH START & STOP HANDLING---------------------------------------------------------------------------------------------------------*/
+
+    // CLIENT call this method to join a team, the request is then sent to the master client to apply the changes
+    public void NetworkClientJoinTeam(MOBATeam.Team Side) {
+        string playerId = MOBAPlayer.LocalPlayer.GetUniqueName();
+        photonView.RPC("MasterAddPlayerToTeam", RpcTarget.All, Side.ToString(), playerId);
+    }
+
+    // MASTER client recieves request to move player to a team
+    [PunRPC]
+    public void MasterAddPlayerToTeam(string teamName, string playerId) {
+        if (photonView.IsMine || matchStarted) return;
+        MOBAPlayer player = MOBAPlayer.GetMOBAPlayerFromID(playerId);
+        if (teamName == MOBATeam.Team.Novus.ToString()) {
+            NovusTeam.AddPlayer(player);
+        } else {
+            EldenTeam.AddPlayer(player);
+        }
+    }
+
+    // MASTER client call to start the match for everyone
+    public void NetworkMasterStartMatch() {
         if (!photonView.IsMine || matchStarted) return;
-        photonView.RPC("LocalStartMatch", RpcTarget.All);
+        // Restore all structures and reset immunity
+        foreach( Structure structure in AllStructures) {
+            structure.NetworkRestoreStructure();
+            structure.NetworkResetImmunity();
+        }
+
+        // Get All MOBA players in the lobby, if they are not on a team, assign them to one
+        MOBAPlayer[] allPlayers = FindObjectsOfType<MOBAPlayer>();
+        foreach(MOBAPlayer player in allPlayers) {
+            if (player.Side != MOBATeam.Team.None && (NovusTeam.GetPlayers().Contains(player) || EldenTeam.GetPlayers().Contains(player))) {
+                // Player has already been assigned to a team, do nothing
+                continue;
+            } else {
+                if (NovusTeam.GetPlayerCount() <= EldenTeam.GetPlayerCount()) {
+                    NovusTeam.AddPlayer(player);
+                } else {
+                    EldenTeam.AddPlayer(player);
+                }
+            }
+        }
+
+        // Format teams into a list of players to send to clients
+        string novusTeamPlayerNames = "";
+        string eldenTeamPlayerNames = "";
+        foreach(MOBAPlayer player in NovusTeam.GetPlayers()) { novusTeamPlayerNames += player.GetUniqueName()+"|"; }
+        foreach(MOBAPlayer player in EldenTeam.GetPlayers()) { eldenTeamPlayerNames += player.GetUniqueName()+"|"; }
+
+        photonView.RPC("ClientStartMatch", RpcTarget.All, novusTeamPlayerNames, eldenTeamPlayerNames);
     }
 
-    public void NetworkStopMatch() {
-        if (!photonView.IsMine || !matchStarted) return;
-        timer = 0f;
-        photonView.RPC("LocalStopMatch", RpcTarget.All);
-    }
-
+    // CLIENT response to NetworkStartMatch
+    // Even the master client will respond to this in the same way, to ensure a clarity of state
     [PunRPC]
-    public void LocalStartMatch() {
+    public void ClientStartMatch(string novusTeamPlayerNames, string eldenTeamPlayerNames) {
+        Debug.Log("START MATCH");
+        Debug.Log("NOVUS TEAM: "+novusTeamPlayerNames+"\nELDEN TEAM: "+eldenTeamPlayerNames);
+        MOBAPlayer[] allPlayers = FindObjectsOfType<MOBAPlayer>();
+        NovusTeam.ClearPlayers();
+        EldenTeam.ClearPlayers();
+        foreach(MOBAPlayer player in allPlayers) {
+            if (novusTeamPlayerNames.Contains(player.GetUniqueName())) {
+                // Add the player to the Novus team
+                NovusTeam.AddPlayer(player);
+                // These two methods will only be run by the owner of the player
+                player.Reset();
+                player.FuzzyTeleport(NovusRespawnAnchor);
+            } else if (eldenTeamPlayerNames.Contains(player.GetUniqueName())) {
+                // Add the player to the Elden team
+                EldenTeam.AddPlayer(player);
+                // These two methods will only be run by the owner of the player
+                player.Reset();
+                player.FuzzyTeleport(EldenRespawnAnchor);
+            } else {
+                Debug.LogError("Player not placed in a team: "+player.GetUniqueName());
+            }
+        }
+
+        // Set the structure team colors
+        foreach( Structure structure in AllStructures) {
+            structure.SetColors();
+        }
+
+
+        // Destroy all spells in the scene, they must be destroyed by their owner
+        Spell[] foundSpells = FindObjectsOfType<Spell>();
+        foreach(Spell spell in foundSpells) {
+            if (spell.photonView.IsMine) PhotonNetwork.Destroy(spell.photonView);
+        }
+        
+        // Set the team outline colors for all players
+        foreach(MOBAPlayer player in allPlayers) player.SetSideColor();
+        if (MatchMusic != null) MatchMusic.Play();
         matchStarted = true;
-
+        matchEnded = false;
     }
 
+    // MASTER client call to stop the match for everyone
+    public void NetworkMasterStopMatch() {
+        if (!photonView.IsMine || !matchStarted || matchEnded) return;
+        photonView.RPC("ClientStopMatch", RpcTarget.All);
+    }
+
+    // CLIENT response to NetworkStopMatch
     [PunRPC]
-    public void LocalStopMatch() {
+    public void ClientStopMatch() {
         matchStarted = false;
+        matchEnded = true;
+
+        MOBAPlayer[] allPlayers = FindObjectsOfType<MOBAPlayer>();
+        foreach(MOBAPlayer player in allPlayers) {
+            player.Reset();
+            player.FuzzyTeleport(GameStartSpawnAnchor);
+        }
+
+        // Destroy all spells in the scene, they must be destroyed by their owner
+        Spell[] foundSpells = FindObjectsOfType<Spell>();
+        foreach(Spell spell in foundSpells) {
+            if (spell.photonView.IsMine) PhotonNetwork.Destroy(spell.photonView);
+        }
+        if (MatchMusic != null) MatchMusic.Stop();
     }
 
+
+
+
+
+
+
+
+
+
+    /* HEADLINE: --------- MATCH OBJECTIVE HANDLING ---------------------------------------------------------------------------------------------------------*/
+
+    // MASTER
+    public void NetworkMasterNexusBroken(MOBATeam.Team Side) {
+        if (!photonView.IsMine) return;
+        photonView.RPC("ClientNexusBroken", RpcTarget.All, Side.ToString());
+    
+        // Grant immunity to all the structures of the winning team, remove it from the losing team's structures
+        if (Side == MOBATeam.Team.Novus) {
+            foreach(Structure structure in EldenStructures) { structure.NetworkSetImmunity(true); }
+            foreach(Structure structure in NovusStructures) { structure.NetworkSetImmunity(false); }
+        } else {
+            foreach(Structure structure in NovusStructures) { structure.NetworkSetImmunity(true); }
+            foreach(Structure structure in EldenStructures) { structure.NetworkSetImmunity(false); }
+        }
+
+        Invoke("NetworkMasterStopMatch", GameEndDelay);
+    }
+
+    // MASTER
+    public void NetworkMasterTowerBroken(MOBATeam.Team Side) {
+        if (!photonView.IsMine) return;
+        photonView.RPC("ClientTowerBroken", RpcTarget.All, Side.ToString());
+    }
+
+    //CLIENT
+    [PunRPC]
+    public void ClientNexusBroken(string side) {
+        winningTeam = (MOBATeam.Team)System.Enum.Parse( typeof(MOBATeam.Team), side );
+        Debug.Log("["+side+"] team Nexus destroyed!");
+        // TODO: Play announcement of nexus destruction
+    }
+
+    //CLIENT
+    [PunRPC]
+    public void ClientTowerBroken(string side) {
+        MOBATeam.Team towerTeam = (MOBATeam.Team)System.Enum.Parse( typeof(MOBATeam.Team), side );
+        Debug.Log("["+side+"] team Tower destroyed!");
+        // TODO: Play announcement of tower destruction
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* HEADLINE: --------- PLAYER DEATH HANDLING ---------------------------------------------------------------------------------------------------------*/
+
+    // CLIENT
+    public void PlayerDeath(PlayerManager player) {
+        if (player == PlayerManager.LocalInstance) {
+            // TODO: Increase client death count
+        }
+        StartCoroutine(RespawnPlayer(MOBAPlayer.GetMOBAPlayerFromPlayerManager(player)));
+    }
+
+    // CLIENT
+    public void NetworkPlayerDeath(string killerID) {
+        photonView.RPC("SendKillEvent", RpcTarget.All, killerID);
+    }
+
+    // CLIENT
+    [PunRPC]
+    public void SendKillEvent(string killerID) {
+        if (matchStarted) {
+            Debug.Log("Player ["+killerID+"] got a kill!");
+            if (killerID == MOBAPlayer.LocalPlayer.GetUniqueName()){
+                // TODO: Increase client kill count
+            }
+        }
+    }
+
+    // CLIENT
     IEnumerator RespawnPlayer(MOBAPlayer player) {
-        float respawnTimer = 30f + (timer/15f);
+        float respawnTimer = matchStarted ? 30f + (timer/15f) : 1f;
         yield return new WaitForSeconds(respawnTimer);
         Transform spawnPoint = (player.Side == MOBATeam.Team.Novus) ? NovusRespawnAnchor : EldenRespawnAnchor;
-        player.GetPlayerManager.Teleport(spawnPoint);
+        player.Teleport(spawnPoint);
         player.GetPlayerManager.Respawn();
     }
 }

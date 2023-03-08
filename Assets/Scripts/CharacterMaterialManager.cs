@@ -16,24 +16,19 @@ public class CharacterMaterialManager : MonoBehaviourPun
     bool isInvisible = false, isAdmin = false;
     new SkinnedMeshRenderer renderer;
     Outline outline;
-    bool outlineSet = false;
+    bool outlineSet = false, readyForOutline = false;
 
     void Start() {
         renderer = GetComponent<SkinnedMeshRenderer>();
         baseMaterial = defaultMaterial;
 
-        if (photonView.Owner.NickName == "Xelerox") {
-            isAdmin = true;
-            baseMaterial = adminMaterial;
-            Material[] mats = new Material[]{baseMaterial};
-            renderer.materials = mats;
-            renderer.sharedMesh = adminMesh;
-            foreach(var obj in toggleObjects) obj.SetActive(false);
-            toggleObjects.Clear();
-            toggleObjects = adminToggleObjects;
-            foreach(var obj in toggleObjects) obj.SetActive(true);
-        }
+        StartCoroutine(CreateOutline());
+    }
 
+    IEnumerator CreateOutline() {
+        while (!readyForOutline) {
+            yield return new WaitForFixedUpdate();
+        }
         outline = gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineColor = Color.white;
@@ -88,6 +83,24 @@ public class CharacterMaterialManager : MonoBehaviourPun
         }
     }
 
+    public void CheckAdmin(string name) {
+        if (renderer == null) {
+            renderer = GetComponent<SkinnedMeshRenderer>();
+        }
+        if (name == "Xelerox #E3A180454FDFC70E") {
+            isAdmin = true;
+            baseMaterial = adminMaterial;
+            Material[] mats = new Material[]{baseMaterial};
+            renderer.materials = mats;
+            renderer.sharedMesh = adminMesh;
+            foreach(var obj in toggleObjects) obj.SetActive(false);
+            toggleObjects.Clear();
+            toggleObjects = adminToggleObjects;
+            foreach(var obj in toggleObjects) obj.SetActive(true);
+        }
+        readyForOutline = true;
+    }
+
     public void SetExpertiseMaterials(int expertise) {
         if (isAdmin) return;
         if (expertise >= ExpertiseManager.ARCHMAGUS_EXPERTISE) {
@@ -123,8 +136,10 @@ public class CharacterMaterialManager : MonoBehaviourPun
         Material[] mats = new Material[]{baseMaterial};
         renderer.materials = mats;
         // Refresh the outline on material change
-        outline.enabled = false;
-        outline.enabled = true;
+        if (outline != null) {
+            outline.enabled = false;
+            outline.enabled = true;
+        }
     }
 
     public void ResetPlayerMaterial() {
@@ -133,8 +148,10 @@ public class CharacterMaterialManager : MonoBehaviourPun
         Material[] mats = new Material[]{baseMaterial};
         renderer.materials = mats;
         // Refresh the outline on material change
-        outline.enabled = false;
-        outline.enabled = true;
+        if (outline != null) {
+            outline.enabled = false;
+            outline.enabled = true;
+        }
     }
 
     public void GoInvisible() {

@@ -13,9 +13,17 @@ public class MOBATeam : MonoBehaviour {
     private Team Side;
 
     private List<MOBAPlayer> Players;
+    private float PlayerCount;
 
     void Start() {
         Players = new List<MOBAPlayer>();
+    }
+
+    public void AddPlayer(MOBAPlayer newPlayer) {
+        Players.Add(newPlayer);
+        newPlayer.Team = this;
+        newPlayer.Side = Side;
+        PlayerCount = Players.Count;
     }
     
     public void SetPlayers(List<MOBAPlayer> newPlayers) {
@@ -24,6 +32,7 @@ public class MOBATeam : MonoBehaviour {
             player.Team = this;
             player.Side = Side;
         }
+        PlayerCount = Players.Count;
     }
 
     public List<MOBAPlayer> GetPlayers() {
@@ -47,5 +56,9 @@ public class MOBATeam : MonoBehaviour {
             return Team.Elden;
         }
         return Team.Novus;
+    }
+
+    public float GetPlayerCount() {
+        return PlayerCount;
     }
 }

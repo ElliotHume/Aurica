@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,16 @@ public class MOBAPlayer : MonoBehaviour {
     public bool IsLocalPlayer {
         get { return isLocalPlayer; }
     }
+
+    public static MOBAPlayer GetMOBAPlayerFromID(string PlayerID) {
+        MOBAPlayer[] players = FindObjectsOfType<MOBAPlayer>();
+        return Array.Find(players, player => player.GetUniqueName() == PlayerID);
+    }
+
+    public static MOBAPlayer GetMOBAPlayerFromPlayerManager(PlayerManager pm) {
+        MOBAPlayer[] players = FindObjectsOfType<MOBAPlayer>();
+        return Array.Find(players, player => player.GetPlayerManager == pm);
+    }
     
     // Start is called before the first frame update
     void Start() {
@@ -49,5 +60,21 @@ public class MOBAPlayer : MonoBehaviour {
                 playerManager.SetPlayerOutline(EnemyOutlineColor);
             }
         }
+    }
+
+    public void Reset() {
+        playerManager.HardReset();
+    }
+
+    public void Teleport(Transform anchor) {
+        playerManager.Teleport(anchor);
+    }
+
+    public void FuzzyTeleport(Transform anchor) {
+        playerManager.FuzzyTeleport(anchor);
+    }
+
+    public string GetUniqueName() {
+        return playerManager.GetUniqueName();
     }
 }

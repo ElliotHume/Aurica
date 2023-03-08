@@ -25,7 +25,7 @@ public class PlayerUIInfo : MonoBehaviour {
         if (target == null) {
             if (PlayerManager.LocalInstance == null) return;
             target = PlayerManager.LocalInstance;
-            playerNameText.text = target.GetUniqueName();
+            playerNameText.text = target.GetName();
             FetchPlayerTitle();
         }
 

@@ -109,6 +109,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
     private BindingUIPanel bindingUIPanel;
     private bool showingTabSpell = false, showingRecastTabSpell;
     private InputManager inputManager;
+    private string playFabId;
 
     // Targeting Indicator System
     private bool preparedSpell = false;
@@ -331,6 +332,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
 
         bindingUIPanel = BindingUIPanel.LocalInstance;
         inputManager = InputManager.Instance;
+
+        if (!photonView.IsMine) {
+            NetworkRequestPlayFabID();
+        } else {
+            playFabId = PlayerPrefs.GetString("PlayFabId");
+            materialManager.CheckAdmin(GetUniqueName());
+        }
     }
 
     void Awake() {
@@ -520,8 +528,34 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
+    private void NetworkSyncPlayFabID() {
+        // Debug.LogError("TRY TO SEND PLAYFAB ID ["+playFabId+"] -- IsMine: "+photonView.IsMine);
+        if (!photonView.IsMine) return;
+        // Debug.LogError("SENDING PLAYFAB ID: ["+playFabId+"]");
+        photonView.RPC("SetPlayFabID", RpcTarget.All, playFabId);
+    }
+
+    [PunRPC]
+    private void SetPlayFabID(string id) {
+        if (photonView.IsMine) return;
+        playFabId = id;
+        materialManager.CheckAdmin(GetUniqueName());
+        // Debug.LogError("Set PlayFabId for remote client: ["+GetUniqueName()+"]");
+    }
+
+    private void NetworkRequestPlayFabID() {
+        // Debug.LogError("REQUESTING PLAYFABID -- sender: "+GetUniqueName());
+        photonView.RPC("RequestPlayFabID", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    private void RequestPlayFabID() {
+        // Debug.LogError("RECIEVED REQUEST FOR PLAYFABID -- reciever: "+GetUniqueName());
+        NetworkSyncPlayFabID();
+    }
+
     public string GetUniqueName() {
-        return photonView.Owner.NickName+" #"+photonView.ViewID;
+        return photonView.Owner.NickName+" #"+playFabId;
     }
 
     public string GetName() {
@@ -643,6 +677,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
             FreeForAllGameManager.Instance.playerDeath(this);
             if (photonView.IsMine && lastPlayerToDamageSelf != GetUniqueName()) FreeForAllGameManager.Instance.localPlayerDeath(lastPlayerToDamageSelf);
         }
+        if (MOBAMatchManager.Instance != null) {
+            MOBAMatchManager.Instance.PlayerDeath(this);
+            if (photonView.IsMine && lastPlayerToDamageSelf != GetUniqueName()) MOBAMatchManager.Instance.NetworkPlayerDeath(lastPlayerToDamageSelf);
+        }
 
         if (photonView.IsMine) photonView.RPC("SendDeathEvent", RpcTarget.All, lastPlayerToDamageSelf);
 
@@ -690,6 +728,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         if (!photonView.IsMine) return;
         // Debug.Log("Teleporting " + gameObject + "  to pos: " + newPosition.position + "with rotation");
         transform.position = newPosition.position;
+        transform.rotation = newPosition.rotation;
+    }
+
+    public void FuzzyTeleport(Transform newPosition, float radius = 1f) {
+        if (!photonView.IsMine) return;
+        Vector2 randomCircle = Random.insideUnitCircle * radius;
+        Vector3 randomOffset = new Vector3(randomCircle.x, 0f, randomCircle.y);
+        Debug.Log("Fuzzy Teleporting " + gameObject + "  to pos: " + newPosition.position+" with random offset: "+randomOffset);
+        transform.position = newPosition.position+randomOffset;
         transform.rotation = newPosition.rotation;
     }
 
