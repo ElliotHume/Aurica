@@ -23432,6 +23432,7 @@ GameObject:
   - component: {fileID: 8144746314763805418}
   - component: {fileID: 8144746314763805419}
   - component: {fileID: 8144746314763805423}
+  - component: {fileID: 175403420838939133}
   m_Layer: 7
   m_Name: Spell_ManaRealm_Chaos
   m_TagString: Spell
@@ -23480,6 +23481,7 @@ MonoBehaviour:
   CastAnimationType: 1
   CastingAnchor: aimpoint
   TurnToAimPoint: 1
+  UseAimPointNormal: 1
   IsChannel: 0
   IsSelfTargeted: 0
   IsOpponentTargeted: 0
@@ -23495,6 +23497,7 @@ MonoBehaviour:
   StartTimeDelay: 0
   ScalingFactor: 0.225
   ScalingLimit: 1.33
+  TargetingIndicatorScale: {x: 0, y: 0, z: 0}
   PositionOffset: {x: 0, y: 0, z: 0}
   DeactivateObjectsAfterDuration:
   - {fileID: 6343305161721666963}
@@ -23504,6 +23507,9 @@ MonoBehaviour:
   - {fileID: 6311023847586482074}
   - {fileID: 6311023849514036716}
   EffectsOnDelayedStartup: []
+  NetworkedEffectsOnDelay: []
+  NetworkedEffectsDelay: 0
+  NetworkedEffectsOffset: {x: 0, y: 0, z: 0}
   ParticleCollisions: 0
   DamagePerParticle: 1
   collisionParticles: {fileID: 0}
@@ -23561,3 +23567,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &175403420838939133
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8144746314763805422}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

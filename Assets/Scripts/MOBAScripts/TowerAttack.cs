@@ -76,7 +76,9 @@ public class TowerAttack : MonoBehaviourPun {
         if (photonView.IsMine) return;
         PlayerManager pm = GameManager.GetPlayerFromID(PlayerID);
 
-        TargetGO = pm.gameObject;
-        TargetPM = pm;
+        if (pm != null) {
+            TargetGO = pm.gameObject;
+            TargetPM = pm;
+        }
     }
 }

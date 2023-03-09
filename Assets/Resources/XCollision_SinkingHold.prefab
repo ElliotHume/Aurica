@@ -14228,6 +14228,7 @@ GameObject:
   - component: {fileID: 8960145997153294437}
   - component: {fileID: 8960145997153294430}
   - component: {fileID: 3573413847478363144}
+  - component: {fileID: 7658946725731873808}
   m_Layer: 7
   m_Name: XCollision_SinkingHold
   m_TagString: Spell
@@ -14446,6 +14447,22 @@ MonoBehaviour:
   Delay: 0
   MaximumStress: 0.2
   Range: 60
+--- !u!54 &7658946725731873808
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8960145997153294439}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8960145997470099036
 GameObject:
   m_ObjectHideFlags: 0
