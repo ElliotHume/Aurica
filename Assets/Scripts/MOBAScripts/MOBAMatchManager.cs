@@ -46,6 +46,10 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     [SerializeField]
     private float GameEndDelay;
 
+    [Tooltip("List of all Objects to toggle when the match starts")]
+    [SerializeField]
+    private List<GameObject> MatchToggleObjects;
+
     [Tooltip("Music to play during the match")]
     [SerializeField]
     private AudioSource MatchMusic;
@@ -88,8 +92,6 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
             } else {
                 timer = 0f;
             }
-        } else {
-
         }
     }
 
@@ -218,7 +220,13 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         
         // Set the team outline colors for all players
         foreach(MOBAPlayer player in allPlayers) player.SetSideColor();
+
+        // Turn on the match music
         if (MatchMusic != null) MatchMusic.Play();
+
+        // Toggle match objects
+        foreach(GameObject obj in MatchToggleObjects) obj.SetActive(!obj.activeInHierarchy);
+        
         matchStarted = true;
         matchEnded = false;
     }
@@ -249,6 +257,11 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         foreach(Spell spell in foundSpells) {
             if (spell.photonView.IsMine) PhotonNetwork.Destroy(spell.photonView);
         }
+
+        // Toggle match objects
+        foreach(GameObject obj in MatchToggleObjects) obj.SetActive(!obj.activeInHierarchy);
+
+        // Stop match music
         if (MatchMusic != null) MatchMusic.Stop();
     }
 
