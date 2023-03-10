@@ -64,7 +64,7 @@ public class NullSphere : MonoBehaviourPun {
 
     // Update is called once per frame
     void Update() {
-        if (State == 1 && holdingPlayerGO != null) {
+        if (holdingPlayerGO != null) {
             transform.position = holdingPlayerGO.transform.position + HoldingOffset;
             transform.rotation = holdingPlayerGO.transform.rotation;
         }
@@ -109,7 +109,12 @@ public class NullSphere : MonoBehaviourPun {
         }
     }
 
+    // CLIENT
     void OnTriggerEnter(Collider collider) {
+        // If the ball has been picked up, ignore trigger collision
+        if (State == 1) return;
+
+        // If the collision is not with a player, we ignore it
         MOBAPlayer player;
         if (collider.gameObject.tag == "Player") {
             player = collider.gameObject.GetComponent<MOBAPlayer>();
@@ -118,14 +123,32 @@ public class NullSphere : MonoBehaviourPun {
             return;
         }
 
-        if (State == 0 && collider.gameObject.tag == "Player") {
-            // Attach to the player, we dont need to check what side they are on
-            Pickup(collider.gameObject, player);
-        } else if (State == 2 && collider.gameObject.tag == "Player") {
-            // If the ball is dropped on the ground only the enemy team can pick it up
-            // picking it up also resets it's health
+        // If the colliding player is not ours, ignore it
+        PhotonView pv = PhotonView.Get(player);
+        if (!pv.IsMine) return;
+
+        // If the player is ours, send a request to the master to pickup the sphere
+        photonView.RPC("MasterRequestPickup", RpcTarget.All, player.GetUniqueName());
+    }
+
+    [PunRPC]
+    void MasterRequestPickup(string playerId) {
+        // If you are not the master client or if the ball has already been picked up, ignore pickup requests
+        if (!photonView.IsMine || State == 1) return;
+
+        // Get the MOBAPlayer trying to pickup the ball
+        MOBAPlayer player = MOBAPlayer.GetMOBAPlayerFromID(playerId);
+
+        // If the ball is at origin, send the pickup event to the clients
+        if (State == 0) {
+            // If the player is ours, send a request to the master to pickup the sphere
+            SetHoldingPlayer(player);
+            photonView.RPC("ClientPickup", RpcTarget.All, playerId);
+        } else if (State == 2) {
+            // Only allow picking up a dropped ball if the player is on the opposing side of the last player to pickup the ball
             if (player.Side != holdingPlayersTeam) {
-                Pickup(collider.gameObject, player);
+                photonView.RPC("ClientPickup", RpcTarget.All, playerId);
+                // Reset the health if the opposing team picks it up
                 Health = StartingHealth;
             }
         }
@@ -133,83 +156,144 @@ public class NullSphere : MonoBehaviourPun {
 
     [PunRPC]
     void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID = "") {
-        if (State == 0) return;
+        // Ignore this event if you are not the master client or the ball is at origin
+        if (!photonView.IsMine || State == 0) return;
 
-        // Check if the player is on the allied team
+        // Check if the attacking player is on the allied team
         MOBAPlayer attackingPlayer = MOBAPlayer.GetMOBAPlayerFromID(ownerID);
         bool isAllied = holdingPlayersTeam != MOBATeam.Team.None && attackingPlayer.Side == holdingPlayersTeam;
 
-        // Apply the damage
+        // Calculate the final damage
         float finalDamage = !isAllied ? Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER : 0f;
 
-        if (photonView.IsMine) {
-            // Create damage popup
-            if (finalDamage > 1.5f) {
-                GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position + (Vector3.up*2.75f), transform.rotation, 0);
+        // Create damage popup
+        if (finalDamage > 1.5f) {
+            GameObject newPopup = PhotonNetwork.Instantiate("ZZZ Damage Popup Canvas", transform.position + (Vector3.up*2.75f), transform.rotation, 0);
 
-                DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
-                if (dmgPopup != null) {
-                    dmgPopup.ShowDamage(finalDamage);
-                    dmgPopup.isSceneObject = true;
-                }
-            } else if (finalDamage > 0f) {
-                aoeDamageTick += finalDamage;
+            DamagePopup dmgPopup = newPopup.GetComponent<DamagePopup>();
+            if (dmgPopup != null) {
+                dmgPopup.ShowDamage(finalDamage);
+                dmgPopup.isSceneObject = true;
             }
+        } else if (finalDamage > 0f) {
+            aoeDamageTick += finalDamage;
         }
         
+        // Apply the damage
         Health -= finalDamage;
 
         Debug.LogError("Null sphere took ["+finalDamage+"] damage from "+ownerID+"    remaining health: "+Health);
 
-        if (Health <= DropHealthThreshold && State == 1) {
-            Drop();
+        
+        if (State == 1 && Health <= DropHealthThreshold ) {
+            // If the ball has been picked up and health is now below the drop threshold, drop the ball
+            NetworkMasterDrop();
         } else if (Health <= 0f && State == 2) {
-            Reset();
+            // If the ball is on the ground and drops to or below 0 health, reset it
+            NetworkMasterReset();
         }
         
+        // If there is some health left and damage was applied, let the clients know to run local damage effects
         if (Health > 0f && finalDamage > 1.5f) {
-            OnDamage.Invoke();
+            NetworkMasterOnDamage();
         }
     }
 
-    private void Pickup(GameObject playerGO, MOBAPlayer player) {
-        if (State == 1) return;
+    void NetworkMasterDrop() {
+        // If you are not the master client or if the ball has already been dropped, ignore this
+        if (!photonView.IsMine || State != 1) return;
+        photonView.RPC("ClientDrop", RpcTarget.All, holdingMOBAPlayer.GetUniqueName());
+    }
+
+    public void NetworkMasterReset() {
+        // If you are not the master client or if the ball has already been reset, ignore this
+        if (!photonView.IsMine || State == 0) return;
+        // Reset health
+        Health = StartingHealth;
+        photonView.RPC("ClientReset", RpcTarget.All);
+    }
+
+    public void NetworkMasterOnDamage() {
+        // If you are not the master client or if the ball has already been reset, ignore this
+        if (!photonView.IsMine || State == 0) return;
+        photonView.RPC("ClientOnDamage", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void ClientOnDamage() {
+        OnDamage.Invoke();
+    }
+
+    [PunRPC]
+    void ClientPickup(string playerId) {
+        Debug.Log("Client ["+playerId+"] picked up null sphere");
+
+        // Set the state to picked up
         State = 1;
+
+        // Run the local effects for picking up the sphere
         OnGrab.Invoke();
 
-        holdingPlayerGO = playerGO;
-        holdingMOBAPlayer = player;
-        holdingPlayersTeam = player.Side;
+        // Get the MOBAPlayer that has picked up the ball
+        MOBAPlayer player = MOBAPlayer.GetMOBAPlayerFromID(playerId);
 
-        if (AppliedStatusEffect != null) AppliedStatusEffect.ManualContinuousActivation(playerGO);
+        // Apply the status effect to the player that picked it up
+        if (AppliedStatusEffect != null) AppliedStatusEffect.ManualContinuousActivation(player.gameObject);
+
+        // Assign them as the ball holder
+        SetHoldingPlayer(player);
     }
 
+    [PunRPC]
+    private void ClientDrop(string playerId) {
+        Debug.Log("Client ["+playerId+"] dropped null sphere");
 
-    private void Drop() {
-        if (State != 1) return;
+        // Set the state to dropped
         State = 2;
+        
+        // Run the local effects for dropping the sphere
         OnDrop.Invoke();
 
+        // Drop the ball onto the ground
         transform.position -= HoldingOffset;
 
-        if (AppliedStatusEffect != null) AppliedStatusEffect.ManualContinuousDeactivation(holdingPlayerGO);
-        
+        // Get the MOBAPlayer that has dropped the ball
+        MOBAPlayer player = MOBAPlayer.GetMOBAPlayerFromID(playerId);
+
+        // Remove the status effect from the player that picked it up
+        if (AppliedStatusEffect != null) AppliedStatusEffect.ManualContinuousDeactivation(player.gameObject);
+
+        // Unassign them as the ball holder
         holdingPlayerGO = null;
         holdingMOBAPlayer = null;
     }
 
-    public void Reset(bool force = false) {
-        if (State != 2 && !force) return;
+    [PunRPC]
+    public void ClientReset() {
+        Debug.Log("Null sphere reset");
+
+        // Set the state to at origin
         State = 0;
+        
+        // Run the local effects for dropping the sphere
         OnReset.Invoke();
 
-        Health = StartingHealth;
-
+        // Place the ball back at origin
         transform.position = Origin.position;
         transform.rotation = Origin.rotation;
 
+        // If a player is holding the ball when we reset it, remove the applied status effect
+        if (holdingPlayerGO != null && AppliedStatusEffect != null) AppliedStatusEffect.ManualContinuousDeactivation(holdingPlayerGO);
+        
+        // Unassign them as the ball holder, and clear the team on the ball
         holdingPlayerGO = null;
         holdingMOBAPlayer = null;
         holdingPlayersTeam = MOBATeam.Team.None;
+    }
+
+    void SetHoldingPlayer(MOBAPlayer player) {
+        holdingPlayerGO = player.gameObject;
+        holdingMOBAPlayer = player;
+        holdingPlayersTeam = player.Side;
     }
 }

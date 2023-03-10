@@ -161,6 +161,10 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
             }
         }
 
+        // Reset all null spheres
+        NullSphere[] nullSpheres = FindObjectsOfType<NullSphere>();
+        foreach(NullSphere sphere in nullSpheres) { sphere.NetworkMasterReset(); }
+
         // Format teams into a list of players to send to clients
         string novusTeamPlayerNames = "";
         string eldenTeamPlayerNames = "";
@@ -200,10 +204,6 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
         NovusTeam.LockedTeamList = novusTeamPlayerNames;
         EldenTeam.LockedTeamList = eldenTeamPlayerNames;
-
-        // Reset all null spheres;
-        NullSphere[] nullSpheres = FindObjectsOfType<NullSphere>();
-        foreach(NullSphere sphere in nullSpheres) { sphere.Reset(true); }
 
         // Set the structure team colors
         foreach( Structure structure in AllStructures) {
@@ -258,7 +258,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
     // CLIENT calls this when they join the room
     public void NetworkClientPlayerJoined(string playerId) {
-        Debug.LogError("Client sending player join");
+        // Debug.LogError("Client sending player join");
         photonView.RPC("MasterPlayerJoined", RpcTarget.All, playerId);
     }
 
@@ -282,21 +282,14 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     [PunRPC]
     void MasterPlayerJoined(string playerId) {
         if (!photonView.IsMine) return;
-        Debug.LogError("Master receieved player join");
+        // Debug.LogError("Master receieved player join");
         if (matchStarted) {
             photonView.RPC("MovePlayerToObserverZone", RpcTarget.All, playerId);
         } else {
-            photonView.RPC("ClientClearNullSpheres", RpcTarget.All);
+            // Reset all null spheres
+            NullSphere[] nullSpheres = FindObjectsOfType<NullSphere>();
+            foreach(NullSphere sphere in nullSpheres) { sphere.NetworkMasterReset(); }
         }
-    }
-
-    // CLIENT reset all null spheres
-    [PunRPC]
-    void ClientClearNullSpheres() {
-        Debug.LogError("RESETTING NULL SPHERES");
-        // Reset all null spheres when a player joins, since they are not network synced
-        NullSphere[] nullSpheres = FindObjectsOfType<NullSphere>();
-        foreach(NullSphere sphere in nullSpheres) { sphere.Reset(true); }
     }
 
     // CLIENT if the player is under this clients control, move player to the observer zone and update their state
