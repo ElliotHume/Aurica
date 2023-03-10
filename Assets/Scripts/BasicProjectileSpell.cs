@@ -179,12 +179,21 @@ public class BasicProjectileSpell : Spell, IPunObservable
                     }
                 }
             } else if (collision.gameObject.tag == "Structure") {
-                Structure dmgobj = collision.gameObject.GetComponent<Structure>();
-                if (dmgobj != null) {
-                    PhotonView pv = PhotonView.Get(dmgobj);
+                Structure structure = collision.gameObject.GetComponent<Structure>();
+                if (structure != null) {
+                    PhotonView pv = PhotonView.Get(structure);
                     if (pv != null) {
                         pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
-                        FlashHitMarker(!dmgobj.IsImmune() && !dmgobj.IsBroken());
+                        FlashHitMarker(!structure.IsImmune() && !structure.IsBroken());
+                    }
+                } else {
+                    NullSphere nullSphere = collision.gameObject.GetComponent<NullSphere>();
+                    if (nullSphere != null) {
+                        PhotonView pv = PhotonView.Get(nullSphere);
+                        if (pv != null) {
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                            FlashHitMarker(true);
+                        }
                     }
                 }
             }

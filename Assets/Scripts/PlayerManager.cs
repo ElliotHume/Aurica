@@ -338,6 +338,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable {
         } else {
             playFabId = PlayerPrefs.GetString("PlayFabId");
             materialManager.CheckAdmin(GetUniqueName());
+            if (MOBAMatchManager.Instance != null) MOBAMatchManager.Instance.NetworkClientPlayerJoined(GetUniqueName());
         }
     }
 

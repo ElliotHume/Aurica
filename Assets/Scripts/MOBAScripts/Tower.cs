@@ -55,36 +55,66 @@ public class Tower : Structure, IPunObservable {
         // If the structure has been broken, nothing more needs to be done to it.
         if (broken) return;
 
+        // Check if null sphere is in range, disable attacks if it is
+        disabled = IsNullSphereInRadius(transform, FiringRadius, RadiusOffset);
+
+        // Play the null sphere disabled particles if we are not already doing so
+        if (disabled && !playingDisableParticles) {
+            foreach(GameObject obj in ToggleObjectsOnDisable){ obj.SetActive(!obj.activeInHierarchy); }
+            foreach(ParticleSystem effect in DisabledParticles){ effect.Play(); }
+            playingDisableParticles = true;
+        } else if (!disabled && playingDisableParticles) {
+            foreach(GameObject obj in ToggleObjectsOnDisable){ obj.SetActive(!obj.activeInHierarchy); }
+            foreach(ParticleSystem effect in DisabledParticles){ effect.Stop(); }
+            playingDisableParticles = false;
+        }
+
         if (photonView.IsMine) {
-            // Get players inside the firing radius
-            playersInRadius = GetPlayersInRadius();
-
-            // For each player in the radius, if we dont already have an attack being fired at them, create the attack and set them as the target.
-            foreach(GameObject playerGO in playersInRadius) {
-                MOBAPlayer mp = playerGO.GetComponent<MOBAPlayer>();
-                PlayerManager pm = playerGO.GetComponent<PlayerManager>();
-                // Do not attack players on the allied team
-                if (mp != null && mp.Side == Team) continue;
-                // Do not attack dead players
-                if (pm != null && pm.dead) continue;
-
-                if (!firingAtPlayers.Contains(playerGO)) {
-                    firingAtPlayers.Add(playerGO);
-                    GameObject newAttack = PhotonNetwork.Instantiate("ZZZTowerAttack", FiringAnchor.position, FiringAnchor.rotation);
-                    TowerAttack towerAttack = newAttack.GetComponent<TowerAttack>();
-                    if (towerAttack != null) {
-                        towerAttack.SetStructure(this);
-                        towerAttack.SetTarget(playerGO);
-                    }
-                    activeAttacks.Add(playerGO, towerAttack);
+            // Regen health if the structure is not broken or disabled
+            if (!broken && !disabled && HealthRegenPerSecond > 0f){
+                healthRegenTimer += Time.deltaTime;
+                if (healthRegenTimer >= DelayBeforeHealhRegen && Health < StartingHealth) {
+                    Health += HealthRegenPerSecond * Time.deltaTime;
+                }
+                if (Health > StartingHealth) {
+                    Health = StartingHealth;
                 }
             }
 
+            // Get players inside the firing radius
+            playersInRadius = GetPlayersInRadius(transform, FiringRadius, RadiusOffset);
+
+            
+
+            if (!disabled) {
+                // For each player in the radius, if we dont already have an attack being fired at them, create the attack and set them as the target.
+                foreach(GameObject playerGO in playersInRadius) {
+                    MOBAPlayer mp = playerGO.GetComponent<MOBAPlayer>();
+                    PlayerManager pm = playerGO.GetComponent<PlayerManager>();
+                    // Do not attack players on the allied team
+                    if (mp != null && mp.Side == Team) continue;
+                    // Do not attack dead players
+                    if (pm != null && pm.dead) continue;
+
+                    if (!firingAtPlayers.Contains(playerGO)) {
+                        firingAtPlayers.Add(playerGO);
+                        GameObject newAttack = PhotonNetwork.Instantiate("ZZZTowerAttack", FiringAnchor.position, FiringAnchor.rotation);
+                        TowerAttack towerAttack = newAttack.GetComponent<TowerAttack>();
+                        if (towerAttack != null) {
+                            towerAttack.SetStructure(this);
+                            towerAttack.SetTarget(playerGO);
+                        }
+                        activeAttacks.Add(playerGO, towerAttack);
+                    }
+                }
+            }
+            
+
             // For each player we are firing an attack at, check if they are still eligible to be attacked
-            // Players are no longer eligible if they are outside of the radius or they are dead
+            // Players are no longer eligible if they are outside of the radius, if they are dead, or if the structure is disabled
             foreach(GameObject playerGO in firingAtPlayers) {
                 PlayerManager pm = playerGO.GetComponent<PlayerManager>();
-                if (!playersInRadius.Contains(playerGO) || pm.dead) {
+                if (!playersInRadius.Contains(playerGO) || pm.dead || disabled) {
                     TowerAttack attackToDestroy = activeAttacks[playerGO];
                     activeAttacks.Remove(playerGO);
                     PhotonNetwork.Destroy(attackToDestroy.gameObject);
@@ -141,16 +171,6 @@ public class Tower : Structure, IPunObservable {
 
     public override string GetName() {
         return Team.ToString()+" Tower";
-    }
-
-    private List<GameObject> GetPlayersInRadius() {
-        Collider[] hits = Physics.OverlapSphere(transform.position+RadiusOffset, FiringRadius, 1 << 3);
-        List<GameObject> playerList = new List<GameObject>();
-        foreach(var hit in hits) {
-            PlayerManager pm = hit.gameObject.GetComponent<PlayerManager>();
-            if (pm != null) playerList.Add(hit.gameObject);
-        }
-        return playerList;
     }
 
     void OnDrawGizmosSelected() {

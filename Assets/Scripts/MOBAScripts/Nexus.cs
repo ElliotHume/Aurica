@@ -7,6 +7,11 @@ using Photon.Pun;
 using Photon.Realtime;
 
 public class Nexus : Structure, IPunObservable {
+
+    [Tooltip("NexusField object")]
+    [SerializeField]
+    private NexusField Field;
+
     [Tooltip("Objects to disable when the nexus explodes")]
     [SerializeField]
     private List<GameObject> DisableObjectsOnExplode;
@@ -19,6 +24,18 @@ public class Nexus : Structure, IPunObservable {
     [SerializeField]
     private List<ParticleSystem> RestorationParticles;
 
+    // Start is called before the first frame update
+    void Start() {
+        Health = StartingHealth;
+
+        if (Field != null) Field.SetTeam(Team);
+
+        if (StructureUIPrefab != null) {
+            UIDisplayGO = Instantiate(StructureUIPrefab, UIDisplayAnchor.position, UIDisplayAnchor.rotation, transform);
+            UIDisplay = UIDisplayGO.GetComponent<StructureUIDisplay>();
+            UIDisplay.SetStructure(this);
+        }
+    }
 
     protected override void NetworkExplode() {
         if (!photonView.IsMine) return;
@@ -34,6 +51,7 @@ public class Nexus : Structure, IPunObservable {
         foreach(GameObject obj in EnableObjectsOnExplode) obj.SetActive(true);
 
         if (UIDisplay != null) UIDisplay.Hide();
+        if (Field != null) Field.Disable();
 
         Collider[] colliders = GetComponents<Collider>();
         foreach(Collider collider in colliders) collider.enabled = false;
@@ -48,6 +66,7 @@ public class Nexus : Structure, IPunObservable {
         foreach(ParticleSystem ps in RestorationParticles) ps.Play();
 
         if (UIDisplay != null) UIDisplay.Show();
+        if (Field != null) Field.Enable();
 
         Collider[] colliders = GetComponents<Collider>();
         foreach(Collider collider in colliders) collider.enabled = true;

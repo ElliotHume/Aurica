@@ -18605,7 +18605,7 @@ MonoBehaviour:
   ManaRefund: 0
   ManaChannelCost: 40
   SpellEffectType: 
-  Duration: 8
+  Duration: 10
   CastAnimationType: 0
   CastingAnchor: transform
   TurnToAimPoint: 0
@@ -18614,10 +18614,10 @@ MonoBehaviour:
   IsSelfTargeted: 1
   IsOpponentTargeted: 0
   OneShotEffect: 1
-  UNIMPLEMENTEDLastingEffect: 0
   FollowsTarget: 1
   SpellStrengthChangesDuration: 0
   DestroyTimeDelay: 10
+  StartTimeDelay: 0
   DeactivateObjectsAfterDuration: []
   PositionOffset: {x: 0, y: 1, z: 0}
   statusEffect: {fileID: 0}
@@ -18681,6 +18681,7 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  healGreyHealthMultiplier: 0.5
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0
@@ -18903,6 +18904,7 @@ MonoBehaviour:
   healing: 0
   healFlatAmount: 0
   healPercentAmount: 0
+  healGreyHealthMultiplier: 0.5
   manaDrain: 0
   manaDrainFlatAmount: 0
   manaDrainPercentAmount: 0

@@ -26,6 +26,10 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     [SerializeField]
     private Transform EldenRespawnAnchor;
 
+    [Tooltip("Player spawn anchor for players that join that are not part of a match")]
+    [SerializeField]
+    private Transform ObserverRoomAnchor;
+
     [Tooltip("Player spawn anchor for when the match is not started")]
     [SerializeField]
     private Transform GameStartSpawnAnchor;
@@ -160,8 +164,8 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         // Format teams into a list of players to send to clients
         string novusTeamPlayerNames = "";
         string eldenTeamPlayerNames = "";
-        foreach(MOBAPlayer player in NovusTeam.GetPlayers()) { novusTeamPlayerNames += player.GetUniqueName()+"|"; }
-        foreach(MOBAPlayer player in EldenTeam.GetPlayers()) { eldenTeamPlayerNames += player.GetUniqueName()+"|"; }
+        foreach(MOBAPlayer player in NovusTeam.GetPlayers()) { if (player != null) novusTeamPlayerNames += player.GetUniqueName()+"|"; }
+        foreach(MOBAPlayer player in EldenTeam.GetPlayers()) { if (player != null) eldenTeamPlayerNames += player.GetUniqueName()+"|"; }
 
         photonView.RPC("ClientStartMatch", RpcTarget.All, novusTeamPlayerNames, eldenTeamPlayerNames);
     }
@@ -170,8 +174,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     // Even the master client will respond to this in the same way, to ensure a clarity of state
     [PunRPC]
     public void ClientStartMatch(string novusTeamPlayerNames, string eldenTeamPlayerNames) {
-        Debug.Log("START MATCH");
-        Debug.Log("NOVUS TEAM: "+novusTeamPlayerNames+"\nELDEN TEAM: "+eldenTeamPlayerNames);
+        Debug.LogError("START MATCH\nNOVUS TEAM: "+novusTeamPlayerNames+"\nELDEN TEAM: "+eldenTeamPlayerNames);
         MOBAPlayer[] allPlayers = FindObjectsOfType<MOBAPlayer>();
         NovusTeam.ClearPlayers();
         EldenTeam.ClearPlayers();
@@ -190,8 +193,17 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
                 player.FuzzyTeleport(EldenRespawnAnchor);
             } else {
                 Debug.LogError("Player not placed in a team: "+player.GetUniqueName());
+                player.Reset();
+                player.FuzzyTeleport(ObserverRoomAnchor);
             }
         }
+
+        NovusTeam.LockedTeamList = novusTeamPlayerNames;
+        EldenTeam.LockedTeamList = eldenTeamPlayerNames;
+
+        // Reset all null spheres;
+        NullSphere[] nullSpheres = FindObjectsOfType<NullSphere>();
+        foreach(NullSphere sphere in nullSpheres) { sphere.Reset(true); }
 
         // Set the structure team colors
         foreach( Structure structure in AllStructures) {
@@ -230,6 +242,9 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
             player.FuzzyTeleport(GameStartSpawnAnchor);
         }
 
+        NovusTeam.LockedTeamList = null;
+        EldenTeam.LockedTeamList = null;
+
         // Destroy all spells in the scene, they must be destroyed by their owner
         Spell[] foundSpells = FindObjectsOfType<Spell>();
         foreach(Spell spell in foundSpells) {
@@ -239,6 +254,60 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     }
 
 
+    /* HEADLINE: --------- PLAYER CONNECTION HANDLING ---------------------------------------------------------------------------------------------------------*/
+
+    // CLIENT calls this when they join the room
+    public void NetworkClientPlayerJoined(string playerId) {
+        Debug.LogError("Client sending player join");
+        photonView.RPC("MasterPlayerJoined", RpcTarget.All, playerId);
+    }
+
+
+
+    /* MAJORTODO: Make players able to rejoin matches that they have disconnected from
+    *    PREREQUISITE: Make Null Spheres network synced
+    *   - Master checks current locked team lists, if the rejoining players belongs in one of them the master adds them to their MOBATeam
+    *   - Master removes any null players from the MOBATeams
+    *   - Master generates new team list strings, if the updated team strings are not the same as the previous locked team lists, an error has occured.
+    *   - Master sends out an update request to all clients if the lists are the same.
+    *   - Clients recieve the update request and refresh the players in their MOBATeams to match their locked team lists
+    *   - Clients refresh their structure colors and player outline colors
+    *
+    *   [NOT SURE IF NEEDED SECTION]
+    *   - Clients check if they are the rejoining player, if they are, they send a request for the state of all structures and null spheres
+    *   - Master recieves request, sends the state of structures and null spheres
+    */
+    
+    // MASTER determine what to do with the joined player
+    [PunRPC]
+    void MasterPlayerJoined(string playerId) {
+        if (!photonView.IsMine) return;
+        Debug.LogError("Master receieved player join");
+        if (matchStarted) {
+            photonView.RPC("MovePlayerToObserverZone", RpcTarget.All, playerId);
+        } else {
+            photonView.RPC("ClientClearNullSpheres", RpcTarget.All);
+        }
+    }
+
+    // CLIENT reset all null spheres
+    [PunRPC]
+    void ClientClearNullSpheres() {
+        Debug.LogError("RESETTING NULL SPHERES");
+        // Reset all null spheres when a player joins, since they are not network synced
+        NullSphere[] nullSpheres = FindObjectsOfType<NullSphere>();
+        foreach(NullSphere sphere in nullSpheres) { sphere.Reset(true); }
+    }
+
+    // CLIENT if the player is under this clients control, move player to the observer zone and update their state
+    [PunRPC]
+    void MovePlayerToObserverZone(string playerId) {
+        MOBAPlayer player = MOBAPlayer.GetMOBAPlayerFromID(playerId);
+        if (player == MOBAPlayer.LocalPlayer) {
+            player.FuzzyTeleport(ObserverRoomAnchor);
+            matchStarted = true;
+        }
+    }
 
 
 
@@ -328,7 +397,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
     // CLIENT
     IEnumerator RespawnPlayer(MOBAPlayer player) {
-        float respawnTimer = matchStarted ? 30f + (timer/15f) : 1f;
+        float respawnTimer = matchStarted ? 2f + (timer/15f) : 1f;
         yield return new WaitForSeconds(respawnTimer);
         Transform spawnPoint = (player.Side == MOBATeam.Team.Novus) ? NovusRespawnAnchor : EldenRespawnAnchor;
         player.Teleport(spawnPoint);

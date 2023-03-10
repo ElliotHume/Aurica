@@ -14,6 +14,11 @@ public class MOBATeam : MonoBehaviour {
 
     private List<MOBAPlayer> Players;
     private float PlayerCount;
+    private string lockedTeamList;
+    public string LockedTeamList {
+        get { return lockedTeamList; }
+        set { lockedTeamList = value; }
+    }
 
     void Start() {
         Players = new List<MOBAPlayer>();
@@ -37,6 +42,22 @@ public class MOBATeam : MonoBehaviour {
 
     public List<MOBAPlayer> GetPlayers() {
         return Players;
+    }
+
+    public bool IsADisconnectedPlayer() {
+        foreach(MOBAPlayer player in Players) {
+            if (player == null) return true;
+        }
+        return false;
+    }
+
+    public void ClearDisconnectedPlayers() {
+        while (IsADisconnectedPlayer()) {
+            foreach(MOBAPlayer player in Players) {
+                if (player == null) Players.Remove(player);
+                break;
+            }
+        }
     }
 
     public void ClearPlayers() {

@@ -11,6 +11,9 @@ public abstract class Structure : MonoBehaviourPun {
     [Tooltip("The Nexus' team")]
     [SerializeField]
     protected MOBATeam.Team Team;
+    public MOBATeam.Team GetTeam {
+        get { return Team; }
+    }
 
     [Tooltip("Does the structure start with immunity")]
     [SerializeField]
@@ -49,11 +52,20 @@ public abstract class Structure : MonoBehaviourPun {
     [SerializeField]
     protected GameObject StructureUIPrefab;
 
+    [Tooltip("Effects to play when the structure is disabled by the null sphere")]
+    [SerializeField]
+    protected List<ParticleSystem> DisabledParticles;
+    
+    [Tooltip("Objects to toggle when the structure is disabled by the null sphere")]
+    [SerializeField]
+    protected List<GameObject> ToggleObjectsOnDisable;
+
 
     protected float Health;
-    protected bool broken = false;
+    protected bool broken = false, disabled = false, playingDisableParticles = false;
     protected GameObject UIDisplayGO;
     protected StructureUIDisplay UIDisplay;
+    protected float healthRegenTimer;
 
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
@@ -62,6 +74,19 @@ public abstract class Structure : MonoBehaviourPun {
         } else {
             // CRITICAL DATA
             this.Health = (float)stream.ReceiveNext();
+        }
+    }
+
+    void FixedUpdate() {
+        // Regen health if the structure is not broken or disabled
+        if (photonView.IsMine && !broken && !disabled && HealthRegenPerSecond > 0f){
+            healthRegenTimer += Time.deltaTime;
+            if (healthRegenTimer >= DelayBeforeHealhRegen && Health < StartingHealth) {
+                Health += HealthRegenPerSecond * Time.deltaTime;
+            }
+            if (Health > StartingHealth) {
+                Health = StartingHealth;
+            }
         }
     }
     
@@ -81,7 +106,6 @@ public abstract class Structure : MonoBehaviourPun {
     [PunRPC]
     public virtual void OnSpellCollide(float Damage, string SpellEffectType, float Duration, string spellDistributionJson, string ownerID = "") {
         if (!photonView.IsMine || broken) return;
-        ManaDistribution spellDistribution = JsonUtility.FromJson<ManaDistribution>(spellDistributionJson);
 
         // Check if the player is on the allied team
         MOBAPlayer attackingPlayer = MOBAPlayer.GetMOBAPlayerFromID(ownerID);
@@ -92,6 +116,7 @@ public abstract class Structure : MonoBehaviourPun {
         Health -= finalDamage;
 
         if (finalDamage > 0f) {
+            healthRegenTimer = 0f;
             photonView.RPC("TookDamage", RpcTarget.All);
         }
 
@@ -167,8 +192,42 @@ public abstract class Structure : MonoBehaviourPun {
         UIDisplay.SetImmunity(Immune);
     }
 
+    public void NetworkMasterToggleDisabledParticles(bool on) {
+        if (!photonView.IsMine) return;
+        photonView.RPC("ClientToggleDisabledParticles", RpcTarget.All, on);
+    }
+
+    [PunRPC]
+    public void ClientToggleDisabledParticles(bool on) {
+        if (on) {
+            foreach(ParticleSystem effect in DisabledParticles) effect.Play();
+        } else {
+            foreach(ParticleSystem effect in DisabledParticles) effect.Stop();
+        }
+    }
+
     public void SetColors() {
         UIDisplay.SetColors(MOBAPlayer.LocalPlayer.Side == Team);
+    }
+
+    public static List<GameObject> GetPlayersInRadius(Transform transform, float radius, Vector3 offset) {
+        Collider[] hits = Physics.OverlapSphere(transform.position+offset, radius, 1 << 3);
+        List<GameObject> playerList = new List<GameObject>();
+        foreach(var hit in hits) {
+            PlayerManager pm = hit.gameObject.GetComponent<PlayerManager>();
+            if (pm != null) playerList.Add(hit.gameObject);
+        }
+        return playerList;
+    }
+
+    public static bool IsNullSphereInRadius(Transform transform, float radius, Vector3 offset) {
+        Collider[] hits = Physics.OverlapSphere(transform.position+offset, radius, 1 << 3);
+        List<GameObject> objectList = new List<GameObject>();
+        foreach(var hit in hits) {
+            NullSphere pm = hit.gameObject.GetComponent<NullSphere>();
+            if (pm != null) return true;
+        }
+        return false;
     }
 
     /* -------------- ABSTRACT METHODS --------------------- */

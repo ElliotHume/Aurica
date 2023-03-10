@@ -151,6 +151,7 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                         }
                     }
                 }
+                
             } else if (collision.gameObject.tag == "Shield") {
                 ShieldSpell ss = collision.gameObject.transform.parent.gameObject.GetComponent<ShieldSpell>();
                 if (ss != null) {
@@ -158,6 +159,26 @@ public class ArcingProjectileSpell : Spell, IPunObservable {
                     if (pv != null) pv.RPC("TakeDamage", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), auricaSpell.targetDistribution.GetJson());
                 } else {
                     Debug.Log("Spell has hit a shield but cannot find ShieldSpell Component");
+                }
+            } else if (collision.gameObject.tag == "Structure") {
+                Structure structure = collision.gameObject.GetComponent<Structure>();
+                if (structure != null) {
+                    string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                    PhotonView pv = PhotonView.Get(structure);
+                    if (pv != null) {
+                        pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                        FlashHitMarker(!structure.IsImmune() && !structure.IsBroken());
+                    }
+                } else {
+                    NullSphere nullSphere = collision.gameObject.GetComponent<NullSphere>();
+                    if (nullSphere != null) {
+                        string ownerID = GetOwnerPM() != null ? GetOwnerPM().GetUniqueName() : "";
+                        PhotonView pv = PhotonView.Get(nullSphere);
+                        if (pv != null) {
+                            pv.RPC("OnSpellCollide", RpcTarget.All, Damage * GetSpellStrength() * auricaSpell.GetSpellDamageModifier(GetSpellDamageModifier()), SpellEffectType, Duration, auricaSpell.targetDistribution.GetJson(), ownerID);
+                            FlashHitMarker(true);
+                        }
+                    }
                 }
             } else if (collision.gameObject.tag == "DamageableObject") {
                 DamageableObject dmgobj = collision.gameObject.GetComponent<DamageableObject>();
