@@ -98,7 +98,7 @@ public class Crosshair : MonoBehaviour
             // Debug.Log("Character hit: "+hit.collider.gameObject+"     angle: "+angle+"    distance: "+Vector3.Distance(hitPos, cameraPos));
             if (Mathf.Abs(angle) <= 45f && Vector3.Distance(hitPos, cameraPos) > 4f) {
                 bool isVisibilityBlocked = Physics.Raycast(cameraPos, hitPos-cameraPos, (hitPos-cameraPos).magnitude, PlayerVisibleLayermask);
-                if (!isVisibilityBlocked && hit.collider.gameObject != PlayerManager.LocalPlayerGameObject) return hit.collider.gameObject;
+                if (!isVisibilityBlocked) return hit.collider.gameObject;
             }   
             
         }

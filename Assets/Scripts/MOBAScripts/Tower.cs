@@ -32,6 +32,10 @@ public class Tower : Structure, IPunObservable {
     [SerializeField]
     private List<ParticleSystem> RestorationParticles;
 
+    [Tooltip("Name of the resource for the tower attack")]
+    [SerializeField]
+    private string TowerAttackResource = "ZZZTowerAttack";
+
 
     private List<GameObject> playersInRadius, firingAtPlayers;
     private Dictionary<GameObject, TowerAttack> activeAttacks;
@@ -52,22 +56,23 @@ public class Tower : Structure, IPunObservable {
     }
 
     void FixedUpdate() {
-        // If the structure has been broken, nothing more needs to be done to it.
-        if (broken) return;
-
         // Check if null sphere is in range, disable attacks if it is
         disabled = IsNullSphereInRadius(transform, FiringRadius, RadiusOffset);
 
-        // Play the null sphere disabled particles if we are not already doing so
-        if (disabled && !playingDisableParticles) {
+        // Play the null sphere disabled particles if the null sphere is in range and the tower is not broken
+        if (!broken && disabled && !playingDisableParticles) {
             foreach(GameObject obj in ToggleObjectsOnDisable){ obj.SetActive(!obj.activeInHierarchy); }
             foreach(ParticleSystem effect in DisabledParticles){ effect.Play(); }
             playingDisableParticles = true;
-        } else if (!disabled && playingDisableParticles) {
+        } else if ((!disabled && playingDisableParticles) || (playingDisableParticles && broken)) {
             foreach(GameObject obj in ToggleObjectsOnDisable){ obj.SetActive(!obj.activeInHierarchy); }
             foreach(ParticleSystem effect in DisabledParticles){ effect.Stop(); }
+            if (broken) foreach(GameObject obj in DisableObjectsOnExplode) obj.SetActive(false);
             playingDisableParticles = false;
         }
+
+        // If the structure has been broken, nothing more needs to be done to it.
+        if (broken) return;
 
         if (photonView.IsMine) {
             // Regen health if the structure is not broken or disabled
@@ -98,7 +103,7 @@ public class Tower : Structure, IPunObservable {
 
                     if (!firingAtPlayers.Contains(playerGO)) {
                         firingAtPlayers.Add(playerGO);
-                        GameObject newAttack = PhotonNetwork.Instantiate("ZZZTowerAttack", FiringAnchor.position, FiringAnchor.rotation);
+                        GameObject newAttack = PhotonNetwork.Instantiate(TowerAttackResource, FiringAnchor.position, FiringAnchor.rotation);
                         TowerAttack towerAttack = newAttack.GetComponent<TowerAttack>();
                         if (towerAttack != null) {
                             towerAttack.SetStructure(this);

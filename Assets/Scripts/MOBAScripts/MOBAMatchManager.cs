@@ -210,7 +210,6 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
             structure.SetColors();
         }
 
-
         // Destroy all spells in the scene, they must be destroyed by their owner
         Spell[] foundSpells = FindObjectsOfType<Spell>();
         foreach(Spell spell in foundSpells) {

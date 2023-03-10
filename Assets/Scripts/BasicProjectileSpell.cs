@@ -89,28 +89,29 @@ public class BasicProjectileSpell : Spell, IPunObservable
                 layerSwitched = true;
             }
             if (!isCollided) {
-                oldPosition = transform.position;
-                if (networkPosition.magnitude > 0f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000f);
-                velocity = transform.position - oldPosition;
-
-                // If no collision has happened locally, but the network shows a collision, determine where the collision should occur and spawn it.
                 if (networkCollided) {
+                    // If the network shows a collision, but locally it has not collided, determine where the collision should occur and spawn it.
+                    velocity = Vector3.zero;
                     Vector3 hitPosition = networkPosition;
                     if (networkCollidedViewId != -1) {
                         // The spell has collided with a player, we want to make sure this is reflected clientside by moving the projectile towards the player that is hit
                         Transform hitPlayer = PhotonView.Find(networkCollidedViewId).gameObject.transform;
-                        hitPosition = ((hitPlayer.position+new Vector3(0f,1f,0f)) + networkPosition)/2f;
-                        transform.position = Vector3.MoveTowards(transform.position, hitPosition, Time.deltaTime * Speed * 2f);
+                        hitPosition = ((hitPlayer.position+new Vector3(0f,1f,0f)) + networkPosition) / 2f ;
+                        transform.position = Vector3.MoveTowards(transform.position, hitPosition, Time.deltaTime * Mathf.Max(Speed, 15f) * 2f);
                     } else {
                         // The spell has collided with a non-player object, move it to the networked position on the assumption that the hit object is stationary.
-                        transform.position = Vector3.MoveTowards(transform.position, hitPosition, Time.deltaTime * Speed * 2f);
+                        transform.position = Vector3.MoveTowards(transform.position, hitPosition, Time.deltaTime * Mathf.Max(Speed, 15f) * 2f);
                     }
                     if (Vector3.Distance(transform.position, hitPosition) <= 0.1f) {
                         transform.rotation = networkRotation;
                         LocalCollisionBehaviour(transform.position, -transform.forward);
                         isCollided = true;
                     }
+                } else {
+                    oldPosition = transform.position;
+                    if (networkPosition.magnitude > 0f) transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * Speed);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, networkRotation, Time.deltaTime * 1000f);
+                    velocity = transform.position - oldPosition;
                 }
             }
         }

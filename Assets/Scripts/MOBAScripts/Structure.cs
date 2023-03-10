@@ -207,6 +207,7 @@ public abstract class Structure : MonoBehaviourPun {
     }
 
     public void SetColors() {
+        Debug.Log("Structure"+gameObject+"SettingColors -- local player team: "+MOBAPlayer.LocalPlayer.Side.ToString());
         UIDisplay.SetColors(MOBAPlayer.LocalPlayer.Side == Team);
     }
 
@@ -221,7 +222,7 @@ public abstract class Structure : MonoBehaviourPun {
     }
 
     public static bool IsNullSphereInRadius(Transform transform, float radius, Vector3 offset) {
-        Collider[] hits = Physics.OverlapSphere(transform.position+offset, radius, 1 << 3);
+        Collider[] hits = Physics.OverlapSphere(transform.position+offset, radius, 1 << 12);
         List<GameObject> objectList = new List<GameObject>();
         foreach(var hit in hits) {
             NullSphere pm = hit.gameObject.GetComponent<NullSphere>();
