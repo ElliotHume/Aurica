@@ -24,5 +24,9 @@ public enum KeybindingActions {
     GlyphCastingMenu,
     Menu,
     Ping,
-    ChatMenu
+    ChatMenu,
+
+
+    // Auxilary controls
+    DropObjective
 }

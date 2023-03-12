@@ -53,6 +53,9 @@ public class NullSphere : MonoBehaviourPun {
     private MOBAPlayer holdingMOBAPlayer;
     private MOBATeam.Team holdingPlayersTeam = MOBATeam.Team.None;
 
+    private PlayerManager localPlayerManager;
+    private InputManager inputManager;
+
     // AoE damage popup variables
     private float aoeDamageTotal=0f, aoeDamageTick=0f, accumulatingDamageTimout=1f, accumulatingDamageTimer=0f;
     private DamagePopup accumulatingDamagePopup;
@@ -60,6 +63,9 @@ public class NullSphere : MonoBehaviourPun {
     // Start is called before the first frame update
     void Start() {
         Health = StartingHealth;
+
+        localPlayerManager = PlayerManager.LocalInstance;
+        inputManager = InputManager.Instance;
     }
 
     // Update is called once per frame
@@ -67,6 +73,11 @@ public class NullSphere : MonoBehaviourPun {
         if (holdingPlayerGO != null) {
             transform.position = holdingPlayerGO.transform.position + HoldingOffset;
             transform.rotation = holdingPlayerGO.transform.rotation;
+        }
+
+        // Clients can press a keybind to drop the ball
+        if (holdingPlayerGO == localPlayerManager.gameObject && (inputManager.GetKeyDown(KeybindingActions.DropObjective) || localPlayerManager.dead)) {
+            NetworkClientDropRequest();
         }
     }
 
@@ -196,6 +207,22 @@ public class NullSphere : MonoBehaviourPun {
         // If there is some health left and damage was applied, let the clients know to run local damage effects
         if (Health > 0f && finalDamage > 1.5f) {
             NetworkMasterOnDamage();
+        }
+    }
+
+    // CLIENT call this to inform the master that they would like to drop the ball
+    void NetworkClientDropRequest() {
+        // If the ball has already been dropped, ignore this
+        if (State != 1) return;
+        photonView.RPC("MasterDropRequest", RpcTarget.All, holdingMOBAPlayer.GetUniqueName());
+    }
+
+    [PunRPC]
+    void MasterDropRequest(string playerId) {
+        if (!photonView.IsMine || State != 1) return;
+        MOBAPlayer player = MOBAPlayer.GetMOBAPlayerFromID(playerId);
+        if (player.gameObject == holdingPlayerGO) {
+            NetworkMasterDrop();
         }
     }
 

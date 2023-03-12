@@ -32,6 +32,10 @@ public abstract class Structure : MonoBehaviourPun {
     [SerializeField]
     protected float DelayBeforeHealhRegen = 10f;
 
+    [Tooltip("Maximum damage based on this percentage of max health that a structure can take in one spell cast")]
+    [SerializeField]
+    protected float MaxDamageThreshold = 0.1f;
+
     [Tooltip("Disable the immunity of these structures when this one breaks")]
     [SerializeField]
     protected List<Structure> EnableNextStructures;
@@ -113,6 +117,7 @@ public abstract class Structure : MonoBehaviourPun {
 
         // Apply the damage if the structure is not immune and the player is not on the same team
         float finalDamage = Immune || isAllied ? 0f : Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER;
+        finalDamage = Mathf.Min(finalDamage, StartingHealth * MaxDamageThreshold);
         Health -= finalDamage;
 
         if (finalDamage > 0f) {

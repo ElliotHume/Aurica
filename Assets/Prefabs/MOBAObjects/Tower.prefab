@@ -14474,7 +14474,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.85
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -33910,6 +33910,7 @@ MonoBehaviour:
   StartingHealth: 250
   HealthRegenPerSecond: 0.83
   DelayBeforeHealhRegen: 60
+  MaxDamageThreshold: 0.1
   EnableNextStructures:
   - {fileID: 0}
   OnTakeDamage:
@@ -33948,6 +33949,7 @@ MonoBehaviour:
   EnableObjectsOnExplode:
   - {fileID: 9196261600122418920}
   RestorationParticles: []
+  TowerAttackResource: ZZZTowerAttack
 --- !u!114 &9196261600456234518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38737,7 +38739,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 68e6507267eacd74d891d96dcb3c2a89, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -38781,7 +38783,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.75
+      value: 0.25
       inSlope: 0
       outSlope: 0
       tangentMode: 0

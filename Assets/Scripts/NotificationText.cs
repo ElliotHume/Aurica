@@ -30,6 +30,7 @@ public class NotificationText : MonoBehaviour {
 
     public void ShowText(string newText) {
         isVisible = true;
+        text.text = newText;
         text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
     }
 

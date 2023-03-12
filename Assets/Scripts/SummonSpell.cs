@@ -105,6 +105,7 @@ public class SummonSpell : Spell, IPunObservable {
     }
 
     void DisableCollisions() {
+        Debug.Log("Disabling collisions");
         active = false;
         Collider[] colliders = GetComponentsInChildren<Collider>();
         foreach(Collider collider in colliders ) collider.enabled = false;

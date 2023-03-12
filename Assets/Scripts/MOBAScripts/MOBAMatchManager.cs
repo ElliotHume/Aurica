@@ -234,6 +234,17 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     // MASTER client call to stop the match for everyone
     public void NetworkMasterStopMatch() {
         if (!photonView.IsMine || !matchStarted || matchEnded) return;
+
+        // Restore all structures and reset immunity
+        foreach( Structure structure in AllStructures) {
+            structure.NetworkRestoreStructure();
+            structure.NetworkResetImmunity();
+        }
+
+        // Reset all null spheres
+        NullSphere[] nullSpheres = FindObjectsOfType<NullSphere>();
+        foreach(NullSphere sphere in nullSpheres) { sphere.NetworkMasterReset(); }
+
         photonView.RPC("ClientStopMatch", RpcTarget.All);
     }
 
@@ -242,6 +253,9 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     public void ClientStopMatch() {
         matchStarted = false;
         matchEnded = true;
+
+        NovusTeam.ClearPlayers();
+        EldenTeam.ClearPlayers();
 
         MOBAPlayer[] allPlayers = FindObjectsOfType<MOBAPlayer>();
         foreach(MOBAPlayer player in allPlayers) {
@@ -252,11 +266,19 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         NovusTeam.LockedTeamList = null;
         EldenTeam.LockedTeamList = null;
 
+        // Reset the structure team colors
+        foreach( Structure structure in AllStructures) {
+            structure.SetColors();
+        }
+
         // Destroy all spells in the scene, they must be destroyed by their owner
         Spell[] foundSpells = FindObjectsOfType<Spell>();
         foreach(Spell spell in foundSpells) {
             if (spell.photonView.IsMine) PhotonNetwork.Destroy(spell.photonView);
         }
+
+        // Reset the team outline colors for all players
+        foreach(MOBAPlayer player in allPlayers) player.SetSideColor(true);
 
         // Toggle match objects
         foreach(GameObject obj in MatchToggleObjects) obj.SetActive(!obj.activeInHierarchy);
@@ -402,8 +424,13 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
     // CLIENT
     IEnumerator RespawnPlayer(MOBAPlayer player) {
-        float respawnTimer = matchStarted ? 2f + (timer/15f) : 1f;
-        yield return new WaitForSeconds(respawnTimer);
+        int respawnTimer = matchStarted ? (int)(8f + (timer/20f)) : 1;
+        bool isLocalPlayer = player == MOBAPlayer.LocalPlayer;
+        while (respawnTimer > 0) {
+            if (isLocalPlayer) NotificationText.Instance.ShowText(((int)respawnTimer).ToString());
+            respawnTimer -= 1;
+            yield return new WaitForSeconds(1f);
+        }
         Transform spawnPoint = (player.Side == MOBATeam.Team.Novus) ? NovusRespawnAnchor : EldenRespawnAnchor;
         player.Teleport(spawnPoint);
         player.GetPlayerManager.Respawn();

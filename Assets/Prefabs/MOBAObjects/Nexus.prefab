@@ -6029,7 +6029,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.85
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -26096,6 +26096,7 @@ MonoBehaviour:
   StartingHealth: 100
   HealthRegenPerSecond: 1.66
   DelayBeforeHealhRegen: 10
+  MaxDamageThreshold: 0.1
   EnableNextStructures: []
   OnTakeDamage:
     m_PersistentCalls:
@@ -26219,7 +26220,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 17899f96104c67a4bbb31dd234a83be2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -26263,7 +26264,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.75
+      value: 0.25
       inSlope: 0
       outSlope: 0
       tangentMode: 0

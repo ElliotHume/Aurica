@@ -52,9 +52,11 @@ public class MOBAPlayer : MonoBehaviour {
         if (isLocalPlayer) MOBAPlayer.LocalPlayer = this;
     }
 
-    public void SetSideColor() {
+    public void SetSideColor(bool clear = false) {
         if (!isLocalPlayer) {
-            if (side == MOBAPlayer.LocalPlayer.Side) {
+            if (clear) {
+                playerManager.ResetPlayerOutline();
+            } else if (side == MOBAPlayer.LocalPlayer.Side) {
                 playerManager.SetPlayerOutline(AllyOutlineColor);
             } else {
                 playerManager.SetPlayerOutline(EnemyOutlineColor);
