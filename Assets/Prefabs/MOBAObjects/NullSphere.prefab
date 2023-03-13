@@ -4960,7 +4960,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 08881346b0b271c47bd2eca382a81e7f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5236,16 +5236,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Identifier: SceneObject
-  slow: 1
-  slowDuration: 1
-  slowPercentage: 20
-  hasten: 0
-  hastenDuration: 0
-  hastenPercentage: 0
+  slow: 0
+  slowDuration: 0
+  slowPercentage: 0
+  hasten: 1
+  hastenDuration: 1
+  hastenPercentage: 20
   root: 0
   rootDuration: 0
-  ground: 0
-  groundDuration: 0
+  ground: 1
+  groundDuration: 1
   silence: 0
   silenceDuration: 0
   stun: 0

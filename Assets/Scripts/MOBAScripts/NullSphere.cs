@@ -70,13 +70,15 @@ public class NullSphere : MonoBehaviourPun {
 
     // Update is called once per frame
     void Update() {
+        // Position the ball over the holding player
         if (holdingPlayerGO != null) {
             transform.position = holdingPlayerGO.transform.position + HoldingOffset;
             transform.rotation = holdingPlayerGO.transform.rotation;
         }
 
         // Clients can press a keybind to drop the ball
-        if (holdingPlayerGO == localPlayerManager.gameObject && (inputManager.GetKeyDown(KeybindingActions.DropObjective) || localPlayerManager.dead)) {
+        if (localPlayerManager == null) localPlayerManager = PlayerManager.LocalInstance;
+        if (localPlayerManager != null && holdingPlayerGO == localPlayerManager.gameObject && (inputManager.GetKeyDown(KeybindingActions.DropObjective) || localPlayerManager.dead)) {
             NetworkClientDropRequest();
         }
     }
@@ -175,7 +177,8 @@ public class NullSphere : MonoBehaviourPun {
         bool isAllied = holdingPlayersTeam != MOBATeam.Team.None && attackingPlayer.Side == holdingPlayersTeam;
 
         // Calculate the final damage
-        float finalDamage = !isAllied ? Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER : 0f;
+        // Damage is set to 0 if the ball is picked up and hit by an allied player
+        float finalDamage = !isAllied || State == 2 ? Damage * GameManager.GLOBAL_SPELL_DAMAGE_MULTIPLIER : 0f;
 
         // Create damage popup
         if (finalDamage > 1.5f) {
@@ -193,9 +196,8 @@ public class NullSphere : MonoBehaviourPun {
         // Apply the damage
         Health -= finalDamage;
 
-        Debug.LogError("Null sphere took ["+finalDamage+"] damage from "+ownerID+"    remaining health: "+Health);
+        // Debug.LogError("Null sphere took ["+finalDamage+"] damage from "+ownerID+"    remaining health: "+Health);
 
-        
         if (State == 1 && Health <= DropHealthThreshold ) {
             // If the ball has been picked up and health is now below the drop threshold, drop the ball
             NetworkMasterDrop();
