@@ -56,7 +56,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     
 
     private float timer = 0f;
-    private bool matchStarted = false, matchEnded = false;
+    private bool matchStarted = false, matchEnded = false, matchStartRequested = false;
     private MOBATeam.Team winningTeam = MOBATeam.Team.None;
     private List<Structure> AllStructures;
 
@@ -97,9 +97,13 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
     void Update() {
         if (photonView.IsMine && Input.GetKeyDown("u")) {
-            NetworkMasterStartMatch();
+            if (MOBAUIMenu.Instance == null) {
+                Debug.Log("NO UI MENU");
+                return;
+            }
+            NetworkClientCallGameStart();
         }
-        if (Input.GetKey("d") && Input.GetKey("e") && Input.GetKeyDown("b")) {
+        if (Input.GetKey("n") && Input.GetKeyDown("m")) {
             Debug.LogError("DEBUG --> Master client: "+photonView.IsMine);
             Debug.LogError("timer: "+timer);
             Debug.LogError("matchStarted: "+matchStarted+"   matchEnded: "+matchEnded);
@@ -121,6 +125,18 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
     /* HEADLINE: --------- MATCH START & STOP HANDLING---------------------------------------------------------------------------------------------------------*/
 
+    // CLIENT call this method to request all clients to open the match starting and team selection menu
+    public void NetworkClientCallGameStart() {
+        photonView.RPC("ClientOpenMatchStartMenu", RpcTarget.All);
+    }
+
+    // CLIENT displays the match starting and team selection menu
+    [PunRPC]
+    public void ClientOpenMatchStartMenu() {
+        MOBAUIMenu.Instance.gameObject.SetActive(true);
+    }
+
+
     // CLIENT call this method to join a team, the request is then sent to the master client to apply the changes
     public void NetworkClientJoinTeam(MOBATeam.Team Side) {
         string playerId = MOBAPlayer.LocalPlayer.GetUniqueName();
@@ -130,18 +146,57 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     // MASTER client recieves request to move player to a team
     [PunRPC]
     public void MasterAddPlayerToTeam(string teamName, string playerId) {
-        if (photonView.IsMine || matchStarted) return;
+        if (!photonView.IsMine || matchStarted) return;
         MOBAPlayer player = MOBAPlayer.GetMOBAPlayerFromID(playerId);
         if (teamName == MOBATeam.Team.Novus.ToString()) {
-            NovusTeam.AddPlayer(player);
+            if (!NovusTeam.GetPlayers().Contains(player)) NovusTeam.AddPlayer(player);
+            if (EldenTeam.GetPlayers().Contains(player)) EldenTeam.RemovePlayer(player);
         } else {
-            EldenTeam.AddPlayer(player);
+            if (!EldenTeam.GetPlayers().Contains(player)) EldenTeam.AddPlayer(player);
+            if (NovusTeam.GetPlayers().Contains(player)) NovusTeam.RemovePlayer(player);
         }
+
+        // Format teams into a list of players to send to clients
+        string novusTeamPlayerNames = "";
+        string eldenTeamPlayerNames = "";
+        foreach(MOBAPlayer mPlayer in NovusTeam.GetPlayers()) { if (mPlayer != null) novusTeamPlayerNames += mPlayer.GetUniqueName()+"|"; }
+        foreach(MOBAPlayer mPlayer in EldenTeam.GetPlayers()) { if (mPlayer != null) eldenTeamPlayerNames += mPlayer.GetUniqueName()+"|"; }
+
+        // Publish new list of teams, for clients to listen to
+        photonView.RPC("ClientAddPlayerToTeam", RpcTarget.All, novusTeamPlayerNames, eldenTeamPlayerNames);
+    }
+
+    // CLIENT recieves new teams from master after someone joined a team, then updates the match starting players lists
+    [PunRPC]
+    public void ClientAddPlayerToTeam(string novusTeamPlayerNames, string eldenTeamPlayerNames) {
+        MOBAUIMenu startMatchMenu = MOBAUIMenu.Instance;
+        if (startMatchMenu == null || !startMatchMenu.gameObject.activeInHierarchy) return;
+
+        Debug.Log("Setting new teams -- Novus: ["+novusTeamPlayerNames+"]   Elden: ["+eldenTeamPlayerNames+"]");
+
+        // We don't want to edit the MOBATeam objects, just use temporary lists for the UI display
+        List<MOBAPlayer> NovusPlayers = new List<MOBAPlayer>();
+        List<MOBAPlayer> EldenPlayers = new List<MOBAPlayer>();
+
+        MOBAPlayer[] allPlayers = FindObjectsOfType<MOBAPlayer>();
+        foreach(MOBAPlayer player in allPlayers) {
+            if (novusTeamPlayerNames.Contains(player.GetUniqueName())) {
+                // Add player to the Novus team
+                NovusPlayers.Add(player);
+            } else if (eldenTeamPlayerNames.Contains(player.GetUniqueName())) {
+                // Add player to the Elden team
+                EldenPlayers.Add(player);
+            }
+        }
+
+        startMatchMenu.DisplayTeamPlayers(NovusPlayers, EldenPlayers);
     }
 
     // MASTER client call to start the match for everyone
     public void NetworkMasterStartMatch() {
-        if (!photonView.IsMine || matchStarted) return;
+        if (!photonView.IsMine || matchStarted || matchStartRequested) return;
+        matchStartRequested = true;
+
         // Restore all structures and reset immunity
         foreach( Structure structure in AllStructures) {
             structure.NetworkRestoreStructure();
@@ -226,6 +281,9 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
         // Toggle match objects
         foreach(GameObject obj in MatchToggleObjects) obj.SetActive(!obj.activeInHierarchy);
+
+        // Close the match starting and team selection menu
+        if (MOBAUIMenu.Instance != null && MOBAUIMenu.Instance.gameObject.activeInHierarchy) MOBAUIMenu.Instance.gameObject.SetActive(false);
         
         matchStarted = true;
         matchEnded = false;
@@ -234,6 +292,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     // MASTER client call to stop the match for everyone
     public void NetworkMasterStopMatch() {
         if (!photonView.IsMine || !matchStarted || matchEnded) return;
+        matchStartRequested = false;
 
         // Restore all structures and reset immunity
         foreach( Structure structure in AllStructures) {
@@ -299,7 +358,6 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
 
     /* MAJORTODO: Make players able to rejoin matches that they have disconnected from
-    *    PREREQUISITE: Make Null Spheres network synced
     *   - Master checks current locked team lists, if the rejoining players belongs in one of them the master adds them to their MOBATeam
     *   - Master removes any null players from the MOBATeams
     *   - Master generates new team list strings, if the updated team strings are not the same as the previous locked team lists, an error has occured.
@@ -422,6 +480,20 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         }
     }
 
+    private Transform GetSpawnPoint(MOBATeam.Team playerSide) {
+        if (matchStarted) {
+            if (playerSide == MOBATeam.Team.None) {
+                return ObserverRoomAnchor;
+            } else if (playerSide == MOBATeam.Team.Novus) {
+                return NovusRespawnAnchor;
+            } else {
+                return EldenRespawnAnchor;
+            }
+        } else {
+            return GameStartSpawnAnchor;
+        }
+    }
+
     // CLIENT
     IEnumerator RespawnPlayer(MOBAPlayer player) {
         int respawnTimer = matchStarted ? (int)(8f + (timer/20f)) : 1;
@@ -431,7 +503,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
             respawnTimer -= 1;
             yield return new WaitForSeconds(1f);
         }
-        Transform spawnPoint = (player.Side == MOBATeam.Team.Novus) ? NovusRespawnAnchor : EldenRespawnAnchor;
+        Transform spawnPoint = GetSpawnPoint(player.Side);
         player.Teleport(spawnPoint);
         player.GetPlayerManager.Respawn();
     }

@@ -79,4 +79,8 @@ public class MOBAPlayer : MonoBehaviour {
     public string GetUniqueName() {
         return playerManager.GetUniqueName();
     }
+
+    public string GetName() {
+        return playerManager.GetName();
+    }
 }

@@ -30,6 +30,13 @@ public class MOBATeam : MonoBehaviour {
         newPlayer.Side = Side;
         PlayerCount = Players.Count;
     }
+
+    public void RemovePlayer(MOBAPlayer newPlayer) {
+        Players.Remove(newPlayer);
+        newPlayer.Team = null;
+        newPlayer.Side = Team.None;
+        PlayerCount = Players.Count;
+    }
     
     public void SetPlayers(List<MOBAPlayer> newPlayers) {
         Players = new List<MOBAPlayer>(newPlayers);

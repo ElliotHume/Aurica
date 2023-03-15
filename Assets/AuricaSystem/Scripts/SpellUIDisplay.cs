@@ -19,7 +19,7 @@ public class SpellUIDisplay : MonoBehaviour {
     public AuricaSpell spell;
     private bool isHidden = true;
     private Glyph[] allComponentGlyphs;
-    private bool addAttempted = false;
+    // private bool addAttempted = false;
     private InputManager inputManager;
 
     // Start is called before the first frame update
@@ -85,7 +85,7 @@ public class SpellUIDisplay : MonoBehaviour {
 
     public void CheckComponents() {
         if (AuricaCaster.LocalCaster == null) return;
-        addAttempted = false;
+        // addAttempted = false;
         spell = AuricaCaster.LocalCaster.Cast();
         try {
             if (spell.c_name != null) {
