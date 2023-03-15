@@ -10,6 +10,10 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
     public static MOBAMatchManager Instance;
 
+    [Tooltip("MOBA Match game start menu")]
+    [SerializeField]
+    private MOBAUIMenu MOBAGameStartMenu;
+
     [Tooltip("Novus MOBATeam object")]
     [SerializeField]
     private MOBATeam NovusTeam;
@@ -96,13 +100,6 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     }
 
     void Update() {
-        if (photonView.IsMine && Input.GetKeyDown("u")) {
-            if (MOBAUIMenu.Instance == null) {
-                Debug.Log("NO UI MENU");
-                return;
-            }
-            NetworkClientCallGameStart();
-        }
         if (Input.GetKey("n") && Input.GetKeyDown("m")) {
             Debug.LogError("DEBUG --> Master client: "+photonView.IsMine);
             Debug.LogError("timer: "+timer);
@@ -133,7 +130,8 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     // CLIENT displays the match starting and team selection menu
     [PunRPC]
     public void ClientOpenMatchStartMenu() {
-        MOBAUIMenu.Instance.gameObject.SetActive(true);
+        MOBAGameStartMenu.gameObject.SetActive(true);
+        MOBAUIDisplay.Instance.ToggleStartButton(false);
     }
 
 
@@ -169,8 +167,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
     // CLIENT recieves new teams from master after someone joined a team, then updates the match starting players lists
     [PunRPC]
     public void ClientAddPlayerToTeam(string novusTeamPlayerNames, string eldenTeamPlayerNames) {
-        MOBAUIMenu startMatchMenu = MOBAUIMenu.Instance;
-        if (startMatchMenu == null || !startMatchMenu.gameObject.activeInHierarchy) return;
+        if (!MOBAGameStartMenu.gameObject.activeInHierarchy) return;
 
         Debug.Log("Setting new teams -- Novus: ["+novusTeamPlayerNames+"]   Elden: ["+eldenTeamPlayerNames+"]");
 
@@ -189,7 +186,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
             }
         }
 
-        startMatchMenu.DisplayTeamPlayers(NovusPlayers, EldenPlayers);
+        MOBAGameStartMenu.DisplayTeamPlayers(NovusPlayers, EldenPlayers);
     }
 
     // MASTER client call to start the match for everyone
@@ -206,8 +203,9 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         // Get All MOBA players in the lobby, if they are not on a team, assign them to one
         MOBAPlayer[] allPlayers = FindObjectsOfType<MOBAPlayer>();
         foreach(MOBAPlayer player in allPlayers) {
-            if (player.Side != MOBATeam.Team.None && (NovusTeam.GetPlayers().Contains(player) || EldenTeam.GetPlayers().Contains(player))) {
+            if (NovusTeam.GetPlayers().Contains(player) || EldenTeam.GetPlayers().Contains(player)) {
                 // Player has already been assigned to a team, do nothing
+                Debug.Log("Player ["+player.GetUniqueName()+"] has already been assigned to a team, skipping");
                 continue;
             } else {
                 if (NovusTeam.GetPlayerCount() <= EldenTeam.GetPlayerCount()) {
@@ -283,7 +281,7 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         foreach(GameObject obj in MatchToggleObjects) obj.SetActive(!obj.activeInHierarchy);
 
         // Close the match starting and team selection menu
-        if (MOBAUIMenu.Instance != null && MOBAUIMenu.Instance.gameObject.activeInHierarchy) MOBAUIMenu.Instance.gameObject.SetActive(false);
+        if (MOBAGameStartMenu.gameObject.activeInHierarchy) MOBAGameStartMenu.gameObject.SetActive(false);
         
         matchStarted = true;
         matchEnded = false;
@@ -341,6 +339,9 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
 
         // Toggle match objects
         foreach(GameObject obj in MatchToggleObjects) obj.SetActive(!obj.activeInHierarchy);
+
+        // Enable the button that can restart the match
+        MOBAUIDisplay.Instance.ToggleStartButton(true);
 
         // Stop match music
         if (MatchMusic != null) MatchMusic.Stop();
@@ -506,5 +507,13 @@ public class MOBAMatchManager : MonoBehaviourPun, IPunObservable {
         Transform spawnPoint = GetSpawnPoint(player.Side);
         player.Teleport(spawnPoint);
         player.GetPlayerManager.Respawn();
+    }
+
+    public float GetTimer() {
+        return timer;
+    }
+
+    public bool HasMatchStarted() {
+        return matchStarted;
     }
 }

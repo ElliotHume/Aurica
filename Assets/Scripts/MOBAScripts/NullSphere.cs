@@ -196,7 +196,7 @@ public class NullSphere : MonoBehaviourPun {
         // Apply the damage
         Health -= finalDamage;
 
-        // Debug.LogError("Null sphere took ["+finalDamage+"] damage from "+ownerID+"    remaining health: "+Health);
+        Debug.LogError("Null sphere took ["+finalDamage+"] damage from "+ownerID+"    remaining health: "+Health);
 
         if (State == 1 && Health <= DropHealthThreshold ) {
             // If the ball has been picked up and health is now below the drop threshold, drop the ball

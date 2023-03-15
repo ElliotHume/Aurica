@@ -12,6 +12,10 @@ public class MOBAUIMenu : MonoBehaviour {
     [SerializeField]
     private GameObject TeamPlayerListDisplayPrefab;
 
+    [Tooltip("MOBA HUD display")]
+    [SerializeField]
+    private MOBAUIDisplay HUDDisplay;
+
     [Tooltip("Novus team player list")]
     [SerializeField]
     private GameObject NovusTeamPlayerList;
@@ -47,6 +51,9 @@ public class MOBAUIMenu : MonoBehaviour {
         } else {
             PhotonView pv = PhotonView.Get(matchManager);
             StartMatchButton.SetActive(pv != null && pv.IsMine);
+
+            // Clear player list when enabled
+            foreach (GameObject item in playerListInstances) Destroy(item);
         }
     }
 
@@ -93,5 +100,16 @@ public class MOBAUIMenu : MonoBehaviour {
         if (matchManager != null) {
             matchManager.NetworkMasterStartMatch();
         }
+    }
+
+    public void ClientGameStart() {
+        if (matchManager == null) matchManager = MOBAMatchManager.Instance;
+        if (matchManager != null) {
+            matchManager.NetworkClientCallGameStart();
+        }
+    }
+
+    public void ToggleStartButton(bool flag) {
+        HUDDisplay.ToggleStartButton(flag);
     }
 }

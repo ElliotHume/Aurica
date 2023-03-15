@@ -76,7 +76,7 @@ public class StructureUIDisplay : MonoBehaviour
     }
 
     public void SetColors(bool ally) {
-        Debug.Log("StructureUIDisplay SetColors -- isAlly:"+ally);
+        // Debug.Log("StructureUIDisplay SetColors -- isAlly:"+ally);
         isAllied = ally;
         healthBarFill.color = structure.IsImmune() ? ImmuneColor : isAllied ? baseAllyHealthFillColor : baseOpponentHealthFillColor;
     }

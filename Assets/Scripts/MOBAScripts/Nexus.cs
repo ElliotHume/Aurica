@@ -39,14 +39,14 @@ public class Nexus : Structure, IPunObservable {
 
     protected override void NetworkExplode() {
         if (!photonView.IsMine) return;
-        Debug.Log("Nexus NetworkExplode");
+        // Debug.Log("Nexus NetworkExplode");
         //TODO: Call MOBAMatchManager to do something when the nexus explodes
         MOBAMatchManager.Instance.NetworkMasterNexusBroken(Team);
     }
 
     protected override void LocalEffectExplode() {
         broken = true;
-        Debug.Log("Nexus LocalEffectExplode");
+        // Debug.Log("Nexus LocalEffectExplode");
         foreach(GameObject obj in DisableObjectsOnExplode) obj.SetActive(false);
         foreach(GameObject obj in EnableObjectsOnExplode) obj.SetActive(true);
 
@@ -60,7 +60,7 @@ public class Nexus : Structure, IPunObservable {
     public override void Restore() {
         if (photonView.IsMine) Health = StartingHealth;
         broken = false;
-        Debug.Log("Nexus Restore");
+        // Debug.Log("Nexus Restore");
         foreach(GameObject obj in DisableObjectsOnExplode) obj.SetActive(true);
         foreach(GameObject obj in EnableObjectsOnExplode) obj.SetActive(false);
         foreach(ParticleSystem ps in RestorationParticles) ps.Play();

@@ -212,7 +212,7 @@ public abstract class Structure : MonoBehaviourPun {
     }
 
     public void SetColors() {
-        Debug.Log("Structure"+gameObject+"SettingColors -- local player team: "+MOBAPlayer.LocalPlayer.Side.ToString());
+        // Debug.Log("Structure"+gameObject+"SettingColors -- local player team: "+MOBAPlayer.LocalPlayer.Side.ToString());
         UIDisplay.SetColors(MOBAPlayer.LocalPlayer.Side == Team);
     }
 

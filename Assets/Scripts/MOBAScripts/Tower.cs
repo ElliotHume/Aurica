@@ -132,7 +132,7 @@ public class Tower : Structure, IPunObservable {
 
     protected override void NetworkExplode() {
         if (!photonView.IsMine) return;
-        Debug.Log("Tower NetworkExplode");
+        // Debug.Log("Tower NetworkExplode");
         if (photonView.IsMine) {
             // Destroy any attacks left when the tower breaks
             foreach(GameObject playerGO in firingAtPlayers) {
@@ -145,7 +145,7 @@ public class Tower : Structure, IPunObservable {
 
     protected override void LocalEffectExplode() {
         broken = true;
-        Debug.Log("Tower LocalEffectExplode");
+        // Debug.Log("Tower LocalEffectExplode");
         foreach(GameObject obj in EnableObjectsOnExplode) obj.SetActive(true);
         foreach(GameObject obj in DisableObjectsOnExplode) obj.SetActive(false);
         
@@ -158,7 +158,7 @@ public class Tower : Structure, IPunObservable {
     public override void Restore() {
         if (photonView.IsMine) Health = StartingHealth;
         broken = false;
-        Debug.Log("Tower Restore");
+        // Debug.Log("Tower Restore");
 
         firingAtPlayers.Clear();
         playersInRadius.Clear();
