@@ -5,8 +5,8 @@
 ----
 
 ### Description
-Players face each other in multiplayer battles of skilled spell casting. To excel, players must learn the strengths of their own pseudo-randomly generated Aura.
-A player's Aura is a distribution of mana that will interact with spell casting to make spells stronger or weaker depending on how the spell is composed. The magic system is incredibly deep but retains an ease-of-use that lets casual players have as much fun as the more dedicated players.
+Players face each other in multiplayer battles of skilled spell casting. To excel, players must learn the strengths of their own pseudo-randomly generated magical Aura.
+The magic system is incredibly deep but retains an ease-of-use that lets casual players have as much fun as the more dedicated players.
 
 There are a wealth of spell options to choose from in each battle, with over 120+ unique spells from 10 different schools of magic, and more being developed constantly.
 
@@ -41,9 +41,6 @@ This game is a passion project for developing the Aurica magic system. The game 
 Due to the multi-stage prototyping process, and learning as I go, the code is *not* well architectured. If the game shows promise when opened up to more players I will go through with an architectural refactoring of the prototype (or I probably will just restart from scratch).
 
 ----
-
-
-### [Learn how the magic system works on the Aurica System "Wiki"](https://bright-calculator-1a6.notion.site/The-Aurica-System-af806c3df2b7414681a50e7af7f74a52)
 
 
 
