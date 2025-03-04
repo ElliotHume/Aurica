@@ -1,14 +1,14 @@
 # AURICA <img align="left" width="150" height="150" src="Assets/UI/ApophisLogo.jpeg">
 
 
-#### Wield powerful and diverse magic in a strategic battle between mages. Every player is unique, with a pseudo-randomly generated Aura that interacts with every spell you cast and every hit you take. Aurica has a magic system with incredible depth and intricacy. The ceiling for growth in Aurica is limited only by your dedication.
+#### Wield powerful and diverse magic in a strategic battle between mages. Every player is unique, with a pseudo-randomly generated Aura that interacts with every spell you cast and every hit you take. Aurica has a magic system with incredible depth and intricacy, the ceiling for growth is limited only by your dedication.
 ----
 
 ### Description
 Players face each other in multiplayer battles of skilled spell casting. To excel, players must learn the strengths of their own pseudo-randomly generated magical Aura.
 The magic system is incredibly deep but retains an ease-of-use that lets casual players have as much fun as the more dedicated players.
 
-There are a wealth of spell options to choose from in each battle, with over 120+ unique spells from 10 different schools of magic, and more being developed constantly.
+There are a wealth of spell options to choose from in each battle, with over 120+ unique spells from 10 different schools of magic, and more in the works!
 
 ### Novel features
 The intent of the magic system is to create a novel system for spell-casting that has incredible depth but maintains a low barrier of entry for casual players. Some key features of the system include:
